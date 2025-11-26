@@ -1,0 +1,260 @@
+name: Tests Coverage
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  calculate-coverage:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # this is needed to address this issue according to the comment https://github.com/devcontainers/ci/issues/271#issuecomment-2301764487
+    # otherwise our TourmalineCore org name cannot be used in docker image names, only tourmalinecore
+    - name: Add Lowercase Organization and Repo Name REPO_NAME Env Var
+      run: |
+        echo "DEV_CONTAINER_IMAGE=${GITHUB_REPOSITORY,,}-devcontainer" >>${GITHUB_ENV}
+
+    - name: Calculate Unit Tests Coverage
+      uses: devcontainers/ci@v0.3
+      with:
+        imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        runCmd: |
+          # first we build in Debug, then we re-use dlls using --no-build flag here and later
+          dotnet build
+
+          dotnet-coverage collect \
+            -f cobertura \
+            -o units-coverage.xml \
+            --session-id calculate-units-coverage-session \
+            --include-files "./**/bin/Debug/net9.0/*.dll" \
+            dotnet test --no-build
+        # in the first step that runs inside Dev Container we push the image we built to re-use it in the next steps
+        # we newer push in the next steps, only use the cache if available
+        push: always
+
+    - name: Calculate E2E Tests Coverage
+      uses: devcontainers/ci@v0.3
+      with:
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        runCmd: |
+          # we need to run our Api and proceed to the next step
+          # that is why we forward its output and start it in background with & at the end
+          dotnet-coverage collect \
+            -f cobertura \
+            -o e2e-coverage.xml \
+            --session-id calculate-e2e-coverage-session \
+            --include-files "./**/bin/Debug/net9.0/*.dll" \
+            dotnet run --project ./Api --no-build \
+            > /dev/null 2>&1 &
+        push: never
+
+    - name: Run E2E Tests And Save Coverage
+      uses: devcontainers/ci@v0.3
+      with:
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        runCmd: |
+          java -jar /karate.jar .
+
+          dotnet-coverage shutdown calculate-e2e-coverage-session
+        push: never
+
+    - name: Merge Units And E2E Into Full Coverage
+      uses: devcontainers/ci@v0.3
+      with:
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        runCmd: |
+          dotnet-coverage merge \
+          -f cobertura \
+          -o full-coverage.xml \
+          e2e-coverage.xml units-coverage.xml
+        push: never
+
+    - name: Generate Full Tests Coverage Summary as Markdown
+      uses: devcontainers/ci@v0.3
+      with:
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        runCmd: |
+          reportgenerator -reports:"./full-coverage.xml" -targetdir:"." -reporttypes:MarkdownSummary
+        push: never
+
+    # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#adding-a-job-summary
+    - name: Add Full Tests Coverage Summary to Job Summary
+      run: |
+        # this is a separate step because for some reason if you do it from devcontainers/ci it doesn't work and Job's summary is empty
+        cat Summary.md >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Upload Unit Tests Coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: units-coverage
+        path: units-coverage.xml
+
+    - name: Upload E2E Tests Coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: e2e-coverage
+        path: e2e-coverage.xml
+
+    - name: Upload Full Tests Coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: full-coverage
+        path: full-coverage.xml
+
+  update-coverage:
+    runs-on: ubuntu-24.04
+    needs: [calculate-coverage]
+    steps:
+    - name: Checkout Repository 
+      uses: actions/checkout@v4
+
+    - name: Download Units Coverage
+      uses: actions/download-artifact@v5
+      with:
+        name: units-coverage
+        path: coverage
+    
+    - name: Download E2E Coverage
+      uses: actions/download-artifact@v5
+      with:
+        name: e2e-coverage
+        path: coverage
+    
+    - name: Download Full Coverage
+      uses: actions/download-artifact@v5
+      with:
+        name: full-coverage
+        path: coverage
+      
+    - name: Install xq to Read Coverage from XML
+      run: |
+        sudo apt install xq
+    
+      # Find existing score and color by line matching in README and get calculated coverage from json file
+    - name: Write Coverages to ENV Vars
+      # ToDo avoid code duplication with reusable bash or python function
+      run: |
+        units_line_coverage_float=$(cat coverage/units-coverage.xml | xq -x /coverage/@line-rate)
+
+        units_line_coverage_percent=$(awk -v num="$units_line_coverage_float" 'BEGIN { print num * 100 }')
+        
+        # round to 2 decimal digits
+        echo "UNITS_COVERAGE=$(printf "%.2f\n" "$units_line_coverage_percent")" >> "$GITHUB_ENV"
+
+        e2e_line_coverage_float=$(cat coverage/e2e-coverage.xml | xq -x /coverage/@line-rate)
+
+        e2e_line_coverage_percent=$(awk -v num="$e2e_line_coverage_float" 'BEGIN { print num * 100 }')
+        
+        # round to 2 decimal digits
+        echo "E2E_COVERAGE=$(printf "%.2f\n" "$e2e_line_coverage_percent")" >> "$GITHUB_ENV" 
+
+        full_line_coverage_float=$(cat coverage/full-coverage.xml | xq -x /coverage/@line-rate)
+
+        full_line_coverage_percent=$(awk -v num="$full_line_coverage_float" 'BEGIN { print num * 100 }')
+        
+        # round to 2 decimal digits
+        echo "FULL_COVERAGE=$(printf "%.2f\n" "$full_line_coverage_percent")" >> "$GITHUB_ENV"    
+
+    # 0-60: red; 60-70: orange; 70-80: yellow; 80-90: yellowish green; 90-100: green
+    # set new color and then add its variable to workflow's environment
+    - name: Calculate Coverages Badge Colors
+      run: |
+        import os
+
+        def get_bage_color_by_coverage_value(
+          new_coverage: str,
+        ) -> str:
+          if new_coverage < 60:
+            new_badge_color = "crimson"
+          elif 60 <= new_coverage < 70:
+            new_badge_color = "orange"
+          elif 70 <= new_coverage < 80:
+            new_badge_color = "yellow"
+          elif 80 <= new_coverage < 90:
+            new_badge_color = "olivedrab"
+          elif new_coverage >= 90:
+            new_badge_color = "forestgreen"
+          return new_badge_color
+        
+        def set_by_coverage_badge_color(
+            env_value_name_with_coverage: str,
+            env_value_name_with_bage_color: str,
+        ) -> None:
+          new_coverage = float(os.getenv(env_value_name_with_coverage))
+          badge_color = get_bage_color_by_coverage_value(new_coverage)
+          env_file = os.getenv("GITHUB_ENV")
+
+          with open(env_file, "a") as f:
+              f.write(f"{env_value_name_with_bage_color}={badge_color}\n")
+        
+        set_by_coverage_badge_color(
+          env_value_name_with_coverage="UNITS_COVERAGE", 
+          env_value_name_with_bage_color="UNITS_BADGE_COLOR"
+        )
+        set_by_coverage_badge_color(
+          env_value_name_with_coverage="E2E_COVERAGE", 
+          env_value_name_with_bage_color="E2E_BADGE_COLOR"
+        )
+        set_by_coverage_badge_color(
+          env_value_name_with_coverage="FULL_COVERAGE", 
+          env_value_name_with_bage_color="FULL_BADGE_COLOR"
+        )
+      shell: python
+
+    - name: Replace Badge URL in README
+      run: |
+        import io, sys, os, fileinput
+
+        def replace_coverage_badge_in_readme(
+          coverage_prefix: str,
+          coverage: str,
+          coverage_color: str,
+        ) -> None:
+          target_prefix = f"[![coverage](https://img.shields.io/badge/{coverage_prefix}"
+          replacement = f"[![coverage](https://img.shields.io/badge/{coverage_prefix}-{coverage}%25-{coverage_color})](https://github.com/${{ github.repository }}/actions/workflows/calculate-tests-coverage-on-pull-request.yml)\n"
+          
+          with fileinput.FileInput("README.md", inplace=True) as file:
+            for line in file:
+              if line.startswith(target_prefix):
+                sys.stdout.write(replacement)
+              else:
+                sys.stdout.write(line)
+
+        replace_coverage_badge_in_readme(
+          coverage_prefix="units_coverage", 
+          coverage=os.getenv("UNITS_COVERAGE"),
+          coverage_color=os.getenv("UNITS_BADGE_COLOR")
+        )
+        replace_coverage_badge_in_readme(
+          coverage_prefix="e2e_coverage", 
+          coverage=os.getenv("E2E_COVERAGE"),
+          coverage_color=os.getenv("E2E_BADGE_COLOR")
+        )
+        replace_coverage_badge_in_readme(
+          coverage_prefix="full_coverage", 
+          coverage=os.getenv("FULL_COVERAGE"),
+          coverage_color=os.getenv("FULL_BADGE_COLOR")
+        )
+      shell: python
+
+    - name: Commit README changes
+      run: |
+        git config user.email "contact@tourmalinecore.com"
+        git config user.name "Workflow Action"
+
+        git commit README.md -m "docs(readme): bring test coverage score up to date" || echo "No changes to commit"
+        
+        git pull --rebase origin $GITHUB_HEAD_REF
+
+        git push origin HEAD:$GITHUB_HEAD_REF || echo "No changes to commit"

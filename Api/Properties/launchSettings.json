@@ -1,0 +1,14 @@
+﻿{
+  "profiles": {
+    "MockForDevelopment": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "MockForDevelopment"
+      },
+      "publishAllPorts": true,
+      "useSSL": false,
+      "dotnetRunMessages": true
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}

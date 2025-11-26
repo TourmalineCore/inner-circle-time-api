@@ -1,0 +1,21 @@
+repositories:
+  - name: bitnami
+    url: https://mirror.yandex.ru/helm/charts.bitnami.com
+
+releases:
+  - name: inner-circle-time-api
+    labels:
+      app: inner-circle-time-api
+    wait: true
+    chart: bitnami/aspnet-core
+    version: 4.4.7
+    values:
+      - values.yaml
+      - image:
+          tag: "{{ .StateValues.image.tag }}"
+      - ingress:
+          hostname: "{{ .StateValues.ingress.hostname }}"
+      - extraSecretEnvVars:
+          ConnectionStrings__DefaultConnection: "{{ .StateValues.extraSecretEnvVars.ConnectionStrings__DefaultConnection }}"
+          AuthenticationOptions__PublicSigningKey: "{{ .StateValues.extraSecretEnvVars.AuthenticationOptions__PublicSigningKey }}"
+          ExternalDepsUrls__EmployeesApiRootUrl: "{{ .StateValues.extraSecretEnvVars.ExternalDepsUrls__EmployeesApiRootUrl }}"
