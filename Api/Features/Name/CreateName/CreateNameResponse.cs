@@ -1,4 +1,4 @@
-namespace Api.Features.Name.Handlers.CreateName;
+namespace Api.Features.Name.CreateName;
 
 public class CreateNameResponse
 {
