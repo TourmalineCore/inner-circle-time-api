@@ -1,0 +1,10 @@
+**/bin/*
+**/obj/*
+**/.vs/*
+**.user
+**/lib/*
+
+*Backup.*
+karate.jar
+target/
+connect-plugins/

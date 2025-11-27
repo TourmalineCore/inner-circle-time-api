@@ -1,0 +1,24 @@
+@authApiRootUrl = {{$processEnv AUTH_API_ROOT_URL}}
+@apiRootUrl = {{$processEnv API_ROOT_URL}}
+@authLogin = {{$processEnv AUTH_FIRST_TENANT_LOGIN_WITH_ALL_PERMISSIONS}}
+
+GET {{apiRootUrl}}/api/swagger/openapi/v1.json
+
+###
+
+# @name login
+POST {{authApiRootUrl}}/auth/login
+
+{
+    "login": "{{authLogin}}"
+}
+
+###
+
+@accessToken = {{login.response.body.accessToken.value}}
+
+# @name createComment
+GET {{apiRootUrl}}/api/time/tracking/work-entries
+X-DEBUG-TOKEN: {{accessToken}}
+
+###

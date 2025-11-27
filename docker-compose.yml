@@ -1,0 +1,134 @@
+services:
+
+  inner-circle-time-api-db:
+    image: postgres:14
+    container_name: inner-circle-time-api-db
+    profiles:
+      - DbOnly
+      - MockForDevelopment
+      - MockForTests
+      - MockForPullRequest
+    environment:
+      POSTGRES_DB: inner-circle-time-api-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 7507:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - inner-circle-time-api-network
+
+  # https://event-driven.io/en/automatically_connect_pgadmin_to_database/
+  inner-circle-time-api-pgadmin:
+    image: dpage/pgadmin4
+    container_name: inner-circle-time-api-pgadmin
+    profiles:
+      - DbOnly
+      - MockForDevelopment
+    depends_on:
+      inner-circle-time-api-db:
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: inner-circle-time-api-db
+      PGADMIN_DEFAULT_EMAIL: admin@admin.org
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+      # these 2 variables PGADMIN_CONFIG_PROXY_X_HOST_COUNT and PGADMIN_CONFIG_PROXY_X_PREFIX_COUNT
+      # are needed to enable PgAdmin in Codespaces scenario when it is behind a reverse proxy
+      # https://github.com/orgs/community/discussions/17918
+      PGADMIN_CONFIG_PROXY_X_HOST_COUNT: 1
+      PGADMIN_CONFIG_PROXY_X_PREFIX_COUNT: 1
+    ports:
+      - 9507:80
+    networks:
+      - inner-circle-time-api-network
+    volumes:
+      # this is needed so that we can spin it up from within Dev Container where LOCAL_WORKSPACE_FOLDER is defined and from a simple OS terminal of the repo root
+      # list of available config properties can be found here in the source code https://github.com/pgadmin-org/pgadmin4/blob/00dbe58125f0304186f1af5374c9c43bc22d0410/web/pgadmin/utils/__init__.py#L505
+      # Password is no longer a part of this list as it seems to be when the linked article was written
+      - ${LOCAL_WORKSPACE_FOLDER:-.}/pgAdmin.json:/pgadmin4/servers.json
+
+  inner-circle-time-api:
+    container_name: inner-circle-time-api
+    profiles:
+      - MockForTests
+      - MockForPullRequest
+    depends_on:
+      inner-circle-time-api-db:
+        condition: service_healthy
+      inner-circle-time-api-mock-server:
+        condition: service_started
+    build:
+      dockerfile: ./Api/Dockerfile
+      context: .
+      args:
+        EXCLUDE_UNIT_TESTS_FROM_BUILD: "true"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=MockForPullRequest
+    ports:
+      - 6507:80
+    networks:
+      - inner-circle-time-api-network
+
+  inner-circle-time-api-mock-server:
+    container_name: 'inner-circle-time-api-mock-server'
+    profiles:
+      - MockForDevelopment
+      - MockForTests
+      - MockForPullRequest
+    image: mockserver/mockserver:5.15.0
+    command: -logLevel INFO
+    ports:
+      - 8507:1080
+    volumes:
+      # this is needed so that we can spin it up from within Dev Container where LOCAL_WORKSPACE_FOLDER is defined and from a simple OS terminal of the repo root
+      - ${LOCAL_WORKSPACE_FOLDER:-.}/e2e/mock-server-initialization.json:/config/mock-server-initialization.json
+    environment:
+      SERVER_PORT: 1080
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/mock-server-initialization.json
+    networks:
+      - inner-circle-time-api-network
+
+  inner-circle-time-api-karate-tests:
+    container_name: 'inner-circle-time-api-karate-tests'
+    profiles:
+      - MockForPullRequest
+    build:
+      dockerfile: ./KarateDockerfile
+      context: ./e2e
+    # service_started is not what we need, we need deps to be healthy and ready, this needs to be implemented in api and mock-server first 
+    depends_on:
+      inner-circle-time-api:
+        condition: service_started
+      inner-circle-time-api-mock-server:
+        condition: service_started
+    # restart twice in case of not ready db or network failures
+    restart: on-failure:2
+    command: [ "karate", "/karate" ]
+    volumes:
+      # similar to mock-server volumes we need to support both runs: from Dev Container and from OS
+      - ${LOCAL_WORKSPACE_FOLDER:-.}:/karate
+
+    environment:
+      AUTH_FIRST_TENANT_LOGIN_WITH_ALL_PERMISSIONS: "first-tenant-login-with-all-permissions"
+      AUTH_FIRST_TENANT_PASSWORD_WITH_ALL_PERMISSIONS: "first-tenant-password-with-all-permissions"
+      AUTH_SECOND_TENANT_LOGIN_WITH_ALL_PERMISSIONS: "second-tenant-login-with-all-permissions"
+      AUTH_SECOND_TENANT_PASSWORD_WITH_ALL_PERMISSIONS: "second-tenant-password-with-all-permissions"
+      AUTH_LOGIN_WITHOUT_PERMISSIONS: "first-tenant-login-without-permissions"
+      AUTH_PASSWORD_WITHOUT_PERMISSIONS: "first-tenant-password-without-permissions"
+      # here the port is 1080 because it needs to be an internal port, not an external which is 8507 in this case
+      AUTH_API_ROOT_URL: "http://inner-circle-time-api-mock-server:1080/api/auth"
+      API_ROOT_URL: "http://inner-circle-time-api/api"
+      SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES: "true"
+    networks:
+      - inner-circle-time-api-network
+
+networks:
+  inner-circle-time-api-network:
