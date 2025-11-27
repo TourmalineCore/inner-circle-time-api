@@ -4,6 +4,13 @@ root = true
 # C# files
 [*.cs]
 
+# this should be causing namespace missmatch to fail the linting workflow and it does
+# however, auto fix of formatting accoring to this rule is broken since 2022 :(
+# thus, it is validated but needs manual fix as for now
+# https://github.com/dotnet/format/issues/1623
+dotnet_style_namespace_match_folder = true:warning
+dotnet_diagnostic.IDE0130.severity = warning
+
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
