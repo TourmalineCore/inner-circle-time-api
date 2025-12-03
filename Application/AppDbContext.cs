@@ -17,7 +17,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Entity> Entities { get; set; }
+    public virtual DbSet<WorkEntry> WorkEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

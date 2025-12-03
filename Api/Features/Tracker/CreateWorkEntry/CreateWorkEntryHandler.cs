@@ -1,0 +1,33 @@
+using Application.Commands;
+
+namespace Api.Features.Tracker.CreateWorkEntry;
+
+public class CreateWorkEntryHandler
+{
+    private readonly CreateWorkEntryCommand _createWorkEntryCommand;
+
+    public CreateWorkEntryHandler(
+        CreateWorkEntryCommand createWorkEntryCommand
+    )
+    {
+        _createWorkEntryCommand = createWorkEntryCommand;
+    }
+
+    public async Task<CreateWorkEntryResponse> HandleAsync(CreateWorkEntryRequest createWorkEntryRequest)
+    {
+        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        {
+            Title = createWorkEntryRequest.Title,
+            StartTime = createWorkEntryRequest.StartTime,
+            EndTime = createWorkEntryRequest.EndTime,
+            TaskId = createWorkEntryRequest.TaskId,
+        };
+
+        var newWorkEntryId = await _createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams);
+
+        return new CreateWorkEntryResponse
+        {
+            NewWorkEntryId = newWorkEntryId
+        };
+    }
+}

@@ -1,0 +1,28 @@
+using System.ComponentModel.DataAnnotations;
+using Api.Features.Tracker.CreateWorkEntry;
+using Api.Features.Tracker.GetAllWorkEntries;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
+
+namespace Api.Features.Tracker;
+
+[Authorize]
+[ApiController]
+[Route("api/time/tracker")]
+public class TrackerController : ControllerBase
+{
+    /// <summary>
+    ///     Create a work entry
+    /// </summary>
+    /// <param name="createWorkEntryRequest"></param>
+    // [RequiresPermission(UserClaimsProvider.CanViewTracker)]
+    [HttpPost("/work-entries")]
+    public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
+        [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
+        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest
+    )
+    {
+        return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
+    }
+}

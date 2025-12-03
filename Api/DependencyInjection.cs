@@ -22,7 +22,9 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString);
         });
 
-        services.AddTransient<Command>();
         services.AddTransient<Query>();
+        services.AddScoped<TenantAppDbContext>();
+
+        services.AddTransient<CreateWorkEntryCommand>();
     }
 }
