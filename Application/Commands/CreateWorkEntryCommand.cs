@@ -4,6 +4,8 @@ namespace Application.Commands;
 
 public class CreateWorkEntryCommandParams
 {
+    public required long EmployeeId { get; set; }
+
     public required string Title { get; set; }
 
     public required DateTime StartTime { get; set; }
@@ -28,6 +30,7 @@ public class CreateWorkEntryCommand
     {
         var workEntry = new WorkEntry
         {
+            EmployeeId = createWorkEntryCommandParams.EmployeeId,
             Title = createWorkEntryCommandParams.Title,
             StartTime = createWorkEntryCommandParams.StartTime,
             EndTime = createWorkEntryCommandParams.EndTime,

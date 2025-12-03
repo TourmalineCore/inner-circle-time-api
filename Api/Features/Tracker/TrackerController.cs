@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracker.CreateWorkEntry;
+using Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 //using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -19,9 +20,10 @@ public class TrackerController : ControllerBase
     [HttpPost("/work-entries")]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
-        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest
+        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
+        [FromServices] IClaimsProvider claimsProvider
     )
     {
-        return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
+        return createWorkEntryHandler.HandleAsync(createWorkEntryRequest, claimsProvider.EmployeeId);
     }
 }
