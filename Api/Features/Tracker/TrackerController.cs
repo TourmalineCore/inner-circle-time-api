@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracker.CreateWorkEntry;
-using Api.Features.Tracker.GetAllWorkEntries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
+//using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
 namespace Api.Features.Tracker;
 

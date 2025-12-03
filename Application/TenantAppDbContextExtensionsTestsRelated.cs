@@ -7,7 +7,7 @@ internal static class TenantAppDbContextExtensionsTestsRelated
 {
     internal static long TestsRelatedTenantId = 777;
 
-    public static TenantAppDbContext CteateInMemoryTenantContextForTests()
+    public static TenantAppDbContext CreateInMemoryTenantContextForTests()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(
