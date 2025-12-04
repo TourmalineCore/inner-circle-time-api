@@ -17,7 +17,7 @@ public class TrackerController : ControllerBase
     /// </summary>
     /// <param name="createWorkEntryRequest"></param>
     // [RequiresPermission(UserClaimsProvider.CanViewTracker)]
-    [HttpPost("/work-entries")]
+    [HttpPost("work-entries")]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
         [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
