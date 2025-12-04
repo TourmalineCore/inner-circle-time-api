@@ -35,6 +35,7 @@ public class CreateWorkEntryCommandTests
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
         Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
         Assert.Equal(createWorkEntryCommandParams.Type, newWorkEntry.Type);
+        Assert.Equal(createWorkEntryCommandParams.EndTime - createWorkEntryCommandParams.StartTime, newWorkEntry.Duration);
     }
 
     [Fact]

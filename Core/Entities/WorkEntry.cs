@@ -19,7 +19,14 @@ public class WorkEntry : EntityBase
 
     public string TimeZoneId { get; set; }
 
-    public DateInterval Duration { get; set; }
+    // automatic Duration calculation
+    public TimeSpan Duration
+    {
+        get
+        {
+            return EndTime - StartTime;
+        }
+    }
 
     public EventType Type { get; set; }
 
@@ -27,6 +34,7 @@ public class WorkEntry : EntityBase
 
     public string? TaskId { get; set; } = null;
 
+    // TODO: make it required when we add this prop to frontend
     public string? Description { get; set; } = null;
 
     public bool? IsDeleted { get; set; } = false;
