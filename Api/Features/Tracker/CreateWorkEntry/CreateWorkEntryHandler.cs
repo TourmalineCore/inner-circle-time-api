@@ -26,7 +26,7 @@ public class CreateWorkEntryHandler
             StartTime = createWorkEntryRequest.StartTime,
             EndTime = createWorkEntryRequest.EndTime,
             TaskId = createWorkEntryRequest.TaskId,
-            Type = EventType.Task,
+            Type = EventType.Task, // TODO: after add other event types remove hardcode
         };
 
         var newWorkEntryId = await _createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams);

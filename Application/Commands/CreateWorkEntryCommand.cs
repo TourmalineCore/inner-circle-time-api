@@ -14,7 +14,7 @@ public class CreateWorkEntryCommandParams
 
     public string? TaskId { get; set; }
 
-    public EventType Type { get; set; }
+    public required EventType Type { get; set; }
 }
 
 public class CreateWorkEntryCommand
@@ -30,6 +30,11 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
+        if (createWorkEntryCommandParams.Title == "" || createWorkEntryCommandParams.Type == EventType.Default)
+        {
+            throw new ArgumentException("Fill in all fields");
+        }
+
         var workEntry = new WorkEntry
         {
             EmployeeId = createWorkEntryCommandParams.EmployeeId,
