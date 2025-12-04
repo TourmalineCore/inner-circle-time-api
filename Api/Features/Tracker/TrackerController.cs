@@ -12,9 +12,9 @@ namespace Api.Features.Tracker;
 [Route("api/time/tracker")]
 public class TrackerController : ControllerBase
 {
+    [EndpointSummary("Create a work entry")]
     // [RequiresPermission(UserClaimsProvider.CanViewTracker)]
     [HttpPost("work-entries")]
-    [EndpointSummary("Create a work entry")]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
         [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
