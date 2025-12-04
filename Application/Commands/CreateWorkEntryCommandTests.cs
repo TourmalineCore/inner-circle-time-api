@@ -25,6 +25,7 @@ public class CreateWorkEntryCommandTests
         var newWorkEntry = await context.WorkEntries.FindAsync(newWorkEntryId);
 
         Assert.NotNull(newWorkEntry);
+        Assert.Equal(createWorkEntryCommandParams.EmployeeId, newWorkEntry.EmployeeId);
         Assert.Equal(createWorkEntryCommandParams.Title, newWorkEntry.Title);
         Assert.Equal(createWorkEntryCommandParams.TaskId, newWorkEntry.TaskId);
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
