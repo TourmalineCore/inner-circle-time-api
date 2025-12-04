@@ -27,5 +27,7 @@ public class CreateWorkEntryCommandTests
         Assert.NotNull(newWorkEntry);
         Assert.Equal(createWorkEntryCommandParams.Title, newWorkEntry.Title);
         Assert.Equal(createWorkEntryCommandParams.TaskId, newWorkEntry.TaskId);
+        Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
+        Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
     }
 }
