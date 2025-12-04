@@ -30,7 +30,7 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        if (createWorkEntryCommandParams.Title == "" || createWorkEntryCommandParams.Type == EventType.Default)
+        if (createWorkEntryCommandParams.Title == "" || createWorkEntryCommandParams.Type == EventType.Unspecified)
         {
             throw new ArgumentException("Fill in all fields");
         }
