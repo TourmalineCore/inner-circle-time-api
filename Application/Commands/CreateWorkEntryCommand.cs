@@ -13,6 +13,8 @@ public class CreateWorkEntryCommandParams
     public required DateTime EndTime { get; set; }
 
     public string? TaskId { get; set; }
+
+    public EventType Type { get; set; }
 }
 
 public class CreateWorkEntryCommand
@@ -34,7 +36,8 @@ public class CreateWorkEntryCommand
             Title = createWorkEntryCommandParams.Title,
             StartTime = createWorkEntryCommandParams.StartTime,
             EndTime = createWorkEntryCommandParams.EndTime,
-            TaskId = createWorkEntryCommandParams.TaskId
+            TaskId = createWorkEntryCommandParams.TaskId,
+            Type = createWorkEntryCommandParams.Type,
         };
 
         await _context

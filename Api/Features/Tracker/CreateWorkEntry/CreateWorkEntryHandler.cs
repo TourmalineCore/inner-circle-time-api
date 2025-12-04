@@ -1,4 +1,5 @@
 using Application.Commands;
+using Core.Entities;
 
 namespace Api.Features.Tracker.CreateWorkEntry;
 
@@ -25,6 +26,7 @@ public class CreateWorkEntryHandler
             StartTime = createWorkEntryRequest.StartTime,
             EndTime = createWorkEntryRequest.EndTime,
             TaskId = createWorkEntryRequest.TaskId,
+            Type = EventType.Task,
         };
 
         var newWorkEntryId = await _createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams);

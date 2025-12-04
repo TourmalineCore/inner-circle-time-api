@@ -21,7 +21,7 @@ public class WorkEntry : EntityBase
 
     public DateInterval Duration { get; set; }
 
-    public int Type { get; set; }
+    public EventType Type { get; set; }
 
     public string Title { get; set; }
 
@@ -29,5 +29,5 @@ public class WorkEntry : EntityBase
 
     public string? Description { get; set; } = null;
 
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; } = false;
 }
