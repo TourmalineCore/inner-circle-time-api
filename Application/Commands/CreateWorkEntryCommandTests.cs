@@ -13,6 +13,7 @@ public class CreateWorkEntryCommandTests
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
+            EmployeeId = 1,
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
