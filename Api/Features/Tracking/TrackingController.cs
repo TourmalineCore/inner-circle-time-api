@@ -4,7 +4,7 @@ using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-//using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
+using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
 
 namespace Api.Features.Tracking;
 
@@ -14,7 +14,7 @@ namespace Api.Features.Tracking;
 public class TrackingController : ControllerBase
 {
     [EndpointSummary("Get work entries by period")]
-    // [RequiresPermission(UserClaimsProvider.CanViewTracker)]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("work-entries")]
     public Task<GetWorkEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
         [Required][FromQuery] string startTime,
@@ -27,7 +27,7 @@ public class TrackingController : ControllerBase
     }
 
     [EndpointSummary("Create a work entry")]
-    // [RequiresPermission(UserClaimsProvider.CanViewTracker)]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("work-entries")]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
