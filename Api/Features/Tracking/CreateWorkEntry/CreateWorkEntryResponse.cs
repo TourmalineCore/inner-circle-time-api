@@ -1,4 +1,4 @@
-namespace Api.Features.Tracker.CreateWorkEntry;
+namespace Api.Features.Tracking.CreateWorkEntry;
 
 public class CreateWorkEntryResponse
 {

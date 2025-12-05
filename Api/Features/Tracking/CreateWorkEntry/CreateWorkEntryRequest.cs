@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Features.Tracker.CreateWorkEntry;
+namespace Api.Features.Tracking.CreateWorkEntry;
 
 public class CreateWorkEntryRequest
 {

@@ -1,7 +1,7 @@
 using Application.Commands;
 using Core.Entities;
 
-namespace Api.Features.Tracker.CreateWorkEntry;
+namespace Api.Features.Tracking.CreateWorkEntry;
 
 public class CreateWorkEntryHandler
 {
