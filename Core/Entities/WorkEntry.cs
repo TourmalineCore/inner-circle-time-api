@@ -17,7 +17,8 @@ public class WorkEntry : EntityBase
 
     public DateTime EndTime { get; set; }
 
-    public string TimeZoneId { get; set; }
+    // TODO: make it required when we add this prop to frontend
+    public string? TimeZoneId { get; set; }
 
     public TimeSpan Duration { get; set; }
 
