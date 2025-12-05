@@ -17,11 +17,21 @@ public class AppDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Entity> Entities { get; set; }
+    public virtual DbSet<WorkEntry> WorkEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+
+        modelBuilder
+            .Entity<WorkEntry>()
+            .Property(p => p.Duration)
+            .HasComputedColumnSql("end_time - start_time", stored: true);
+
+        modelBuilder
+            .Entity<WorkEntry>()
+            .ToTable(b => b.HasCheckConstraint("CK_WorkEntries_Type_NotZero", "[Type] <> 0"));
+
         base.OnModelCreating(modelBuilder);
     }
 
