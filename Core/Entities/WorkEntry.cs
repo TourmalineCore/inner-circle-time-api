@@ -19,14 +19,7 @@ public class WorkEntry : EntityBase
 
     public string TimeZoneId { get; set; }
 
-    // automatic Duration calculation
-    public TimeSpan Duration
-    {
-        get
-        {
-            return EndTime - StartTime;
-        }
-    }
+    public TimeSpan Duration { get; set; }
 
     public EventType Type { get; set; }
 

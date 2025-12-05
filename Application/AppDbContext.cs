@@ -22,6 +22,11 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+
+        modelBuilder
+            .Entity<WorkEntry>()
+            .Property(p => p.Duration)
+            .HasComputedColumnSql("end_time - start_time", stored: true);
         base.OnModelCreating(modelBuilder);
     }
 
