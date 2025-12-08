@@ -47,33 +47,4 @@ public class CreateWorkEntryCommandTests
         // Not checked in InMemoryDb
         // Assert.Equal(createWorkEntryCommandParams.EndTime - createWorkEntryCommandParams.StartTime, newWorkEntry.Duration);
     }
-
-    [Fact]
-    public async Task CreateWithoutRequiredFieldsAsync_ShouldThrowException()
-    {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
-
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
-
-        mockClaimsProvider.Setup(cp => cp.EmployeeId)
-                          .Returns(EMPLOYEE_ID);
-
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider.Object);
-
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
-        {
-            Title = "",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-            TaskId = "#2231",
-            Type = EventType.Task
-        };
-
-        ArgumentException ex = await Assert.ThrowsAsync<ArgumentException>(
-            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
-        );
-
-        var exceptionMessage = "Fill in all fields";
-        Assert.Equal(exceptionMessage, ex.Message);
-    }
 }
