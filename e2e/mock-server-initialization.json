@@ -9,7 +9,7 @@
     },
     "httpResponse": {
       "statusCode": 200,
-      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiMyIsImVtcGxveWVlSWQiOiIyIiwicGVybWlzc2lvbnMiOlsiQVVUT19URVNUU19PTkxZX0lzSXRlbVR5cGVzSGFyZERlbGV0ZUFsbG93ZWQiLCJDYW5NYW5hZ2VJdGVtc1R5cGVzIiwiQ2FuVmlld0l0ZW1zVHlwZXMiLCAiQVVUT19URVNUU19PTkxZX0lzSXRlbXNIYXJkRGVsZXRlQWxsb3dlZCIsICJDYW5NYW5hZ2VJdGVtcyIsICJDYW5WaWV3SXRlbXMiXX0=\" }}",
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiMyIsImVtcGxveWVlSWQiOiIyIiwicGVybWlzc2lvbnMiOlsiY2FuTWFuYWdlUGVyc29uYWxUaW1ldHJhY2tlciIsICJBVVRPX1RFU1RTX09OTFlfSXNXb3JrRW50cmllc0hhcmREZWxldGVBbGxvd2VkIl19\" }}",
       "headers": {
         "Content-Type": [
           "application/json"
