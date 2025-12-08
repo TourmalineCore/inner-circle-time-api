@@ -14,29 +14,28 @@ public class GetWorkEntriesByPeriodHandler
     }
 
     public async Task<GetWorkEntriesByPeriodResponse> HandleAsync(
-        string startTime,
-        string endTime
+        DateTime startTime,
+        DateTime endTime
     )
     {
         var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync(
-            DateTime.Parse(startTime),
-            DateTime.Parse(endTime)
+            startTime,
+            endTime
         );
 
         return new GetWorkEntriesByPeriodResponse
         {
             WorkEntries = workEntriesByPeriod
                 .Select(workEntry =>
-                {
-                    return new WorkEntryItem
+                    new WorkEntryItem
                     {
                         Id = workEntry.Id,
                         Title = workEntry.Title,
                         StartTime = workEntry.StartTime,
                         EndTime = workEntry.EndTime,
                         TaskId = workEntry.TaskId,
-                    };
-                })
+                    }
+                )
                 .ToList()
         };
     }

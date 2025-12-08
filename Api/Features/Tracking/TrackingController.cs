@@ -17,8 +17,8 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("work-entries")]
     public Task<GetWorkEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
-        [Required][FromQuery] string startTime,
-        [Required][FromQuery] string endTime,
+        [Required][FromQuery] DateTime startTime,
+        [Required][FromQuery] DateTime endTime,
         [FromServices] GetWorkEntriesByPeriodHandler getWorkEntriesByPeriodHandler
     )
     {
