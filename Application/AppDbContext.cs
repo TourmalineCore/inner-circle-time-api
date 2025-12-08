@@ -40,7 +40,7 @@ public class AppDbContext : DbContext
 
         modelBuilder
             .Entity<WorkEntry>()
-            .ToTable(b => b.HasCheckConstraint("CK_WorkEntries_Type_NotZero", "Type <> 0"));
+            .ToTable(b => b.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
 
         base.OnModelCreating(modelBuilder);
     }
