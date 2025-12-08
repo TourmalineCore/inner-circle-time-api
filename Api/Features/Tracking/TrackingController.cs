@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Application;
+using Application.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -34,5 +35,19 @@ public class TrackingController : ControllerBase
     )
     {
         return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
+    }
+
+    [EndpointSummary("Deletes specific work entry")]
+    [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed)]
+    [HttpDelete("{workEntryId}/hard-delete")]
+    public async Task<object> HardWorkEntryTypeAsync(
+        [FromServices] HardDeleteWorkEntryCommand hardDeleteWorkEntryCommand,
+        [Required][FromRoute] long workEntryId
+    )
+    {
+        return new
+        {
+            isDeleted = await hardDeleteWorkEntryCommand.ExecuteAsync(workEntryId)
+        };
     }
 }

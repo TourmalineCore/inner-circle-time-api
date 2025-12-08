@@ -30,5 +30,7 @@ public static class DependencyInjection
         services.AddTransient<CreateWorkEntryCommand>();
         services.AddTransient<GetWorkEntriesByPeriodHandler>();
         services.AddTransient<GetWorkEntriesByPeriodQuery>();
+        services.AddTransient<HardDeleteEntityCommand>();
+        services.AddTransient<HardDeleteWorkEntryCommand>();
     }
 }
