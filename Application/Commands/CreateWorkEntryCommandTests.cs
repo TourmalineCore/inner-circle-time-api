@@ -7,6 +7,7 @@ namespace Application.Commands;
 public class CreateWorkEntryCommandTests
 {
     private const long EMPLOYEE_ID = 1;
+    private const long TENANT_ID = 1;
 
     [Fact]
     public async Task CreateWorkEntryAsync_ShouldAddNewWorkEntryToDbSet()
@@ -18,6 +19,10 @@ public class CreateWorkEntryCommandTests
         mockClaimsProvider
             .Setup(cp => cp.EmployeeId)
             .Returns(EMPLOYEE_ID);
+
+        mockClaimsProvider
+            .Setup(cp => cp.TenantId)
+            .Returns(TENANT_ID);
 
         var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider.Object);
 
@@ -39,6 +44,7 @@ public class CreateWorkEntryCommandTests
         Assert.NotNull(newWorkEntry);
         Assert.Equal(createWorkEntryCommandParams.Title, newWorkEntry.Title);
         Assert.Equal(EMPLOYEE_ID, newWorkEntry.EmployeeId);
+        Assert.Equal(TENANT_ID, newWorkEntry.TenantId);
         Assert.Equal(createWorkEntryCommandParams.TaskId, newWorkEntry.TaskId);
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
         Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
