@@ -30,6 +30,14 @@ public class AppDbContext : DbContext
 
         modelBuilder
             .Entity<WorkEntry>()
+            .Property(e => e.StartTime)
+            .HasColumnType("timestamp without time zone");
+
+        modelBuilder
+            .Entity<WorkEntry>()
+            .Property(e => e.EndTime)
+            .HasColumnType("timestamp without time zone");
+
         modelBuilder
             .Entity<WorkEntry>()
             .ToTable(b => b.HasCheckConstraint("CK_WorkEntries_Type_NotZero", "Type <> 0"));
