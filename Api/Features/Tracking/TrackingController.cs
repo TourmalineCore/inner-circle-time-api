@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
-using Application;
 using Application.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +10,12 @@ namespace Api.Features.Tracking;
 
 [Authorize]
 [ApiController]
-[Route("api/time/tracking")]
+[Route("api/time/tracking/work-entries")]
 public class TrackingController : ControllerBase
 {
     [EndpointSummary("Get work entries by period")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
-    [HttpGet("work-entries")]
+    [HttpGet]
     public Task<GetWorkEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
         [Required][FromQuery] DateTime startTime,
         [Required][FromQuery] DateTime endTime,
@@ -28,7 +27,7 @@ public class TrackingController : ControllerBase
 
     [EndpointSummary("Create a work entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
-    [HttpPost("work-entries")]
+    [HttpPost]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
         [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest
