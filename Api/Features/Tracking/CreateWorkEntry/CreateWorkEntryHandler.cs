@@ -15,13 +15,11 @@ public class CreateWorkEntryHandler
     }
 
     public async Task<CreateWorkEntryResponse> HandleAsync(
-        CreateWorkEntryRequest createWorkEntryRequest,
-        long employeeId
+        CreateWorkEntryRequest createWorkEntryRequest
     )
     {
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
-            EmployeeId = employeeId,
             Title = createWorkEntryRequest.Title,
             StartTime = createWorkEntryRequest.StartTime,
             EndTime = createWorkEntryRequest.EndTime,

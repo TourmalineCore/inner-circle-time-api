@@ -33,8 +33,10 @@ public class TrackingController : ControllerBase
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
         [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
         [FromServices] IClaimsProvider claimsProvider
+        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest
     )
     {
         return createWorkEntryHandler.HandleAsync(createWorkEntryRequest, claimsProvider.EmployeeId);
+        return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
     }
 }

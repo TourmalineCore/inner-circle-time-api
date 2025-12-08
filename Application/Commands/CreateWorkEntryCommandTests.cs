@@ -1,20 +1,28 @@
 using Core.Entities;
+using Moq;
 using Xunit;
 
 namespace Application.Commands;
 
 public class CreateWorkEntryCommandTests
 {
+    private const long EMPLOYEE_ID = 1;
+
     [Fact]
     public async Task CreateWorkEntryAsync_ShouldAddNewWorkEntryToDbSet()
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context);
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider
+            .Setup(cp => cp.EmployeeId)
+            .Returns(EMPLOYEE_ID);
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider.Object);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
-            EmployeeId = 1,
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
@@ -29,8 +37,8 @@ public class CreateWorkEntryCommandTests
             .FindAsync(newWorkEntryId);
 
         Assert.NotNull(newWorkEntry);
-        Assert.Equal(createWorkEntryCommandParams.EmployeeId, newWorkEntry.EmployeeId);
         Assert.Equal(createWorkEntryCommandParams.Title, newWorkEntry.Title);
+        Assert.Equal(EMPLOYEE_ID, newWorkEntry.EmployeeId);
         Assert.Equal(createWorkEntryCommandParams.TaskId, newWorkEntry.TaskId);
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
         Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
@@ -45,11 +53,15 @@ public class CreateWorkEntryCommandTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context);
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider.Setup(cp => cp.EmployeeId)
+                          .Returns(EMPLOYEE_ID);
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider.Object);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
-            EmployeeId = 1,
             Title = "",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),

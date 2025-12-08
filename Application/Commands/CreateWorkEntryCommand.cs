@@ -4,8 +4,6 @@ namespace Application.Commands;
 
 public class CreateWorkEntryCommandParams
 {
-    public required long EmployeeId { get; set; }
-
     public required string Title { get; set; }
 
     public required DateTime StartTime { get; set; }
@@ -20,12 +18,15 @@ public class CreateWorkEntryCommandParams
 public class CreateWorkEntryCommand
 {
     private readonly TenantAppDbContext _context;
+    private readonly IClaimsProvider _claimsProvider;
 
     public CreateWorkEntryCommand(
-        TenantAppDbContext context
+        TenantAppDbContext context,
+        IClaimsProvider claimsProvider
     )
     {
         _context = context;
+        _claimsProvider = claimsProvider;
     }
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
@@ -37,7 +38,8 @@ public class CreateWorkEntryCommand
 
         var workEntry = new WorkEntry
         {
-            EmployeeId = createWorkEntryCommandParams.EmployeeId,
+            TenantId = _claimsProvider.TenantId,
+            EmployeeId = _claimsProvider.EmployeeId,
             Title = createWorkEntryCommandParams.Title,
             StartTime = createWorkEntryCommandParams.StartTime,
             EndTime = createWorkEntryCommandParams.EndTime,
