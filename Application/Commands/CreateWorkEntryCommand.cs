@@ -31,11 +31,6 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        if (createWorkEntryCommandParams.Title == "" || createWorkEntryCommandParams.Type == EventType.Unspecified)
-        {
-            throw new ArgumentException("Fill in all fields");
-        }
-
         var workEntry = new WorkEntry
         {
             TenantId = _claimsProvider.TenantId,
