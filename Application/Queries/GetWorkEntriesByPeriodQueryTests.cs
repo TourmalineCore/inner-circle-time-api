@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Moq;
 using Xunit;
 
 namespace Application.Queries;
@@ -11,8 +12,13 @@ public class GetWorkEntriesByPeriodQueryTests
     public async Task GetWorkEntriesByPeriodAsync_ShouldReturnWorkEntriesByPeriodFromDbSet()
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
 
-        var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context);
+        mockClaimsProvider
+            .Setup(cp => cp.EmployeeId)
+            .Returns(EMPLOYEE_ID);
+
+        var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
 
         var workEntry1 = new WorkEntry
         {
@@ -54,8 +60,7 @@ public class GetWorkEntriesByPeriodQueryTests
         var result = await getWorkEntriesByPeriodQuery
             .GetByPeriodAsync(
                 new DateTime(2025, 11, 24, 0, 0, 0),
-                new DateTime(2025, 11, 27, 23, 59, 59),
-                EMPLOYEE_ID
+                new DateTime(2025, 11, 27, 23, 59, 59)
             );
 
         Assert.NotNull(result);

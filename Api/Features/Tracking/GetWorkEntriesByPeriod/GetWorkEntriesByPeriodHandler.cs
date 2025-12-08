@@ -1,5 +1,4 @@
 using Application.Queries;
-using Core.Entities;
 
 namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
 
@@ -16,14 +15,12 @@ public class GetWorkEntriesByPeriodHandler
 
     public async Task<GetWorkEntriesByPeriodResponse> HandleAsync(
         string startTime,
-        string endTime,
-        long employeeId
+        string endTime
     )
     {
         var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync(
             DateTime.Parse(startTime),
-            DateTime.Parse(endTime),
-            employeeId
+            DateTime.Parse(endTime)
         );
 
         return new GetWorkEntriesByPeriodResponse

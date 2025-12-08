@@ -19,11 +19,10 @@ public class TrackingController : ControllerBase
     public Task<GetWorkEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
         [Required][FromQuery] string startTime,
         [Required][FromQuery] string endTime,
-        [FromServices] GetWorkEntriesByPeriodHandler getWorkEntriesByPeriodHandler,
-        [FromServices] IClaimsProvider claimsProvider
+        [FromServices] GetWorkEntriesByPeriodHandler getWorkEntriesByPeriodHandler
     )
     {
-        return getWorkEntriesByPeriodHandler.HandleAsync(startTime, endTime, claimsProvider.EmployeeId);
+        return getWorkEntriesByPeriodHandler.HandleAsync(startTime, endTime);
     }
 
     [EndpointSummary("Create a work entry")]
@@ -31,12 +30,9 @@ public class TrackingController : ControllerBase
     [HttpPost("work-entries")]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
         [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
-        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
-        [FromServices] IClaimsProvider claimsProvider
         [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest
     )
     {
-        return createWorkEntryHandler.HandleAsync(createWorkEntryRequest, claimsProvider.EmployeeId);
         return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
     }
 }
