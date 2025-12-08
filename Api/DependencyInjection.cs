@@ -1,4 +1,6 @@
-﻿using Application;
+﻿using Api.Features.Tracking.CreateWorkEntry;
+using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Application;
 using Application.Commands;
 using Application.Queries;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +26,9 @@ public static class DependencyInjection
 
         services.AddScoped<TenantAppDbContext>();
 
+        services.AddTransient<CreateWorkEntryHandler>();
         services.AddTransient<CreateWorkEntryCommand>();
+        services.AddTransient<GetWorkEntriesByPeriodHandler>();
         services.AddTransient<GetWorkEntriesByPeriodQuery>();
     }
 }
