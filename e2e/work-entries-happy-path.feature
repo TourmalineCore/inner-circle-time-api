@@ -67,3 +67,17 @@ Feature: Work Entries
         "taskId": "#(taskId)",
     }
     """
+
+    # Cleanup: Delete the work entry (hard delete)
+    Given url apiRootUrl
+    Given path 'tracking/work-entries', newWorkEntryId, 'hard-delete'
+    When method DELETE
+    Then status 200
+    And match response == { isDeleted: true }
+
+    # Cleanup Verification: Verify that work entry was deleted
+    Given url apiRootUrl
+    Given path 'tracking/work-entries'
+    And params { startTime: "2025-11-05T00:00:00", endTime: "2025-11-05T23:59:59" }
+    When method GET
+    And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
