@@ -23,6 +23,8 @@ public class IntegrationTestBase : IAsyncLifetime
 
         await _dbConnection.OpenAsync();
 
+        await ApplyMigrationsAsync();
+
         // Begin Transaction
         _dbTransaction = await _dbConnection.BeginTransactionAsync();
 
@@ -45,6 +47,20 @@ public class IntegrationTestBase : IAsyncLifetime
 
         if (_dbConnection != null)
             await _dbConnection.CloseAsync();
+    }
+
+    private async Task ApplyMigrationsAsync()
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+        optionsBuilder.UseNpgsql(_dbConnection);
+
+        using var context = new AppDbContext(optionsBuilder.Options);
+
+        var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+        if (pendingMigrations.Any())
+        {
+            await context.Database.MigrateAsync();
+        }
     }
 
     protected TenantAppDbContext CreateTenantDbContext()
