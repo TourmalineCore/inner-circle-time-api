@@ -39,7 +39,7 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Deletes specific work entry")]
     [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed)]
     [HttpDelete("{workEntryId}/hard-delete")]
-    public async Task<object> HardWorkEntryTypeAsync(
+    public async Task<object> HardDeleteWorkEntryAsync(
         [FromServices] HardDeleteWorkEntryCommand hardDeleteWorkEntryCommand,
         [Required][FromRoute] long workEntryId
     )
