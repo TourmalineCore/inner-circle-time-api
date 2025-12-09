@@ -1,12 +1,10 @@
 using Application;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Moq;
 using Npgsql;
 using Xunit;
 
-public class IntegrationTestBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
+public class IntegrationTestBase : IAsyncLifetime
 {
     protected const long EMPLOYEE_ID = 1;
     protected const long TENANT_ID = 1;
