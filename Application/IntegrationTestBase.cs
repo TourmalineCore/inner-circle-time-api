@@ -1,0 +1,74 @@
+using Application;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+using Moq;
+using Npgsql;
+using Xunit;
+
+public class IntegrationTestBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
+{
+    protected const long EMPLOYEE_ID = 1;
+    protected const long TENANT_ID = 1;
+
+    protected NpgsqlConnection _dbConnection = null!;
+
+    private DbContextOptions<AppDbContext> _dbContextOptions = null!;
+
+    private NpgsqlTransaction _dbTransaction = null!;
+
+    public async Task InitializeAsync()
+    {
+        var connectionString = "Host=localhost;Port=7507;Database=inner-circle-time-api-db;Username=postgres;Password=postgres";
+
+        _dbConnection = new NpgsqlConnection(connectionString);
+
+        await _dbConnection.OpenAsync();
+
+        // Begin Transaction
+        _dbTransaction = await _dbConnection.BeginTransactionAsync();
+
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+        optionsBuilder.UseNpgsql(_dbConnection);
+
+        _dbContextOptions = optionsBuilder.Options;
+    }
+
+
+    // Rollback Transaction And Close Db Connection
+    public async Task DisposeAsync()
+    {
+        if (_dbTransaction != null)
+        {
+            await _dbTransaction.RollbackAsync();
+            await _dbTransaction.DisposeAsync();
+        }
+
+        if (_dbConnection != null)
+            await _dbConnection.CloseAsync();
+    }
+
+    protected TenantAppDbContext CreateTenantDbContext()
+    {
+        return new TenantAppDbContext(
+            _dbContextOptions,
+            GetMockClaimsProvider()
+        );
+    }
+
+    protected IClaimsProvider GetMockClaimsProvider()
+    {
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider
+            .Setup(cp => cp.EmployeeId)
+            .Returns(EMPLOYEE_ID);
+
+        mockClaimsProvider
+            .Setup(cp => cp.TenantId)
+            .Returns(TENANT_ID);
+
+        return mockClaimsProvider.Object;
+    }
+}

@@ -1,30 +1,18 @@
 using Core.Entities;
-using Moq;
 using Xunit;
 
 namespace Application.Commands;
 
-public class CreateWorkEntryCommandTests
+public class CreateWorkEntryCommandTests : IntegrationTestBase
 {
-    private const long EMPLOYEE_ID = 1;
-    private const long TENANT_ID = 1;
-
     [Fact]
     public async Task CreateWorkEntryAsync_ShouldAddNewWorkEntryToDbSet()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
+        var context = CreateTenantDbContext();
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = GetMockClaimsProvider();
 
-        mockClaimsProvider
-            .Setup(cp => cp.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        mockClaimsProvider
-            .Setup(cp => cp.TenantId)
-            .Returns(TENANT_ID);
-
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider.Object);
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
@@ -49,8 +37,6 @@ public class CreateWorkEntryCommandTests
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
         Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
         Assert.Equal(createWorkEntryCommandParams.Type, newWorkEntry.Type);
-
-        // Not checked in InMemoryDb
-        // Assert.Equal(createWorkEntryCommandParams.EndTime - createWorkEntryCommandParams.StartTime, newWorkEntry.Duration);
+        Assert.Equal(createWorkEntryCommandParams.EndTime - createWorkEntryCommandParams.StartTime, newWorkEntry.Duration);
     }
 }
