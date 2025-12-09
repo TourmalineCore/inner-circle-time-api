@@ -23,5 +23,8 @@ jobs:
       - name: Build application
         run: dotnet build --property:TreatWarningsAsErrors=true
 
+      - name: Run Database
+        run:  docker compose --profile DbOnly up
+
       - name: Run unit-tests
         run: dotnet test  
