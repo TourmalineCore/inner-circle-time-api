@@ -9,7 +9,7 @@ public class IntegrationTestBase : IAsyncLifetime
     protected const long EMPLOYEE_ID = 1;
     protected const long TENANT_ID = 1;
 
-    protected NpgsqlConnection _dbConnection = null!;
+    private NpgsqlConnection _dbConnection = null!;
 
     private DbContextOptions<AppDbContext> _dbContextOptions = null!;
 
