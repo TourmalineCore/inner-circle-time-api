@@ -24,7 +24,7 @@ jobs:
         run: dotnet build --property:TreatWarningsAsErrors=true
 
       - name: Run Database
-        run:  docker compose --profile DbOnly up
+        run:  docker compose --profile DbWithoutPgAdmin up
 
       - name: Run unit-tests
         run: dotnet test  
