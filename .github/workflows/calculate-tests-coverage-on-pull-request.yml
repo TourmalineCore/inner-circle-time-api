@@ -57,7 +57,7 @@ jobs:
             -o integration-coverage.xml \
             --session-id calculate-integration-coverage-session \
             --include-files "./**/bin/Debug/net9.0/*.dll" \
-            dotnet test --filter "Type=Type=Integration" --no-build
+            dotnet test --filter "Type=Integration" --no-build
         # in the first step that runs inside Dev Container we push the image we built to re-use it in the next steps
         # we newer push in the next steps, only use the cache if available
         push: always
