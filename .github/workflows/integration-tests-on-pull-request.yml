@@ -30,10 +30,4 @@ jobs:
         with:
           imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
           cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
-          runCmd: |
-            # first we build in Debug, then we re-use dlls using --no-build flag here and later
-            dotnet build
-
-            dotnet ef database update
-
-            dotnet test --filter "Type=Integration" --no-build
+          runCmd: dotnet test --filter "Type=Integration"
