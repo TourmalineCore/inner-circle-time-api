@@ -5,7 +5,7 @@ services:
     container_name: inner-circle-time-api-db
     profiles:
       - DbOnly
-      - DbWithoutPgAdmin
+      - DbOnlyWithoutPgAdmin
       - MockForDevelopment
       - MockForTests
       - MockForPullRequest

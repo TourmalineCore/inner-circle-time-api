@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Integration Tests
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   unit-tests:
-    name: Run unit tests
+    name: Run integration tests
     runs-on: ubuntu-24.04
     steps:
       - name: Check out the repo
@@ -23,8 +23,8 @@ jobs:
       - name: Build application
         run: dotnet build --property:TreatWarningsAsErrors=true
 
-      - name: Run Database
-        run:  docker compose --profile DbWithoutPgAdmin up -d
-
-      - name: Run unit-tests
-        run: dotnet test --filter "Type=Unit"
+      - name: Run postgres
+        run: docker compose --profile DbOnlyWithoutPgAdmin up --exit-code-from inner-circle-time-api-db
+      
+      - name: Run integration tests
+        run: dotnet test --filter "Type=Integration"

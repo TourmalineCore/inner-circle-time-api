@@ -38,7 +38,26 @@ jobs:
             -o units-coverage.xml \
             --session-id calculate-units-coverage-session \
             --include-files "./**/bin/Debug/net9.0/*.dll" \
-            dotnet test --no-build
+            dotnet test --filter "Type=Unit" --no-build
+        # in the first step that runs inside Dev Container we push the image we built to re-use it in the next steps
+        # we newer push in the next steps, only use the cache if available
+        push: always
+
+    - name: Calculate Integration Tests Coverage
+      uses: devcontainers/ci@v0.3
+      with:
+        imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        runCmd: |
+          # first we build in Debug, then we re-use dlls using --no-build flag here and later
+          dotnet build
+
+          dotnet-coverage collect \
+            -f cobertura \
+            -o integration-coverage.xml \
+            --session-id calculate-integration-coverage-session \
+            --include-files "./**/bin/Debug/net9.0/*.dll" \
+            dotnet test --filter "Type=Type=Integration" --no-build
         # in the first step that runs inside Dev Container we push the image we built to re-use it in the next steps
         # we newer push in the next steps, only use the cache if available
         push: always
@@ -69,7 +88,7 @@ jobs:
           dotnet-coverage shutdown calculate-e2e-coverage-session
         push: never
 
-    - name: Merge Units And E2E Into Full Coverage
+    - name: Merge Units, Integration And E2E Into Full Coverage
       uses: devcontainers/ci@v0.3
       with:
         cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
@@ -77,7 +96,7 @@ jobs:
           dotnet-coverage merge \
           -f cobertura \
           -o full-coverage.xml \
-          e2e-coverage.xml units-coverage.xml
+          e2e-coverage.xml units-coverage.xml integration-coverage.xml
         push: never
 
     - name: Generate Full Tests Coverage Summary as Markdown
@@ -99,6 +118,12 @@ jobs:
       with:
         name: units-coverage
         path: units-coverage.xml
+
+    - name: Upload Integration Tests Coverage
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-coverage
+        path: integration-coverage.xml
 
     - name: Upload E2E Tests Coverage
       uses: actions/upload-artifact@v4
@@ -123,6 +148,12 @@ jobs:
       uses: actions/download-artifact@v5
       with:
         name: units-coverage
+        path: coverage
+    
+    - name: Download Integration Coverage
+      uses: actions/download-artifact@v5
+      with:
+        name: integration-coverage
         path: coverage
     
     - name: Download E2E Coverage
@@ -151,6 +182,13 @@ jobs:
         
         # round to 2 decimal digits
         echo "UNITS_COVERAGE=$(printf "%.2f\n" "$units_line_coverage_percent")" >> "$GITHUB_ENV"
+
+        integration_line_coverage_float=$(cat coverage/integration-coverage.xml | xq -x /coverage/@line-rate)
+
+        integration_line_coverage_percent=$(awk -v num="$integration_line_coverage_float" 'BEGIN { print num * 100 }')
+        
+        # round to 2 decimal digits
+        echo "INTEGRATION_COVERAGE=$(printf "%.2f\n" "$integration_line_coverage_percent")" >> "$GITHUB_ENV"
 
         e2e_line_coverage_float=$(cat coverage/e2e-coverage.xml | xq -x /coverage/@line-rate)
 
@@ -203,6 +241,10 @@ jobs:
           env_value_name_with_bage_color="UNITS_BADGE_COLOR"
         )
         set_by_coverage_badge_color(
+          env_value_name_with_coverage="INTEGRATION_COVERAGE", 
+          env_value_name_with_bage_color="INTEGRATION_BADGE_COLOR"
+        )
+        set_by_coverage_badge_color(
           env_value_name_with_coverage="E2E_COVERAGE", 
           env_value_name_with_bage_color="E2E_BADGE_COLOR"
         )
@@ -235,6 +277,11 @@ jobs:
           coverage_prefix="units_coverage", 
           coverage=os.getenv("UNITS_COVERAGE"),
           coverage_color=os.getenv("UNITS_BADGE_COLOR")
+        )
+        replace_coverage_badge_in_readme(
+          coverage_prefix="integration_coverage", 
+          coverage=os.getenv("INTEGRATION_COVERAGE"),
+          coverage_color=os.getenv("INTEGRATION_BADGE_COLOR")
         )
         replace_coverage_badge_in_readme(
           coverage_prefix="e2e_coverage", 

@@ -41,6 +41,20 @@ To run xUnit unit and integrational tests execute the following script in Termin
 dotnet test --verbosity detailed
 ```
 
+### Run Only Unit Tests
+
+To run xUnit unit tests execute the following script in Terminal:
+```cli
+dotnet test --verbosity detailed --filter "Type=Unit"
+```
+
+### Run Only Integrational Tests
+
+To run xUnit integrational tests execute the following script in Terminal:
+```cli
+dotnet test --verbosity detailed --filter "Type=Integration"
+```
+
 ### Run E2E Tests
 
 To run Karate E2E tests execute the following script in Terminal:

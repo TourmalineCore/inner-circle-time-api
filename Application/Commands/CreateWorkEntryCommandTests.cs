@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Application.Commands;
 
+[Trait("Type", "Integration")]
 public class CreateWorkEntryCommandTests : IntegrationTestBase
 {
     [Fact]
