@@ -3,6 +3,7 @@
 <!-- auto-generated -->
 [![coverage](https://img.shields.io/badge/e2e_coverage-65.20%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/units_coverage-31.50%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/integration_coverage-0.00%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/full_coverage-83.62%25-olivedrab)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
