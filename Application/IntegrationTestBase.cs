@@ -1,5 +1,6 @@
 using Application;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Npgsql;
 using Xunit;
@@ -17,8 +18,14 @@ public class IntegrationTestBase : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        var connectionString = "Host=localhost;Port=7507;Database=inner-circle-time-api-db;Username=postgres;Password=postgres";
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../../../Api"))
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
+            .AddEnvironmentVariables()
+            .Build();
 
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
         _dbConnection = new NpgsqlConnection(connectionString);
 
         await _dbConnection.OpenAsync();
