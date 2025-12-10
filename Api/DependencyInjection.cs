@@ -1,5 +1,6 @@
 ﻿using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.UpdateWorkEntry;
 using Application;
 using Application.Commands;
 using Application.Queries;
@@ -30,6 +31,8 @@ public static class DependencyInjection
         services.AddTransient<CreateWorkEntryCommand>();
         services.AddTransient<GetWorkEntriesByPeriodHandler>();
         services.AddTransient<GetWorkEntriesByPeriodQuery>();
+        services.AddTransient<UpdateWorkEntryHandler>();
+        services.AddTransient<UpdateWorkEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
         services.AddTransient<HardDeleteWorkEntryCommand>();
     }

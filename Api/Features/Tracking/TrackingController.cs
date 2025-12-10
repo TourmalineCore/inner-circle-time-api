@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,18 @@ public class TrackingController : ControllerBase
     )
     {
         return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
+    }
+
+    [EndpointSummary("Update a work entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("{workEntryId}")]
+    public Task UpdateWorkEntryAsync(
+        [FromRoute] long workEntryId,
+        [FromServices] UpdateWorkEntryHandler updateWorkEntryHandler,
+        [Required][FromBody] UpdateWorkEntryRequest updateWorkEntryRequest
+    )
+    {
+        return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
     }
 
     [EndpointSummary("Deletes specific work entry")]
