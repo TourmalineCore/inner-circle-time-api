@@ -30,7 +30,7 @@ Feature: Work Entries
 
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
-    # Step 1: Create a new work entry
+    # Create a new work entry
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
     * def startTime = '2025-11-05T14:00:00'
     * def endTime = '2025-11-05T16:00:00'
@@ -52,32 +52,49 @@ Feature: Work Entries
 
     * def newWorkEntryId = response.newWorkEntryId
 
-    # Step 2: Verify that work entry is in the database with the id, title, taskId, startTime and endTime
-    Given url apiRootUrl
+    # Update work entry
+    * def newRandomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
+    * def newStartTime = '2025-11-06T11:00:00'
+    * def newEndTime = '2025-11-06T12:00:00'
+    * def newTaskId = '#2235'
+    
+    Given path 'tracking/work-entries', newWorkEntryId
+    And request
+    """
+    {
+        "title": "#(newRandomTitle)",
+        "startTime": "#(newStartTime)",
+        "endTime": "#(newEndTime)", 
+        "taskId": "#(newTaskId)",
+    }
+    """
+    When method POST
+    Then status 200
+
+    # Verify updated work entry data
     Given path 'tracking/work-entries'
-    And params { startTime: "2025-11-05T00:00:00", endTime: "2025-11-05T23:59:59" }
+    And params { startTime: "2025-11-06T00:00:00", endTime: "2025-11-06T23:59:59" }
     When method GET
     And match response.workEntries contains
     """
     {
         "id": "#(newWorkEntryId)",
-        "title": "#(randomTitle)",
-        "startTime": "#(startTime)",
-        "endTime": "#(endTime)",
-        "taskId": "#(taskId)",
+        "title": "#(newRandomTitle)",
+        "startTime": "#(newStartTime)",
+        "endTime": "#(newEndTime)",
+        "taskId": "#(newTaskId)",
     }
     """
 
     # Cleanup: Delete the work entry (hard delete)
-    Given url apiRootUrl
     Given path 'tracking/work-entries', newWorkEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that work entry was deleted
-    Given url apiRootUrl
     Given path 'tracking/work-entries'
-    And params { startTime: "2025-11-05T00:00:00", endTime: "2025-11-05T23:59:59" }
+    And params { startTime: "2025-11-06T00:00:00", endTime: "2025-11-06T23:59:59" }
     When method GET
+    Then status 200
     And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
