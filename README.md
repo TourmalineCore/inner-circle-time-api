@@ -3,6 +3,7 @@
 <!-- auto-generated -->
 [![coverage](https://img.shields.io/badge/e2e_coverage-37.68%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/units_coverage-64.29%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/integration_coverage-0.00%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/full_coverage-84.24%25-olivedrab)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
@@ -39,6 +40,20 @@ dotnet run --project ./Api
 To run xUnit unit and integrational tests execute the following script in Terminal:
 ```cli
 dotnet test --verbosity detailed
+```
+
+### Run Only Unit Tests
+
+To run xUnit unit tests execute the following script in Terminal:
+```cli
+dotnet test --verbosity detailed --filter "Type=Unit"
+```
+
+### Run Only Integrational Tests
+
+To run xUnit integrational tests execute the following script in Terminal:
+```cli
+dotnet test --verbosity detailed --filter "Type=Integration"
 ```
 
 ### Run E2E Tests

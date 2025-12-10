@@ -1,12 +1,12 @@
-name: Unit Tests
+name: Integration Tests
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  unit-tests:
-    name: Run unit tests
+  integration-tests:
+    name: Run integration tests
     runs-on: ubuntu-24.04
     steps:
       - name: Check out the repo
@@ -23,5 +23,8 @@ jobs:
       - name: Build application
         run: dotnet build --property:TreatWarningsAsErrors=true
 
-      - name: Run unit-tests
-        run: dotnet test --filter "Type=Unit"
+      - name: Run postgres
+        run: docker compose --profile DbOnlyWithoutPgAdmin up -d
+      
+      - name: Run integration tests
+        run: dotnet test --filter "Type=Integration"

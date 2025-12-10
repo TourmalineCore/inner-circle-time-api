@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Application.Queries;
 
+[Trait("Type", "Unit")]
 public class GetWorkEntriesByPeriodQueryTests
 {
     private const long EMPLOYEE_ID = 1;

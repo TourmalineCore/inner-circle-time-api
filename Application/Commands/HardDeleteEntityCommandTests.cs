@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Application.Commands;
 
+[Trait("Type", "Unit")]
 public class HardDeleteEntityCommandTests
 {
     private readonly HardDeleteEntityCommand _command;
