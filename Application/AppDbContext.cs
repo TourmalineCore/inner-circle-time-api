@@ -25,6 +25,11 @@ public class AppDbContext : DbContext
 
         modelBuilder
             .Entity<WorkEntry>()
+            .Property(e => e.Id)
+            .UseIdentityAlwaysColumn();
+
+        modelBuilder
+            .Entity<WorkEntry>()
             .Property(p => p.Duration)
             .HasComputedColumnSql("end_time - start_time", stored: true);
 
