@@ -24,7 +24,7 @@ jobs:
         run: dotnet build --property:TreatWarningsAsErrors=true
 
       - name: Run postgres
-        run: docker compose --profile DbOnlyWithoutPgAdmin up --exit-code-from inner-circle-time-api-db
+        run: docker compose --profile DbOnlyWithoutPgAdmin up -d
       
       - name: Run integration tests
         run: dotnet test --filter "Type=Integration"

@@ -23,8 +23,5 @@ jobs:
       - name: Build application
         run: dotnet build --property:TreatWarningsAsErrors=true
 
-      - name: Run Database
-        run:  docker compose --profile DbWithoutPgAdmin up -d
-
       - name: Run unit-tests
         run: dotnet test --filter "Type=Unit"
