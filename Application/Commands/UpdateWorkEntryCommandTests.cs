@@ -1,0 +1,55 @@
+using Core.Entities;
+using Xunit;
+
+namespace Application.Commands;
+
+[Trait("Type", "Integration")]
+public class UpdateWorkEntryCommandTests : IntegrationTestBase
+{
+    [Fact]
+    public async Task UpdateWorkEntryAsync_ShouldUpdateWorkEntryDataInDbSet()
+    {
+        const long WORK_ENTRY_ID = 1;
+
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = GetMockClaimsProvider();
+
+        await context.AddEntityAndSaveAsync(new WorkEntry
+        {
+            Id = WORK_ENTRY_ID,
+            EmployeeId = EMPLOYEE_ID,
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            TaskId = "#2231",
+            Type = EventType.Task
+        });
+
+        var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
+        {
+            Id = WORK_ENTRY_ID,
+            Title = "Task 2",
+            StartTime = new DateTime(2025, 11, 25, 8, 0, 0),
+            EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
+            TaskId = "#22",
+            Type = EventType.Task
+        };
+
+        var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider);
+
+        await updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams);
+
+        var updatedWorkEntry = await context
+            .WorkEntries
+            .FindAsync(WORK_ENTRY_ID);
+
+        Assert.NotNull(updatedWorkEntry);
+        Assert.Equal(updateWorkEntryCommandParams.Title, updatedWorkEntry.Title);
+        Assert.Equal(updateWorkEntryCommandParams.TaskId, updatedWorkEntry.TaskId);
+        Assert.Equal(updateWorkEntryCommandParams.StartTime, updatedWorkEntry.StartTime);
+        Assert.Equal(updateWorkEntryCommandParams.EndTime, updatedWorkEntry.EndTime);
+        Assert.Equal(updateWorkEntryCommandParams.Type, updatedWorkEntry.Type);
+        Assert.Equal(updateWorkEntryCommandParams.EndTime - updateWorkEntryCommandParams.StartTime, updatedWorkEntry.Duration);
+    }
+}

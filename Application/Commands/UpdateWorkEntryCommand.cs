@@ -35,7 +35,7 @@ public class UpdateWorkEntryCommand
     public async Task ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
     {
         var workEntry = await _context
-            .QueryableWithinTenantAsNoTracking<WorkEntry>()
+            .QueryableWithinTenant<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == updateWorkEntryCommandParams.Id)
             .SingleAsync();

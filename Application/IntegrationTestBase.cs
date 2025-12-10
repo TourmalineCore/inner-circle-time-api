@@ -7,7 +7,7 @@ using Xunit;
 public class IntegrationTestBase : IAsyncLifetime
 {
     protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 1;
+    protected const long TENANT_ID = 777;
 
     private NpgsqlConnection _dbConnection = null!;
 
