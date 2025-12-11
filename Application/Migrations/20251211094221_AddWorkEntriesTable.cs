@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Application.Migrations
 {
     /// <inheritdoc />
-    public partial class AddWorkEntries : Migration
+    public partial class AddWorkEntriesTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace Application.Migrations
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     employee_id = table.Column<long>(type: "bigint", nullable: false),
                     start_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     end_time = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
