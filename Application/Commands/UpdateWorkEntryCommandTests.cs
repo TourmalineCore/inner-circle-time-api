@@ -1,9 +1,10 @@
+using Application.TestsConfig;
 using Core.Entities;
 using Xunit;
 
 namespace Application.Commands;
 
-[Trait("Type", "Integration")]
+[IntegrationTest]
 public class UpdateWorkEntryCommandTests : IntegrationTestBase
 {
     [Fact]

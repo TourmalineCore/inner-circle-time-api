@@ -1,10 +1,11 @@
+using Application.TestsConfig;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Application.Commands;
 
-[Trait("Type", "Integration")]
+[IntegrationTest]
 public class CreateWorkEntryCommandTests : IntegrationTestBase
 {
     [Fact]

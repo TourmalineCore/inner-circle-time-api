@@ -1,10 +1,11 @@
-﻿using Core.Entities;
+﻿using Application.TestsConfig;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Application.Commands;
 
-[Trait("Type", "Unit")]
+[UnitTest]
 public class HardDeleteEntityCommandTests
 {
     private readonly HardDeleteEntityCommand _command;

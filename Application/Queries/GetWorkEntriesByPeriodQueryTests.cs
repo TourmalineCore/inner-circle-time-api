@@ -1,10 +1,11 @@
-﻿using Core.Entities;
+﻿using Application.TestsConfig;
+using Core.Entities;
 using Moq;
 using Xunit;
 
 namespace Application.Queries;
 
-[Trait("Type", "Unit")]
+[UnitTest]
 public class GetWorkEntriesByPeriodQueryTests
 {
     private const long EMPLOYEE_ID = 1;
