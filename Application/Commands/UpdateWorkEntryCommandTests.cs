@@ -10,15 +10,12 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
     [Fact]
     public async Task UpdateWorkEntryAsync_ShouldUpdateWorkEntryDataInDb()
     {
-        const long WORK_ENTRY_ID = 1;
-
         var context = CreateTenantDbContext();
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        await SaveEntityAsync(context, new WorkEntry
+        var newWorkEntryId = await SaveEntityAsync(context, new WorkEntry
         {
-            Id = WORK_ENTRY_ID,
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -29,7 +26,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
         var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
         {
-            Id = WORK_ENTRY_ID,
+            Id = newWorkEntryId,
             Title = "Task 2",
             StartTime = new DateTime(2025, 11, 25, 8, 0, 0),
             EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
@@ -41,7 +38,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
         await updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams);
 
-        var updatedWorkEntry = await FindEntityAsync<WorkEntry>(context, WORK_ENTRY_ID);
+        var updatedWorkEntry = await FindEntityAsync<WorkEntry>(context, newWorkEntryId);
 
         Assert.NotNull(updatedWorkEntry);
         Assert.Equal(updateWorkEntryCommandParams.Title, updatedWorkEntry.Title);

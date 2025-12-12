@@ -20,24 +20,21 @@ public class HardDeleteEntityCommandTests
     [Fact]
     public async Task DeleteExistingEntityTwice_ShouldDeleteEntityFromDbSetAndDoNotThrowAtSecondTime()
     {
-        await _context.AddEntityAndSaveAsync(new WorkEntry
-        {
-            Id = 1
-        });
+        var newWorkEntryId = await _context.AddEntityAndSaveAsync(new WorkEntry());
 
-        var wasDeleted = await _command.ExecuteAsync<WorkEntry>(1);
+        var wasDeleted = await _command.ExecuteAsync<WorkEntry>(newWorkEntryId);
 
-        var workEntryDoesNotExist = await _context
+        var deletedWorkEntry = await _context
             .WorkEntries
-            .AllAsync(x => x.Id != 1);
+            .SingleOrDefaultAsync(x => x.Id != newWorkEntryId);
 
         Assert.True(wasDeleted);
-        Assert.True(workEntryDoesNotExist);
+        Assert.Null(deletedWorkEntry);
 
         var wasDeletedAgain = true;
 
         // try to delete again
-        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync<WorkEntry>(1)));
+        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync<WorkEntry>(newWorkEntryId)));
         Assert.False(wasDeletedAgain);
     }
 

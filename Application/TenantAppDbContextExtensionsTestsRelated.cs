@@ -28,7 +28,7 @@ internal static class TenantAppDbContextExtensionsTestsRelated
         );
     }
 
-    public async static Task AddEntityAndSaveAsync<TEntity>(
+    public async static Task<long> AddEntityAndSaveAsync<TEntity>(
         this TenantAppDbContext context,
         TEntity newEntity
     )
@@ -41,5 +41,7 @@ internal static class TenantAppDbContextExtensionsTestsRelated
             .AddAsync(newEntity);
 
         await context.SaveChangesAsync();
+
+        return newEntity.Id;
     }
 }

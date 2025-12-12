@@ -79,7 +79,7 @@ public class IntegrationTestBase : IAsyncLifetime
         );
     }
 
-    protected async Task SaveEntityAsync<TEntity>(
+    protected async Task<long> SaveEntityAsync<TEntity>(
         TenantAppDbContext context,
         TEntity newEntity
     )
@@ -92,6 +92,8 @@ public class IntegrationTestBase : IAsyncLifetime
             .AddAsync(newEntity);
 
         await context.SaveChangesAsync();
+
+        return newEntity.Id;
     }
 
     protected async Task<TEntity?> FindEntityAsync<TEntity>(
