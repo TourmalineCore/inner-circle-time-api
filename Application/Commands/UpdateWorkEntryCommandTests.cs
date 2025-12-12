@@ -8,7 +8,7 @@ namespace Application.Commands;
 public class UpdateWorkEntryCommandTests : IntegrationTestBase
 {
     [Fact]
-    public async Task UpdateWorkEntryAsync_ShouldUpdateWorkEntryDataInDbSet()
+    public async Task UpdateWorkEntryAsync_ShouldUpdateWorkEntryDataInDb()
     {
         const long WORK_ENTRY_ID = 1;
 

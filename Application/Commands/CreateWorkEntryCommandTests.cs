@@ -9,7 +9,7 @@ namespace Application.Commands;
 public class CreateWorkEntryCommandTests : IntegrationTestBase
 {
     [Fact]
-    public async Task CreateWorkEntryAsync_ShouldAddNewWorkEntryToDbSet()
+    public async Task CreateWorkEntryAsync_ShouldSaveNewWorkEntryToDb()
     {
         var context = CreateTenantDbContext();
 
