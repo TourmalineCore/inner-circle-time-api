@@ -25,6 +25,7 @@ public class GetWorkEntriesByPeriodQuery
         return _context
             .QueryableWithinTenantAsNoTracking<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
+            .Where(x => x.IsDeleted == false)
             .Where(x => x.StartTime >= startTime && x.EndTime <= endTime)
             .ToListAsync();
     }
