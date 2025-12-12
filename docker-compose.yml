@@ -5,6 +5,7 @@ services:
     container_name: inner-circle-time-api-db
     profiles:
       - DbOnly
+      - DbOnlyWithoutPgAdmin
       - MockForDevelopment
       - MockForTests
       - MockForPullRequest
@@ -125,7 +126,7 @@ services:
       AUTH_PASSWORD_WITHOUT_PERMISSIONS: "first-tenant-password-without-permissions"
       # here the port is 1080 because it needs to be an internal port, not an external which is 8507 in this case
       AUTH_API_ROOT_URL: "http://inner-circle-time-api-mock-server:1080/api/auth"
-      API_ROOT_URL: "http://inner-circle-time-api/api"
+      API_ROOT_URL: "http://inner-circle-time-api/api/time"
       SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES: "true"
     networks:
       - inner-circle-time-api-network

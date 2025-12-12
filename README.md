@@ -1,9 +1,10 @@
 # inner-circle-time-api
 
 <!-- auto-generated -->
-[![coverage](https://img.shields.io/badge/e2e_coverage-70.59%25-yellow)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/units_coverage-0.00%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/full_coverage-70.59%25-yellow)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/e2e_coverage-49.73%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/units_coverage-27.61%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/integration_coverage-59.20%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/full_coverage-98.35%25-forestgreen)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
 This repo contains Inner Circle Time API.
@@ -39,6 +40,20 @@ dotnet run --project ./Api
 To run xUnit unit and integrational tests execute the following script in Terminal:
 ```cli
 dotnet test --verbosity detailed
+```
+
+### Run Only Unit Tests
+
+To run xUnit unit tests execute the following script in Terminal:
+```cli
+dotnet test --verbosity detailed --filter "Type=Unit"
+```
+
+### Run Only Integrational Tests
+
+To run xUnit integrational tests execute the following script in Terminal:
+```cli
+dotnet test --verbosity detailed --filter "Type=Integration"
 ```
 
 ### Run E2E Tests
@@ -86,18 +101,4 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 
 ## Database Schema
 
->Note: Even though here it is PascalCase and singular table name instead of plural (e.g. it should be Items, not Item) in reality it is snake_case for both table names and column names. It seems like the used plugin doesn't support that. For now it looks ok-ish.
-
-<!--- SIREN_START -->
-```mermaid
-	erDiagram
-	%%{init: {'theme':'neutral'}}%%
-	Item {
-		bigint Id PK
-	}
-	ItemType {
-		bigint Id PK
-	}
-Item}o--||ItemType : ""
-```
-<!--- SIREN_END -->
+You can see db diagram [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/2025-11-20-backend-strategy.md#db-diagram)

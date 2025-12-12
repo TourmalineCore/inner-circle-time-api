@@ -1,4 +1,7 @@
-﻿using Application;
+﻿using Api.Features.Tracking.CreateWorkEntry;
+using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.UpdateWorkEntry;
+using Application;
 using Application.Commands;
 using Application.Queries;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +25,14 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString);
         });
 
-        services.AddTransient<Command>();
-        services.AddTransient<Query>();
+        services.AddScoped<TenantAppDbContext>();
+
+        services.AddTransient<CreateWorkEntryHandler>();
+        services.AddTransient<CreateWorkEntryCommand>();
+        services.AddTransient<GetWorkEntriesByPeriodHandler>();
+        services.AddTransient<GetWorkEntriesByPeriodQuery>();
+        services.AddTransient<UpdateWorkEntryHandler>();
+        services.AddTransient<UpdateWorkEntryCommand>();
+        services.AddTransient<HardDeleteEntityCommand>();
     }
 }

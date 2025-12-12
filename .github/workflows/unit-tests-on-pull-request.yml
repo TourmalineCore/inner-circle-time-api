@@ -24,4 +24,4 @@ jobs:
         run: dotnet build --property:TreatWarningsAsErrors=true
 
       - name: Run unit-tests
-        run: dotnet test  
+        run: dotnet test --filter "Type=Unit"
