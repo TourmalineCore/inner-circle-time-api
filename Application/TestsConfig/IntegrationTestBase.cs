@@ -94,7 +94,7 @@ public class IntegrationTestBase : IAsyncLifetime
         await context.SaveChangesAsync();
     }
 
-    protected async Task<TEntity> FindEntityAsync<TEntity>(
+    protected async Task<TEntity?> FindEntityAsync<TEntity>(
         TenantAppDbContext context,
         long id
     )
