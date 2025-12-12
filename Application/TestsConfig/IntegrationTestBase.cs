@@ -102,7 +102,8 @@ public class IntegrationTestBase : IAsyncLifetime
     {
         return await context
             .Set<TEntity>()
-            .FindAsync(id);
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     protected IClaimsProvider GetMockClaimsProvider()

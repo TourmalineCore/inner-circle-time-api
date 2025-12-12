@@ -34,22 +34,16 @@ public class UpdateWorkEntryCommand
 
     public async Task ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
     {
-        var workEntry = await _context
+        await _context
             .QueryableWithinTenant<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == updateWorkEntryCommandParams.Id)
-            .SingleAsync();
-
-        workEntry.Title = updateWorkEntryCommandParams.Title;
-        workEntry.StartTime = updateWorkEntryCommandParams.StartTime;
-        workEntry.EndTime = updateWorkEntryCommandParams.EndTime;
-        workEntry.TaskId = updateWorkEntryCommandParams.TaskId;
-        workEntry.Type = updateWorkEntryCommandParams.Type;
-
-        _context
-            .WorkEntries
-            .Update(workEntry);
-
-        await _context.SaveChangesAsync();
+            .ExecuteUpdateAsync(setters => setters
+                .SetProperty(x => x.Title, updateWorkEntryCommandParams.Title)
+                .SetProperty(x => x.StartTime, updateWorkEntryCommandParams.StartTime)
+                .SetProperty(x => x.EndTime, updateWorkEntryCommandParams.EndTime)
+                .SetProperty(x => x.TaskId, updateWorkEntryCommandParams.TaskId)
+                .SetProperty(x => x.Type, updateWorkEntryCommandParams.Type)
+            );
     }
 }
