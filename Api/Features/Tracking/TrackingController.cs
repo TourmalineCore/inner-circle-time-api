@@ -30,8 +30,8 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost]
     public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
-        [FromServices] CreateWorkEntryHandler createWorkEntryHandler,
-        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest
+        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
+        [FromServices] CreateWorkEntryHandler createWorkEntryHandler
     )
     {
         return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
@@ -41,9 +41,9 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("{workEntryId}")]
     public Task UpdateWorkEntryAsync(
-        [FromRoute] long workEntryId,
-        [FromServices] UpdateWorkEntryHandler updateWorkEntryHandler,
-        [Required][FromBody] UpdateWorkEntryRequest updateWorkEntryRequest
+        [Required][FromRoute] long workEntryId,
+        [Required][FromBody] UpdateWorkEntryRequest updateWorkEntryRequest,
+        [FromServices] UpdateWorkEntryHandler updateWorkEntryHandler
     )
     {
         return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
@@ -53,8 +53,8 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed)]
     [HttpDelete("{workEntryId}/hard-delete")]
     public async Task<object> HardDeleteWorkEntryAsync(
-        [FromServices] HardDeleteWorkEntryCommand hardDeleteWorkEntryCommand,
-        [Required][FromRoute] long workEntryId
+        [Required][FromRoute] long workEntryId,
+        [FromServices] HardDeleteWorkEntryCommand hardDeleteWorkEntryCommand
     )
     {
         return new
