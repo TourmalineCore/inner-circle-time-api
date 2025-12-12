@@ -3,6 +3,7 @@ using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
+using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -54,12 +55,12 @@ public class TrackingController : ControllerBase
     [HttpDelete("{workEntryId}/hard-delete")]
     public async Task<object> HardDeleteWorkEntryAsync(
         [Required][FromRoute] long workEntryId,
-        [FromServices] HardDeleteWorkEntryCommand hardDeleteWorkEntryCommand
+        [FromServices] HardDeleteEntityCommand hardDeleteEntityCommand
     )
     {
         return new
         {
-            isDeleted = await hardDeleteWorkEntryCommand.ExecuteAsync(workEntryId)
+            isDeleted = await hardDeleteEntityCommand.ExecuteAsync<WorkEntry>(workEntryId)
         };
     }
 }
