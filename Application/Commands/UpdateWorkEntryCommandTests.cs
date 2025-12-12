@@ -14,7 +14,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var newWorkEntryId = await SaveEntityAsync(context, new WorkEntry
+        var workEntry = await SaveEntityAsync(context, new WorkEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -26,7 +26,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
         var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
         {
-            Id = newWorkEntryId,
+            Id = workEntry.Id,
             Title = "Task 2",
             StartTime = new DateTime(2025, 11, 25, 8, 0, 0),
             EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
@@ -38,7 +38,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
         await updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams);
 
-        var updatedWorkEntry = await FindEntityAsync<WorkEntry>(context, newWorkEntryId);
+        var updatedWorkEntry = await FindEntityAsync<WorkEntry>(context, workEntry.Id);
 
         Assert.NotNull(updatedWorkEntry);
         Assert.Equal(updateWorkEntryCommandParams.Title, updatedWorkEntry.Title);
