@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Features.Tracking.Dtos;
 
-public class WorkEntryDto
+public abstract class WorkEntryDto
 {
     [Required]
     public required string Title { get; set; }
