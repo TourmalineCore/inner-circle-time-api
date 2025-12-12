@@ -44,15 +44,12 @@ public class HardDeleteEntityCommandTests
     [Fact]
     public async Task DeleteNonExistingEntity_ShouldNotThrowException()
     {
-        await _context.AddEntityAndSaveAsync(new WorkEntry
-        {
-            Id = 1
-        });
-
         var wasNonExistedDeleted = true;
 
-        // try to delete a non-existent item
-        Assert.Null(await Record.ExceptionAsync(async () => wasNonExistedDeleted = await _command.ExecuteAsync<WorkEntry>(2)));
+        const long NON_EXISTING_ID = -1;
+
+        // try to delete a non-existing item
+        Assert.Null(await Record.ExceptionAsync(async () => wasNonExistedDeleted = await _command.ExecuteAsync<WorkEntry>(NON_EXISTING_ID)));
         Assert.False(wasNonExistedDeleted);
     }
 }
