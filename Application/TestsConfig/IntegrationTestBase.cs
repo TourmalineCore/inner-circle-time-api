@@ -1,4 +1,5 @@
 using Application;
+using Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
@@ -76,6 +77,32 @@ public class IntegrationTestBase : IAsyncLifetime
             _dbContextOptions,
             GetMockClaimsProvider()
         );
+    }
+
+    protected async Task SaveEntityAsync<TEntity>(
+        TenantAppDbContext context,
+        TEntity newEntity
+    )
+        where TEntity : EntityBase
+    {
+        newEntity.TenantId = TENANT_ID;
+
+        await context
+            .Set<TEntity>()
+            .AddAsync(newEntity);
+
+        await context.SaveChangesAsync();
+    }
+
+    protected async Task<TEntity> FindEntityAsync<TEntity>(
+        TenantAppDbContext context,
+        long id
+    )
+        where TEntity : EntityBase
+    {
+        return await context
+            .Set<TEntity>()
+            .FindAsync(id);
     }
 
     protected IClaimsProvider GetMockClaimsProvider()

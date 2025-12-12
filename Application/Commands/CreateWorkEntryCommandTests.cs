@@ -28,9 +28,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         var newWorkEntryId = await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams);
 
-        var newWorkEntry = await context
-            .WorkEntries
-            .FindAsync(newWorkEntryId);
+        var newWorkEntry = await FindEntityAsync<WorkEntry>(context, newWorkEntryId);
 
         Assert.NotNull(newWorkEntry);
         Assert.Equal(createWorkEntryCommandParams.Title, newWorkEntry.Title);
