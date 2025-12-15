@@ -30,6 +30,7 @@ public class GetWorkEntriesByPeriodQueryTests
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
             TaskId = "#2231",
+            Description = "Task description",
             Type = EventType.Task
         };
 
@@ -41,6 +42,7 @@ public class GetWorkEntriesByPeriodQueryTests
             StartTime = new DateTime(2025, 11, 27, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
             TaskId = "#2232",
+            Description = "Task description",
             Type = EventType.Task
         };
 
@@ -52,6 +54,7 @@ public class GetWorkEntriesByPeriodQueryTests
             StartTime = new DateTime(2025, 10, 27, 9, 0, 0),
             EndTime = new DateTime(2025, 10, 27, 10, 0, 0),
             TaskId = "#2233",
+            Description = "Task description",
             Type = EventType.Task
         };
 

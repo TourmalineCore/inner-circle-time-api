@@ -34,6 +34,7 @@ public class GetWorkEntriesByPeriodHandler
                         StartTime = workEntry.StartTime,
                         EndTime = workEntry.EndTime,
                         TaskId = workEntry.TaskId,
+                        Description = workEntry.Description,
                     }
                 )
                 .ToList()

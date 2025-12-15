@@ -12,6 +12,8 @@ public class CreateWorkEntryCommandParams
 
     public string? TaskId { get; set; }
 
+    public required string Description { get; set; }
+
     public required EventType Type { get; set; }
 }
 
@@ -39,6 +41,7 @@ public class CreateWorkEntryCommand
             StartTime = createWorkEntryCommandParams.StartTime,
             EndTime = createWorkEntryCommandParams.EndTime,
             TaskId = createWorkEntryCommandParams.TaskId,
+            Description = createWorkEntryCommandParams.Description,
             Type = createWorkEntryCommandParams.Type,
         };
 

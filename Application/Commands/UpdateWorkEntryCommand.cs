@@ -15,6 +15,8 @@ public class UpdateWorkEntryCommandParams
 
     public string? TaskId { get; set; }
 
+    public required string Description { get; set; }
+
     public required EventType Type { get; set; }
 }
 
@@ -43,6 +45,7 @@ public class UpdateWorkEntryCommand
                 .SetProperty(x => x.StartTime, updateWorkEntryCommandParams.StartTime)
                 .SetProperty(x => x.EndTime, updateWorkEntryCommandParams.EndTime)
                 .SetProperty(x => x.TaskId, updateWorkEntryCommandParams.TaskId)
+                .SetProperty(x => x.Description, updateWorkEntryCommandParams.Description)
                 .SetProperty(x => x.Type, updateWorkEntryCommandParams.Type)
             );
     }

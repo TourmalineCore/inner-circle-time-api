@@ -16,4 +16,6 @@ public class WorkEntryItem
     public DateTime EndTime { get; set; }
 
     public string? TaskId { get; set; }
+
+    public required string Description { get; set; }
 }

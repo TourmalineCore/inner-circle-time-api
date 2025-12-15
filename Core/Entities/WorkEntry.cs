@@ -28,8 +28,7 @@ public class WorkEntry : EntityBase
 
     public string? TaskId { get; set; }
 
-    // TODO: make it required when we add this prop to frontend
-    public string? Description { get; set; }
+    public string Description { get; set; }
 
     public bool IsDeleted { get; set; } = false;
 }
