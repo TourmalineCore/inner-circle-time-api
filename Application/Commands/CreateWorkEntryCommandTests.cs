@@ -23,6 +23,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
             TaskId = "#2231",
+            Description = "Task description",
             Type = EventType.Task
         };
 
@@ -38,6 +39,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
         Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
         Assert.Equal(createWorkEntryCommandParams.Type, newWorkEntry.Type);
+        Assert.Equal(createWorkEntryCommandParams.Description, newWorkEntry.Description);
         Assert.Equal(createWorkEntryCommandParams.EndTime - createWorkEntryCommandParams.StartTime, newWorkEntry.Duration);
     }
 
@@ -56,6 +58,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
             TaskId = "#2231",
+            Description = "Task description",
             Type = EventType.Unspecified
         };
 

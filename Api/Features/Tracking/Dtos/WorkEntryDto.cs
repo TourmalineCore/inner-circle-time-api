@@ -13,5 +13,9 @@ public abstract class WorkEntryDto
     [Required]
     public required DateTime EndTime { get; set; }
 
-    public string? TaskId { get; set; }
+    [Required]
+    public required string TaskId { get; set; }
+
+    [Required]
+    public required string Description { get; set; }
 }

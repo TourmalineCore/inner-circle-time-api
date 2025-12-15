@@ -35,6 +35,7 @@ Feature: Work Entries
     * def startTime = '2025-11-05T14:00:00'
     * def endTime = '2025-11-05T16:00:00'
     * def taskId = '#2233'
+    * def description = 'Task description'
     
     Given url apiRootUrl
     Given path 'tracking/work-entries'
@@ -45,6 +46,7 @@ Feature: Work Entries
         "startTime": "#(startTime)",
         "endTime": "#(endTime)", 
         "taskId": "#(taskId)",
+        "description": "#(description)",
     }
     """
     When method POST
@@ -57,6 +59,7 @@ Feature: Work Entries
     * def newStartTime = '2025-11-06T11:00:00'
     * def newEndTime = '2025-11-06T12:00:00'
     * def newTaskId = '#2235'
+    * def newDescription = 'New task description'
     
     Given path 'tracking/work-entries', newWorkEntryId
     And request
@@ -66,6 +69,7 @@ Feature: Work Entries
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)", 
         "taskId": "#(newTaskId)",
+        "description": "#(newDescription)",
     }
     """
     When method POST
@@ -83,6 +87,7 @@ Feature: Work Entries
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
         "taskId": "#(newTaskId)",
+        "description": "#(newDescription)",
     }
     """
 
