@@ -10,7 +10,7 @@ public class CreateWorkEntryCommandParams
 
     public required DateTime EndTime { get; set; }
 
-    public string? TaskId { get; set; }
+    public required string TaskId { get; set; }
 
     public required string Description { get; set; }
 
