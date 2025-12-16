@@ -19,12 +19,12 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet]
     public Task<GetWorkEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
-        [Required][FromQuery] DateTime startTime,
-        [Required][FromQuery] DateTime endTime,
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate,
         [FromServices] GetWorkEntriesByPeriodHandler getWorkEntriesByPeriodHandler
     )
     {
-        return getWorkEntriesByPeriodHandler.HandleAsync(startTime, endTime);
+        return getWorkEntriesByPeriodHandler.HandleAsync(startDate, endDate);
     }
 
     [EndpointSummary("Create a work entry")]

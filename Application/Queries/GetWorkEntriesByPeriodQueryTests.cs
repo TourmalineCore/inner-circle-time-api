@@ -64,8 +64,8 @@ public class GetWorkEntriesByPeriodQueryTests
 
         var result = await getWorkEntriesByPeriodQuery
             .GetByPeriodAsync(
-                new DateTime(2025, 11, 24, 0, 0, 0),
-                new DateTime(2025, 11, 27, 23, 59, 59)
+                new DateOnly(2025, 11, 24),
+                new DateOnly(2025, 11, 27)
             );
 
         Assert.NotNull(result);

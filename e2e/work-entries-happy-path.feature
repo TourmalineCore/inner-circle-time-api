@@ -77,7 +77,7 @@ Feature: Work Entries
 
     # Verify updated work entry data
     Given path 'tracking/work-entries'
-    And params { startTime: "2025-11-06T00:00:00", endTime: "2025-11-06T23:59:59" }
+    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
     When method GET
     And match response.workEntries contains
     """
@@ -99,7 +99,7 @@ Feature: Work Entries
 
     # Cleanup Verification: Verify that work entry was deleted
     Given path 'tracking/work-entries'
-    And params { startTime: "2025-11-06T00:00:00", endTime: "2025-11-06T23:59:59" }
+    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
     When method GET
     Then status 200
     And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
