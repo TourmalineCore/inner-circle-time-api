@@ -18,15 +18,15 @@ public class GetWorkEntriesByPeriodQuery
     }
 
     public Task<List<WorkEntry>> GetByPeriodAsync(
-        DateTime startTime,
-        DateTime endTime
+        DateOnly startDate,
+        DateOnly endDate
     )
     {
         return _context
             .QueryableWithinTenantAsNoTracking<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.IsDeleted == false)
-            .Where(x => x.StartTime >= startTime && x.EndTime <= endTime)
+            .Where(x => x.StartTime >= startDate.ToDateTime(TimeOnly.MinValue) && x.EndTime <= endDate.ToDateTime(TimeOnly.MaxValue))
             .ToListAsync();
     }
 }

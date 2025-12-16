@@ -14,13 +14,13 @@ public class GetWorkEntriesByPeriodHandler
     }
 
     public async Task<GetWorkEntriesByPeriodResponse> HandleAsync(
-        DateTime startTime,
-        DateTime endTime
+        DateOnly startDate,
+        DateOnly endDate
     )
     {
         var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync(
-            startTime,
-            endTime
+            startDate,
+            endDate
         );
 
         return new GetWorkEntriesByPeriodResponse
