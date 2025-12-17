@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
 
-
 namespace Api;
 
 public class Program
