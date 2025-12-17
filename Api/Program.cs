@@ -24,6 +24,7 @@ public class Program
                 if (context.Description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
                 {
                     // Set the operationId to the ControllerName and ActionName (which is typically the method name)
+                    // This allows to have unique operationId even if there is the same method name across multiple controllers
                     operation.OperationId = $"{controllerActionDescriptor.ControllerName}{controllerActionDescriptor.ActionName}";
                 }
 
