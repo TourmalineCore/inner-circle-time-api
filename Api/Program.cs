@@ -1,4 +1,6 @@
+using Api.Configurations;
 using Application;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
@@ -19,11 +21,15 @@ public class Program
 
         builder.Services.AddApplication(configuration);
 
+        ValidationConfiguration.ConfigureValidation(builder.Services, builder.Environment);
+
         var authenticationOptions = configuration.GetSection(nameof(AuthenticationOptions)).Get<AuthenticationOptions>();
         builder.Services.Configure<AuthenticationOptions>(configuration.GetSection(nameof(AuthenticationOptions)));
         builder.Services.AddJwtAuthentication(authenticationOptions).WithUserClaimsProvider<UserClaimsProvider>(UserClaimsProvider.PermissionClaimType);
 
         var app = builder.Build();
+
+        app.UseProblemDetails();
 
         app.MapOpenApi("api/swagger/openapi/v1.json");
 
