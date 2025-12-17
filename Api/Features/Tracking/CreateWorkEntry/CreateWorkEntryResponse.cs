@@ -2,6 +2,6 @@ namespace Api.Features.Tracking.CreateWorkEntry;
 
 public class CreateWorkEntryResponse
 {
-    public long NewWorkEntryId { get; set; }
+    public required long NewWorkEntryId { get; set; }
 }
 
