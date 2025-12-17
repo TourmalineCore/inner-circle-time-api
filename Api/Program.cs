@@ -1,8 +1,9 @@
 using Application;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
-using Microsoft.AspNetCore.Mvc.Controllers;
+
 
 namespace Api;
 
