@@ -1,6 +1,6 @@
-using Api.Configurations;
 using Application;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
@@ -36,7 +36,28 @@ public class Program
 
         builder.Services.AddApplication(configuration);
 
-        ValidationConfiguration.ConfigureValidation(builder.Services, builder.Environment);
+        builder.Services.AddProblemDetails(options =>
+        {
+            options.IncludeExceptionDetails = (ctx, ex) => builder.Environment.IsDevelopment();
+        });
+
+        builder.Services.AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Type = "https://example.com/validation-error",
+                        Title = "Validation error",
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = "Fill in all the fields",
+                        Instance = context.HttpContext.Request.Path
+                    };
+
+                    throw new ProblemDetailsException(problemDetails);
+                };
+            });
 
         var authenticationOptions = configuration.GetSection(nameof(AuthenticationOptions)).Get<AuthenticationOptions>();
         builder.Services.Configure<AuthenticationOptions>(configuration.GetSection(nameof(AuthenticationOptions)));
