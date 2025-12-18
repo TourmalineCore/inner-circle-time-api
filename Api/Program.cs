@@ -48,7 +48,6 @@ public class Program
                 {
                     var problemDetails = new ValidationProblemDetails(context.ModelState)
                     {
-                        Type = "https://example.com/validation-error",
                         Title = "Validation error",
                         Status = StatusCodes.Status400BadRequest,
                         Detail = "Fill in all the fields",
