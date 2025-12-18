@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-public class HttpClientTest : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
+public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
 {
     protected const long EMPLOYEE_ID = 1;
     protected const long TENANT_ID = 777;
@@ -17,7 +17,7 @@ public class HttpClientTest : IClassFixture<WebApplicationFactory<Program>>, IAs
     protected HttpClient HttpClient = null!;
     private WebApplicationFactory<Program> _factory = null!;
 
-    public HttpClientTest(WebApplicationFactory<Program> factory)
+    public HttpClientTestBase(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
@@ -29,13 +29,18 @@ public class HttpClientTest : IClassFixture<WebApplicationFactory<Program>>, IAs
             builder.ConfigureTestServices(services =>
             {
                 // Replacing the authentication service with a fake
-                services.AddAuthentication("Test")
+                services
+                    .AddAuthentication("Test")
                     .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>("Test", options => { });
 
                 // Add fake mockClaimsProbider
                 var mockClaimsProvider = new Mock<IClaimsProvider>();
-                mockClaimsProvider.Setup(x => x.EmployeeId).Returns(EMPLOYEE_ID);
-                mockClaimsProvider.Setup(x => x.TenantId).Returns(TENANT_ID);
+                mockClaimsProvider
+                    .Setup(x => x.EmployeeId)
+                    .Returns(EMPLOYEE_ID);
+                mockClaimsProvider
+                    .Setup(x => x.TenantId)
+                    .Returns(TENANT_ID);
 
                 services.AddScoped(_ => mockClaimsProvider.Object);
             });
@@ -53,8 +58,11 @@ public class HttpClientTest : IClassFixture<WebApplicationFactory<Program>>, IAs
 
 public class FakeAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    public FakeAuthHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
-        ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
+    public FakeAuthHandler(
+        IOptionsMonitor<AuthenticationSchemeOptions> options,
+        ILoggerFactory logger,
+        UrlEncoder encoder
+    ) : base(options, logger, encoder)
     {
     }
 

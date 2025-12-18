@@ -8,9 +8,9 @@ using Xunit;
 namespace Api.Features.Tracking;
 
 [IntegrationTest]
-public class TrackingControllerValidationTests : HttpClientTest
+public class TrackingControllerTests : HttpClientTestBase
 {
-    public TrackingControllerValidationTests(WebApplicationFactory<Program> factory) : base(factory)
+    public TrackingControllerTests(WebApplicationFactory<Program> factory) : base(factory)
     {
     }
 
