@@ -1,3 +1,4 @@
+using Api.Features.Tracking.CreateWorkEntry;
 using Application.Commands;
 using Application.TestsConfig;
 using Core.Entities;
@@ -17,17 +18,16 @@ public class TrackingControllerTests : HttpClientTestBase
     [Fact]
     public async Task CreateWorkEntryAsync_ShouldThrowValidationErrorIfAtLeastOneOfRequiredFieldsIsEmpty()
     {
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        var createWorkEntryRequest = new CreateWorkEntryRequest
         {
             Title = "",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
             TaskId = "#2231",
             Description = "Task description",
-            Type = EventType.Task
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/api/time/tracking/work-entries", createWorkEntryCommandParams);
+        var response = await HttpClient.PostAsJsonAsync("/api/time/tracking/work-entries", createWorkEntryRequest);
 
         Assert.NotNull(response);
         Assert.Equal(StatusCodes.Status400BadRequest, (int)response.StatusCode);
