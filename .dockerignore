@@ -33,6 +33,7 @@ README.md
 **/*Tests.cs
 **/*TestsRelated.cs
 **/TestsConfig/**
+**/HttpClientTest/**
 
 **/bin/*
 **/obj/*
