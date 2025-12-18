@@ -1,13 +1,13 @@
-using Api;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
-using Microsoft.Extensions.Options;
 using System.Text.Encodings.Web;
-using Xunit;
-using Microsoft.AspNetCore.TestHost;
+using Api;
 using Application;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Options;
 using Moq;
+using Xunit;
 
 public class HttpClientTest : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
 {
