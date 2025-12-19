@@ -39,6 +39,16 @@ public class Program
         builder.Services.AddProblemDetails(options =>
         {
             options.IncludeExceptionDetails = (ctx, ex) => builder.Environment.IsDevelopment();
+
+            options.Map<InvalidTimeRangeException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Invalid time range",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
         });
 
         builder.Services.AddControllers()
