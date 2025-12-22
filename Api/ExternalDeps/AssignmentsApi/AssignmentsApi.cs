@@ -10,9 +10,9 @@ public class AssignmentsApi
 
     // for now it is implemented as a mock but later it will be an internal request to assignments-api
     // notes for future:
-    // method will return projects by date for specific employee
+    // method will return employee projects by date
     // we will extract token inside method and pass it to assignments-api by which that api will understand which employee we should return the projects for
-    public async Task<ProjectsResponse> GetProjectsByDateForSpecificEmployeeAsync(DateOnly date)
+    public async Task<ProjectsResponse> GetEmployeeProjectsAsync(DateOnly date)
     {
         return new ProjectsResponse
         {
