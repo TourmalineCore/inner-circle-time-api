@@ -83,12 +83,12 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
             Type = EventType.Task
         };
 
-        InvalidTimeRangeException ex = await Assert.ThrowsAsync<InvalidTimeRangeException>(
+        var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
             async () => await updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", ex.InnerException?.Message);
-        Assert.Equal("End time must be greater than start time", ex.Message);
+        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", exception.InnerException?.Message);
+        Assert.Equal("End time must be greater than start time", exception.Message);
     }
 
     [Fact]
@@ -133,11 +133,11 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
             Type = EventType.Task
         };
 
-        ConflictingTimeRangeException ex = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
+        var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
             async () => await updateWorkEntryCommand.ExecuteAsync(updateEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_no_time_overlap", ex.InnerException?.Message);
-        Assert.Equal("The time conflicts with the time of another task", ex.Message);
+        Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException?.Message);
+        Assert.Equal("The time conflicts with the time of another task", exception.Message);
     }
 }
