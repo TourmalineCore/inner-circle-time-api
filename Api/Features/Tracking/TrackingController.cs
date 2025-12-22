@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Api.ExternalDeps.AssignmentsApi;
+using Api.ExternalDeps.AssignmentsApi.Responses;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
@@ -48,6 +50,17 @@ public class TrackingController : ControllerBase
     )
     {
         return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
+    }
+
+    [EndpointSummary("Get projects by date for specific employee")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("projects")]
+    public Task<ProjectsResponse> GetProjectsAsync(
+        [Required][FromQuery] DateOnly date,
+        [FromServices] AssignmentsApi assignmentsApi
+    )
+    {
+        return assignmentsApi.GetProjectsByDateForSpecificEmployeeAsync(date);
     }
 
     [EndpointSummary("Deletes specific work entry")]
