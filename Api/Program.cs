@@ -49,6 +49,16 @@ public class Program
                     Detail = ex.Message,
                 };
             });
+
+            options.Map<ConflictingTimeRangeException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Conflicting time range",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
         });
 
         builder.Services.AddControllers()

@@ -90,4 +90,54 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
         Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", ex.InnerException?.Message);
         Assert.Equal("End time must be greater than start time", ex.Message);
     }
+
+    [Fact]
+    public async Task UpdateWorkEntryAsync_ShouldThrowConflictingTimeRangeExceptionIfTimeConflictsWithAnotherTask()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = GetMockClaimsProvider();
+
+        var workEntry1 = await SaveEntityAsync(context, new WorkEntry
+        {
+            EmployeeId = EMPLOYEE_ID,
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            TaskId = "#2231",
+            Description = "Task description",
+            Type = EventType.Task
+        });
+
+        var workEntry2 = await SaveEntityAsync(context, new WorkEntry
+        {
+            EmployeeId = EMPLOYEE_ID,
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 12, 0, 0),
+            TaskId = "#2231",
+            Description = "Task description",
+            Type = EventType.Task
+        });
+
+        var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider);
+
+        var updateEntryCommandParams = new UpdateWorkEntryCommandParams
+        {
+            Id = workEntry1.Id,
+            Title = "Task 2",
+            StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 12, 0, 0),
+            TaskId = "#2232",
+            Description = "Task description",
+            Type = EventType.Task
+        };
+
+        ConflictingTimeRangeException ex = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
+            async () => await updateWorkEntryCommand.ExecuteAsync(updateEntryCommandParams)
+        );
+
+        Assert.Contains("ck_work_entries_no_time_overlap", ex.InnerException?.Message);
+        Assert.Equal("The time conflicts with the time of another task", ex.Message);
+    }
 }
