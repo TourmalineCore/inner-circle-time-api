@@ -23,6 +23,7 @@ public class CreateWorkEntryHandler
             Title = createWorkEntryRequest.Title,
             StartTime = createWorkEntryRequest.StartTime,
             EndTime = createWorkEntryRequest.EndTime,
+            ProjectId = createWorkEntryRequest.ProjectId,
             TaskId = createWorkEntryRequest.TaskId,
             Description = createWorkEntryRequest.Description,
             Type = EventType.Task, // TODO: after add other event types remove hardcode

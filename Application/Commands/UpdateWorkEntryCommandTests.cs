@@ -20,6 +20,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            ProjectId = 1,
             TaskId = "#2231",
             Description = "Task description",
             Type = EventType.Task
@@ -31,6 +32,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
             Title = "Task 2",
             StartTime = new DateTime(2025, 11, 25, 8, 0, 0),
             EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
+            ProjectId = 1,
             TaskId = "#22",
             Description = "Task description",
             Type = EventType.Task
@@ -44,6 +46,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
         Assert.NotNull(updatedWorkEntry);
         Assert.Equal(updateWorkEntryCommandParams.Title, updatedWorkEntry.Title);
+        Assert.Equal(updateWorkEntryCommandParams.ProjectId, updatedWorkEntry.ProjectId);
         Assert.Equal(updateWorkEntryCommandParams.TaskId, updatedWorkEntry.TaskId);
         Assert.Equal(updateWorkEntryCommandParams.StartTime, updatedWorkEntry.StartTime);
         Assert.Equal(updateWorkEntryCommandParams.EndTime, updatedWorkEntry.EndTime);
