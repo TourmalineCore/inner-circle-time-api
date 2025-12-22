@@ -108,17 +108,20 @@ public class IntegrationTestBase : IAsyncLifetime
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    protected IClaimsProvider GetMockClaimsProvider()
+    protected IClaimsProvider GetMockClaimsProvider(
+        long? employeeId = null,
+        long? tenantId = null
+    )
     {
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
         mockClaimsProvider
             .Setup(cp => cp.EmployeeId)
-            .Returns(EMPLOYEE_ID);
+            .Returns(employeeId ?? EMPLOYEE_ID);
 
         mockClaimsProvider
             .Setup(cp => cp.TenantId)
-            .Returns(TENANT_ID);
+            .Returns(tenantId ?? TENANT_ID);
 
         return mockClaimsProvider.Object;
     }
