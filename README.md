@@ -1,10 +1,10 @@
 # inner-circle-time-api
 
 <!-- auto-generated -->
-[![coverage](https://img.shields.io/badge/e2e_coverage-17.75%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/units_coverage-19.12%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/integration_coverage-66.97%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/full_coverage-86.64%25-olivedrab)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/e2e_coverage-39.09%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/units_coverage-19.00%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/integration_coverage-66.55%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/full_coverage-95.27%25-forestgreen)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
 This repo contains Inner Circle Time API.
