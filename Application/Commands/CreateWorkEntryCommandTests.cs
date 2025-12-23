@@ -15,7 +15,9 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+        var mockAssignmentsApi = GetMockAssignmentsApi();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
@@ -52,7 +54,9 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+        var mockAssignmentsApi = GetMockAssignmentsApi();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
@@ -70,5 +74,34 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
         );
 
         Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException?.Message);
+    }
+
+    [Fact]
+    public async Task CreateWorkEntryAsync_ShouldThrowErrorIfProjectIsNotExist()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = GetMockClaimsProvider();
+
+        var mockAssignmentsApi = GetMockAssignmentsApi();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
+
+        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        {
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            ProjectId = 999999,
+            TaskId = "#2231",
+            Description = "Task description",
+            Type = EventType.Unspecified
+        };
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>(
+            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
+        );
+
+        Assert.Contains("This project doesn't exist", exception.Message);
     }
 }

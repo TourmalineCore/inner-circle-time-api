@@ -54,7 +54,7 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Get employee projects by date")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("projects")]
-    public Task<ProjectsResponse> GetEmployeeProjectsAsync(
+    public ProjectsResponse GetEmployeeProjectsAsync(
         [Required][FromQuery] DateOnly date,
         [FromServices] IAssignmentsApi assignmentsApi
     )

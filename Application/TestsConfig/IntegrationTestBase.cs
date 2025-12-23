@@ -1,4 +1,5 @@
 using Application;
+using Application.ExternalDeps.AssignmentsApi;
 using Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -121,5 +122,19 @@ public class IntegrationTestBase : IAsyncLifetime
             .Returns(TENANT_ID);
 
         return mockClaimsProvider.Object;
+    }
+
+    protected IAssignmentsApi GetMockAssignmentsApi()
+    {
+        var mockAssignmentsApi = new Mock<IAssignmentsApi>();
+
+        mockAssignmentsApi
+            .Setup(api => api.FindEmployeeProjectAsync(It.IsAny<long>()))
+            .Returns((long projectId) =>
+            {
+                return ProjectsMock.ProjectsMockData.Projects.Find(x => x.Id == projectId);
+            });
+
+        return mockAssignmentsApi.Object;
     }
 }
