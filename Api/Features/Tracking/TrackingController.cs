@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using Api.ExternalDeps.AssignmentsApi;
-using Api.ExternalDeps.AssignmentsApi.Responses;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
+using Application.ExternalDeps.AssignmentsApi;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +56,7 @@ public class TrackingController : ControllerBase
     [HttpGet("projects")]
     public Task<ProjectsResponse> GetEmployeeProjectsAsync(
         [Required][FromQuery] DateOnly date,
-        [FromServices] AssignmentsApi assignmentsApi
+        [FromServices] IAssignmentsApi assignmentsApi
     )
     {
         return assignmentsApi.GetEmployeeProjectsAsync(date);

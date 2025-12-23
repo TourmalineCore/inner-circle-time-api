@@ -1,8 +1,8 @@
-using Api.ExternalDeps.AssignmentsApi.Responses;
+using Application.ExternalDeps.AssignmentsApi;
 
 namespace Api.ExternalDeps.AssignmentsApi;
 
-public class AssignmentsApi
+internal class AssignmentsApi : IAssignmentsApi
 {
     public AssignmentsApi()
     {

@@ -1,4 +1,4 @@
-namespace Api.ExternalDeps.AssignmentsApi.Responses;
+namespace Application.ExternalDeps.AssignmentsApi;
 
 public class ProjectsResponse
 {
