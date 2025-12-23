@@ -30,6 +30,20 @@ Feature: Work Entries
 
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
+    # Get employee's projects
+    Given url apiRootUrl
+    Given path 'tracking/work-entries/projects'
+    And params { date: "2025-11-06" }
+    When method GET
+    Then status 200
+    And match response.projects contains
+    """
+    {
+        "id": 4,
+        "name": "Inner Circle"
+    }
+    """
+
     # Create a new work entry
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
     * def startTime = '2025-11-05T14:00:00'
