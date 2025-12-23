@@ -44,7 +44,8 @@ Feature: Work Entries
     {
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
-        "endTime": "#(endTime)", 
+        "endTime": "#(endTime)",
+        "projectId": 1, 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -67,7 +68,8 @@ Feature: Work Entries
     {
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
-        "endTime": "#(newEndTime)", 
+        "endTime": "#(newEndTime)",
+        "projectId": 4, 
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
@@ -86,6 +88,7 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
+        "projectName": "Inner Circle",
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
