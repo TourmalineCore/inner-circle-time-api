@@ -46,7 +46,7 @@ public class UpdateWorkEntryCommand
 
         if (project == null)
         {
-            throw new ArgumentException("This project doesn't exist");
+            throw new ArgumentException("This project doesn't exist or is not available");
         }
 
         await _context

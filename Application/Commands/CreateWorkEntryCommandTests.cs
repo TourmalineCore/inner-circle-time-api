@@ -102,6 +102,6 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
         );
 
-        Assert.Contains("This project doesn't exist", exception.Message);
+        Assert.Contains("This project doesn't exist or is not available", exception.Message);
     }
 }
