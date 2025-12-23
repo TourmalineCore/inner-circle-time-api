@@ -43,7 +43,7 @@ public class CreateWorkEntryCommand
 
         if (project == null)
         {
-            throw new ArgumentException("This project doesn't exist");
+            throw new ArgumentException("This project doesn't exist or is not available");
         }
 
         var workEntry = new WorkEntry
