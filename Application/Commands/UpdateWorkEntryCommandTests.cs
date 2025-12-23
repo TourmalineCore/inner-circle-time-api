@@ -59,7 +59,7 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
 
 
     [Fact]
-    public async Task UpdateWorkEntryAsync_ShouldThrowErrorIfProjectIsNotExist()
+    public async Task UpdateWorkEntryAsync_ShouldThrowErrorIfProjectDoesNotExist()
     {
         var context = CreateTenantDbContext();
 
