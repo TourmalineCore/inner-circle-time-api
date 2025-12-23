@@ -102,7 +102,11 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "projectName": "Inner Circle",
+        "project":
+        {
+            id: 4,
+            name: "Inner Circle"
+        },
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }

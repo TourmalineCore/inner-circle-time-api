@@ -1,3 +1,5 @@
+using Application.ExternalDeps.AssignmentsApi;
+
 namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
 
 public class GetWorkEntriesByPeriodResponse
@@ -15,7 +17,7 @@ public class WorkEntryItem
 
     public required DateTime EndTime { get; set; }
 
-    public required string ProjectName { get; set; }
+    public required Project Project { get; set; }
 
     public required string TaskId { get; set; }
 
