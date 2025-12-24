@@ -7,15 +7,11 @@ public class GetWorkEntriesByPeriodHandler
 {
     private readonly GetWorkEntriesByPeriodQuery _getWorkEntriesByPeriodQuery;
 
-    private readonly IAssignmentsApi _assignmentsApi;
-
     public GetWorkEntriesByPeriodHandler(
-        GetWorkEntriesByPeriodQuery getWorkEntriesByPeriodQuery,
-        IAssignmentsApi assignmentsApi
+        GetWorkEntriesByPeriodQuery getWorkEntriesByPeriodQuery
     )
     {
         _getWorkEntriesByPeriodQuery = getWorkEntriesByPeriodQuery;
-        _assignmentsApi = assignmentsApi;
     }
 
     public async Task<GetWorkEntriesByPeriodResponse> HandleAsync(
@@ -32,20 +28,17 @@ public class GetWorkEntriesByPeriodHandler
         {
             WorkEntries = workEntriesByPeriod
                 .Select(workEntry =>
-                {
-                    var project = _assignmentsApi.FindEmployeeProjectAsync(workEntry.ProjectId);
-
-                    return new WorkEntryItem
+                    new WorkEntryItem
                     {
                         Id = workEntry.Id,
                         Title = workEntry.Title,
                         StartTime = workEntry.StartTime,
                         EndTime = workEntry.EndTime,
-                        Project = project!,
+                        ProjectId = workEntry.ProjectId,
                         TaskId = workEntry.TaskId,
                         Description = workEntry.Description,
-                    };
-                })
+                    }
+                )
                 .ToList()
         };
     }

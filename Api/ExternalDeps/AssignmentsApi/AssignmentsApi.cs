@@ -12,13 +12,16 @@ internal class AssignmentsApi : IAssignmentsApi
     // notes for future:
     // method will return employee projects by date
     // we will extract token inside method and pass it to assignments-api by which that api will understand which employee we should return the projects for
-    public Task<ProjectsResponse> GetEmployeeProjectsAsync(DateOnly date)
+    public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
+        DateOnly startDate,
+        DateOnly endDate
+    )
     {
-        return Task.FromResult(ProjectsMock.ProjectsMockData);
+        return await Task.FromResult(ProjectsMock.ProjectsMockData);
     }
 
-    public Task<Project?> FindEmployeeProjectAsync(long projectId)
+    public async Task<Project?> FindEmployeeProjectAsync(long projectId)
     {
-        return Task.FromResult(ProjectsMock.ProjectsMockData.Projects.Find(x => x.Id == projectId));
+        return await Task.FromResult(ProjectsMock.ProjectsMockData.Projects.Find(x => x.Id == projectId));
     }
 }

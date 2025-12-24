@@ -51,15 +51,16 @@ public class TrackingController : ControllerBase
         return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
     }
 
-    [EndpointSummary("Get employee projects by date")]
+    [EndpointSummary("Get employee projects by period")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("projects")]
-    public Task<ProjectsResponse> GetEmployeeProjectsAsync(
-        [Required][FromQuery] DateOnly date,
+    public Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate,
         [FromServices] IAssignmentsApi assignmentsApi
     )
     {
-        return assignmentsApi.GetEmployeeProjectsAsync(date);
+        return assignmentsApi.GetEmployeeProjectsByPeriodAsync(startDate, endDate);
     }
 
     [EndpointSummary("Deletes specific work entry")]
