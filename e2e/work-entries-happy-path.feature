@@ -33,7 +33,7 @@ Feature: Work Entries
     # Get employee's projects
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
-    And params { date: "2025-11-06" }
+    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
     When method GET
     Then status 200
     And match response.projects contains
