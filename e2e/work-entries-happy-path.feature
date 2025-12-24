@@ -60,7 +60,7 @@ Feature: Work Entries
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
-        "projectId": projectId, 
+        "projectId": #(projectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -85,7 +85,7 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "projectId": newProjectId, 
+        "projectId": #(newProjectId), 
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
@@ -104,7 +104,7 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "projectId": newProjectId,
+        "projectId": #(newProjectId),
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
