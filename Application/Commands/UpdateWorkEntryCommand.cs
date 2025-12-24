@@ -27,28 +27,18 @@ public class UpdateWorkEntryCommand
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
-    private readonly IAssignmentsApi _assignmentsApi;
 
     public UpdateWorkEntryCommand(
         TenantAppDbContext context,
-        IClaimsProvider claimsProvider,
-        IAssignmentsApi assignmentsApi
+        IClaimsProvider claimsProvider
     )
     {
         _context = context;
         _claimsProvider = claimsProvider;
-        _assignmentsApi = assignmentsApi;
     }
 
     public async Task ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
     {
-        var project = _assignmentsApi.FindEmployeeProjectAsync(updateWorkEntryCommandParams.ProjectId);
-
-        if (project == null)
-        {
-            throw new ArgumentException("This project doesn't exist or is not available");
-        }
-
         await _context
             .QueryableWithinTenant<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)

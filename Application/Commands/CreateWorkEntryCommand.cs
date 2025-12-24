@@ -1,5 +1,4 @@
-﻿using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
+﻿using Core.Entities;
 
 namespace Application.Commands;
 
@@ -24,28 +23,18 @@ public class CreateWorkEntryCommand
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
-    private readonly IAssignmentsApi _assignmentsApi;
 
     public CreateWorkEntryCommand(
         TenantAppDbContext context,
-        IClaimsProvider claimsProvider,
-        IAssignmentsApi assignmentsApi
+        IClaimsProvider claimsProvider
     )
     {
         _context = context;
         _claimsProvider = claimsProvider;
-        _assignmentsApi = assignmentsApi;
     }
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        var project = _assignmentsApi.FindEmployeeProjectAsync(createWorkEntryCommandParams.ProjectId);
-
-        if (project == null)
-        {
-            throw new ArgumentException("This project doesn't exist or is not available");
-        }
-
         var workEntry = new WorkEntry
         {
             TenantId = _claimsProvider.TenantId,
