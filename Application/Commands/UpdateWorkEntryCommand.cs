@@ -42,7 +42,7 @@ public class UpdateWorkEntryCommand
 
     public async Task ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
     {
-        var project = _assignmentsApi.FindEmployeeProjectAsync(updateWorkEntryCommandParams.ProjectId);
+        var project = await _assignmentsApi.FindEmployeeProjectAsync(updateWorkEntryCommandParams.ProjectId);
 
         if (project == null)
         {

@@ -130,7 +130,7 @@ public class IntegrationTestBase : IAsyncLifetime
 
         mockAssignmentsApi
             .Setup(api => api.FindEmployeeProjectAsync(It.IsAny<long>()))
-            .Returns((long projectId) =>
+            .ReturnsAsync((long projectId) =>
             {
                 return ProjectsMock.ProjectsMockData.Projects.Find(x => x.Id == projectId);
             });

@@ -39,7 +39,7 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        var project = _assignmentsApi.FindEmployeeProjectAsync(createWorkEntryCommandParams.ProjectId);
+        var project = await _assignmentsApi.FindEmployeeProjectAsync(createWorkEntryCommandParams.ProjectId);
 
         if (project == null)
         {

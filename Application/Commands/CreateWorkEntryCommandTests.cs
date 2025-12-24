@@ -77,7 +77,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
     }
 
     [Fact]
-    public async Task CreateWorkEntryAsync_ShouldThrowErrorIfProjectIsNotExist()
+    public async Task CreateWorkEntryAsync_ShouldThrowErrorIfProjectDoesNotExist()
     {
         var context = CreateTenantDbContext();
 
@@ -95,7 +95,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             ProjectId = 999999,
             TaskId = "#2231",
             Description = "Task description",
-            Type = EventType.Unspecified
+            Type = EventType.Task
         };
 
         var exception = await Assert.ThrowsAsync<ArgumentException>(
