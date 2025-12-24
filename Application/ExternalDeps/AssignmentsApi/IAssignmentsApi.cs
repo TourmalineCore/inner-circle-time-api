@@ -2,7 +2,7 @@ namespace Application.ExternalDeps.AssignmentsApi;
 
 public interface IAssignmentsApi
 {
-    ProjectsResponse GetEmployeeProjectsAsync(DateOnly date);
+    Task<ProjectsResponse> GetEmployeeProjectsAsync(DateOnly date);
 
-    Project? FindEmployeeProjectAsync(long projectId);
+    Task<Project?> FindEmployeeProjectAsync(long projectId);
 }
