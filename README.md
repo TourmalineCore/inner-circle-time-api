@@ -101,4 +101,6 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 
 ## Database Schema
 
-You can see db diagram [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/2025-11-20-backend-strategy.md#db-diagram)
+<!--- SIREN_START -->
+
+<!--- SIREN_END -->

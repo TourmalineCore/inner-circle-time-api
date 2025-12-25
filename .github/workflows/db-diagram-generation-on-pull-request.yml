@@ -1,46 +1,50 @@
-# # main part of the workflow was taken from https://github.com/gman-au/not-again/blob/master/.github/workflows/siren-gen.yml
-# name: DB Diagram Generation
+# main part of the workflow was taken from https://github.com/gman-au/not-again/blob/master/.github/workflows/siren-gen.yml
+name: DB Diagram Generation
 
-# on:
-#   pull_request:
-#     types: [opened, synchronize, reopened]
-#     # need to execute only when migrations changed
-#     paths:
-#       - '**/Migrations/**'
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    # need to execute only when migrations changed
+    paths:
+      - '**/Migrations/**'
 
-# jobs:
-#   db-diagram-generation:
-#     runs-on: ubuntu-24.04
-#     steps:
-#     - name: Check out the repo
-#       uses: actions/checkout@v4
+jobs:
+  db-diagram-generation:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
 
-#     - name: Setup .NET
-#       uses: actions/setup-dotnet@v4
-#       with:
-#         dotnet-version: 9.0.x
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
     
-#     - name: Install siren-gen tool
-#       run: dotnet tool install -g Gman.Siren --version 9.0.3
+    - name: Install siren-gen tool
+      run: dotnet tool install -g Gman.Siren --version 9.0.3
 
-#     - name: Restore application dependencies
-#       run: dotnet restore 
+    - name: Restore application dependencies
+      run: dotnet restore 
 
-#     - name: Build application
-#       run: dotnet build
+    - name: Build application
+      run: dotnet build
 
-#     - name: Create output folder
-#       run: mkdir ./output
+    - name: Create output folder
+      run: mkdir ./output
 
-#     - name: Consolidate packages (including symbols)
-#       run: find . -name "*.dll" -type f -exec cp {} ./output \;
+    - name: Consolidate packages (including symbols)
+      run: find . -name "*.dll" -type f -exec cp {} ./output \;
 
-#     - name: Run siren-gen on ModelSnapshot
-#       run: siren-gen --outputPath "README.md" --assemblyPath "./output/Application.dll" --markdownAnchor "## Database Schema"
+    - name: Run siren-gen on ModelSnapshot
+      run: siren-gen --outputPath "README.md" --assemblyPath "./output/Application.dll" --markdownAnchor "## Database Schema"
 
-#     - name: Commit README
-#       run: |
-#         git config user.email "contact@tourmalinecore.com"
-#         git config user.name "Workflow Action"
-#         git commit README.md -m "docs: Update Mermaid DB Schema Diagram in README.md (siren-gen)" || echo "No changes to commit"
-#         git push origin || echo "No changes to commit"
+    - name: Commit README
+      run: |
+        git config user.email "contact@tourmalinecore.com"
+        git config user.name "Workflow Action"
+        
+        git commit README.md -m "docs(readme): Update Mermaid DB Schema Diagram in README.md (siren-gen)" || echo "No changes to commit"
+        
+        git pull --rebase origin $GITHUB_HEAD_REF
+
+        git push origin HEAD:$GITHUB_HEAD_REF || echo "No changes to commit"
