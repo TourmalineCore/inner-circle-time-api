@@ -1,7 +1,7 @@
 # inner-circle-time-api
 
 <!-- auto-generated -->
-[![coverage](https://img.shields.io/badge/e2e_coverage-42.99%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/e2e_coverage-10%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/units_coverage-23.56%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/integration_coverage-61.61%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 [![coverage](https://img.shields.io/badge/full_coverage-95.29%25-forestgreen)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
@@ -102,22 +102,5 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 ## Database Schema
 
 <!--- SIREN_START -->
-```mermaid
-	erDiagram
-	%%{init: {'theme':'neutral'}}%%
-	WorkEntry {
-		bigint Id PK
-		text Description 
-		interval Duration 
-		bigint EmployeeId 
-		timestampwithouttimezone EndTime 
-		boolean IsDeleted 
-		timestampwithouttimezone StartTime 
-		text TaskId 
-		bigint TenantId 
-		text TimeZoneId 
-		text Title 
-		integer Type 
-	}
-```
+
 <!--- SIREN_END -->
