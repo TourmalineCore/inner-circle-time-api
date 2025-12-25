@@ -102,22 +102,5 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 ## Database Schema
 
 <!--- SIREN_START -->
-```mermaid
-	erDiagram
-	%%{init: {'theme':'neutral'}}%%
-	WorkEntry {
-		bigint Id PK
-		text Description 
-		interval Duration 
-		bigint EmployeeId 
-		timestampwithouttimezone EndTime 
-		boolean IsDeleted 
-		timestampwithouttimezone StartTime 
-		text TaskId 
-		bigint TenantId 
-		text TimeZoneId 
-		text Title 
-		integer Type 
-	}
-```
+
 <!--- SIREN_END -->
