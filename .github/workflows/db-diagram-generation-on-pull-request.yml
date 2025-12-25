@@ -45,6 +45,6 @@ jobs:
         
         git commit README.md -m "docs(readme): Update Mermaid DB Schema Diagram in README.md (siren-gen)" || echo "No changes to commit"
         
-        git pull --rebase origin $GITHUB_HEAD_REF
-
+        git fetch origin $GITHUB_HEAD_REF
+        git rebase origin/$GITHUB_HEAD_REF
         git push origin HEAD:$GITHUB_HEAD_REF || echo "No changes to commit"
