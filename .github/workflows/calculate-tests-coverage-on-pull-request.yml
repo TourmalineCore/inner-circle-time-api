@@ -143,6 +143,9 @@ jobs:
     steps:
     - name: Checkout Repository 
       uses: actions/checkout@v4
+      with:
+        # from AI: Without this ref in PRs, you're on a merge commit, and pushing back is ambiguous.
+        ref: ${{ github.head_ref }}
 
     - name: Download Units Coverage
       uses: actions/download-artifact@v5
@@ -302,6 +305,6 @@ jobs:
 
         git commit README.md -m "docs(readme): bring test coverage score up to date" || echo "No changes to commit"
         
-        git fetch origin $GITHUB_HEAD_REF
-        git rebase origin/$GITHUB_HEAD_REF
-        git push origin HEAD:$GITHUB_HEAD_REF || echo "No changes to commit"
+        git fetch origin ${{ github.head_ref }}
+        git rebase origin/${{ github.head_ref }}
+        git push origin HEAD:${{ github.head_ref }} || echo "No changes to commit"
