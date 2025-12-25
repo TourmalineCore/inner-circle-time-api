@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     # need to execute only when migrations changed
-    paths:
-      - '**/Migrations/**'
+    # paths:
+    #   - '**/Migrations/**'
 
 jobs:
   db-diagram-generation:
