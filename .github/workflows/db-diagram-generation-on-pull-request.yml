@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     # need to execute only when migrations changed
-    # paths:
-    #   - '**/Migrations/**'
+    paths:
+      - '**/Migrations/**'
 
 jobs:
   db-diagram-generation:
@@ -48,6 +48,8 @@ jobs:
         
         git commit README.md -m "docs(readme): Update Mermaid DB Schema Diagram in README.md (siren-gen)" || echo "No changes to commit"
         
+        # these fetch and rebase were needed to address an issue when there are 2 or more parallel jobs which modify README.md
+        # these jobs are doing it concurrently and there were a race condition, only the first modifier could push its changes
         git fetch origin ${{ github.head_ref }}
         git rebase origin/${{ github.head_ref }}
         git push origin HEAD:${{ github.head_ref }} || echo "No changes to commit"
