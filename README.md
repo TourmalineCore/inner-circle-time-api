@@ -101,4 +101,25 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 
 ## Database Schema
 
-You can see db diagram [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/2025-11-20-backend-strategy.md#db-diagram)
+>Note: Even though here it is PascalCase and singular table name instead of plural (e.g. it should be WorkEntries, not WorkEntry) in reality it is snake_case for both table names and column names. It seems like the used plugin doesn't support that. For now it looks ok-ish.
+
+<!--- SIREN_START -->
+```mermaid
+	erDiagram
+	%%{init: {'theme':'neutral'}}%%
+	WorkEntry {
+		bigint Id PK
+		text Description 
+		interval Duration 
+		bigint EmployeeId 
+		timestampwithouttimezone EndTime 
+		boolean IsDeleted 
+		timestampwithouttimezone StartTime 
+		text TaskId 
+		bigint TenantId 
+		text TimeZoneId 
+		text Title 
+		integer Type 
+	}
+```
+<!--- SIREN_END -->
