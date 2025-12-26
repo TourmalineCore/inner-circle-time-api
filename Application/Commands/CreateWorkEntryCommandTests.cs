@@ -15,13 +15,16 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+        var mockAssignmentsApi = GetMockAssignmentsApi();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            ProjectId = 1,
             TaskId = "#2231",
             Description = "Task description",
             Type = EventType.Task
@@ -35,6 +38,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
         Assert.Equal(createWorkEntryCommandParams.Title, newWorkEntry.Title);
         Assert.Equal(EMPLOYEE_ID, newWorkEntry.EmployeeId);
         Assert.Equal(TENANT_ID, newWorkEntry.TenantId);
+        Assert.Equal(createWorkEntryCommandParams.ProjectId, newWorkEntry.ProjectId);
         Assert.Equal(createWorkEntryCommandParams.TaskId, newWorkEntry.TaskId);
         Assert.Equal(createWorkEntryCommandParams.StartTime, newWorkEntry.StartTime);
         Assert.Equal(createWorkEntryCommandParams.EndTime, newWorkEntry.EndTime);
@@ -50,13 +54,16 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+        var mockAssignmentsApi = GetMockAssignmentsApi();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            ProjectId = 1,
             TaskId = "#2231",
             Description = "Task description",
             Type = EventType.Unspecified
@@ -67,5 +74,34 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
         );
 
         Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException?.Message);
+    }
+
+    [Fact]
+    public async Task CreateWorkEntryAsync_ShouldThrowErrorIfProjectDoesNotExist()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = GetMockClaimsProvider();
+
+        var mockAssignmentsApi = GetMockAssignmentsApi();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
+
+        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        {
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            ProjectId = 999999,
+            TaskId = "#2231",
+            Description = "Task description",
+            Type = EventType.Task
+        };
+
+        var exception = await Assert.ThrowsAsync<ArgumentException>(
+            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
+        );
+
+        Assert.Contains("This project doesn't exist or is not available", exception.Message);
     }
 }

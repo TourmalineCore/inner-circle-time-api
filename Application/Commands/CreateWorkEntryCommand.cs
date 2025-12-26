@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Application.ExternalDeps.AssignmentsApi;
+using Core.Entities;
 
 namespace Application.Commands;
 
@@ -9,6 +10,8 @@ public class CreateWorkEntryCommandParams
     public required DateTime StartTime { get; set; }
 
     public required DateTime EndTime { get; set; }
+
+    public required long ProjectId { get; set; }
 
     public required string TaskId { get; set; }
 
@@ -21,18 +24,28 @@ public class CreateWorkEntryCommand
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
+    private readonly IAssignmentsApi _assignmentsApi;
 
     public CreateWorkEntryCommand(
         TenantAppDbContext context,
-        IClaimsProvider claimsProvider
+        IClaimsProvider claimsProvider,
+        IAssignmentsApi assignmentsApi
     )
     {
         _context = context;
         _claimsProvider = claimsProvider;
+        _assignmentsApi = assignmentsApi;
     }
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
+        var project = await _assignmentsApi.FindEmployeeProjectAsync(createWorkEntryCommandParams.ProjectId);
+
+        if (project == null)
+        {
+            throw new ArgumentException("This project doesn't exist or is not available");
+        }
+
         var workEntry = new WorkEntry
         {
             TenantId = _claimsProvider.TenantId,
@@ -40,6 +53,7 @@ public class CreateWorkEntryCommand
             Title = createWorkEntryCommandParams.Title,
             StartTime = createWorkEntryCommandParams.StartTime,
             EndTime = createWorkEntryCommandParams.EndTime,
+            ProjectId = createWorkEntryCommandParams.ProjectId,
             TaskId = createWorkEntryCommandParams.TaskId,
             Description = createWorkEntryCommandParams.Description,
             Type = createWorkEntryCommandParams.Type,

@@ -26,6 +26,8 @@ public class WorkEntry : EntityBase
 
     public string Title { get; set; }
 
+    public long ProjectId { get; set; }
+
     public string TaskId { get; set; }
 
     public string Description { get; set; }

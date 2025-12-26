@@ -1,8 +1,10 @@
-﻿using Api.Features.Tracking.CreateWorkEntry;
+﻿using Api.ExternalDeps.AssignmentsApi;
+using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application;
 using Application.Commands;
+using Application.ExternalDeps.AssignmentsApi;
 using Application.Queries;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +18,10 @@ public static class DependencyInjection
     {
         // https://stackoverflow.com/a/37373557
         services.AddHttpContextAccessor();
-        services.AddScoped<IClaimsProvider, HttpContextClaimsProvider>();
+
+        services
+            .AddScoped<IClaimsProvider, HttpContextClaimsProvider>()
+            .AddScoped<IAssignmentsApi, AssignmentsApi>();
 
         var connectionString = configuration.GetConnectionString(DefaultConnection);
 
@@ -27,12 +32,13 @@ public static class DependencyInjection
 
         services.AddScoped<TenantAppDbContext>();
 
-        services.AddTransient<CreateWorkEntryHandler>();
-        services.AddTransient<CreateWorkEntryCommand>();
-        services.AddTransient<GetWorkEntriesByPeriodHandler>();
-        services.AddTransient<GetWorkEntriesByPeriodQuery>();
-        services.AddTransient<UpdateWorkEntryHandler>();
-        services.AddTransient<UpdateWorkEntryCommand>();
-        services.AddTransient<HardDeleteEntityCommand>();
+        services
+            .AddTransient<CreateWorkEntryHandler>()
+            .AddTransient<CreateWorkEntryCommand>()
+            .AddTransient<GetWorkEntriesByPeriodHandler>()
+            .AddTransient<GetWorkEntriesByPeriodQuery>()
+            .AddTransient<UpdateWorkEntryHandler>()
+            .AddTransient<UpdateWorkEntryCommand>()
+            .AddTransient<HardDeleteEntityCommand>();
     }
 }

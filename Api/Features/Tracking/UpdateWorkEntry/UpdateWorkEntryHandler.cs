@@ -25,6 +25,7 @@ public class UpdateWorkEntryHandler
             Title = updateEntryRequest.Title,
             StartTime = updateEntryRequest.StartTime,
             EndTime = updateEntryRequest.EndTime,
+            ProjectId = updateEntryRequest.ProjectId,
             TaskId = updateEntryRequest.TaskId,
             Description = updateEntryRequest.Description,
             Type = EventType.Task, // TODO: after add other event types remove hardcode
