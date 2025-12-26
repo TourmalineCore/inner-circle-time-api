@@ -101,6 +101,8 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 
 ## Database Schema
 
+>Note: Even though here it is PascalCase and singular table name instead of plural (e.g. it should be WorkEntries, not WorkEntry) in reality it is snake_case for both table names and column names. It seems like the used plugin doesn't support that. For now it looks ok-ish.
+
 <!--- SIREN_START -->
 ```mermaid
 	erDiagram
