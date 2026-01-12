@@ -25,22 +25,28 @@ public class AppDbContext : DbContext
 
         modelBuilder
             .Entity<WorkEntry>()
-            .Property(p => p.Duration)
+            .Property(entry => entry.Duration)
             .HasComputedColumnSql("end_time - start_time", stored: true);
 
         modelBuilder
             .Entity<WorkEntry>()
-            .Property(e => e.StartTime)
+            .Property(entry => entry.StartTime)
             .HasColumnType("timestamp without time zone");
 
         modelBuilder
             .Entity<WorkEntry>()
-            .Property(e => e.EndTime)
+            .Property(entry => entry.EndTime)
             .HasColumnType("timestamp without time zone");
 
         modelBuilder
             .Entity<WorkEntry>()
-            .ToTable(b => b.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
+            .ToTable(table => table.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
+
+        modelBuilder
+            .Entity<WorkEntry>()
+            .ToTable(table => table.HasCheckConstraint(
+                "ck_work_entries_end_time_is_greater_than_start_time",
+                "\"end_time\" > \"start_time\""));
 
         base.OnModelCreating(modelBuilder);
     }

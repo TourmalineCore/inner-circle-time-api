@@ -1,4 +1,6 @@
 ﻿using Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Application.Commands;
 
@@ -33,24 +35,35 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        var workEntry = new WorkEntry
+        try
         {
-            TenantId = _claimsProvider.TenantId,
-            EmployeeId = _claimsProvider.EmployeeId,
-            Title = createWorkEntryCommandParams.Title,
-            StartTime = createWorkEntryCommandParams.StartTime,
-            EndTime = createWorkEntryCommandParams.EndTime,
-            TaskId = createWorkEntryCommandParams.TaskId,
-            Description = createWorkEntryCommandParams.Description,
-            Type = createWorkEntryCommandParams.Type,
-        };
+            var workEntry = new WorkEntry
+            {
+                TenantId = _claimsProvider.TenantId,
+                EmployeeId = _claimsProvider.EmployeeId,
+                Title = createWorkEntryCommandParams.Title,
+                StartTime = createWorkEntryCommandParams.StartTime,
+                EndTime = createWorkEntryCommandParams.EndTime,
+                TaskId = createWorkEntryCommandParams.TaskId,
+                Description = createWorkEntryCommandParams.Description,
+                Type = createWorkEntryCommandParams.Type,
+            };
 
-        await _context
-            .WorkEntries
-            .AddAsync(workEntry);
+            await _context
+                .WorkEntries
+                .AddAsync(workEntry);
 
-        await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        return workEntry.Id;
+            return workEntry.Id;
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException pgEx &&
+               pgEx.ConstraintName == "ck_work_entries_end_time_is_greater_than_start_time")
+        {
+            throw new InvalidTimeRangeException(
+                "End time must be greater than start time",
+                ex
+            );
+        }
     }
 }
