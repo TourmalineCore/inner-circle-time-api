@@ -41,9 +41,10 @@ jobs:
             export KUBECONFIG=$(pwd)/.inner-circle-cluster-kubeconfig
 
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
-
-            sleep 10
           push: never
+
+      - name: Sleep 10s
+        run: sleep 10
 
       - name: Check out the repo
         uses: actions/checkout@v4
