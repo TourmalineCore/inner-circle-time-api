@@ -43,9 +43,6 @@ jobs:
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
           push: never
 
-      - name: Sleep 10s
-        run: sleep 10
-
       - name: Check out the repo
         uses: actions/checkout@v4
 
