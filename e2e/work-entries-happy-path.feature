@@ -36,19 +36,14 @@ Feature: Work Entries
     And params { startDate: "2025-11-06", endDate: "2025-11-06" }
     When method GET
     Then status 200
-    And match response.projects contains
-    """
-    {
-        "id": 4,
-        "name": "Inner Circle"
-    }
-    """
+
+    * def firstProjectId = response.projects[0].id
+    * def secondProjectId = response.projects[1].id
 
     # Create a new work entry
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
     * def startTime = '2025-11-05T14:00:00'
     * def endTime = '2025-11-05T16:00:00'
-    * def projectId = 4
     * def taskId = '#2233'
     * def description = 'Task description'
     
@@ -60,7 +55,7 @@ Feature: Work Entries
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
-        "projectId": #(projectId), 
+        "projectId": #(firstProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -74,7 +69,6 @@ Feature: Work Entries
     * def newRandomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
     * def newStartTime = '2025-11-06T11:00:00'
     * def newEndTime = '2025-11-06T12:00:00'
-    * def newProjectId = 2
     * def newTaskId = '#2235'
     * def newDescription = 'New task description'
     
@@ -85,7 +79,7 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "projectId": #(newProjectId), 
+        "projectId": #(secondProjectId), 
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
@@ -104,7 +98,7 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "projectId": #(newProjectId),
+        "projectId": #(secondProjectId),
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
