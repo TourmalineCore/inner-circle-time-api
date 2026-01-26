@@ -44,7 +44,7 @@ internal class AssignmentsApi : IAssignmentsApi
 
         if (project == null)
         {
-            throw new ArgumentException("This project doesn't exist or is not available");
+            throw new ArgumentException($"This project id was not found: {projectId}");
         }
 
         return project;

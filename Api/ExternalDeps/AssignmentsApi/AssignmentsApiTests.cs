@@ -17,6 +17,6 @@ public class AssignmentsApiTests
             async () => await assignmentsApi.GetEmployeeProjectAsync(nonExistingProjectId)
         );
 
-        Assert.Contains("This project doesn't exist or is not available", exception.Message);
+        Assert.Contains($"This project id was not found: {nonExistingProjectId}", exception.Message);
     }
 }
