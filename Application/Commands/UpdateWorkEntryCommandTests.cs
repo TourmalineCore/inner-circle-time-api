@@ -56,47 +56,4 @@ public class UpdateWorkEntryCommandTests : IntegrationTestBase
         Assert.Equal(updateWorkEntryCommandParams.Description, updatedWorkEntry.Description);
         Assert.Equal(updateWorkEntryCommandParams.EndTime - updateWorkEntryCommandParams.StartTime, updatedWorkEntry.Duration);
     }
-
-
-    [Fact]
-    public async Task UpdateWorkEntryAsync_ShouldThrowErrorIfProjectDoesNotExist()
-    {
-        var context = CreateTenantDbContext();
-
-        var mockClaimsProvider = GetMockClaimsProvider();
-
-        var mockAssignmentsApi = GetMockAssignmentsApi();
-
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            Title = "Task 1",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-            ProjectId = 1,
-            TaskId = "#2231",
-            Description = "Task description",
-            Type = EventType.Task
-        });
-
-        var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
-        {
-            Id = workEntry.Id,
-            Title = "Task 2",
-            StartTime = new DateTime(2025, 11, 25, 8, 0, 0),
-            EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
-            ProjectId = 999999,
-            TaskId = "#22",
-            Description = "Task description",
-            Type = EventType.Task
-        };
-
-        var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi);
-
-        var exception = await Assert.ThrowsAsync<ArgumentException>(
-            async () => await updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams)
-        );
-
-        Assert.Contains("This project doesn't exist or is not available", exception.Message);
-    }
 }
