@@ -123,26 +123,4 @@ public class IntegrationTestBase : IAsyncLifetime
 
         return mockClaimsProvider.Object;
     }
-
-    protected IAssignmentsApi GetMockAssignmentsApi()
-    {
-        var mockAssignmentsApi = new Mock<IAssignmentsApi>();
-        var projectsMock = new ProjectsResponse
-        {
-            Projects =
-        [
-            new Project { Id = 1, Name = "Test Project" },
-
-        ]
-        }; ;
-
-        mockAssignmentsApi
-            .Setup(api => api.GetEmployeeProjectAsync(It.IsAny<long>()))
-            .ReturnsAsync((long projectId) =>
-            {
-                return projectsMock.Projects.Find(x => x.Id == projectId);
-            });
-
-        return mockAssignmentsApi.Object;
-    }
 }
