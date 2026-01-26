@@ -22,7 +22,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
         mockAssignmentsApi.Setup(api => api.GetEmployeeProjectAsync(It.IsAny<long>()))
             .ReturnsAsync((long projectId) =>
             {
-                return new Project { Id = projectId, Name = "Test Project" };
+                return new ProjectDto { Id = projectId, Name = "Test Project" };
             });
 
         var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi.Object);
