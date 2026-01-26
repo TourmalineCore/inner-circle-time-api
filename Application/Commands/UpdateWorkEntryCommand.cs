@@ -42,12 +42,7 @@ public class UpdateWorkEntryCommand
 
     public async Task ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
     {
-        var project = await _assignmentsApi.FindEmployeeProjectAsync(updateWorkEntryCommandParams.ProjectId);
-
-        if (project == null)
-        {
-            throw new ArgumentException("This project doesn't exist or is not available");
-        }
+        var project = await _assignmentsApi.GetEmployeeProjectAsync(updateWorkEntryCommandParams.ProjectId);
 
         await _context
             .QueryableWithinTenant<WorkEntry>()
@@ -57,7 +52,7 @@ public class UpdateWorkEntryCommand
                 .SetProperty(x => x.Title, updateWorkEntryCommandParams.Title)
                 .SetProperty(x => x.StartTime, updateWorkEntryCommandParams.StartTime)
                 .SetProperty(x => x.EndTime, updateWorkEntryCommandParams.EndTime)
-                .SetProperty(x => x.ProjectId, updateWorkEntryCommandParams.ProjectId)
+                .SetProperty(x => x.ProjectId, project.Id)
                 .SetProperty(x => x.TaskId, updateWorkEntryCommandParams.TaskId)
                 .SetProperty(x => x.Description, updateWorkEntryCommandParams.Description)
                 .SetProperty(x => x.Type, updateWorkEntryCommandParams.Type)

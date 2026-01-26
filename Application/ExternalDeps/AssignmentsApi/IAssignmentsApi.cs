@@ -4,5 +4,5 @@ public interface IAssignmentsApi
 {
     Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(DateOnly startDate, DateOnly endDate);
 
-    Task<Project?> FindEmployeeProjectAsync(long projectId);
+    Task<Project> GetEmployeeProjectAsync(long projectId);
 }

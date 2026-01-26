@@ -127,12 +127,20 @@ public class IntegrationTestBase : IAsyncLifetime
     protected IAssignmentsApi GetMockAssignmentsApi()
     {
         var mockAssignmentsApi = new Mock<IAssignmentsApi>();
+        var projectsMock = new ProjectsResponse
+        {
+            Projects =
+        [
+            new Project { Id = 1, Name = "Test Project" },
+
+        ]
+        }; ;
 
         mockAssignmentsApi
-            .Setup(api => api.FindEmployeeProjectAsync(It.IsAny<long>()))
+            .Setup(api => api.GetEmployeeProjectAsync(It.IsAny<long>()))
             .ReturnsAsync((long projectId) =>
             {
-                return ProjectsMock.ProjectsMockData.Projects.Find(x => x.Id == projectId);
+                return projectsMock.Projects.Find(x => x.Id == projectId);
             });
 
         return mockAssignmentsApi.Object;

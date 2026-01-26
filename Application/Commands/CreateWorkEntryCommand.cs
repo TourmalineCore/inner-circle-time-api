@@ -39,12 +39,7 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        var project = await _assignmentsApi.FindEmployeeProjectAsync(createWorkEntryCommandParams.ProjectId);
-
-        if (project == null)
-        {
-            throw new ArgumentException("This project doesn't exist or is not available");
-        }
+        var project = await _assignmentsApi.GetEmployeeProjectAsync(createWorkEntryCommandParams.ProjectId);
 
         var workEntry = new WorkEntry
         {
@@ -53,7 +48,7 @@ public class CreateWorkEntryCommand
             Title = createWorkEntryCommandParams.Title,
             StartTime = createWorkEntryCommandParams.StartTime,
             EndTime = createWorkEntryCommandParams.EndTime,
-            ProjectId = createWorkEntryCommandParams.ProjectId,
+            ProjectId = project.Id,
             TaskId = createWorkEntryCommandParams.TaskId,
             Description = createWorkEntryCommandParams.Description,
             Type = createWorkEntryCommandParams.Type,
