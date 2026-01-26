@@ -1,7 +1,9 @@
+using Application.TestsConfig;
 using Xunit;
 
 namespace Api.ExternalDeps.AssignmentsApi;
 
+[UnitTest]
 public class AssignmentsApiTests
 {
 
