@@ -19,9 +19,8 @@ public static class DependencyInjection
         // https://stackoverflow.com/a/37373557
         services.AddHttpContextAccessor();
 
-        services
-            .AddScoped<IClaimsProvider, HttpContextClaimsProvider>()
-            .AddScoped<IAssignmentsApi, AssignmentsApi>();
+        services.AddScoped<IClaimsProvider, HttpContextClaimsProvider>();
+        services.AddScoped<IAssignmentsApi, AssignmentsApi>();
 
         var connectionString = configuration.GetConnectionString(DefaultConnection);
 
@@ -32,13 +31,12 @@ public static class DependencyInjection
 
         services.AddScoped<TenantAppDbContext>();
 
-        services
-            .AddTransient<CreateWorkEntryHandler>()
-            .AddTransient<CreateWorkEntryCommand>()
-            .AddTransient<GetWorkEntriesByPeriodHandler>()
-            .AddTransient<GetWorkEntriesByPeriodQuery>()
-            .AddTransient<UpdateWorkEntryHandler>()
-            .AddTransient<UpdateWorkEntryCommand>()
-            .AddTransient<HardDeleteEntityCommand>();
+        services.AddTransient<CreateWorkEntryHandler>();
+        services.AddTransient<CreateWorkEntryCommand>();
+        services.AddTransient<GetWorkEntriesByPeriodHandler>();
+        services.AddTransient<GetWorkEntriesByPeriodQuery>();
+        services.AddTransient<UpdateWorkEntryHandler>();
+        services.AddTransient<UpdateWorkEntryCommand>();
+        services.AddTransient<HardDeleteEntityCommand>();
     }
 }
