@@ -32,6 +32,6 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException?.Message);
+        Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException!.Message);
     }
 }
