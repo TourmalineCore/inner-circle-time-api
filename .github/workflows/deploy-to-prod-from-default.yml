@@ -19,6 +19,7 @@ jobs:
       - name: Deploy
         env: 
           # DB Connection String var is used as env to properly process spec symbols
+          # https://docs.github.com/ru/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets#example-using-bash
           INNER_CIRCLE_PROD_TIME_DB_CONNECTION_STRING: ${{ secrets.INNER_CIRCLE_PROD_TIME_DB_CONNECTION_STRING }}
         run: |
             helmfile cache cleanup && helmfile apply --suppress-diff --namespace "${{ secrets.INNER_CIRCLE_PROD_NAMESPACE }}" -f ci/helmfile.yaml \
