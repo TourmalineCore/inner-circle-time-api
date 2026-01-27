@@ -6,7 +6,6 @@ namespace Api.ExternalDeps.AssignmentsApi;
 [UnitTest]
 public class AssignmentsApiTests
 {
-
     [Fact]
     public async Task GetEmployeeProjectAsync_ShouldThrowErrorIfProjectDoesNotExist()
     {
