@@ -1,4 +1,3 @@
-using Application.ExternalDeps.AssignmentsApi;
 using Application.Queries;
 
 namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
