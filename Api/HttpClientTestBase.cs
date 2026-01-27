@@ -33,7 +33,7 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
                     .AddAuthentication("Test")
                     .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>("Test", options => { });
 
-                // Add fake mockClaimsProbider
+                // Add fake mockClaimsProvider
                 var mockClaimsProvider = new Mock<IClaimsProvider>();
                 mockClaimsProvider
                     .Setup(x => x.EmployeeId)

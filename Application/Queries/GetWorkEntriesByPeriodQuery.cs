@@ -17,12 +17,12 @@ public class GetWorkEntriesByPeriodQuery
         _claimsProvider = claimsProvider;
     }
 
-    public async Task<List<WorkEntry>> GetByPeriodAsync(
+    public Task<List<WorkEntry>> GetByPeriodAsync(
         DateOnly startDate,
         DateOnly endDate
     )
     {
-        return await _context
+        return _context
             .QueryableWithinTenantAsNoTracking<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.IsDeleted == false)

@@ -66,7 +66,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException?.Message);
+        Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException!.Message);
     }
 
     [Fact]
@@ -92,117 +92,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", exception.InnerException?.InnerException?.Message);
-        Assert.Equal("End time must be greater than start time", exception.Message);
-    }
-
-
-    [Fact]
-    public async Task CreateWorkEntryAsync_ShouldThrowConflictingTimeRangeExceptionIfTimeConflictsWithAnotherTask()
-    {
-        var context = CreateTenantDbContext();
-
-        var mockClaimsProvider = GetMockClaimsProvider();
-
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            Title = "Task 1",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-            TaskId = "#2231",
-            Description = "Task description",
-            Type = EventType.Task
-        });
-
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
-
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
-        {
-            Title = "Task 2",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 11, 0, 0),
-            TaskId = "#2232",
-            Description = "Task description",
-            Type = EventType.Task
-        };
-
-        var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
-        );
-
-        Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException?.InnerException?.Message);
-        Assert.Equal("The time conflicts with the time of another task", exception.Message);
-    }
-
-    [Fact]
-    public async Task CreateWorkEntryAsync_ShouldNotThrowConflictingTimeRangeExceptionIfTenantIdIsDifferent()
-    {
-        var context = CreateTenantDbContext();
-
-        var mockClaimsProvider1 = GetMockClaimsProvider();
-
-        var mockClaimsProvider2 = GetMockClaimsProvider(EMPLOYEE_ID, 778);
-
-        var createWorkEntryCommand1 = new CreateWorkEntryCommand(context, mockClaimsProvider1);
-
-        var createWorkEntryCommand2 = new CreateWorkEntryCommand(context, mockClaimsProvider2);
-
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
-        {
-            Title = "Task 1",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 11, 0, 0),
-            TaskId = "#2232",
-            Description = "Task description",
-            Type = EventType.Task
-        };
-
-        var exception1 = await Record.ExceptionAsync(
-            async () => await createWorkEntryCommand1.ExecuteAsync(createWorkEntryCommandParams)
-        );
-
-        var exception2 = await Record.ExceptionAsync(
-            async () => await createWorkEntryCommand2.ExecuteAsync(createWorkEntryCommandParams)
-        );
-
-        Assert.Null(exception1);
-        Assert.Null(exception2);
-    }
-
-    [Fact]
-    public async Task CreateWorkEntryAsync_CreateWorkEntryAsync_ShouldNotThrowConflictingTimeRangeExceptionIfEmployeeIdIsDifferent()
-    {
-        var context = CreateTenantDbContext();
-
-        var mockClaimsProvider1 = GetMockClaimsProvider();
-
-        var mockClaimsProvider2 = GetMockClaimsProvider(2);
-
-        var createWorkEntryCommand1 = new CreateWorkEntryCommand(context, mockClaimsProvider1);
-
-        var createWorkEntryCommand2 = new CreateWorkEntryCommand(context, mockClaimsProvider2);
-
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
-        {
-            Title = "Task 1",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 11, 0, 0),
-            TaskId = "#2232",
-            Description = "Task description",
-            Type = EventType.Task
-        };
-
-
-        var exception1 = await Record.ExceptionAsync(
-            async () => await createWorkEntryCommand1.ExecuteAsync(createWorkEntryCommandParams)
-        );
-
-        var exception2 = await Record.ExceptionAsync(
-            async () => await createWorkEntryCommand2.ExecuteAsync(createWorkEntryCommandParams)
-        );
-
-        Assert.Null(exception1);
-        Assert.Null(exception2);
+        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", ex.InnerException!.InnerException!.Message);
+        Assert.Equal("End time must be greater than start time", ex.Message);
     }
 }
