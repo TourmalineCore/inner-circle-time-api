@@ -92,7 +92,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", ex.InnerException!.InnerException!.Message);
-        Assert.Equal("End time must be greater than start time", ex.Message);
+        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
+        Assert.Equal("End time must be greater than start time", exception.Message);
     }
 }
