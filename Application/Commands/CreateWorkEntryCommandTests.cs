@@ -1,8 +1,6 @@
-using Application.ExternalDeps.AssignmentsApi;
 using Application.TestsConfig;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Xunit;
 
 namespace Application.Commands;
@@ -17,15 +15,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var mockAssignmentsApi = new Mock<IAssignmentsApi>();
-
-        mockAssignmentsApi.Setup(api => api.GetEmployeeProjectAsync(It.IsAny<long>()))
-            .ReturnsAsync((long projectId) =>
-            {
-                return new ProjectDto { Id = projectId, Name = "Test Project" };
-            });
-
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider, mockAssignmentsApi.Object);
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
 
         var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
         {

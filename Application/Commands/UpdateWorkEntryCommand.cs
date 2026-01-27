@@ -1,5 +1,4 @@
-﻿using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands;
@@ -27,23 +26,18 @@ public class UpdateWorkEntryCommand
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
-    private readonly IAssignmentsApi _assignmentsApi;
 
     public UpdateWorkEntryCommand(
         TenantAppDbContext context,
-        IClaimsProvider claimsProvider,
-        IAssignmentsApi assignmentsApi
+        IClaimsProvider claimsProvider
     )
     {
         _context = context;
         _claimsProvider = claimsProvider;
-        _assignmentsApi = assignmentsApi;
     }
 
     public async Task ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
     {
-        var project = await _assignmentsApi.GetEmployeeProjectAsync(updateWorkEntryCommandParams.ProjectId);
-
         await _context
             .QueryableWithinTenant<WorkEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
@@ -52,7 +46,7 @@ public class UpdateWorkEntryCommand
                 .SetProperty(x => x.Title, updateWorkEntryCommandParams.Title)
                 .SetProperty(x => x.StartTime, updateWorkEntryCommandParams.StartTime)
                 .SetProperty(x => x.EndTime, updateWorkEntryCommandParams.EndTime)
-                .SetProperty(x => x.ProjectId, project.Id)
+                .SetProperty(x => x.ProjectId, updateWorkEntryCommandParams.ProjectId)
                 .SetProperty(x => x.TaskId, updateWorkEntryCommandParams.TaskId)
                 .SetProperty(x => x.Description, updateWorkEntryCommandParams.Description)
                 .SetProperty(x => x.Type, updateWorkEntryCommandParams.Type)
