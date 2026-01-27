@@ -96,13 +96,13 @@ public class IntegrationTestBase : IAsyncLifetime
         return newEntity;
     }
 
-    protected async Task<TEntity?> FindEntityAsync<TEntity>(
+    protected Task<TEntity?> FindEntityAsync<TEntity>(
         TenantAppDbContext context,
         long id
     )
         where TEntity : EntityBase
     {
-        return await context
+        return context
             .Set<TEntity>()
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -113,11 +113,11 @@ public class IntegrationTestBase : IAsyncLifetime
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
         mockClaimsProvider
-            .Setup(cp => cp.EmployeeId)
+            .Setup(x => x.EmployeeId)
             .Returns(EMPLOYEE_ID);
 
         mockClaimsProvider
-            .Setup(cp => cp.TenantId)
+            .Setup(x => x.TenantId)
             .Returns(TENANT_ID);
 
         return mockClaimsProvider.Object;
