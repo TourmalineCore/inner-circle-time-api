@@ -27,7 +27,7 @@
     },
     "httpResponse": {
       "statusCode": 200,
-      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWwyQG1haWwucnUiLCJjb3Jwb3JhdGVFbWFpbCI6Im1haWwyQG1haWwucnUiLCJ0ZW5hbnRJZCI6IjIiLCJhY2NvdW50SWQiOiI0IiwiZW1wbG95ZWVJZCI6IjMiLCJwZXJtaXNzaW9ucyI6WyJBVVRPX1RFU1RTX09OTFlfSXNJdGVtVHlwZXNIYXJkRGVsZXRlQWxsb3dlZCIsIkNhbk1hbmFnZUl0ZW1zVHlwZXMiLCJDYW5WaWV3SXRlbXNUeXBlcyIsICJBVVRPX1RFU1RTX09OTFlfSXNJdGVtc0hhcmREZWxldGVBbGxvd2VkIiwgIkNhbk1hbmFnZUl0ZW1zIiwgIkNhblZpZXdJdGVtcyJdfQ==\" }}",
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWwyQG1haWwucnUiLCJjb3Jwb3JhdGVFbWFpbCI6Im1haWxAbWFpbC5ydSIsInRlbmFudElkIjoiMiIsImFjY291bnRJZCI6IjQiLCJlbXBsb3llZUlkIjoiMyIsInBlcm1pc3Npb25zIjpbImNhbk1hbmFnZVBlcnNvbmFsVGltZXRyYWNrZXIiLCAiQVVUT19URVNUU19PTkxZX0lzV29ya0VudHJpZXNIYXJkRGVsZXRlQWxsb3dlZCJdfQ==\" }}",
       "headers": {
         "Content-Type": [
           "application/json"

@@ -62,7 +62,7 @@ public class UpdateWorkEntryCommand
         catch (PostgresException pgEx) when (pgEx.ConstraintName == "ck_work_entries_no_time_overlap")
         {
             throw new ConflictingTimeRangeException(
-                "The time conflicts with the time of another task",
+                "Another task is scheduled for this time",
                 pgEx
             );
         }
