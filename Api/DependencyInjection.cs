@@ -29,7 +29,6 @@ public static class DependencyInjection
         });
 
         services.AddScoped<TenantAppDbContext>();
-        
         services.AddTransient<IAssignmentsApi, AssignmentsApi>();
         services.AddTransient<CreateWorkEntryHandler>();
         services.AddTransient<CreateWorkEntryCommand>();
