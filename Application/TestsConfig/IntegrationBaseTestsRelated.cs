@@ -1,5 +1,4 @@
 using Application;
-using Application.ExternalDeps.AssignmentsApi;
 using Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
