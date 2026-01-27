@@ -20,7 +20,6 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
 
         services.AddScoped<IClaimsProvider, HttpContextClaimsProvider>();
-        services.AddScoped<IAssignmentsApi, AssignmentsApi>();
 
         var connectionString = configuration.GetConnectionString(DefaultConnection);
 
@@ -29,8 +28,8 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString);
         });
 
-        services.AddScoped<TenantAppDbContext>();
-
+        services.AddTransient<TenantAppDbContext>();
+        services.AddTransient<IAssignmentsApi, AssignmentsApi>();
         services.AddTransient<CreateWorkEntryHandler>();
         services.AddTransient<CreateWorkEntryCommand>();
         services.AddTransient<GetWorkEntriesByPeriodHandler>();
