@@ -28,10 +28,10 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             Type = EventType.Unspecified
         };
 
-        DbUpdateException ex = await Assert.ThrowsAsync<DbUpdateException>(
+        var exception = await Assert.ThrowsAsync<DbUpdateException>(
             async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_type_not_zero", ex.InnerException!.Message);
+        Assert.Contains("ck_work_entries_type_not_zero", exception.InnerException!.Message);
     }
 }

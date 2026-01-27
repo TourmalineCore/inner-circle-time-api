@@ -17,7 +17,7 @@ public class GetWorkEntriesByPeriodQueryTests
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
         mockClaimsProvider
-            .Setup(cp => cp.EmployeeId)
+            .Setup(x => x.EmployeeId)
             .Returns(EMPLOYEE_ID);
 
         var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
@@ -58,8 +58,8 @@ public class GetWorkEntriesByPeriodQueryTests
 
         Assert.NotNull(result);
         Assert.Equal(2, result.Count);
-        Assert.Contains(result, w => w.Id == workEntry1.Id);
-        Assert.Contains(result, w => w.Id == workEntry2.Id);
-        Assert.DoesNotContain(result, w => w.Id == workEntry3.Id);
+        Assert.Contains(result, x => x.Id == workEntry1.Id);
+        Assert.Contains(result, x => x.Id == workEntry2.Id);
+        Assert.DoesNotContain(result, x => x.Id == workEntry3.Id);
     }
 }
