@@ -28,7 +28,8 @@ public static class DependencyInjection
             options.UseNpgsql(connectionString);
         });
 
-        services.AddTransient<TenantAppDbContext>();
+        services.AddScoped<TenantAppDbContext>();
+        
         services.AddTransient<IAssignmentsApi, AssignmentsApi>();
         services.AddTransient<CreateWorkEntryHandler>();
         services.AddTransient<CreateWorkEntryCommand>();
