@@ -4,12 +4,7 @@ namespace Api.ExternalDeps.AssignmentsApi;
 
 internal class AssignmentsApi : IAssignmentsApi
 {
-    public AssignmentsApi()
-    {
-
-    }
-
-    static readonly ProjectsResponse ProjectsMock = new ProjectsResponse
+    private static readonly ProjectsResponse ProjectsMock = new ProjectsResponse
     {
         Projects =
         [
