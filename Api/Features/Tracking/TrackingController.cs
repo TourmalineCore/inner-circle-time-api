@@ -54,13 +54,16 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Get employee projects by period")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("projects")]
-    public Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
+    public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
         [FromServices] IAssignmentsApi assignmentsApi
     )
     {
-        return assignmentsApi.GetEmployeeProjectsByPeriodAsync(startDate, endDate);
+        return new ProjectsResponse
+        {
+            Projects = await assignmentsApi.GetEmployeeProjectsByPeriodAsync(startDate, endDate)
+        };
     }
 
     [EndpointSummary("Deletes specific work entry")]
