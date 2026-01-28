@@ -32,6 +32,16 @@ Feature: Work Entries
 
     * configure headers = jsUtils().getAuthHeaders(firstTenantAccessToken)
 
+    # Get employee's projects
+    # Here we specified 2026 year to avoid conflicts with other tests
+    Given url apiRootUrl
+    Given path 'tracking/work-entries/projects'
+    And params { startDate: "2026-11-06", endDate: "2026-11-06" }
+    When method GET
+    Then status 200
+
+    * def firtTenantProjectId = response.projects[0].id
+
     # Create a new work entry
     # Here we specified 2026 year to avoid conflicts with other tests
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
@@ -48,6 +58,7 @@ Feature: Work Entries
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)", 
+        "projectId": #(firtTenantProjectId),
         "taskId": "#(taskId)",
         "description": "#(description)",
     }

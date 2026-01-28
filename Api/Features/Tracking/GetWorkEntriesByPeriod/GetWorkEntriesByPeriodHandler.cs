@@ -33,6 +33,7 @@ public class GetWorkEntriesByPeriodHandler
                         Title = workEntry.Title,
                         StartTime = workEntry.StartTime,
                         EndTime = workEntry.EndTime,
+                        ProjectId = workEntry.ProjectId,
                         TaskId = workEntry.TaskId,
                         Description = workEntry.Description,
                     }
