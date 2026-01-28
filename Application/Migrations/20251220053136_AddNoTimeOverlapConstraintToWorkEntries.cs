@@ -17,7 +17,7 @@ namespace Application.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Enable the btree_gist PostgreSQL extension. 
-            // This extension makes it possible for our complex constraint to work with several operators.
+            // This extension makes it possible for our complex constraint to work with several fields.
             // In our case they are: tenant_id, employee_id, and tsrange
             migrationBuilder.Sql(@"
             CREATE EXTENSION IF NOT EXISTS btree_gist;
@@ -25,6 +25,7 @@ namespace Application.Migrations
 
             // Add complex exclusion constraint to prevent time overlaps.
             // This ensures employees cannot have overlapping work time entries in the same tenant.
+            // Filters only among non-deleted entries in the work_entries table.
             migrationBuilder.Sql(@"
             ALTER TABLE work_entries
             ADD CONSTRAINT ck_work_entries_no_time_overlap
@@ -32,7 +33,7 @@ namespace Application.Migrations
                 tenant_id WITH =,
                 employee_id WITH =,
                 tsrange(start_time, end_time, '[)') WITH &&
-            ) WHERE (is_deleted = false);
+            ) WHERE (is_deleted = false); 
         ");
         }
 
