@@ -15,6 +15,8 @@ public class WorkEntryItem
 
     public required DateTime EndTime { get; set; }
 
+    public required long ProjectId { get; set; }
+
     public required string TaskId { get; set; }
 
     public required string Description { get; set; }

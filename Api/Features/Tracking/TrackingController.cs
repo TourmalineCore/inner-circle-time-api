@@ -3,6 +3,7 @@ using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
+using Application.ExternalDeps.AssignmentsApi;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,21 @@ public class TrackingController : ControllerBase
     )
     {
         return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
+    }
+
+    [EndpointSummary("Get employee projects by period")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("projects")]
+    public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate,
+        [FromServices] IAssignmentsApi assignmentsApi
+    )
+    {
+        return new ProjectsResponse
+        {
+            Projects = await assignmentsApi.GetEmployeeProjectsByPeriodAsync(startDate, endDate)
+        };
     }
 
     [EndpointSummary("Deletes specific work entry")]

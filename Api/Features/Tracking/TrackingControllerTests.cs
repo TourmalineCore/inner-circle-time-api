@@ -24,6 +24,7 @@ public class TrackingControllerTests : HttpClientTestBase
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
             TaskId = "#2231",
+            ProjectId = 1,
             Description = "Task description",
         };
 
