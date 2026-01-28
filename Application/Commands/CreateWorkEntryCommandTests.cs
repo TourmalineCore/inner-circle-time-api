@@ -77,6 +77,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
             TaskId = "#2231",
+            ProjectId = 1,
             Description = "Task description",
             Type = EventType.Task
         });
@@ -89,6 +90,7 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 11, 0, 0),
             TaskId = "#2232",
+            ProjectId = 1,
             Description = "Task description",
             Type = EventType.Task
         };
