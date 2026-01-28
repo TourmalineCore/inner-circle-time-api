@@ -32,6 +32,16 @@ Feature: Work Entries
 
     * configure headers = jsUtils().getAuthHeaders(firstTenantAccessToken)
 
+    # Get employee's projects in first tenant
+    # Here we specified 2027 year to avoid conflicts with other tests
+    Given url apiRootUrl
+    Given path 'tracking/work-entries/projects'
+    And params { startDate: "2027-11-06", endDate: "2027-11-06" }
+    When method GET
+    Then status 200
+
+    * def firtTenantProjectId = response.projects[0].id
+
     # Create a new work entry in first tenant
     # Here we specified 2027 year to avoid conflicts with other tests
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
@@ -47,7 +57,8 @@ Feature: Work Entries
     {
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
-        "endTime": "#(endTime)", 
+        "endTime": "#(endTime)",
+        "projectId": #(firtTenantProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -74,6 +85,16 @@ Feature: Work Entries
 
     * configure headers = jsUtils().getAuthHeaders(secondTenantAccessToken)
 
+    # Get employee's projects in second tenant
+    # Here we specified 2027 year to avoid conflicts with other tests
+    Given url apiRootUrl
+    Given path 'tracking/work-entries/projects'
+    And params { startDate: "2027-11-06", endDate: "2027-11-06" }
+    When method GET
+    Then status 200
+
+    * def secondTenantProjectId = response.projects[0].id
+
     # Create a new work entry in second tenant with same time
     Given url apiRootUrl
     Given path 'tracking/work-entries'
@@ -82,7 +103,8 @@ Feature: Work Entries
     {
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
-        "endTime": "#(endTime)", 
+        "endTime": "#(endTime)",
+        "projectId": #(secondTenantProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
