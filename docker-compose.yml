@@ -73,7 +73,6 @@ services:
         EXCLUDE_UNIT_TESTS_FROM_BUILD: "true"
     environment:
       - ASPNETCORE_ENVIRONMENT=MockForPullRequest
-      - ENABLE_EXCEPTION_DETAILS=true
     ports:
       - 6507:80
     networks:
