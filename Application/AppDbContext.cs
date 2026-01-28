@@ -79,8 +79,12 @@ public class AppDbContext : DbContext
         {
             base.ConfigureTable(history);
 
-            history.Property(x => x.MigrationId).HasColumnName("MigrationId");
-            history.Property(x => x.ProductVersion).HasColumnName("ProductVersion");
+            history
+                .Property(x => x.MigrationId)
+                .HasColumnName("MigrationId");
+            history
+                .Property(x => x.ProductVersion)
+                .HasColumnName("ProductVersion");
         }
     }
 }
