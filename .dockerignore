@@ -32,7 +32,6 @@ README.md
 # we don't need tests and their related code in production
 **/*Tests.cs
 **/*TestsRelated.cs
-**/HttpClientTestBase.cs
 
 **/bin/*
 **/obj/*
