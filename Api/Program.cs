@@ -38,7 +38,9 @@ public class Program
 
         builder.Services.AddProblemDetails(options =>
         {
-            options.IncludeExceptionDetails = (ctx, ex) => builder.Environment.IsDevelopment();
+            var enableExceptionDetails = Environment.GetEnvironmentVariable("ENABLE_EXCEPTION_DETAILS");
+
+            options.IncludeExceptionDetails = (ctx, ex) => enableExceptionDetails!.Equals("true", StringComparison.OrdinalIgnoreCase);
 
             options.Map<InvalidTimeRangeException>(ex =>
             {
