@@ -30,6 +30,16 @@ Feature: Work Entries
 
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
+    # Get employee's projects
+    Given url apiRootUrl
+    Given path 'tracking/work-entries/projects'
+    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
+    When method GET
+    Then status 200
+
+    * def firstProjectId = response.projects[0].id
+    * def secondProjectId = response.projects[1].id
+
     # Create a new work entry
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
     * def startTime = '2025-11-05T14:00:00'
@@ -44,7 +54,8 @@ Feature: Work Entries
     {
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
-        "endTime": "#(endTime)", 
+        "endTime": "#(endTime)",
+        "projectId": #(firstProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -67,7 +78,8 @@ Feature: Work Entries
     {
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
-        "endTime": "#(newEndTime)", 
+        "endTime": "#(newEndTime)",
+        "projectId": #(secondProjectId), 
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }
@@ -86,6 +98,7 @@ Feature: Work Entries
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
+        "projectId": #(secondProjectId),
         "taskId": "#(newTaskId)",
         "description": "#(newDescription)",
     }

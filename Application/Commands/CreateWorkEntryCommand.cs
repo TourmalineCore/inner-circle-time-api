@@ -12,6 +12,8 @@ public class CreateWorkEntryCommandParams
 
     public required DateTime EndTime { get; set; }
 
+    public required long ProjectId { get; set; }
+
     public required string TaskId { get; set; }
 
     public required string Description { get; set; }
@@ -44,6 +46,7 @@ public class CreateWorkEntryCommand
                 Title = createWorkEntryCommandParams.Title,
                 StartTime = createWorkEntryCommandParams.StartTime,
                 EndTime = createWorkEntryCommandParams.EndTime,
+                ProjectId = createWorkEntryCommandParams.ProjectId,
                 TaskId = createWorkEntryCommandParams.TaskId,
                 Description = createWorkEntryCommandParams.Description,
                 Type = createWorkEntryCommandParams.Type,
