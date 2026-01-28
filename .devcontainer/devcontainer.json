@@ -69,6 +69,7 @@
 		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
 		// let's set our default envrironment here to not do it manually every time
 		"ASPNETCORE_ENVIRONMENT": "MockForDevelopment",
+		"ENABLE_EXCEPTION_DETAILS": "true",
 		// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-9.0#default-host-configuration-sources
 		// https://andrewlock.net/8-ways-to-set-the-urls-for-an-aspnetcore-app/
 		// this will override urls in appsettings.MockForDevelopment.json and use different port when run within Dev Container to avoid using the same port
