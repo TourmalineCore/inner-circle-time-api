@@ -3,8 +3,7 @@
     "MockForDevelopment": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "MockForDevelopment",
-        "ENABLE_EXCEPTION_DETAILS": "true"
+        "ASPNETCORE_ENVIRONMENT": "MockForDevelopment"
       },
       "publishAllPorts": true,
       "useSSL": false,
