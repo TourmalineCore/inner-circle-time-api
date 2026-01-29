@@ -40,7 +40,7 @@ Feature: Work Entries
     When method GET
     Then status 200
 
-    * def firtTenantProjectId = response.projects[0].id
+    * def firstTenantProjectId = response.projects[0].id
 
     # Create a new work entry in first tenant
     # Here we specified 2027 year to avoid conflicts with other tests
@@ -58,7 +58,7 @@ Feature: Work Entries
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
-        "projectId": #(firtTenantProjectId), 
+        "projectId": #(firstTenantProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }

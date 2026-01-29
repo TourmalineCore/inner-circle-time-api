@@ -22,6 +22,24 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
+        "login": "first-tenant-second-account-login-with-all-permissions"
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiNCIsImVtcGxveWVlSWQiOiIzIiwicGVybWlzc2lvbnMiOlsiQ2FuTWFuYWdlUGVyc29uYWxUaW1lVHJhY2tlciIsICJBVVRPX1RFU1RTX09OTFlfSXNXb3JrRW50cmllc0hhcmREZWxldGVBbGxvd2VkIl19\" }}",
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "body": {
         "login": "second-tenant-login-with-all-permissions"
       }
     },
