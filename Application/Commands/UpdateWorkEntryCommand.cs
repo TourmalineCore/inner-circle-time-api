@@ -62,5 +62,12 @@ public class UpdateWorkEntryCommand
                 pgEx
             );
         }
+        catch (PostgresException pgEx) when (pgEx.ConstraintName == "ck_work_entries_no_time_overlap")
+        {
+            throw new ConflictingTimeRangeException(
+                "Another task is scheduled for this time",
+                pgEx
+            );
+        }
     }
 }
