@@ -60,7 +60,8 @@
 		"AUTH_PASSWORD_WITHOUT_PERMISSIONS": "first-tenant-password-without-permissions",
 		"AUTH_API_ROOT_URL": "http://localhost:8507/api/auth",
 		"API_ROOT_URL": "http://localhost:4507/api/time",
-		"SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES": "true"
+		"SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES": "true",
+		"ENABLE_EXCEPTION_DETAILS": "true"
 	},
 	// this root is needed e.g. in case when you edit files not inly in VSCode in Dev Container but also directly
 	// it might not have enough rights to write to files that are open in another editor with Admin rights
