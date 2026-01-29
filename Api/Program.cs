@@ -1,4 +1,6 @@
 using Application;
+using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
@@ -34,11 +36,47 @@ public class Program
 
         builder.Services.AddApplication(configuration);
 
+        builder.Services.AddProblemDetails(options =>
+        {
+            var enableExceptionDetails = Environment.GetEnvironmentVariable("ENABLE_EXCEPTION_DETAILS");
+
+            options.IncludeExceptionDetails = (ctx, ex) => enableExceptionDetails!.Equals("true", StringComparison.OrdinalIgnoreCase);
+
+            options.Map<InvalidTimeRangeException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Invalid time range",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
+        });
+
+        builder.Services.AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Title = "Validation error",
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = "Fill in all the fields",
+                        Instance = context.HttpContext.Request.Path
+                    };
+
+                    throw new ProblemDetailsException(problemDetails);
+                };
+            });
+
         var authenticationOptions = configuration.GetSection(nameof(AuthenticationOptions)).Get<AuthenticationOptions>();
         builder.Services.Configure<AuthenticationOptions>(configuration.GetSection(nameof(AuthenticationOptions)));
         builder.Services.AddJwtAuthentication(authenticationOptions).WithUserClaimsProvider<UserClaimsProvider>(UserClaimsProvider.PermissionClaimType);
 
         var app = builder.Build();
+
+        app.UseProblemDetails();
 
         app.MapOpenApi("api/swagger/openapi/v1.json");
 
@@ -48,14 +86,18 @@ public class Program
             options.RoutePrefix = "api/swagger";
         });
 
-        using (var serviceScope = app.Services.CreateScope())
-        {
-            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-            context.Database.Migrate();
-        }
+        MigrateDatabase(app.Services);
 
         app.MapControllers();
 
         app.Run();
+    }
+
+    private static void MigrateDatabase(IServiceProvider serviceProvider)
+    {
+        using var serviceScope = serviceProvider.CreateScope();
+
+        var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
     }
 }

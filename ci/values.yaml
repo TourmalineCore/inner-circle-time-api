@@ -30,6 +30,7 @@ podAnnotations:
 # CUSTOM: Here you store non secret env vars that will be passed to the pod's environment
 extraConfigMapEnvVars:
   AuthenticationOptions__IsDebugTokenEnabled: "false"
+  ENABLE_EXCEPTION_DETAILS: "false"
 
 # CUSTOM: Here you store secret env vars that will be passed to the pod's environment. You should never store them in this file.
 extraSecretEnvVars: {}

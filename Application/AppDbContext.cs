@@ -25,22 +25,28 @@ public class AppDbContext : DbContext
 
         modelBuilder
             .Entity<WorkEntry>()
-            .Property(p => p.Duration)
+            .Property(x => x.Duration)
             .HasComputedColumnSql("end_time - start_time", stored: true);
 
         modelBuilder
             .Entity<WorkEntry>()
-            .Property(e => e.StartTime)
+            .Property(x => x.StartTime)
             .HasColumnType("timestamp without time zone");
 
         modelBuilder
             .Entity<WorkEntry>()
-            .Property(e => e.EndTime)
+            .Property(x => x.EndTime)
             .HasColumnType("timestamp without time zone");
 
         modelBuilder
             .Entity<WorkEntry>()
-            .ToTable(b => b.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
+            .ToTable(x => x.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
+
+        modelBuilder
+            .Entity<WorkEntry>()
+            .ToTable(x => x.HasCheckConstraint(
+                "ck_work_entries_end_time_is_greater_than_start_time",
+                "\"end_time\" > \"start_time\""));
 
         base.OnModelCreating(modelBuilder);
     }
@@ -73,8 +79,12 @@ public class AppDbContext : DbContext
         {
             base.ConfigureTable(history);
 
-            history.Property(h => h.MigrationId).HasColumnName("MigrationId");
-            history.Property(h => h.ProductVersion).HasColumnName("ProductVersion");
+            history
+                .Property(x => x.MigrationId)
+                .HasColumnName("MigrationId");
+            history
+                .Property(x => x.ProductVersion)
+                .HasColumnName("ProductVersion");
         }
     }
 }

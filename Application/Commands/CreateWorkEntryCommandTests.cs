@@ -34,4 +34,32 @@ public class CreateWorkEntryCommandTests : IntegrationTestBase
 
         Assert.Contains("ck_work_entries_type_not_zero", exception.InnerException!.Message);
     }
+
+    [Fact]
+    public async Task CreateWorkEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = GetMockClaimsProvider();
+
+        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+
+        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        {
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            TaskId = "#2231",
+            ProjectId = 1,
+            Description = "Task description",
+            Type = EventType.Task
+        };
+
+        var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
+            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
+        );
+
+        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
+        Assert.Equal("End time must be greater than start time", exception.Message);
+    }
 }
