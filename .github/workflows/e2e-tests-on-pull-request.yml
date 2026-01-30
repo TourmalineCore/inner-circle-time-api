@@ -62,6 +62,8 @@ jobs:
         env:
           "AUTH_FIRST_TENANT_LOGIN_WITH_ALL_PERMISSIONS": "malfoy@tourmalinecore.com"
           "AUTH_FIRST_TENANT_PASSWORD_WITH_ALL_PERMISSIONS": "Serpens1!"
+          "AUTH_FIRST_TENANT_SECOND_ACCOUNT_LOGIN_WITH_ALL_PERMISSIONS": "snape@tourmalinecore.com"
+          "AUTH_FIRST_TENANT_SECOND_ACCOUNT_PASSWORD_WITH_ALL_PERMISSIONS": "Silencio1!"
           "AUTH_SECOND_TENANT_LOGIN_WITH_ALL_PERMISSIONS": "chang@tourmalinecore.com"
           "AUTH_SECOND_TENANT_PASSWORD_WITH_ALL_PERMISSIONS": "Reparo1!"
           "AUTH_LOGIN_WITHOUT_PERMISSIONS": "goyle@tourmalinecore.com"
