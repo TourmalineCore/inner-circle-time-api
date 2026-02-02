@@ -93,11 +93,11 @@ Feature: Work Entries
     Then status 200
     And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
 
-    # # Cannot delete work entry of another Account
-    # Given path 'tracking/work-entries', newWorkEntryId, 'hard-delete'
-    # When method DELETE
-    # Then status 200
-    # And match response == { isDeleted: false }
+    # Cannot delete work entry of another Account
+    Given path 'tracking/work-entries', newWorkEntryId, 'hard-delete'
+    When method DELETE
+    Then status 200
+    And match response == { isDeleted: false }
 
     * configure headers = jsUtils().getAuthHeaders(firstAccountAccessToken)
 
