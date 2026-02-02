@@ -14,13 +14,12 @@ public class HardDeleteEntityCommandTests
 
     private readonly HardDeleteEntityCommand _command;
     private readonly TenantAppDbContext _context;
-    private readonly Mock<IClaimsProvider> mockClaimsProvider;
 
     public HardDeleteEntityCommandTests()
     {
-
         _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
-        mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
         mockClaimsProvider
             .Setup(x => x.EmployeeId)
             .Returns(EMPLOYEE_ID);

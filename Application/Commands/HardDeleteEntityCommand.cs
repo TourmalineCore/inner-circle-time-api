@@ -17,11 +17,9 @@ public class HardDeleteEntityCommand
     public async Task<bool> ExecuteAsync<TEntity>(long entityId)
         where TEntity : EntityBase
     {
-        var currentEmployeeId = _claimsProvider.EmployeeId;
-
         var entity = await _context
             .QueryableWithinTenant<TEntity>()
-            .Where(x => x.EmployeeId == currentEmployeeId)
+            .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .SingleOrDefaultAsync(x => x.Id == entityId);
 
         if (entity == null)
