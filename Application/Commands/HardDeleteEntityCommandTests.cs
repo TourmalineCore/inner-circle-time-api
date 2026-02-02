@@ -1,7 +1,6 @@
 ﻿using Application.TestsConfig;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Xunit;
 
 namespace Application.Commands;
@@ -9,36 +8,19 @@ namespace Application.Commands;
 [UnitTest]
 public class HardDeleteEntityCommandTests
 {
-    protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 777;
-
     private readonly HardDeleteEntityCommand _command;
     private readonly TenantAppDbContext _context;
-    private readonly Mock<IClaimsProvider> mockClaimsProvider;
 
     public HardDeleteEntityCommandTests()
     {
-
         _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
-        mockClaimsProvider = new Mock<IClaimsProvider>();
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-        mockClaimsProvider
-            .Setup(x => x.TenantId)
-            .Returns(TENANT_ID);
-
-        _command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
+        _command = new HardDeleteEntityCommand(_context);
     }
 
     [Fact]
     public async Task DeleteExistingEntityTwice_ShouldDeleteEntityFromDbSetAndDoNotThrowAtSecondTime()
     {
-        var workEntry = await _context.AddEntityAndSaveAsync(new WorkEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID
-        });
+        var workEntry = await _context.AddEntityAndSaveAsync(new WorkEntry());
 
         var wasDeleted = await _command.ExecuteAsync<WorkEntry>(workEntry.Id);
 
