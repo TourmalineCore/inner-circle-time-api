@@ -4,12 +4,12 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "first-tenant-login-with-all-permissions"
+        "login": "slytherine-tenant-draco-malfoy_login-with-all-permissions"
       }
     },
     "httpResponse": {
       "statusCode": 200,
-      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiMyIsImVtcGxveWVlSWQiOiIyIiwicGVybWlzc2lvbnMiOlsiY2FuTWFuYWdlUGVyc29uYWxUaW1ldHJhY2tlciIsICJBVVRPX1RFU1RTX09OTFlfSXNXb3JrRW50cmllc0hhcmREZWxldGVBbGxvd2VkIl19\" }}",
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiMyIsImVtcGxveWVlSWQiOiIyIiwicGVybWlzc2lvbnMiOlsiQ2FuTWFuYWdlUGVyc29uYWxUaW1lVHJhY2tlciIsICJBVVRPX1RFU1RTX09OTFlfSXNXb3JrRW50cmllc0hhcmREZWxldGVBbGxvd2VkIl19\" }}",
       "headers": {
         "Content-Type": [
           "application/json"
@@ -22,12 +22,12 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "second-tenant-login-with-all-permissions"
+        "login": "slytherine-tenant-severus-snape_login-with-all-permissions"
       }
     },
     "httpResponse": {
       "statusCode": 200,
-      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWwyQG1haWwucnUiLCJjb3Jwb3JhdGVFbWFpbCI6Im1haWwyQG1haWwucnUiLCJ0ZW5hbnRJZCI6IjIiLCJhY2NvdW50SWQiOiI0IiwiZW1wbG95ZWVJZCI6IjMiLCJwZXJtaXNzaW9ucyI6WyJBVVRPX1RFU1RTX09OTFlfSXNJdGVtVHlwZXNIYXJkRGVsZXRlQWxsb3dlZCIsIkNhbk1hbmFnZUl0ZW1zVHlwZXMiLCJDYW5WaWV3SXRlbXNUeXBlcyIsICJBVVRPX1RFU1RTX09OTFlfSXNJdGVtc0hhcmREZWxldGVBbGxvd2VkIiwgIkNhbk1hbmFnZUl0ZW1zIiwgIkNhblZpZXdJdGVtcyJdfQ==\" }}",
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWxAbWFpbC5ydSIsImNvcnBvcmF0ZUVtYWlsIjoibWFpbEBtYWlsLnJ1IiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiNCIsImVtcGxveWVlSWQiOiIzIiwicGVybWlzc2lvbnMiOlsiQ2FuTWFuYWdlUGVyc29uYWxUaW1lVHJhY2tlciIsICJBVVRPX1RFU1RTX09OTFlfSXNXb3JrRW50cmllc0hhcmREZWxldGVBbGxvd2VkIl19\" }}",
       "headers": {
         "Content-Type": [
           "application/json"
@@ -40,7 +40,25 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "first-tenant-login-without-permissions"
+        "login": "ravenclaw-tenant-cho-chang-login-with-all-permissions"
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": "{\"accessToken\": { \"value\": \"eyJuYW1lSWRlbnRpZmllciI6Im1haWwyQG1haWwucnUiLCJjb3Jwb3JhdGVFbWFpbCI6Im1haWxAbWFpbC5ydSIsInRlbmFudElkIjoiMiIsImFjY291bnRJZCI6IjQiLCJlbXBsb3llZUlkIjoiMyIsInBlcm1pc3Npb25zIjpbIkNhbk1hbmFnZVBlcnNvbmFsVGltZVRyYWNrZXIiLCAiQVVUT19URVNUU19PTkxZX0lzV29ya0VudHJpZXNIYXJkRGVsZXRlQWxsb3dlZCJdfQ==\" }}",
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "body": {
+        "login": "slytherine-tenant-login-without-permissions"
       }
     },
     "httpResponse": {
