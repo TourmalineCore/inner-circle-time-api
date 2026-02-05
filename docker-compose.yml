@@ -116,6 +116,7 @@ services:
     volumes:
       # similar to mock-server volumes we need to support both runs: from Dev Container and from OS
       - ${LOCAL_WORKSPACE_FOLDER:-.}:/karate
+
     environment:
       AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS: "slytherine-tenant-draco-malfoy_login-with-all-permissions"
       AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS: "slytherine-tenant-draco-password-with-all-permissions"
