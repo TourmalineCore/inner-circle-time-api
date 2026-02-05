@@ -118,14 +118,14 @@ services:
       - ${LOCAL_WORKSPACE_FOLDER:-.}:/karate
 
     environment:
-      AUTH_FIRST_TENANT_LOGIN_WITH_ALL_PERMISSIONS: "first-tenant-login-with-all-permissions"
-      AUTH_FIRST_TENANT_PASSWORD_WITH_ALL_PERMISSIONS: "first-tenant-password-with-all-permissions"
-      AUTH_FIRST_TENANT_SECOND_ACCOUNT_LOGIN_WITH_ALL_PERMISSIONS: "first-tenant-second-account-login-with-all-permissions"
-      AUTH_FIRST_TENANT_SECOND_ACCOUNT_PASSWORD_WITH_ALL_PERMISSIONS: "first-tenant-second-account-password-with-all-permissions"
-      AUTH_SECOND_TENANT_LOGIN_WITH_ALL_PERMISSIONS: "second-tenant-login-with-all-permissions"
-      AUTH_SECOND_TENANT_PASSWORD_WITH_ALL_PERMISSIONS: "second-tenant-password-with-all-permissions"
-      AUTH_LOGIN_WITHOUT_PERMISSIONS: "first-tenant-login-without-permissions"
-      AUTH_PASSWORD_WITHOUT_PERMISSIONS: "first-tenant-password-without-permissions"
+      AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS: "slytherine-tenant-draco-malfoy_login-with-all-permissions"
+      AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS: "slytherine-tenant-draco-password-with-all-permissions"
+      AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_LOGIN_WITH_ALL_PERMISSIONS: "slytherine-tenant-severus-snape_login-with-all-permissions"
+      AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_PASSWORD_WITH_ALL_PERMISSIONS: "slytherine-tenant-severus-password-with-all-permissions"
+      AUTH_RAVENCLAW_TENANT_CHO_CHANG_LOGIN_WITH_ALL_PERMISSIONS: "ravenclaw-tenant-cho-chang-login-with-all-permissions"
+      AUTH_RAVENCLAW_TENANT_CHO_CHANG_PASSWORD_WITH_ALL_PERMISSIONS: "ravenclaw-tenant-cho-chang-password-with-all-permissions"
+      AUTH_LOGIN_WITHOUT_PERMISSIONS: "slytherine-tenant-login-without-permissions"
+      AUTH_PASSWORD_WITHOUT_PERMISSIONS: "slytherine-tenant-password-without-permissions"
       # here the port is 1080 because it needs to be an internal port, not an external which is 8507 in this case
       AUTH_API_ROOT_URL: "http://inner-circle-time-api-mock-server:1080/api/auth"
       API_ROOT_URL: "http://inner-circle-time-api/api/time"
