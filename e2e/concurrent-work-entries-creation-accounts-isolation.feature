@@ -10,10 +10,10 @@ Feature: Work Entries
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
     * def apiRootUrl = jsUtils().getEnvVariable('API_ROOT_URL')
-    * def authFirstAccountLogin = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
-    * def authFirstAccountPassword = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
-    * def authSecondAccountLogin = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_LOGIN_WITH_ALL_PERMISSIONS') 
-    * def authSecondAccountPassword = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def authFirstAccountLogin = jsUtils().getEnvVariable('AUTH_FIRST_TENANT_LOGIN_WITH_ALL_PERMISSIONS')
+    * def authFirstAccountPassword = jsUtils().getEnvVariable('AUTH_FIRST_TENANT_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def authSecondAccountLogin = jsUtils().getEnvVariable('AUTH_FIRST_TENANT_SECOND_ACCOUNT_LOGIN_WITH_ALL_PERMISSIONS') 
+    * def authSecondAccountPassword = jsUtils().getEnvVariable('AUTH_FIRST_TENANT_SECOND_ACCOUNT_PASSWORD_WITH_ALL_PERMISSIONS')
     
     # Authentication
     Given url authApiRootUrl

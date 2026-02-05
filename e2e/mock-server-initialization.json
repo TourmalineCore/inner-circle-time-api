@@ -4,7 +4,7 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "slytherine-tenant-draco-malfoy_login-with-all-permissions"
+        "login": "first-tenant-login-with-all-permissions"
       }
     },
     "httpResponse": {
@@ -22,7 +22,7 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "slytherine-tenant-severus-snape_login-with-all-permissions"
+        "login": "first-tenant-second-account-login-with-all-permissions"
       }
     },
     "httpResponse": {
@@ -40,7 +40,7 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "ravenclaw-tenant-cho-chang-login-with-all-permissions"
+        "login": "second-tenant-login-with-all-permissions"
       }
     },
     "httpResponse": {
@@ -58,7 +58,7 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "slytherine-tenant-login-without-permissions"
+        "login": "first-tenant-login-without-permissions"
       }
     },
     "httpResponse": {
