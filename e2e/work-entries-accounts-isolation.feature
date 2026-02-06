@@ -10,10 +10,10 @@ Feature: Work Entries
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
     * def apiRootUrl = jsUtils().getEnvVariable('API_ROOT_URL')
-    * def authFirstAccountLogin = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
-    * def authFirstAccountPassword = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
-    * def authSecondAccountLogin = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_LOGIN_WITH_ALL_PERMISSIONS') 
-    * def authSecondAccountPassword = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def authSlytherineTenantDracoLoginWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
+    * def authSlytherineTenantDracoPasswordWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def authSlytherineTenantSeverusLoginWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_LOGIN_WITH_ALL_PERMISSIONS') 
+    * def authSlytherineTenantSeverusPasswordWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_PASSWORD_WITH_ALL_PERMISSIONS')
     
     # Authentication
     Given url authApiRootUrl
@@ -21,8 +21,8 @@ Feature: Work Entries
     And request
     """
     {
-        "login": "#(authFirstAccountLogin)",
-        "password": "#(authFirstAccountPassword)"
+        "login": "#(authSlytherineTenantDracoLoginWithAllPermissions)",
+        "password": "#(authSlytherineTenantDracoPasswordWithAllPermissions)"
     }
     """
     And method POST
@@ -74,8 +74,8 @@ Feature: Work Entries
     And request
     """
     {
-        "login": "#(authSecondAccountLogin)",
-        "password": "#(authSecondAccountPassword)"
+        "login": "#(authSlytherineTenantSeverusLoginWithAllPermissions)",
+        "password": "#(authSlytherineTenantSeverusPasswordWithAllPermissions)"
     }
     """
     And method POST
