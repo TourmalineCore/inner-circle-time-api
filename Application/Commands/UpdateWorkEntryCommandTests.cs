@@ -4,8 +4,7 @@ using Xunit;
 
 namespace Application.Commands;
 
-[IntegrationTest]
-public class UpdateWorkEntryCommandTests : IntegrationTestBase
+public partial class WorkEntryBaseCommandTests
 {
     [Fact]
     public async Task UpdateWorkEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
