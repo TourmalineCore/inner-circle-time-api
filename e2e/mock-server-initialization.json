@@ -58,7 +58,7 @@
       "method": "POST",
       "path": "/api/auth/login",
       "body": {
-        "login": "AUTH_LOGIN_WITHOUT_PERMISSIONS"
+        "login": "AUTH_SLYTHERINE_TENANT_GREGORY_GOYLE_LOGIN_WITHOUT_PERMISSIONS"
       }
     },
     "httpResponse": {
