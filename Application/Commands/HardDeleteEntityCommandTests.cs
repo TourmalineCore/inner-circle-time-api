@@ -66,4 +66,35 @@ public class HardDeleteEntityCommandTests
         Assert.Null(await Record.ExceptionAsync(async () => wasNonExistedDeleted = await _command.ExecuteAsync<WorkEntry>(NON_EXISTING_ID)));
         Assert.False(wasNonExistedDeleted);
     }
+
+    [Fact]
+    public async Task DeleteAnotherEmployeesEntity_ShouldNotDeleteAnotherEmployeesEntityFromDb()
+    {
+        var workEntry = await _context.AddEntityAndSaveAsync(new WorkEntry
+        {
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID
+        });
+
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider
+            .Setup(x => x.EmployeeId)
+            .Returns(2);
+
+        mockClaimsProvider
+            .Setup(x => x.TenantId)
+            .Returns(TENANT_ID);
+
+        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
+
+        var wasNotDeleted = await command.ExecuteAsync<WorkEntry>(workEntry.Id);
+
+        var workEntryFromDb = await _context
+            .WorkEntries
+            .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
+
+        Assert.False(wasNotDeleted);
+        Assert.NotNull(workEntryFromDb);
+    }
 }
