@@ -37,12 +37,16 @@ namespace Application.Migrations
         ");
         }
 
-        // Reverts the migration and removes the constraint if it exists.
+        // Reverts the migration and removes the constraint and exstention if it exists.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
             ALTER TABLE work_entries 
             DROP CONSTRAINT IF EXISTS ck_work_entries_no_time_overlap;
+        ");
+
+            migrationBuilder.Sql(@"
+            DROP EXTENSION IF EXISTS btree_gist;
         ");
         }
     }
