@@ -21,7 +21,7 @@ public class CreateWorkEntryCommandParams
     public required EventType Type { get; set; }
 }
 
-public class CreateWorkEntryCommand
+public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWorkEntryCommandParams>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
@@ -37,44 +37,30 @@ public class CreateWorkEntryCommand
 
     public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
     {
-        try
-        {
-            var workEntry = new WorkEntry
-            {
-                TenantId = _claimsProvider.TenantId,
-                EmployeeId = _claimsProvider.EmployeeId,
-                Title = createWorkEntryCommandParams.Title,
-                StartTime = createWorkEntryCommandParams.StartTime,
-                EndTime = createWorkEntryCommandParams.EndTime,
-                ProjectId = createWorkEntryCommandParams.ProjectId,
-                TaskId = createWorkEntryCommandParams.TaskId,
-                Description = createWorkEntryCommandParams.Description,
-                Type = createWorkEntryCommandParams.Type,
-            };
+        return await MakeChangesInDbAsync(createWorkEntryCommandParams);
+    }
 
-            await _context
-                .WorkEntries
-                .AddAsync(workEntry);
-
-            await _context.SaveChangesAsync();
-
-            return workEntry.Id;
-        }
-        catch (DbUpdateException ex) when (ex.InnerException is PostgresException pgEx &&
-               pgEx.ConstraintName == "ck_work_entries_end_time_is_greater_than_start_time")
+    protected override async Task<long> MakeChangesToWorkEntryAsync(CreateWorkEntryCommandParams commandParams)
+    {
+        var workEntry = new WorkEntry
         {
-            throw new InvalidTimeRangeException(
-                "End time must be greater than start time",
-                ex
-            );
-        }
-        catch (DbUpdateException ex) when (ex.InnerException is PostgresException pgEx &&
-               pgEx.ConstraintName == "ck_work_entries_no_time_overlap")
-        {
-            throw new ConflictingTimeRangeException(
-                "Another task is scheduled for this time",
-                ex
-            );
-        }
+            TenantId = _claimsProvider.TenantId,
+            EmployeeId = _claimsProvider.EmployeeId,
+            Title = commandParams.Title,
+            StartTime = commandParams.StartTime,
+            EndTime = commandParams.EndTime,
+            ProjectId = commandParams.ProjectId,
+            TaskId = commandParams.TaskId,
+            Description = commandParams.Description,
+            Type = commandParams.Type,
+        };
+
+        await _context
+            .WorkEntries
+            .AddAsync(workEntry);
+
+        await _context.SaveChangesAsync();
+
+        return workEntry.Id;
     }
 }
