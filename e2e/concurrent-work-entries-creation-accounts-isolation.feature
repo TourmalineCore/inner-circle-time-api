@@ -10,29 +10,29 @@ Feature: Work Entries
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
     * def apiRootUrl = jsUtils().getEnvVariable('API_ROOT_URL')
-    * def authFirstAccountLogin = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
-    * def authFirstAccountPassword = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
-    * def authSecondAccountLogin = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_LOGIN_WITH_ALL_PERMISSIONS') 
-    * def authSecondAccountPassword = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def authSlytherineTenantDracoLoginWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
+    * def authSlytherineTenantDracoPasswordWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def authSlytherineTenantSeverusLoginWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_LOGIN_WITH_ALL_PERMISSIONS') 
+    * def authSlytherineTenantSeverusPasswordWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_SEVERUS_SNAPE_PASSWORD_WITH_ALL_PERMISSIONS')
     
-    # Authentication
+    # Authentication with Draco's credentials
     Given url authApiRootUrl
     And path '/login'
     And request
     """
     {
-        "login": "#(authFirstAccountLogin)",
-        "password": "#(authFirstAccountPassword)"
+        "login": "#(authSlytherineTenantDracoLoginWithAllPermissions)",
+        "password": "#(authSlytherineTenantDracoPasswordWithAllPermissions)"
     }
     """
     And method POST
     Then status 200
 
-    * def firstAccountAccessToken = karate.toMap(response.accessToken.value)
+    * def dracoAccountAccessToken = karate.toMap(response.accessToken.value)
 
-    * configure headers = jsUtils().getAuthHeaders(firstAccountAccessToken)
+    * configure headers = jsUtils().getAuthHeaders(dracoAccountAccessToken)
 
-    # Get employee's projects in first account
+    # Get employee's projects for Draco
     # Here we specified 2027 year to avoid conflicts with other tests
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
@@ -40,9 +40,9 @@ Feature: Work Entries
     When method GET
     Then status 200
 
-    * def firstAccountProjectId = response.projects[0].id
+    * def dracoAccountProjectId = response.projects[0].id
 
-    # Create a new work entry in first account
+    # Create a new work entry for Draco
     # Here we specified 2027 year to avoid conflicts with other tests
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
     * def startTime = '2027-12-05T14:00:00'
@@ -58,7 +58,7 @@ Feature: Work Entries
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
-        "projectId": #(firstAccountProjectId), 
+        "projectId": #(dracoAccountProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -66,26 +66,26 @@ Feature: Work Entries
     When method POST
     Then status 200
 
-    * def firstAccountNewWorkEntryId = response.newWorkEntryId
+    * def dracoAccountNewWorkEntryId = response.newWorkEntryId
 
-    # Authentication with second account
+    # Authentication with Severus' credentials
     Given url authApiRootUrl
     And path '/login'
     And request
     """
     {
-        "login": "#(authSecondAccountLogin)",
-        "password": "#(authSecondAccountPassword)"
+        "login": "#(authSlytherineTenantSeverusLoginWithAllPermissions)",
+        "password": "#(authSlytherineTenantSeverusPasswordWithAllPermissions)"
     }
     """
     And method POST
     Then status 200
 
-    * def secondAccountAccessToken = karate.toMap(response.accessToken.value)
+    * def severusAccountAccessToken = karate.toMap(response.accessToken.value)
 
-    * configure headers = jsUtils().getAuthHeaders(secondAccountAccessToken)
+    * configure headers = jsUtils().getAuthHeaders(severusAccountAccessToken)
 
-    # Get employee's projects in second account
+    # Get employee's projects for Severus
     # Here we specified 2027 year to avoid conflicts with other tests
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
@@ -93,9 +93,9 @@ Feature: Work Entries
     When method GET
     Then status 200
 
-    * def secondAccountProjectId = response.projects[0].id
+    * def severusAccountProjectId = response.projects[0].id
 
-    # Create a new work entry in second account with same time
+    # Create a new work entry for Severus with the same time as Draco
     Given url apiRootUrl
     Given path 'tracking/work-entries'
     And request
@@ -104,7 +104,7 @@ Feature: Work Entries
         "title": "#(randomTitle)",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
-        "projectId": #(secondAccountProjectId), 
+        "projectId": #(severusAccountProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
     }
@@ -112,34 +112,34 @@ Feature: Work Entries
     When method POST
     Then status 200
 
-    * def secondAccountNewWorkEntryId = response.newWorkEntryId
+    * def severusAccountNewWorkEntryId = response.newWorkEntryId
 
-    # Cleanup: Delete work entry in second account
-    Given path 'tracking/work-entries', secondAccountNewWorkEntryId, 'hard-delete'
+    # Cleanup: Delete Severus' work entry
+    Given path 'tracking/work-entries', severusAccountNewWorkEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that work entry in second account was deleted
+    # Cleanup Verification: Verify that Severus' work entry was deleted
     Given path 'tracking/work-entries'
     And params { startDate: "2027-11-06", endDate: "2027-11-06" }
     When method GET
     Then status 200
-    And assert response.workEntries.filter(x => x.id == secondAccountNewWorkEntryId).length == 0
+    And assert response.workEntries.filter(x => x.id == severusAccountNewWorkEntryId).length == 0
 
-    * configure headers = jsUtils().getAuthHeaders(firstAccountAccessToken)
+    * configure headers = jsUtils().getAuthHeaders(dracoAccountAccessToken)
 
-    # Cleanup: Delete work entry in first account
-    Given path 'tracking/work-entries', firstAccountNewWorkEntryId, 'hard-delete'
+    # Cleanup: Delete Draco's work entry
+    Given path 'tracking/work-entries', dracoAccountNewWorkEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that work entry in first account was deleted
+    # Cleanup Verification: Verify that  Draco's work entry was deleted
     Given path 'tracking/work-entries'
     And params { startDate: "2027-11-06", endDate: "2027-11-06" }
     When method GET
     Then status 200
-    And assert response.workEntries.filter(x => x.id == firstAccountNewWorkEntryId).length == 0
+    And assert response.workEntries.filter(x => x.id == dracoAccountNewWorkEntryId).length == 0
 
 
