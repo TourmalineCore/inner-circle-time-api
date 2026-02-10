@@ -34,7 +34,10 @@ internal static class TenantAppDbContextExtensionsTestsRelated
     )
         where TEntity : EntityBase
     {
-        newEntity.TenantId = TestsRelatedTenantId;
+        if (newEntity.TenantId == 0)
+        {
+            newEntity.TenantId = TestsRelatedTenantId;
+        }
 
         await context
             .Set<TEntity>()

@@ -33,20 +33,20 @@ Feature: Work Entries
     * configure headers = jsUtils().getAuthHeaders(firstAccountAccessToken)
 
     # Get employee's projects in first account
-    # Here we specified 2028 year to avoid conflicts with other tests
+    # Here we specified 2027 year to avoid conflicts with other tests
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
-    And params { startDate: "2028-11-06", endDate: "2028-11-06" }
+    And params { startDate: "2027-11-06", endDate: "2027-11-06" }
     When method GET
     Then status 200
 
     * def firstAccountProjectId = response.projects[0].id
 
     # Create a new work entry in first account
-    # Here we specified 2028 year to avoid conflicts with other tests
+    # Here we specified 2027 year to avoid conflicts with other tests
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
-    * def startTime = '2028-12-05T14:00:00'
-    * def endTime = '2028-12-05T16:00:00'
+    * def startTime = '2027-12-05T14:00:00'
+    * def endTime = '2027-12-05T16:00:00'
     * def taskId = '#2233'
     * def description = 'Task description'
     
@@ -86,10 +86,10 @@ Feature: Work Entries
     * configure headers = jsUtils().getAuthHeaders(secondAccountAccessToken)
 
     # Get employee's projects in second account
-    # Here we specified 2028 year to avoid conflicts with other tests
+    # Here we specified 2027 year to avoid conflicts with other tests
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
-    And params { startDate: "2028-11-06", endDate: "2028-11-06" }
+    And params { startDate: "2027-11-06", endDate: "2027-11-06" }
     When method GET
     Then status 200
 
@@ -122,7 +122,7 @@ Feature: Work Entries
 
     # Cleanup Verification: Verify that work entry in second account was deleted
     Given path 'tracking/work-entries'
-    And params { startDate: "2028-11-06", endDate: "2028-11-06" }
+    And params { startDate: "2027-11-06", endDate: "2027-11-06" }
     When method GET
     Then status 200
     And assert response.workEntries.filter(x => x.id == secondAccountNewWorkEntryId).length == 0
@@ -137,7 +137,7 @@ Feature: Work Entries
 
     # Cleanup Verification: Verify that work entry in first account was deleted
     Given path 'tracking/work-entries'
-    And params { startDate: "2028-11-06", endDate: "2028-11-06" }
+    And params { startDate: "2027-11-06", endDate: "2027-11-06" }
     When method GET
     Then status 200
     And assert response.workEntries.filter(x => x.id == firstAccountNewWorkEntryId).length == 0
