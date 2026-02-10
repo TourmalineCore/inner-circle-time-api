@@ -1,10 +1,9 @@
-using Application.TestsConfig;
 using Core.Entities;
 using Xunit;
 
 namespace Application.Commands;
 
-public partial class WorkEntryBaseCommandTests
+public partial class WorkEntryCommandTestsBase
 {
     [Fact]
     public async Task UpdateWorkEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
