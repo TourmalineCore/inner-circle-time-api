@@ -2,13 +2,11 @@
 
 namespace Application.Commands;
 
-
-// It partial class used in create and update tests in order to run these tests sequentially,
-// this avoids a race condition between these tests
+// This partial class was introduced to inherited by create and update commands tests in order to run these tests sequentially
 // https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods
-// Error example: System.InvalidOperationException : An exception has been raised that is likely due to a transient failure.
-//---- Microsoft.EntityFrameworkCore.DbUpdateException : An error occurred while saving the entity changes. See the inner exception for details.
-//-------- Npgsql.PostgresException : 40P01: deadlock detected
+
+// Before that there were 2 separate clasees and they were running cincurrently and often lead to a deadlock and thus tests were flacky
+// There is an issue to investigate the root cause why they fail https://github.com/TourmalineCore/inner-circle-time-api/issues/26
 [IntegrationTest]
 public partial class WorkEntryCommandTestsBase : IntegrationTestBase
 {
