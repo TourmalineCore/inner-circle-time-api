@@ -27,7 +27,7 @@ public class GetWorkEntriesByPeriodHandler
         {
             WorkEntries = workEntriesByPeriod
                 .Select(workEntry =>
-                    new WorkEntryItem
+                    new WorkEntryDto
                     {
                         Id = workEntry.Id,
                         Title = workEntry.Title,
