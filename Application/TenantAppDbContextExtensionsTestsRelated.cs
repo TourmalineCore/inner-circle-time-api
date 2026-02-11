@@ -5,9 +5,7 @@ namespace Application;
 
 internal static class TenantAppDbContextExtensionsTestsRelated
 {
-    internal static long TestsRelatedTenantId = 777;
-
-    public static TenantAppDbContext CreateInMemoryTenantContextForTests()
+    public static TenantAppDbContext CreateInMemoryTenantContextForTests(long tenantId)
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(
@@ -24,7 +22,7 @@ internal static class TenantAppDbContextExtensionsTestsRelated
 
         return new TenantAppDbContext(
             options,
-            TestsRelatedTenantId
+            tenantId
         );
     }
 
@@ -34,11 +32,6 @@ internal static class TenantAppDbContextExtensionsTestsRelated
     )
         where TEntity : EntityBase
     {
-        if (newEntity.TenantId == 0)
-        {
-            newEntity.TenantId = TestsRelatedTenantId;
-        }
-
         await context
             .Set<TEntity>()
             .AddAsync(newEntity);
