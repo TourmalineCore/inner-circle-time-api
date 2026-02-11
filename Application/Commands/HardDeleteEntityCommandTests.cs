@@ -17,15 +17,12 @@ public class HardDeleteEntityCommandTests
 
     public HardDeleteEntityCommandTests()
     {
-        _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
+        _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
         mockClaimsProvider
             .Setup(x => x.EmployeeId)
             .Returns(EMPLOYEE_ID);
-        mockClaimsProvider
-            .Setup(x => x.TenantId)
-            .Returns(TENANT_ID);
 
         _command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
     }
@@ -82,19 +79,45 @@ public class HardDeleteEntityCommandTests
             .Setup(x => x.EmployeeId)
             .Returns(2);
 
-        mockClaimsProvider
-            .Setup(x => x.TenantId)
-            .Returns(TENANT_ID);
-
         var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
 
-        var wasNotDeleted = await command.ExecuteAsync<WorkEntry>(workEntry.Id);
+        var wasDeleted = await command.ExecuteAsync<WorkEntry>(workEntry.Id);
 
         var workEntryFromDb = await _context
             .WorkEntries
             .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
 
-        Assert.False(wasNotDeleted);
+        Assert.False(wasDeleted);
+        Assert.NotNull(workEntryFromDb);
+    }
+
+    [Fact]
+    public async Task DeleteAnotherTenantsEntity_ShouldNotDeleteAnotherTenantsEntityFromDb()
+    {
+        // To check the tenant isolation, you must specify a TenantId other than 777,
+        // since in the implementation of TenantAppDbContextExtensionsTestsRelated,
+        // the QueryableWithinTenant method returns TenantId = 777
+        var workEntry = await _context.AddEntityAndSaveAsync(new WorkEntry
+        {
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = 2
+        });
+
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider
+            .Setup(x => x.EmployeeId)
+            .Returns(EMPLOYEE_ID);
+
+        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
+
+        var wasDeleted = await command.ExecuteAsync<WorkEntry>(workEntry.Id);
+
+        var workEntryFromDb = await _context
+            .WorkEntries
+            .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
+
+        Assert.False(wasDeleted);
         Assert.NotNull(workEntryFromDb);
     }
 }

@@ -9,11 +9,12 @@ namespace Application.Queries;
 public class GetWorkEntriesByPeriodQueryTests
 {
     private const long EMPLOYEE_ID = 1;
+    private const long TENANT_ID = 777;
 
     [Fact]
     public async Task GetWorkEntriesByPeriodAsync_ShouldReturnWorkEntriesByPeriodFromDbSet()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests();
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
         mockClaimsProvider
@@ -26,6 +27,7 @@ public class GetWorkEntriesByPeriodQueryTests
         {
             Id = 11,
             EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
@@ -34,6 +36,7 @@ public class GetWorkEntriesByPeriodQueryTests
         {
             Id = 12,
             EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 27, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
         };
@@ -42,6 +45,7 @@ public class GetWorkEntriesByPeriodQueryTests
         {
             Id = 13,
             EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 10, 27, 9, 0, 0),
             EndTime = new DateTime(2025, 10, 27, 10, 0, 0),
         };
