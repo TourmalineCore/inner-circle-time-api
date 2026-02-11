@@ -34,7 +34,7 @@ internal static class TenantAppDbContextExtensionsTestsRelated
     )
         where TEntity : EntityBase
     {
-        if (newEntity.TenantId == 0)
+        if (newEntity.TenantId == null)
         {
             newEntity.TenantId = TestsRelatedTenantId;
         }
