@@ -1,7 +1,6 @@
 using Npgsql;
 
 
-// This class is necessary in order to avoid duplicate validation at the database level in teams based on a modified work record
 public abstract class DbValidationWorkEntryCommandBase<TCommandParams>
     where TCommandParams : class
 {
