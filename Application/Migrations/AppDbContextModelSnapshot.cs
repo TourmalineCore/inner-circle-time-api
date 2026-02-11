@@ -67,7 +67,7 @@ namespace Application.Migrations
                         .HasColumnType("text")
                         .HasColumnName("task_id");
 
-                    b.Property<long?>("TenantId")
+                    b.Property<long>("TenantId")
                         .HasColumnType("bigint")
                         .HasColumnName("tenant_id");
 
