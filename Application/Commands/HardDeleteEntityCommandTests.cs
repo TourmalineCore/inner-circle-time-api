@@ -10,7 +10,7 @@ namespace Application.Commands;
 public class HardDeleteEntityCommandTests
 {
     protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 1;
+    protected const long TENANT_ID = 777;
 
     private readonly HardDeleteEntityCommand _command;
     private readonly TenantAppDbContext _context;
