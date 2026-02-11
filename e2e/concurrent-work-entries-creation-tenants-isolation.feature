@@ -95,7 +95,7 @@ Feature: Work Entries
 
     * def ravenclawTenantProjectId = response.projects[0].id
 
-    # Create a new work entry in second ravenclaw with same time
+    # Create a new work entry in ravenclaw tenant the same time as slytherin tenant
     Given url apiRootUrl
     Given path 'tracking/work-entries'
     And request
@@ -135,7 +135,7 @@ Feature: Work Entries
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that work entry in first tenant was deleted
+    # Cleanup Verification: Verify that work entry in slytherin tenant was deleted
     Given path 'tracking/work-entries'
     And params { startDate: "2026-11-06", endDate: "2026-11-06" }
     When method GET
