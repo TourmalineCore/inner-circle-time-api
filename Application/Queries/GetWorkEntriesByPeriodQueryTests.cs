@@ -9,7 +9,7 @@ namespace Application.Queries;
 public class GetWorkEntriesByPeriodQueryTests
 {
     private const long EMPLOYEE_ID = 1;
-    private const long TENANT_ID = 1;
+    private const long TENANT_ID = 777;
 
     [Fact]
     public async Task GetWorkEntriesByPeriodAsync_ShouldReturnWorkEntriesByPeriodFromDbSet()
