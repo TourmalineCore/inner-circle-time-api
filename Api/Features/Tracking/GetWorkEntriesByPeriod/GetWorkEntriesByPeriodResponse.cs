@@ -2,10 +2,10 @@ namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
 
 public class GetWorkEntriesByPeriodResponse
 {
-    public required List<WorkEntryItem> WorkEntries { get; set; }
+    public required List<WorkEntryDto> WorkEntries { get; set; }
 }
 
-public class WorkEntryItem
+public class WorkEntryDto
 {
     public required long Id { get; set; }
 
