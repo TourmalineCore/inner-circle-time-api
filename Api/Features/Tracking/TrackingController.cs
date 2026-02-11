@@ -3,6 +3,7 @@ using Api.Features.Tracking.CreateAdjustment;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetAdjustmentsByPeriod;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.UpdateAdjustment;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
@@ -74,6 +75,19 @@ public class TrackingController : ControllerBase
     )
     {
         return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
+    }
+
+
+    [EndpointSummary("Update an adjustment")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("{adjustmentId}")]
+    public Task UpdateAdjustmentAsync(
+        [Required][FromRoute] long adjustmentId,
+        [Required][FromBody] UpdateAdjustmentRequest updateAdjustmentRequest,
+        [FromServices] UpdateAdjustmentHandler updateAdjustmentHandler
+    )
+    {
+        return updateAdjustmentHandler.HandleAsync(adjustmentId, updateAdjustmentRequest);
     }
 
     [EndpointSummary("Get employee projects by period")]
