@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api.Features.Tracking.CreateAdjustment;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
@@ -37,6 +38,17 @@ public class TrackingController : ControllerBase
     )
     {
         return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
+    }
+
+    [EndpointSummary("Create an adjustment")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost]
+    public Task<CreateAdjustmentResponse> CreateAdjustmentAsync(
+        [Required][FromBody] CreateAdjustmentRequest createAdjustmentRequest,
+        [FromServices] CreateAdjustmentHandler createAdjustmentHandler
+    )
+    {
+        return createAdjustmentHandler.HandleAsync(createAdjustmentRequest);
     }
 
     [EndpointSummary("Update a work entry")]
@@ -79,4 +91,5 @@ public class TrackingController : ControllerBase
             isDeleted = await hardDeleteEntityCommand.ExecuteAsync<WorkEntry>(workEntryId)
         };
     }
+
 }
