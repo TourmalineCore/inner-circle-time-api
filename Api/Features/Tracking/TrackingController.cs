@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracking.CreateAdjustment;
 using Api.Features.Tracking.CreateWorkEntry;
+using Api.Features.Tracking.GetAdjustmentsByPeriod;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
@@ -27,6 +28,18 @@ public class TrackingController : ControllerBase
     )
     {
         return getWorkEntriesByPeriodHandler.HandleAsync(startDate, endDate);
+    }
+
+    [EndpointSummary("Get an adjustments by period")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet]
+    public Task<GetAdjustmentsByPeriodResponse> GetAdjustmentsByPeriodAsync(
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate,
+        [FromServices] GetAdjustmentsByPeriodHandler getAdjustmentsByPeriodHandler
+    )
+    {
+        return getAdjustmentsByPeriodHandler.HandleAsync(startDate, endDate);
     }
 
     [EndpointSummary("Create a work entry")]
