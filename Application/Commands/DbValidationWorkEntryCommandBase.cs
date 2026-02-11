@@ -1,6 +1,5 @@
 using Npgsql;
 
-
 public abstract class DbValidationWorkEntryCommandBase<TCommandParams>
     where TCommandParams : class
 {
