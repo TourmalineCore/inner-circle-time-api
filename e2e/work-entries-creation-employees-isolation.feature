@@ -5,7 +5,7 @@ Feature: Work Entries
   Background:
     * header Content-Type = 'application/json'
 
-  Scenario: Concurrent Work Entries Creation Accounts Isolation
+  Scenario: Work Entries Creation Employees Isolation
 
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
