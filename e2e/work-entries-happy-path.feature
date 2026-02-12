@@ -33,7 +33,7 @@ Feature: Work Entries
     # Get employee's projects
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
-    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
+    And params { startDate: "2025-11-05", endDate: "2025-11-05" }
     When method GET
     Then status 200
 
@@ -42,8 +42,8 @@ Feature: Work Entries
 
     # Create a new work entry
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
-    * def startTime = '2025-11-06T14:00:00'
-    * def endTime = '2025-11-06T16:00:00'
+    * def startTime = '2025-11-05T14:00:00'
+    * def endTime = '2025-11-05T16:00:00'
     * def taskId = '#2233'
     * def description = 'Task description'
     
