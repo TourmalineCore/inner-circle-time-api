@@ -1,6 +1,9 @@
 ﻿using Api.ExternalDeps.AssignmentsApi;
+using Api.Features.Tracking.CreateAdjustment;
 using Api.Features.Tracking.CreateWorkEntry;
+using Api.Features.Tracking.GetAdjustmentsByPeriod;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.UpdateAdjustment;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application;
 using Application.Commands;
@@ -37,5 +40,11 @@ public static class DependencyInjection
         services.AddTransient<UpdateWorkEntryHandler>();
         services.AddTransient<UpdateWorkEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
+        services.AddTransient<CreateAdjustmentHandler>();
+        services.AddTransient<CreateAdjustmentCommand>();
+        services.AddTransient<GetAdjustmentsByPeriodHandler>();
+        services.AddTransient<GetAdjustmentsByPeriodQuery>();
+        services.AddTransient<UpdateAdjustmentHandler>();
+        services.AddTransient<UpdateAdjustmentCommand>();
     }
 }
