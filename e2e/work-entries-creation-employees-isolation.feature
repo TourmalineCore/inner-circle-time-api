@@ -45,8 +45,8 @@ Feature: Work Entries
     # Create a new work entry for Draco
     # Here we specified 2027 year to avoid conflicts with other tests
     * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
-    * def startTime = '2027-11-05T14:00:00'
-    * def endTime = '2027-11-05T16:00:00'
+    * def startTime = '2027-11-06T14:00:00'
+    * def endTime = '2027-11-06T16:00:00'
     * def taskId = '#2233'
     * def description = 'Task description'
     
