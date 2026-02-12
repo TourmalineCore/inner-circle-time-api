@@ -66,4 +66,70 @@ public class GetWorkEntriesByPeriodQueryTests
         Assert.Contains(result, x => x.Id == workEntry2.Id);
         Assert.DoesNotContain(result, x => x.Id == workEntry3.Id);
     }
+
+    [Fact]
+    public async Task GetAnotherEmployeesWorkEntriesByPeriodAsync_ShouldNotGetAnotherEmployeesWorkEntries()
+    {
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+
+        var adjustment = new WorkEntry
+        {
+            Id = 11,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+        };
+
+        await context.AddEntityAndSaveAsync(adjustment);
+
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider
+            .Setup(x => x.EmployeeId)
+            .Returns(3);
+
+        var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
+
+        var result = await getWorkEntriesByPeriodQuery
+            .GetByPeriodAsync(
+                new DateOnly(2025, 11, 24),
+                new DateOnly(2025, 11, 27)
+            );
+
+        Assert.DoesNotContain(result, x => x.Id == adjustment.Id);
+    }
+
+    [Fact]
+    public async Task GetAnotherTenantsWorkEntriesByPeriodAsync_ShouldNotGetAnotherTenantsWorkEntries()
+    {
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+
+        var adjustment = new WorkEntry
+        {
+            Id = 11,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = 3,
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+        };
+
+        await context.AddEntityAndSaveAsync(adjustment);
+
+        var mockClaimsProvider = new Mock<IClaimsProvider>();
+
+        mockClaimsProvider
+            .Setup(x => x.EmployeeId)
+            .Returns(EMPLOYEE_ID);
+
+        var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
+
+        var result = await getWorkEntriesByPeriodQuery
+            .GetByPeriodAsync(
+                new DateOnly(2025, 11, 24),
+                new DateOnly(2025, 11, 27)
+            );
+
+        Assert.DoesNotContain(result, x => x.Id == adjustment.Id);
+    }
 }
