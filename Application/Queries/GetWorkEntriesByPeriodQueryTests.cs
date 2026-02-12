@@ -72,7 +72,7 @@ public class GetWorkEntriesByPeriodQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var adjustment = new WorkEntry
+        var workEntry = new WorkEntry
         {
             Id = 11,
             EmployeeId = EMPLOYEE_ID,
@@ -81,7 +81,7 @@ public class GetWorkEntriesByPeriodQueryTests
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(adjustment);
+        await context.AddEntityAndSaveAsync(workEntry);
 
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
@@ -97,7 +97,7 @@ public class GetWorkEntriesByPeriodQueryTests
                 new DateOnly(2025, 11, 27)
             );
 
-        Assert.DoesNotContain(result, x => x.Id == adjustment.Id);
+        Assert.DoesNotContain(result, x => x.Id == workEntry.Id);
     }
 
     [Fact]
@@ -105,7 +105,7 @@ public class GetWorkEntriesByPeriodQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var adjustment = new WorkEntry
+        var workEntry = new WorkEntry
         {
             Id = 11,
             EmployeeId = EMPLOYEE_ID,
@@ -114,7 +114,7 @@ public class GetWorkEntriesByPeriodQueryTests
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(adjustment);
+        await context.AddEntityAndSaveAsync(workEntry);
 
         var mockClaimsProvider = new Mock<IClaimsProvider>();
 
@@ -130,6 +130,6 @@ public class GetWorkEntriesByPeriodQueryTests
                 new DateOnly(2025, 11, 27)
             );
 
-        Assert.DoesNotContain(result, x => x.Id == adjustment.Id);
+        Assert.DoesNotContain(result, x => x.Id == workEntry.Id);
     }
 }
