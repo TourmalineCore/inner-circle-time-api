@@ -1,6 +1,4 @@
 ﻿using Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace Application.Commands;
 
@@ -17,8 +15,6 @@ public class CreateWorkEntryCommandParams
     public required string TaskId { get; set; }
 
     public required string Description { get; set; }
-
-    public required EventType Type { get; set; }
 }
 
 public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWorkEntryCommandParams>
@@ -52,7 +48,6 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
             ProjectId = commandParams.ProjectId,
             TaskId = commandParams.TaskId,
             Description = commandParams.Description,
-            Type = commandParams.Type,
         };
 
         await _context

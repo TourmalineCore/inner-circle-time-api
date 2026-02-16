@@ -1,6 +1,5 @@
 using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
 
 namespace Api.Features.Tracking.UpdateWorkEntry;
 
@@ -34,7 +33,6 @@ public class UpdateWorkEntryHandler
             ProjectId = project.Id,
             TaskId = updateEntryRequest.TaskId,
             Description = updateEntryRequest.Description,
-            Type = EventType.Task, // TODO: after add other event types remove hardcode
         };
 
         await _updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams);

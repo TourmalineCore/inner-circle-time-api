@@ -23,7 +23,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         });
 
         var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
@@ -35,7 +34,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#22",
             ProjectId = 2,
             Description = "Task description",
-            Type = EventType.Task
         };
 
         var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
@@ -62,7 +60,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         });
 
         var workEntry2 = await SaveEntityAsync(context, new WorkEntry
@@ -74,7 +71,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         });
 
         var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider);
@@ -88,7 +84,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2232",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         };
 
         var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
