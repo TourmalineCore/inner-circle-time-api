@@ -22,7 +22,7 @@ public class GetWorkEntriesByPeriodQuery
         DateOnly startDate,
         DateOnly endDate
     )
-    where TEntity : TrackingEntryBase
+    where TEntity : TrackedEntryBase
     {
         return _context
             .QueryableWithinTenantAsNoTracking<TEntity>()

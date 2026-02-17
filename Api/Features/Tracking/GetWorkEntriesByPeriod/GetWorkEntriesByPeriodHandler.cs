@@ -19,7 +19,7 @@ public class GetWorkEntriesByPeriodHandler
         DateOnly endDate
     )
     {
-        var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync<WorkEntry>(
+        var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync<TaskEntry>(
             startDate,
             endDate
         );

@@ -42,7 +42,7 @@ public class UpdateWorkEntryCommand : DbValidationWorkEntryCommandBase<UpdateWor
     protected override async Task<long> MakeChangesToWorkEntryAsync(UpdateWorkEntryCommandParams commandParams)
     {
         await _context
-            .QueryableWithinTenant<WorkEntry>()
+            .QueryableWithinTenant<TaskEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == commandParams.Id)
             .ExecuteUpdateAsync(setters => setters

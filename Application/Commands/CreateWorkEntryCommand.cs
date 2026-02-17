@@ -38,7 +38,7 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
 
     protected override async Task<long> MakeChangesToWorkEntryAsync(CreateWorkEntryCommandParams commandParams)
     {
-        var workEntry = new WorkEntry
+        var workEntry = new TaskEntry
         {
             TenantId = _claimsProvider.TenantId,
             EmployeeId = _claimsProvider.EmployeeId,

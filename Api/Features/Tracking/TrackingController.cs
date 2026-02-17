@@ -101,7 +101,7 @@ public class TrackingController : ControllerBase
     {
         return new
         {
-            isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackingEntryBase>(workEntryId)
+            isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(workEntryId)
         };
     }
 }

@@ -17,11 +17,11 @@ public class AppDbContext : DbContext
     {
     }
 
-    public virtual DbSet<TrackingEntryBase> TrackingEntries { get; set; }
+    public virtual DbSet<TrackedEntryBase> TrackedEntries { get; set; }
 
     public virtual DbSet<UnwellEntry> UnwellEntries { get; set; }
 
-    public virtual DbSet<WorkEntry> WorkEntries { get; set; }
+    public virtual DbSet<TaskEntry> WorkEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

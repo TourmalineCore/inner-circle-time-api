@@ -14,7 +14,7 @@ public partial class WorkEntryCommandTestsBase
 
         var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider);
 
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
+        var workEntry = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -51,7 +51,7 @@ public partial class WorkEntryCommandTestsBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
+        var workEntry = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -62,7 +62,7 @@ public partial class WorkEntryCommandTestsBase
             Description = "Task description",
         });
 
-        var workEntry2 = await SaveEntityAsync(context, new WorkEntry
+        var workEntry2 = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 2",

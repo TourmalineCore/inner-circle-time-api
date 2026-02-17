@@ -66,7 +66,7 @@ public partial class WorkEntryCommandTestsBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
+        var workEntry = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",

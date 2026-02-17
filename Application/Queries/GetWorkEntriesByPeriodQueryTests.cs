@@ -23,7 +23,7 @@ public class GetWorkEntriesByPeriodQueryTests
 
         var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
 
-        var workEntry1 = new WorkEntry
+        var workEntry1 = new TaskEntry
         {
             Id = 11,
             EmployeeId = EMPLOYEE_ID,
@@ -32,7 +32,7 @@ public class GetWorkEntriesByPeriodQueryTests
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        var workEntry2 = new WorkEntry
+        var workEntry2 = new TaskEntry
         {
             Id = 12,
             EmployeeId = EMPLOYEE_ID,
@@ -41,7 +41,7 @@ public class GetWorkEntriesByPeriodQueryTests
             EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
         };
 
-        var workEntry3 = new WorkEntry
+        var workEntry3 = new TaskEntry
         {
             Id = 13,
             EmployeeId = EMPLOYEE_ID,
@@ -55,7 +55,7 @@ public class GetWorkEntriesByPeriodQueryTests
         await context.AddEntityAndSaveAsync(workEntry3);
 
         var result = await getWorkEntriesByPeriodQuery
-            .GetByPeriodAsync<WorkEntry>(
+            .GetByPeriodAsync<TaskEntry>(
                 new DateOnly(2025, 11, 24),
                 new DateOnly(2025, 11, 27)
             );
@@ -72,7 +72,7 @@ public class GetWorkEntriesByPeriodQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var workEntry = new WorkEntry
+        var workEntry = new TaskEntry
         {
             Id = 11,
             EmployeeId = EMPLOYEE_ID,
@@ -92,7 +92,7 @@ public class GetWorkEntriesByPeriodQueryTests
         var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
 
         var result = await getWorkEntriesByPeriodQuery
-            .GetByPeriodAsync<WorkEntry>(
+            .GetByPeriodAsync<TaskEntry>(
                 new DateOnly(2025, 11, 24),
                 new DateOnly(2025, 11, 27)
             );
@@ -105,7 +105,7 @@ public class GetWorkEntriesByPeriodQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var workEntry = new WorkEntry
+        var workEntry = new TaskEntry
         {
             Id = 11,
             EmployeeId = EMPLOYEE_ID,
@@ -125,7 +125,7 @@ public class GetWorkEntriesByPeriodQueryTests
         var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
 
         var result = await getWorkEntriesByPeriodQuery
-            .GetByPeriodAsync<WorkEntry>(
+            .GetByPeriodAsync<TaskEntry>(
                 new DateOnly(2025, 11, 24),
                 new DateOnly(2025, 11, 27)
             );
