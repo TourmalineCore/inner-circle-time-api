@@ -67,17 +67,13 @@ Feature: Unwell Entries
     Given path 'tracking/work-entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET
-    And match response.workEntries contains
+    And match response.unwellEntries contains
     """
     {
         "id": "#(newUnwellEntryId)",
         "type": 2,
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "title": null,
-        "projectId": null,
-        "taskId": null,
-        "description": null
     }
     """
 
@@ -92,4 +88,4 @@ Feature: Unwell Entries
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET
     Then status 200
-    And assert response.workEntries.filter(x => x.id == newUnwellEntryId).length == 0
+    And assert response.unwellEntries.filter(x => x.id == newUnwellEntryId).length == 0

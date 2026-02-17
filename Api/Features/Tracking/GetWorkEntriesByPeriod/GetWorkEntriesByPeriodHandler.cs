@@ -19,50 +19,43 @@ public class GetWorkEntriesByPeriodHandler
         DateOnly endDate
     )
     {
-        var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync<TaskEntry>(
-            startDate,
-            endDate
-        );
-
-        var unwellEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync<UnwellEntry>(
+        var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(
             startDate,
             endDate
         );
 
         var workEntries = workEntriesByPeriod
+            .OfType<TaskEntry>()
             .Select(
-                x => new TrackingEntryDto
+                x => new WorkEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
                     Type = x.Type,
-
                     Title = x.Title,
                     ProjectId = x.ProjectId,
                     TaskId = x.TaskId,
                     Description = x.Description
-                });
+                })
+                .ToList();
 
-        var unwellEntries = unwellEntriesByPeriod
+        var unwellEntries = workEntriesByPeriod
+            .OfType<UnwellEntry>()
             .Select(
-                x => new TrackingEntryDto
+                x => new UnwellEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
                     Type = x.Type,
-                    Title = null,
-                    ProjectId = null,
-                    TaskId = null,
-                    Description = null
-                });
+                })
+                .ToList();
 
         return new GetWorkEntriesByPeriodResponse
         {
-            WorkEntries = workEntries
-                .Concat(unwellEntries)
-                .ToList()
+            WorkEntries = workEntries,
+            UnwellEntries = unwellEntries
         };
     }
 }

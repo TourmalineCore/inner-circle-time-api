@@ -95,16 +95,15 @@ Feature: Work Entries and Unwell
         "projectId": #(firstProjectId),
         "taskId": "#(workEntryTaskId)",
         "description": "#(workEntryDescription)",
-    },
+    }
+    """
+    And match response.unwellEntries contains
+    """
     {
         "id": "#(newUnwellEntryId)",
         "type": 2,
         "startTime": "#(unwellStartTime)",
         "endTime": "#(unwellEndTime)",
-        "title": null,
-        "projectId": null,
-        "taskId": null,
-        "description": null
     }
     """
 
@@ -114,22 +113,16 @@ Feature: Work Entries and Unwell
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that work entry was deleted
-    Given path 'tracking/work-entries'
-    And params { startDate: "2028-11-05", endDate: "2028-11-05" }
-    When method GET
-    Then status 200
-    And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
-
     # Cleanup: Delete the unwell entry (hard delete)
     Given path 'tracking/work-entries', newUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that unwell entry was deleted
+    # Cleanup Verification: Verify that work entry and unwell entry were deleted
     Given path 'tracking/work-entries'
     And params { startDate: "2028-11-05", endDate: "2028-11-05" }
     When method GET
     Then status 200
-    And assert response.workEntries.filter(x => x.id == newUnwellEntryId).length == 0
+    And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
+    And assert response.unwellEntries.filter(x => x.id == newUnwellEntryId).length == 0
