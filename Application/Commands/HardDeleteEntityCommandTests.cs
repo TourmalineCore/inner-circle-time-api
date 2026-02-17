@@ -39,7 +39,7 @@ public class HardDeleteEntityCommandTests
         var wasDeleted = await _command.ExecuteAsync<TaskEntry>(workEntry.Id);
 
         var deletedWorkEntry = await _context
-            .WorkEntries
+            .TaskEntries
             .SingleOrDefaultAsync(x => x.Id != workEntry.Id);
 
         Assert.True(wasDeleted);
@@ -84,7 +84,7 @@ public class HardDeleteEntityCommandTests
         var wasDeleted = await command.ExecuteAsync<TaskEntry>(workEntry.Id);
 
         var workEntryFromDb = await _context
-            .WorkEntries
+            .TaskEntries
             .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
 
         Assert.False(wasDeleted);
@@ -114,7 +114,7 @@ public class HardDeleteEntityCommandTests
         var wasDeleted = await command.ExecuteAsync<TaskEntry>(workEntry.Id);
 
         var workEntryFromDb = await _context
-            .WorkEntries
+            .TaskEntries
             .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
 
         Assert.False(wasDeleted);

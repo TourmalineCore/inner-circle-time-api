@@ -21,7 +21,7 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<UnwellEntry> UnwellEntries { get; set; }
 
-    public virtual DbSet<TaskEntry> WorkEntries { get; set; }
+    public virtual DbSet<TaskEntry> TaskEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

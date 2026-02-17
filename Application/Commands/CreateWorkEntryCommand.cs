@@ -51,7 +51,7 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
         };
 
         await _context
-            .WorkEntries
+            .TaskEntries
             .AddAsync(workEntry);
 
         await _context.SaveChangesAsync();
