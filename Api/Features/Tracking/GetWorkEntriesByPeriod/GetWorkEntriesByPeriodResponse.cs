@@ -12,7 +12,7 @@ public class TrackingEntryDto
     public required long Id { get; set; }
     public required DateTime StartTime { get; set; }
     public required DateTime EndTime { get; set; }
-    public required EventType Type { get; set; }
+    public required EntryType Type { get; set; }
 
     public string? Title { get; set; }
     public long? ProjectId { get; set; }

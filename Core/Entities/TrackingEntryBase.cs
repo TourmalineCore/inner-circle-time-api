@@ -20,7 +20,7 @@ public class TrackingEntryBase : EntityBase, IOwnedByEmployee
 
     public TimeSpan Duration { get; set; }
 
-    public EventType Type { get; set; }
+    public EntryType Type { get; set; }
 
     public bool IsDeleted { get; set; } = false;
 }

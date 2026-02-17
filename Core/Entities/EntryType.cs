@@ -1,8 +1,10 @@
 namespace Core.Entities;
 
-public enum EventType
+public enum EntryType
 {
     Unspecified = 0,
+
     Task = 1,
+
     Unwell = 2,
 }
