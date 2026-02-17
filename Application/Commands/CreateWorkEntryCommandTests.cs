@@ -1,5 +1,4 @@
 using Core.Entities;
-using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Application.Commands;

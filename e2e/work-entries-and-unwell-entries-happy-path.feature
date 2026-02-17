@@ -1,4 +1,4 @@
-Feature: Work Entries
+Feature: Work Entries and Unwell
     # https://github.com/karatelabs/karate/issues/1191
     # https://github.com/karatelabs/karate?tab=readme-ov-file#karate-fork
 
@@ -33,31 +33,29 @@ Feature: Work Entries
     # Get employee's projects
     Given url apiRootUrl
     Given path 'tracking/work-entries/projects'
-    And params { startDate: "2025-11-05", endDate: "2025-11-05" }
+    And params { startDate: "2028-11-05", endDate: "2028-11-05" }
     When method GET
     Then status 200
 
     * def firstProjectId = response.projects[0].id
-    * def secondProjectId = response.projects[1].id
 
     # Create a new work entry
-    * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
-    * def startTime = '2025-11-05T14:00:00'
-    * def endTime = '2025-11-05T16:00:00'
-    * def taskId = '#2233'
-    * def description = 'Task description'
+    * def workEntryRandomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
+    * def workEntryStartTime = '2028-11-05T14:00:00'
+    * def workEntryEndTime = '2028-11-05T16:00:00'
+    * def workEntryTaskId = '#2233'
+    * def workEntryDescription = 'Task description'
     
-    Given url apiRootUrl
     Given path 'tracking/work-entries'
     And request
     """
     {
-        "title": "#(randomTitle)",
-        "startTime": "#(startTime)",
-        "endTime": "#(endTime)",
+        "title": "#(workEntryRandomTitle)",
+        "startTime": "#(workEntryStartTime)",
+        "endTime": "#(workEntryEndTime)",
         "projectId": #(firstProjectId), 
-        "taskId": "#(taskId)",
-        "description": "#(description)",
+        "taskId": "#(workEntryTaskId)",
+        "description": "#(workEntryDescription)",
     }
     """
     When method POST
@@ -65,43 +63,48 @@ Feature: Work Entries
 
     * def newWorkEntryId = response.newWorkEntryId
 
-    # Update work entry
-    * def newRandomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
-    * def newStartTime = '2025-11-06T11:00:00'
-    * def newEndTime = '2025-11-06T12:00:00'
-    * def newTaskId = '#2235'
-    * def newDescription = 'New task description'
-    
-    Given path 'tracking/work-entries', newWorkEntryId
+    * def unwellStartTime = '2028-11-05T17:00:00'
+    * def unwellEndTime = '2028-11-05T18:00:00'
+
+    # Create a new unwell entry
+    Given path 'tracking/unwell-entries'
     And request
     """
     {
-        "title": "#(newRandomTitle)",
-        "startTime": "#(newStartTime)",
-        "endTime": "#(newEndTime)",
-        "projectId": #(secondProjectId), 
-        "taskId": "#(newTaskId)",
-        "description": "#(newDescription)",
+        "startTime": "#(unwellStartTime)",
+        "endTime": "#(unwellEndTime)",
     }
     """
     When method POST
     Then status 200
 
-    # Verify updated work entry data
+    * def newUnwellEntryId = response.newUnwellEntryId
+
+    # Verify work entries and unwell entries
     Given path 'tracking/work-entries'
-    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
+    And params { startDate: "2028-11-05", endDate: "2028-11-05" }
     When method GET
     And match response.workEntries contains
     """
     {
         "id": "#(newWorkEntryId)",
         "type": 1,
-        "title": "#(newRandomTitle)",
-        "startTime": "#(newStartTime)",
-        "endTime": "#(newEndTime)",
-        "projectId": #(secondProjectId),
-        "taskId": "#(newTaskId)",
-        "description": "#(newDescription)",
+        "title": "#(workEntryRandomTitle)",
+        "startTime": "#(workEntryStartTime)",
+        "endTime": "#(workEntryEndTime)",
+        "projectId": #(firstProjectId),
+        "taskId": "#(workEntryTaskId)",
+        "description": "#(workEntryDescription)",
+    },
+    {
+        "id": "#(newUnwellEntryId)",
+        "type": 2,
+        "startTime": "#(unwellStartTime)",
+        "endTime": "#(unwellEndTime)",
+        "title": null,
+        "projectId": null,
+        "taskId": null,
+        "description": null
     }
     """
 
@@ -113,7 +116,20 @@ Feature: Work Entries
 
     # Cleanup Verification: Verify that work entry was deleted
     Given path 'tracking/work-entries'
-    And params { startDate: "2025-11-06", endDate: "2025-11-06" }
+    And params { startDate: "2028-11-05", endDate: "2028-11-05" }
     When method GET
     Then status 200
     And assert response.workEntries.filter(x => x.id == newWorkEntryId).length == 0
+
+    # Cleanup: Delete the unwell entry (hard delete)
+    Given path 'tracking/work-entries', newUnwellEntryId, 'hard-delete'
+    When method DELETE
+    Then status 200
+    And match response == { isDeleted: true }
+
+    # Cleanup Verification: Verify that unwell entry was deleted
+    Given path 'tracking/work-entries'
+    And params { startDate: "2028-11-05", endDate: "2028-11-05" }
+    When method GET
+    Then status 200
+    And assert response.workEntries.filter(x => x.id == newUnwellEntryId).length == 0

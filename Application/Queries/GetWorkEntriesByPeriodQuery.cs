@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries;
@@ -17,13 +18,14 @@ public class GetWorkEntriesByPeriodQuery
         _claimsProvider = claimsProvider;
     }
 
-    public Task<List<WorkEntry>> GetByPeriodAsync(
+    public Task<List<TEntity>> GetByPeriodAsync<TEntity>(
         DateOnly startDate,
         DateOnly endDate
     )
+    where TEntity : TrackingEntryBase
     {
         return _context
-            .QueryableWithinTenantAsNoTracking<WorkEntry>()
+            .QueryableWithinTenantAsNoTracking<TEntity>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.IsDeleted == false)
             .Where(x => x.StartTime >= startDate.ToDateTime(TimeOnly.MinValue) && x.EndTime <= endDate.ToDateTime(TimeOnly.MaxValue))

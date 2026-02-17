@@ -1,6 +1,5 @@
 using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
 
 namespace Api.Features.Tracking.CreateWorkEntry;
 

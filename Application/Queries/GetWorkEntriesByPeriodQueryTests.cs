@@ -55,7 +55,7 @@ public class GetWorkEntriesByPeriodQueryTests
         await context.AddEntityAndSaveAsync(workEntry3);
 
         var result = await getWorkEntriesByPeriodQuery
-            .GetByPeriodAsync(
+            .GetByPeriodAsync<WorkEntry>(
                 new DateOnly(2025, 11, 24),
                 new DateOnly(2025, 11, 27)
             );
@@ -92,7 +92,7 @@ public class GetWorkEntriesByPeriodQueryTests
         var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
 
         var result = await getWorkEntriesByPeriodQuery
-            .GetByPeriodAsync(
+            .GetByPeriodAsync<WorkEntry>(
                 new DateOnly(2025, 11, 24),
                 new DateOnly(2025, 11, 27)
             );
@@ -125,7 +125,7 @@ public class GetWorkEntriesByPeriodQueryTests
         var getWorkEntriesByPeriodQuery = new GetWorkEntriesByPeriodQuery(context, mockClaimsProvider.Object);
 
         var result = await getWorkEntriesByPeriodQuery
-            .GetByPeriodAsync(
+            .GetByPeriodAsync<WorkEntry>(
                 new DateOnly(2025, 11, 24),
                 new DateOnly(2025, 11, 27)
             );
