@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Application.Mappings;
 
-public class WorkEntryMapping : IEntityTypeConfiguration<WorkEntry>
+public class TrackingEntryBaseMapping : IEntityTypeConfiguration<TrackingEntryBase>
 {
-    public void Configure(EntityTypeBuilder<WorkEntry> builder)
+    public void Configure(EntityTypeBuilder<TrackingEntryBase> builder)
     {
         builder
             .Property(x => x.Duration)
