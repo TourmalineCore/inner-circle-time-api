@@ -103,19 +103,22 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 ```mermaid
 	erDiagram
 	%%{init: {'theme':'neutral'}}%%
-	WorkEntry {
-		bigint Id PK
+	TaskEntry {
 		text Description 
+		bigint ProjectId 
+		text TaskId 
+		text Title 
+	}
+	TrackedEntryBase {
+		bigint Id PK
+		charactervarying21 Discriminator 
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
 		boolean IsDeleted 
-		bigint ProjectId 
 		timestampwithouttimezone StartTime 
-		text TaskId 
 		bigint TenantId 
 		text TimeZoneId 
-		text Title 
 		integer Type 
 	}
 ```
