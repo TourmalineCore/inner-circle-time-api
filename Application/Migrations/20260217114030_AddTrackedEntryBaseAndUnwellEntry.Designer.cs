@@ -3,6 +3,7 @@ using System;
 using Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260217114030_AddTrackedEntryBaseAndUnwellEntry")]
+    partial class AddTrackedEntryBaseAndUnwellEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,21 @@ namespace Application.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Core.Entities.TaskEntry", b =>
+            modelBuilder.Entity("Core.Entities.UnwellEntry", b =>
+                {
+                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+
+                    b.ToTable(t =>
+                        {
+                            t.HasCheckConstraint("ck_work_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0");
+                        });
+
+                    b.HasDiscriminator().HasValue("UnwellEntry");
+                });
+
+            modelBuilder.Entity("Core.Entities.WorkEntry", b =>
                 {
                     b.HasBaseType("Core.Entities.TrackedEntryBase");
 
@@ -116,21 +133,7 @@ namespace Application.Migrations
                             t.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0");
                         });
 
-                    b.HasDiscriminator().HasValue("TaskEntry");
-                });
-
-            modelBuilder.Entity("Core.Entities.UnwellEntry", b =>
-                {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
-
-                    b.ToTable(t =>
-                        {
-                            t.HasCheckConstraint("ck_work_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
-
-                            t.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0");
-                        });
-
-                    b.HasDiscriminator().HasValue("UnwellEntry");
+                    b.HasDiscriminator().HasValue("WorkEntry");
                 });
 #pragma warning restore 612, 618
         }
