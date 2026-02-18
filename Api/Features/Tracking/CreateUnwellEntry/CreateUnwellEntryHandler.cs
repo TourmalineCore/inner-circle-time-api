@@ -4,14 +4,14 @@ namespace Api.Features.Tracking.CreateUnwellEntry;
 
 public class CreateUnwellEntryHandler
 {
-    private readonly CreateUnwellEntryCommand _createWorkEntryCommand;
+    private readonly CreateUnwellEntryCommand _createUnwellEntryCommand;
 
 
     public CreateUnwellEntryHandler(
-        CreateUnwellEntryCommand createWorkEntryCommand
+        CreateUnwellEntryCommand createUnwellEntryCommand
     )
     {
-        _createWorkEntryCommand = createWorkEntryCommand;
+        _createUnwellEntryCommand = createUnwellEntryCommand;
     }
 
     public async Task<CreateUnwellResponse> HandleAsync(
@@ -24,7 +24,7 @@ public class CreateUnwellEntryHandler
             EndTime = createUnwellEntryRequest.EndTime,
         };
 
-        var newUnwellEntryId = await _createWorkEntryCommand.ExecuteAsync(createUnwellEntryCommandParams);
+        var newUnwellEntryId = await _createUnwellEntryCommand.ExecuteAsync(createUnwellEntryCommandParams);
 
         return new CreateUnwellResponse
         {
