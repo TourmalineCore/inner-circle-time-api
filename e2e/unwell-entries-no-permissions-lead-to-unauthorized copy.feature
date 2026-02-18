@@ -1,11 +1,11 @@
-Feature: Work Entries
+Feature: Unwell Entries
     # https://github.com/karatelabs/karate/issues/1191
     # https://github.com/karatelabs/karate?tab=readme-ov-file#karate-fork
 
   Background:
     * header Content-Type = 'application/json'
 
-  Scenario: No Permissions Lead to Unauthorized for Work Entries Endpoints
+  Scenario: No Permissions Lead to Unauthorized for Unwell Entries Endpoints
 
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
@@ -31,25 +31,11 @@ Feature: Work Entries
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
     Given url apiRootUrl
-    Given path 'tracking/work-entries/projects'
+    Given path 'tracking/unwell-entries'
     When method GET
     Then status 403
 
     Given url apiRootUrl
-    Given path 'tracking/work-entries'
-    When method GET
-    Then status 403
-
-    Given url apiRootUrl
-    Given path 'tracking/work-entries'
+    Given path 'tracking/unwell-entries', 100500
     When method POST
-    Then status 403
-    
-    Given url apiRootUrl
-    Given path 'tracking/work-entries', 100500
-    When method POST
-    Then status 403
-
-    Given path 'tracking/work-entries', 100500, 'hard-delete'
-    When method DELETE
     Then status 403
