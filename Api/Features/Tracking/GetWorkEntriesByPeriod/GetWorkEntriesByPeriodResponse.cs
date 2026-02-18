@@ -5,7 +5,7 @@ namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
 public class GetWorkEntriesByPeriodResponse
 {
     public required List<WorkEntryDto> WorkEntries { get; set; }
-    
+
     public required List<UnwellEntryDto> UnwellEntries { get; set; }
 }
 
