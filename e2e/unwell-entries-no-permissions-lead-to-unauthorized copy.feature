@@ -32,7 +32,7 @@ Feature: Unwell Entries
 
     Given url apiRootUrl
     Given path 'tracking/unwell-entries'
-    When method GET
+    When method POST
     Then status 403
 
     Given url apiRootUrl
