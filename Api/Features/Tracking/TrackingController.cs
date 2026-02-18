@@ -71,7 +71,7 @@ public class TrackingController : ControllerBase
     [Required][FromRoute] long unwellEntryId,
     [Required][FromBody] UpdateUnwellEntryRequest updateUnwellEntryRequest,
     [FromServices] UpdateUnwellEntryHandler updateUnwellEntryHandler
-)
+    )
     {
         return updateUnwellEntryHandler.HandleAsync(unwellEntryId, updateUnwellEntryRequest);
     }
