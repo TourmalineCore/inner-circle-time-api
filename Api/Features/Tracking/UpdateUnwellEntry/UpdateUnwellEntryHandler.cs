@@ -18,13 +18,13 @@ public class UpdateUnwellEntryHandler
         UpdateUnwellEntryRequest updateUnwellEntryRequest
     )
     {
-        var updateWorkEntryCommandParams = new UpdateUnwellEntryCommandParams
+        var updateUnwellEntryCommandParams = new UpdateUnwellEntryCommandParams
         {
             Id = unwellEntryId,
             StartTime = updateUnwellEntryRequest.StartTime,
             EndTime = updateUnwellEntryRequest.EndTime,
         };
 
-        await _updateUnwellEntryCommand.ExecuteAsync(updateWorkEntryCommandParams);
+        await _updateUnwellEntryCommand.ExecuteAsync(updateUnwellEntryCommandParams);
     }
 }
