@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace Application.Commands;
 
@@ -19,8 +18,6 @@ public class UpdateWorkEntryCommandParams
     public required long ProjectId { get; set; }
 
     public required string Description { get; set; }
-
-    public required EventType Type { get; set; }
 }
 
 public class UpdateWorkEntryCommand : DbValidationWorkEntryCommandBase<UpdateWorkEntryCommandParams>
@@ -45,7 +42,7 @@ public class UpdateWorkEntryCommand : DbValidationWorkEntryCommandBase<UpdateWor
     protected override async Task<long> MakeChangesToWorkEntryAsync(UpdateWorkEntryCommandParams commandParams)
     {
         await _context
-            .QueryableWithinTenant<WorkEntry>()
+            .QueryableWithinTenant<TaskEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == commandParams.Id)
             .ExecuteUpdateAsync(setters => setters
@@ -55,7 +52,6 @@ public class UpdateWorkEntryCommand : DbValidationWorkEntryCommandBase<UpdateWor
                 .SetProperty(x => x.TaskId, commandParams.TaskId)
                 .SetProperty(x => x.ProjectId, commandParams.ProjectId)
                 .SetProperty(x => x.Description, commandParams.Description)
-                .SetProperty(x => x.Type, commandParams.Type)
             );
 
         return commandParams.Id;

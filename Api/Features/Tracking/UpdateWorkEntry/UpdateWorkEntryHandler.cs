@@ -1,6 +1,5 @@
 using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
 
 namespace Api.Features.Tracking.UpdateWorkEntry;
 
@@ -20,21 +19,20 @@ public class UpdateWorkEntryHandler
 
     public async Task HandleAsync(
         long workEntryId,
-        UpdateWorkEntryRequest updateEntryRequest
+        UpdateWorkEntryRequest updateWorkEntryRequest
     )
     {
-        var project = await _assignmentsApi.GetEmployeeProjectAsync(updateEntryRequest.ProjectId);
+        var project = await _assignmentsApi.GetEmployeeProjectAsync(updateWorkEntryRequest.ProjectId);
 
         var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
         {
             Id = workEntryId,
-            Title = updateEntryRequest.Title,
-            StartTime = updateEntryRequest.StartTime,
-            EndTime = updateEntryRequest.EndTime,
+            Title = updateWorkEntryRequest.Title,
+            StartTime = updateWorkEntryRequest.StartTime,
+            EndTime = updateWorkEntryRequest.EndTime,
             ProjectId = project.Id,
-            TaskId = updateEntryRequest.TaskId,
-            Description = updateEntryRequest.Description,
-            Type = EventType.Task, // TODO: after add other event types remove hardcode
+            TaskId = updateWorkEntryRequest.TaskId,
+            Description = updateWorkEntryRequest.Description,
         };
 
         await _updateWorkEntryCommand.ExecuteAsync(updateWorkEntryCommandParams);

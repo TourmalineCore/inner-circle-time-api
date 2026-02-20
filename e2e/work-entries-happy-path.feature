@@ -95,6 +95,7 @@ Feature: Work Entries
     """
     {
         "id": "#(newWorkEntryId)",
+        "type": 1,
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",

@@ -1,6 +1,8 @@
 ﻿using Api.ExternalDeps.AssignmentsApi;
+using Api.Features.Tracking.CreateUnwellEntry;
 using Api.Features.Tracking.CreateWorkEntry;
 using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.UpdateUnwellEntry;
 using Api.Features.Tracking.UpdateWorkEntry;
 using Application;
 using Application.Commands;
@@ -32,10 +34,14 @@ public static class DependencyInjection
         services.AddTransient<IAssignmentsApi, AssignmentsApi>();
         services.AddTransient<CreateWorkEntryHandler>();
         services.AddTransient<CreateWorkEntryCommand>();
+        services.AddTransient<CreateUnwellEntryHandler>();
+        services.AddTransient<CreateUnwellEntryCommand>();
         services.AddTransient<GetWorkEntriesByPeriodHandler>();
         services.AddTransient<GetWorkEntriesByPeriodQuery>();
         services.AddTransient<UpdateWorkEntryHandler>();
         services.AddTransient<UpdateWorkEntryCommand>();
+        services.AddTransient<UpdateUnwellEntryHandler>();
+        services.AddTransient<UpdateUnwellEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
     }
 }

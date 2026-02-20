@@ -1,10 +1,10 @@
-﻿namespace Core.Entities;
+namespace Core.Entities;
 
-public class WorkEntry : EntityBase, IOwnedByEmployee
+public class TrackedEntryBase : EntityBase, IOwnedByEmployee
 {
     // EntityFrameworkCore related empty default constructor
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public WorkEntry()
+    public TrackedEntryBase()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     {
     }
@@ -20,15 +20,7 @@ public class WorkEntry : EntityBase, IOwnedByEmployee
 
     public TimeSpan Duration { get; set; }
 
-    public EventType Type { get; set; }
-
-    public string Title { get; set; }
-
-    public long ProjectId { get; set; }
-
-    public string TaskId { get; set; }
-
-    public string Description { get; set; }
+    public EntryType Type { get; set; }
 
     public bool IsDeleted { get; set; } = false;
 }

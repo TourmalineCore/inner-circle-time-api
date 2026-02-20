@@ -1,6 +1,5 @@
 using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
 
 namespace Api.Features.Tracking.CreateWorkEntry;
 
@@ -33,7 +32,6 @@ public class CreateWorkEntryHandler
             ProjectId = project.Id,
             TaskId = createWorkEntryRequest.TaskId,
             Description = createWorkEntryRequest.Description,
-            Type = EventType.Task, // TODO: after add other event types remove hardcode
         };
 
         var newWorkEntryId = await _createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams);

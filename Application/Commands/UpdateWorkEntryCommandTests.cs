@@ -14,7 +14,7 @@ public partial class WorkEntryCommandTestsBase
 
         var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider);
 
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
+        var workEntry = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -23,7 +23,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         });
 
         var updateWorkEntryCommandParams = new UpdateWorkEntryCommandParams
@@ -35,7 +34,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#22",
             ProjectId = 2,
             Description = "Task description",
-            Type = EventType.Task
         };
 
         var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
@@ -53,7 +51,7 @@ public partial class WorkEntryCommandTestsBase
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var workEntry = await SaveEntityAsync(context, new WorkEntry
+        var workEntry = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -62,10 +60,9 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         });
 
-        var workEntry2 = await SaveEntityAsync(context, new WorkEntry
+        var workEntry2 = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 2",
@@ -74,7 +71,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         });
 
         var updateWorkEntryCommand = new UpdateWorkEntryCommand(context, mockClaimsProvider);
@@ -88,7 +84,6 @@ public partial class WorkEntryCommandTestsBase
             TaskId = "#2232",
             ProjectId = 1,
             Description = "Task description",
-            Type = EventType.Task
         };
 
         var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(

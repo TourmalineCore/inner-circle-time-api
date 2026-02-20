@@ -17,36 +17,15 @@ public class AppDbContext : DbContext
     {
     }
 
-    public virtual DbSet<WorkEntry> WorkEntries { get; set; }
+    public virtual DbSet<TrackedEntryBase> TrackedEntries { get; set; }
+
+    public virtual DbSet<UnwellEntry> UnwellEntries { get; set; }
+
+    public virtual DbSet<TaskEntry> TaskEntries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-
-        modelBuilder
-            .Entity<WorkEntry>()
-            .Property(x => x.Duration)
-            .HasComputedColumnSql("end_time - start_time", stored: true);
-
-        modelBuilder
-            .Entity<WorkEntry>()
-            .Property(x => x.StartTime)
-            .HasColumnType("timestamp without time zone");
-
-        modelBuilder
-            .Entity<WorkEntry>()
-            .Property(x => x.EndTime)
-            .HasColumnType("timestamp without time zone");
-
-        modelBuilder
-            .Entity<WorkEntry>()
-            .ToTable(x => x.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
-
-        modelBuilder
-            .Entity<WorkEntry>()
-            .ToTable(x => x.HasCheckConstraint(
-                "ck_work_entries_end_time_is_greater_than_start_time",
-                "\"end_time\" > \"start_time\""));
 
         base.OnModelCreating(modelBuilder);
     }

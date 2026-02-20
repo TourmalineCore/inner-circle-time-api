@@ -1,6 +1,4 @@
 ﻿using Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace Application.Commands;
 
@@ -17,8 +15,6 @@ public class CreateWorkEntryCommandParams
     public required string TaskId { get; set; }
 
     public required string Description { get; set; }
-
-    public required EventType Type { get; set; }
 }
 
 public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWorkEntryCommandParams>
@@ -42,7 +38,7 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
 
     protected override async Task<long> MakeChangesToWorkEntryAsync(CreateWorkEntryCommandParams commandParams)
     {
-        var workEntry = new WorkEntry
+        var workEntry = new TaskEntry
         {
             TenantId = _claimsProvider.TenantId,
             EmployeeId = _claimsProvider.EmployeeId,
@@ -52,11 +48,10 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
             ProjectId = commandParams.ProjectId,
             TaskId = commandParams.TaskId,
             Description = commandParams.Description,
-            Type = commandParams.Type,
         };
 
         await _context
-            .WorkEntries
+            .TaskEntries
             .AddAsync(workEntry);
 
         await _context.SaveChangesAsync();
