@@ -17,6 +17,9 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 # https://github.com/yarnpkg/yarn/issues/9218
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
 
+RUN echo "deb [signed-by=/usr/share/keyrings/yarn-archive-keyring.gpg] https://dl.yarnpkg.com/debian stable main" \
+    > /etc/apt/sources.list.d/yarn.lis
+
 # installing jre, curl, and unzip for Karate 
 # https://stackoverflow.com/a/44154721
 RUN apt-get update && \
