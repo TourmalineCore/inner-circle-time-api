@@ -7,7 +7,9 @@ public class UserClaimsProvider : IUserClaimsProvider
 {
     public const string PermissionClaimType = "permissions";
 
+    // Todo: delete after UI change contract to /entries
     public const string AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed = "AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed";
+    public const string AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed = "AUTO_TESTS_ONLY_IEntriesHardDeleteAllowed";
     public const string CanManagePersonalTimeTracker = "CanManagePersonalTimeTracker";
 
     public Task<List<Claim>> GetUserClaimsAsync(string login)
