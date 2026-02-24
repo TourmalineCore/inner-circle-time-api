@@ -26,7 +26,7 @@ public class TrackingControllerTests : HttpClientTestBase
             Description = "Task description",
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/api/time/tracking/work-entries", createTaskEntryRequest);
+        var response = await HttpClient.PostAsJsonAsync("/api/time/tracking/task-entries", createTaskEntryRequest);
 
         Assert.NotNull(response);
         Assert.Equal(StatusCodes.Status400BadRequest, (int)response.StatusCode);
