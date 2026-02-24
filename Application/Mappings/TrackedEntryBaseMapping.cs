@@ -21,11 +21,11 @@ public class TrackedEntryBaseMapping : IEntityTypeConfiguration<TrackedEntryBase
             .HasColumnType("timestamp without time zone");
 
         builder
-            .ToTable(x => x.HasCheckConstraint("ck_work_entries_type_not_zero", "\"type\" <> 0"));
+            .ToTable(x => x.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0"));
 
         builder
             .ToTable(x => x.HasCheckConstraint(
-                "ck_work_entries_end_time_is_greater_than_start_time",
+                "ck_entries_end_time_is_greater_than_start_time",
                 "\"end_time\" > \"start_time\""));
     }
 }

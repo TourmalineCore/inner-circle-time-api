@@ -1,15 +1,18 @@
 using Core.Entities;
 
-namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
+namespace Api.Features.Tracking.GetEntriesByPeriod;
 
-public class GetWorkEntriesByPeriodResponse
+public class GetEntriesByPeriodResponse
 {
-    public required List<WorkEntryDto> WorkEntries { get; set; }
+    // Todo: delete after UI change contract to /entries
+    public required List<TaskEntryDto> WorkEntries { get; set; }
+
+    public required List<TaskEntryDto> TaskEntries { get; set; }
 
     public required List<UnwellEntryDto> UnwellEntries { get; set; }
 }
 
-public class WorkEntryDto
+public class TaskEntryDto
 {
     public required long Id { get; set; }
 

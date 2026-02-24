@@ -1,33 +1,33 @@
 using Application.Queries;
 using Core.Entities;
 
-namespace Api.Features.Tracking.GetWorkEntriesByPeriod;
+namespace Api.Features.Tracking.GetEntriesByPeriod;
 
-public class GetWorkEntriesByPeriodHandler
+public class GetEntriesByPeriodHandler
 {
-    private readonly GetWorkEntriesByPeriodQuery _getWorkEntriesByPeriodQuery;
+    private readonly GetEntriesByPeriodQuery _getEntriesByPeriodQuery;
 
-    public GetWorkEntriesByPeriodHandler(
-        GetWorkEntriesByPeriodQuery getWorkEntriesByPeriodQuery
+    public GetEntriesByPeriodHandler(
+        GetEntriesByPeriodQuery getEntriesByPeriodQuery
     )
     {
-        _getWorkEntriesByPeriodQuery = getWorkEntriesByPeriodQuery;
+        _getEntriesByPeriodQuery = getEntriesByPeriodQuery;
     }
 
-    public async Task<GetWorkEntriesByPeriodResponse> HandleAsync(
+    public async Task<GetEntriesByPeriodResponse> HandleAsync(
         DateOnly startDate,
         DateOnly endDate
     )
     {
-        var workEntriesByPeriod = await _getWorkEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(
+        var entriesByPeriod = await _getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(
             startDate,
             endDate
         );
 
-        var workEntries = workEntriesByPeriod
+        var taskEntries = entriesByPeriod
             .OfType<TaskEntry>()
             .Select(
-                x => new WorkEntryDto
+                x => new TaskEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -40,7 +40,7 @@ public class GetWorkEntriesByPeriodHandler
                 })
                 .ToList();
 
-        var unwellEntries = workEntriesByPeriod
+        var unwellEntries = entriesByPeriod
             .OfType<UnwellEntry>()
             .Select(
                 x => new UnwellEntryDto
@@ -52,9 +52,10 @@ public class GetWorkEntriesByPeriodHandler
                 })
                 .ToList();
 
-        return new GetWorkEntriesByPeriodResponse
+        return new GetEntriesByPeriodResponse
         {
-            WorkEntries = workEntries,
+            WorkEntries = taskEntries,
+            TaskEntries = taskEntries,
             UnwellEntries = unwellEntries
         };
     }

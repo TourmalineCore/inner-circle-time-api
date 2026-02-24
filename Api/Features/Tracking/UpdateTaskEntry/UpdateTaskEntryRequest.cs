@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Features.Tracking.UpdateWorkEntry;
+namespace Api.Features.Tracking.UpdateTaskEntry;
 
-public class UpdateWorkEntryRequest
+public class UpdateTaskEntryRequest
 {
     [Required]
     public required string Title { get; set; }

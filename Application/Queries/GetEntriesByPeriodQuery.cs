@@ -1,15 +1,14 @@
-﻿using Core;
-using Core.Entities;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries;
 
-public class GetWorkEntriesByPeriodQuery
+public class GetEntriesByPeriodQuery
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
 
-    public GetWorkEntriesByPeriodQuery(
+    public GetEntriesByPeriodQuery(
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands;
 
-public class UpdateWorkEntryCommandParams
+public class UpdateTaskEntryCommandParams
 {
     public required long Id { get; set; }
 
@@ -20,12 +20,12 @@ public class UpdateWorkEntryCommandParams
     public required string Description { get; set; }
 }
 
-public class UpdateWorkEntryCommand : DbValidationWorkEntryCommandBase<UpdateWorkEntryCommandParams>
+public class UpdateTaskEntryCommand : DbValidationEntryCommandBase<UpdateTaskEntryCommandParams>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
 
-    public UpdateWorkEntryCommand(
+    public UpdateTaskEntryCommand(
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
@@ -34,12 +34,12 @@ public class UpdateWorkEntryCommand : DbValidationWorkEntryCommandBase<UpdateWor
         _claimsProvider = claimsProvider;
     }
 
-    public async Task<long> ExecuteAsync(UpdateWorkEntryCommandParams updateWorkEntryCommandParams)
+    public async Task<long> ExecuteAsync(UpdateTaskEntryCommandParams updateTaskEntryCommandParams)
     {
-        return await MakeChangesInDbAsync(updateWorkEntryCommandParams);
+        return await MakeChangesInDbAsync(updateTaskEntryCommandParams);
     }
 
-    protected override async Task<long> MakeChangesToWorkEntryAsync(UpdateWorkEntryCommandParams commandParams)
+    protected override async Task<long> MakeChangesToEntryAsync(UpdateTaskEntryCommandParams commandParams)
     {
         await _context
             .QueryableWithinTenant<TaskEntry>()

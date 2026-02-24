@@ -2,7 +2,7 @@
 
 namespace Application.Commands;
 
-public class CreateWorkEntryCommandParams
+public class CreateTaskEntryCommandParams
 {
     public required string Title { get; set; }
 
@@ -17,12 +17,12 @@ public class CreateWorkEntryCommandParams
     public required string Description { get; set; }
 }
 
-public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWorkEntryCommandParams>
+public class CreateTaskEntryCommand : DbValidationEntryCommandBase<CreateTaskEntryCommandParams>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
 
-    public CreateWorkEntryCommand(
+    public CreateTaskEntryCommand(
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
@@ -31,14 +31,14 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
         _claimsProvider = claimsProvider;
     }
 
-    public async Task<long> ExecuteAsync(CreateWorkEntryCommandParams createWorkEntryCommandParams)
+    public async Task<long> ExecuteAsync(CreateTaskEntryCommandParams createTaskEntryCommandParams)
     {
-        return await MakeChangesInDbAsync(createWorkEntryCommandParams);
+        return await MakeChangesInDbAsync(createTaskEntryCommandParams);
     }
 
-    protected override async Task<long> MakeChangesToWorkEntryAsync(CreateWorkEntryCommandParams commandParams)
+    protected override async Task<long> MakeChangesToEntryAsync(CreateTaskEntryCommandParams commandParams)
     {
-        var workEntry = new TaskEntry
+        var taskEntry = new TaskEntry
         {
             TenantId = _claimsProvider.TenantId,
             EmployeeId = _claimsProvider.EmployeeId,
@@ -52,10 +52,10 @@ public class CreateWorkEntryCommand : DbValidationWorkEntryCommandBase<CreateWor
 
         await _context
             .TaskEntries
-            .AddAsync(workEntry);
+            .AddAsync(taskEntry);
 
         await _context.SaveChangesAsync();
 
-        return workEntry.Id;
+        return taskEntry.Id;
     }
 }

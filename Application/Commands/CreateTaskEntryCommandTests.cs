@@ -3,18 +3,18 @@ using Xunit;
 
 namespace Application.Commands;
 
-public partial class WorkEntryCommandTestsBase
+public partial class EntryCommandTestsBase
 {
     [Fact]
-    public async Task CreateWorkEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
+    public async Task CreateTaskEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
     {
         var context = CreateTenantDbContext();
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+        var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
 
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        var createTaskEntryCommandParams = new CreateTaskEntryCommandParams
         {
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
@@ -25,21 +25,21 @@ public partial class WorkEntryCommandTestsBase
         };
 
         var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
-            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
+            async () => await createTaskEntryCommand.ExecuteAsync(createTaskEntryCommandParams)
         );
 
-        Assert.Contains("ck_work_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
+        Assert.Contains("ck_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
         Assert.Equal("End time must be greater than start time", exception.Message);
     }
 
     [Fact]
-    public async Task CreateWorkEntryAsync_ShouldThrowConflictingTimeRangeExceptionIfTimeConflictsWithAnotherTask()
+    public async Task CreateTaskEntryAsync_ShouldThrowConflictingTimeRangeExceptionIfTimeConflictsWithAnotherTask()
     {
         var context = CreateTenantDbContext();
 
         var mockClaimsProvider = GetMockClaimsProvider();
 
-        var workEntry = await SaveEntityAsync(context, new TaskEntry
+        var taskEntry = await SaveEntityAsync(context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -50,9 +50,9 @@ public partial class WorkEntryCommandTestsBase
             Description = "Task description",
         });
 
-        var createWorkEntryCommand = new CreateWorkEntryCommand(context, mockClaimsProvider);
+        var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
 
-        var createWorkEntryCommandParams = new CreateWorkEntryCommandParams
+        var createTaskEntryCommandParams = new CreateTaskEntryCommandParams
         {
             Title = "Task 2",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -63,7 +63,7 @@ public partial class WorkEntryCommandTestsBase
         };
 
         var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-            async () => await createWorkEntryCommand.ExecuteAsync(createWorkEntryCommandParams)
+            async () => await createTaskEntryCommand.ExecuteAsync(createTaskEntryCommandParams)
         );
 
         Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException!.InnerException!.Message);

@@ -30,25 +30,25 @@ public class HardDeleteEntityCommandTests
     [Fact]
     public async Task DeleteExistingEntityTwice_ShouldDeleteEntityFromDbSetAndDoNotThrowAtSecondTime()
     {
-        var workEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
+        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID
         });
 
-        var wasDeleted = await _command.ExecuteAsync<TaskEntry>(workEntry.Id);
+        var wasDeleted = await _command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-        var deletedWorkEntry = await _context
+        var deletedTaskEntry = await _context
             .TaskEntries
-            .SingleOrDefaultAsync(x => x.Id != workEntry.Id);
+            .SingleOrDefaultAsync(x => x.Id != taskEntry.Id);
 
         Assert.True(wasDeleted);
-        Assert.Null(deletedWorkEntry);
+        Assert.Null(deletedTaskEntry);
 
         var wasDeletedAgain = true;
 
         // try to delete again
-        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync<TaskEntry>(workEntry.Id)));
+        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync<TaskEntry>(taskEntry.Id)));
         Assert.False(wasDeletedAgain);
     }
 
@@ -67,7 +67,7 @@ public class HardDeleteEntityCommandTests
     [Fact]
     public async Task DeleteAnotherEmployeesEntity_ShouldNotDeleteAnotherEmployeesEntityFromDb()
     {
-        var workEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
+        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID
@@ -81,14 +81,14 @@ public class HardDeleteEntityCommandTests
 
         var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
 
-        var wasDeleted = await command.ExecuteAsync<TaskEntry>(workEntry.Id);
+        var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-        var workEntryFromDb = await _context
+        var taskEntryFromDb = await _context
             .TaskEntries
-            .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
+            .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
         Assert.False(wasDeleted);
-        Assert.NotNull(workEntryFromDb);
+        Assert.NotNull(taskEntryFromDb);
     }
 
     [Fact]
@@ -97,7 +97,7 @@ public class HardDeleteEntityCommandTests
         // To check the tenant isolation, you must specify a TenantId other than 777,
         // since in the implementation of TenantAppDbContextExtensionsTestsRelated,
         // the QueryableWithinTenant method returns TenantId = 777
-        var workEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
+        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             TenantId = 2
@@ -111,13 +111,13 @@ public class HardDeleteEntityCommandTests
 
         var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
 
-        var wasDeleted = await command.ExecuteAsync<TaskEntry>(workEntry.Id);
+        var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-        var workEntryFromDb = await _context
+        var taskEntryFromDb = await _context
             .TaskEntries
-            .SingleOrDefaultAsync(x => x.Id == workEntry.Id);
+            .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
         Assert.False(wasDeleted);
-        Assert.NotNull(workEntryFromDb);
+        Assert.NotNull(taskEntryFromDb);
     }
 }
