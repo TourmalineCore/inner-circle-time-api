@@ -15,7 +15,7 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 
 # necessary to solve the problem with GPG key
 # https://github.com/yarnpkg/yarn/issues/9218
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
 
 RUN rm -f /etc/apt/sources.list.d/yarn.list 2>/dev/null || true
 
