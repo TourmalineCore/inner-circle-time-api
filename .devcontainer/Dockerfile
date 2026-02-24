@@ -3,7 +3,7 @@
 # Please see the detailed comment in devcontainer.json
 FROM mcr.microsoft.com/devcontainers/dotnet:1.5.5-9.0-noble
 
-RUN rm -f /etc/apt/keyrings/yarn-archive-keyring.gpg || true
+# RUN rm -f /etc/apt/keyrings/yarn-archive-keyring.gpg || true
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
 
