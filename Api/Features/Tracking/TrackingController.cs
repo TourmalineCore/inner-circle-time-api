@@ -137,7 +137,7 @@ public class TrackingController : ControllerBase
     [Required][FromQuery] DateOnly startDate,
     [Required][FromQuery] DateOnly endDate,
     [FromServices] IAssignmentsApi assignmentsApi
-)
+    )
     {
         return new ProjectsResponse
         {
