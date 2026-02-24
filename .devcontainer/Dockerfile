@@ -1,11 +1,11 @@
 # https://hub.docker.com/r/microsoft/devcontainers-dotnet
 # You can update the version of the base image with .NET and SDK only checking it together with the related VSCode extensions
 # Please see the detailed comment in devcontainer.json
-FROM mcr.microsoft.com/devcontainers/dotnet:1.5.5-9.0-noble
+FROM mcr.microsoft.com/devcontainers/dotnet:2.0.4-9.0-noble
 
 # installing EntityFramework Core tooling for migrations
 RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
-# installing tooling for tests coverage and its reporting
+    # installing tooling for tests coverage and its reporting
     dotnet tool install --global dotnet-coverage --version 18.1.0 && \
     dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.4.18
 
