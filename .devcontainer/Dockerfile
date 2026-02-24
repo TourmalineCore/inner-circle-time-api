@@ -21,7 +21,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee
 # https://stackoverflow.com/a/44154721
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive \
-    apt-get -y install --no-install-recommends \ 
+    apt-get -y install --no-install-recommends \
     curl unzip default-jre-headless
 
 RUN curl -o /karate.jar -L 'https://github.com/intuit/karate/releases/download/v1.5.1/karate-1.5.1.jar'
