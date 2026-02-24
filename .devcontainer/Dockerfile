@@ -1,7 +1,7 @@
 # https://hub.docker.com/r/microsoft/devcontainers-dotnet
 # You can update the version of the base image with .NET and SDK only checking it together with the related VSCode extensions
 # Please see the detailed comment in devcontainer.json
-FROM mcr.microsoft.com/devcontainers/dotnet:2.0.4-9.0-noble
+FROM mcr.microsoft.com/devcontainers/dotnet:1.5.5-9.0-noble
 
 # installing EntityFramework Core tooling for migrations
 RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
@@ -12,6 +12,10 @@ RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
 # https://stackoverflow.com/a/72727052
 # we need to manually add it to PATH otherwise it cannot find dotnet ef tool
 ENV PATH="$PATH:/root/.dotnet/tools"
+
+# necessary to solve the problem with GPG key
+# https://github.com/yarnpkg/yarn/issues/9218
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
 
 # installing jre, curl, and unzip for Karate 
 # https://stackoverflow.com/a/44154721
