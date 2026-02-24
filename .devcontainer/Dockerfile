@@ -3,6 +3,10 @@
 # Please see the detailed comment in devcontainer.json
 FROM mcr.microsoft.com/devcontainers/dotnet:1.5.5-9.0-noble
 
+RUN rm -f /etc/apt/keyrings/yarn-archive-keyring.gpg || true
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
+
 # installing EntityFramework Core tooling for migrations
 RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
     # installing tooling for tests coverage and its reporting
@@ -12,12 +16,6 @@ RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
 # https://stackoverflow.com/a/72727052
 # we need to manually add it to PATH otherwise it cannot find dotnet ef tool
 ENV PATH="$PATH:/root/.dotnet/tools"
-
-# necessary to solve the problem with GPG key
-# https://github.com/yarnpkg/yarn/issues/9218
-# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | sudo tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
-
-RUN rm -f /etc/apt/sources.list.d/yarn.list 2>/dev/null || true
 
 # installing jre, curl, and unzip for Karate 
 # https://stackoverflow.com/a/44154721
