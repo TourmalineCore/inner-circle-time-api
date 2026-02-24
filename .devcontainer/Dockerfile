@@ -3,9 +3,15 @@
 # Please see the detailed comment in devcontainer.json
 FROM mcr.microsoft.com/devcontainers/dotnet:1.5.5-9.0-noble
 
+# It is necessary to solve the problem described in this issue https://github.com/yarnpkg/yarn/issues/9218
+# Download and install a new key
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /etc/apt/keyrings/yarn-archive-keyring.gpg > /dev/null
+# Set a new path to the key
+RUN echo "deb [signed-by=/etc/apt/keyrings/yarn-archive-keyring.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
+
 # installing EntityFramework Core tooling for migrations
 RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
-# installing tooling for tests coverage and its reporting
+    # installing tooling for tests coverage and its reporting
     dotnet tool install --global dotnet-coverage --version 18.1.0 && \
     dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.4.18
 
@@ -17,7 +23,7 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 # https://stackoverflow.com/a/44154721
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive \
-    apt-get -y install --no-install-recommends \ 
+    apt-get -y install --no-install-recommends \
     curl unzip default-jre-headless
 
 RUN curl -o /karate.jar -L 'https://github.com/intuit/karate/releases/download/v1.5.1/karate-1.5.1.jar'
