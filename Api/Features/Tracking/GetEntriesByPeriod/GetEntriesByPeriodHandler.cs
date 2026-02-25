@@ -54,7 +54,6 @@ public class GetEntriesByPeriodHandler
 
         return new GetEntriesByPeriodResponse
         {
-            WorkEntries = taskEntries,
             TaskEntries = taskEntries,
             UnwellEntries = unwellEntries
         };

@@ -4,9 +4,6 @@ namespace Api.Features.Tracking.GetEntriesByPeriod;
 
 public class GetEntriesByPeriodResponse
 {
-    // Todo: delete after UI change contract to /entries
-    public required List<TaskEntryDto> WorkEntries { get; set; }
-
     public required List<TaskEntryDto> TaskEntries { get; set; }
 
     public required List<UnwellEntryDto> UnwellEntries { get; set; }
