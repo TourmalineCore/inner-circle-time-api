@@ -111,11 +111,11 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 	}
 	TrackedEntryBase {
 		bigint Id PK
+		timestampwithtimezone DeletedAtUtc 
 		charactervarying21 Discriminator 
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
-		boolean IsDeleted 
 		timestampwithouttimezone StartTime 
 		bigint TenantId 
 		text TimeZoneId 
