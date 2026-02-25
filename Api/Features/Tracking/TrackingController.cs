@@ -104,4 +104,15 @@ public class TrackingController : ControllerBase
             isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(entryId)
         };
     }
+
+    [EndpointSummary("Soft Deletes specific entry")]
+    [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed)]
+    [HttpDelete("entries/{entryId}/soft-delete")]
+    public Task SoftDeleteEntryAsync(
+    [Required][FromRoute] long entryId,
+    [FromServices] SoftDeleteEntityCommand softDeleteEntityCommand
+    )
+    {
+        return softDeleteEntityCommand.ExecuteAsync(entryId);
+    }
 }

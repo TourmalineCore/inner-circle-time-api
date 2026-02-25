@@ -22,5 +22,5 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee
 
     public EntryType Type { get; set; }
 
-    public bool IsDeleted { get; set; } = false;
+    public DateTime? DeletedAtUtc { get; set; }
 }
