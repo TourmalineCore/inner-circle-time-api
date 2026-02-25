@@ -64,7 +64,7 @@ Feature: Unwell Entries
     Then status 200
 
     # Verify updated unwell entry data
-    Given path 'tracking/work-entries'
+    Given path 'tracking/entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET
     And match response.unwellEntries contains
@@ -78,13 +78,13 @@ Feature: Unwell Entries
     """
 
     # Cleanup: Delete the unwell entry (hard delete)
-    Given path 'tracking/work-entries', newUnwellEntryId, 'hard-delete'
+    Given path 'tracking/entries', newUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that unwell entry was deleted
-    Given path 'tracking/work-entries'
+    Given path 'tracking/entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET
     Then status 200

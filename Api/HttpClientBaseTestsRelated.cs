@@ -72,7 +72,6 @@ public class FakeAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
         {
             // Adding permissions claims to bypass permissions
             new Claim("permissions", UserClaimsProvider.CanManagePersonalTimeTracker),
-            new Claim("permissions", UserClaimsProvider.AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed),
             new Claim("permissions", UserClaimsProvider.AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed)
         };
 
