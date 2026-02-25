@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Api.Features.Tracking.CreateTaskEntry;
 using Api.Features.Tracking.CreateUnwellEntry;
-using Api.Features.Tracking.CreateWorkEntry;
-using Api.Features.Tracking.GetWorkEntriesByPeriod;
+using Api.Features.Tracking.GetEntriesByPeriod;
+using Api.Features.Tracking.UpdateTaskEntry;
 using Api.Features.Tracking.UpdateUnwellEntry;
-using Api.Features.Tracking.UpdateWorkEntry;
 using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
 using Core.Entities;
@@ -18,27 +18,52 @@ namespace Api.Features.Tracking;
 [Route("api/time/tracking")]
 public class TrackingController : ControllerBase
 {
+    // Todo: delete after UI change contract to /entries
     [EndpointSummary("Get work entries by period")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("work-entries")]
-    public Task<GetWorkEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
+    public Task<GetEntriesByPeriodResponse> GetWorkEntriesByPeriodAsync(
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
-        [FromServices] GetWorkEntriesByPeriodHandler getWorkEntriesByPeriodHandler
+        [FromServices] GetEntriesByPeriodHandler getEntriesByPeriodHandler
     )
     {
-        return getWorkEntriesByPeriodHandler.HandleAsync(startDate, endDate);
+        return getEntriesByPeriodHandler.HandleAsync(startDate, endDate);
     }
 
+    [EndpointSummary("Get entries by period")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("entries")]
+    public Task<GetEntriesByPeriodResponse> GetEntriesByPeriodAsync(
+      [Required][FromQuery] DateOnly startDate,
+      [Required][FromQuery] DateOnly endDate,
+      [FromServices] GetEntriesByPeriodHandler getEntriesByPeriodHandler
+    )
+    {
+        return getEntriesByPeriodHandler.HandleAsync(startDate, endDate);
+    }
+
+    // Todo: delete after UI change contract to /task-entries
     [EndpointSummary("Create a work entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("work-entries")]
-    public Task<CreateWorkEntryResponse> CreateWorkEntryAsync(
-        [Required][FromBody] CreateWorkEntryRequest createWorkEntryRequest,
-        [FromServices] CreateWorkEntryHandler createWorkEntryHandler
+    public Task<CreateTaskEntryResponse> CreateWorkEntryAsync(
+        [Required][FromBody] CreateTaskEntryRequest createTaskEntryRequest,
+        [FromServices] CreateTaskEntryHandler createTaskEntryHandler
     )
     {
-        return createWorkEntryHandler.HandleAsync(createWorkEntryRequest);
+        return createTaskEntryHandler.HandleAsync(createTaskEntryRequest);
+    }
+
+    [EndpointSummary("Create a task entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("task-entries")]
+    public Task<CreateTaskEntryResponse> CreateTaskEntryAsync(
+      [Required][FromBody] CreateTaskEntryRequest createTaskEntryRequest,
+      [FromServices] CreateTaskEntryHandler createTaskEntryHandler
+    )
+    {
+        return createTaskEntryHandler.HandleAsync(createTaskEntryRequest);
     }
 
     [EndpointSummary("Create an unwell entry")]
@@ -52,16 +77,29 @@ public class TrackingController : ControllerBase
         return createUnwellEntryHandler.HandleAsync(createUnwellRequest);
     }
 
+    // Todo: delete after UI change contract to /task-entries
     [EndpointSummary("Update a work entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("work-entries/{workEntryId}")]
     public Task UpdateWorkEntryAsync(
         [Required][FromRoute] long workEntryId,
-        [Required][FromBody] UpdateWorkEntryRequest updateWorkEntryRequest,
-        [FromServices] UpdateWorkEntryHandler updateWorkEntryHandler
+        [Required][FromBody] UpdateTaskEntryRequest updateTaskEntryRequest,
+        [FromServices] UpdateTaskEntryHandler updateTaskEntryHandler
     )
     {
-        return updateWorkEntryHandler.HandleAsync(workEntryId, updateWorkEntryRequest);
+        return updateTaskEntryHandler.HandleAsync(workEntryId, updateTaskEntryRequest);
+    }
+
+    [EndpointSummary("Update a task entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("task-entries/{taskEntryId}")]
+    public Task UpdateTaskEntryAsync(
+        [Required][FromRoute] long taskEntryId,
+        [Required][FromBody] UpdateTaskEntryRequest updateTaskEntryRequest,
+        [FromServices] UpdateTaskEntryHandler updateTaskEntryHandler
+    )
+    {
+        return updateTaskEntryHandler.HandleAsync(taskEntryId, updateTaskEntryRequest);
     }
 
     [EndpointSummary("Update an unwell entry")]
@@ -76,10 +114,11 @@ public class TrackingController : ControllerBase
         return updateUnwellEntryHandler.HandleAsync(unwellEntryId, updateUnwellEntryRequest);
     }
 
+    // Todo: delete after UI change contract to /task-entries
     [EndpointSummary("Get employee projects by period")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("work-entries/projects")]
-    public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
+    public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodForWorkEntriesAsync(
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
         [FromServices] IAssignmentsApi assignmentsApi
@@ -91,6 +130,22 @@ public class TrackingController : ControllerBase
         };
     }
 
+    [EndpointSummary("Get employee projects by period")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("task-entries/projects")]
+    public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
+    [Required][FromQuery] DateOnly startDate,
+    [Required][FromQuery] DateOnly endDate,
+    [FromServices] IAssignmentsApi assignmentsApi
+    )
+    {
+        return new ProjectsResponse
+        {
+            Projects = await assignmentsApi.GetEmployeeProjectsByPeriodAsync(startDate, endDate)
+        };
+    }
+
+    // Todo: delete after UI change contract to /entries
     [EndpointSummary("Deletes specific work entry")]
     [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsWorkEntriesHardDeleteAllowed)]
     [HttpDelete("work-entries/{workEntryId}/hard-delete")]
@@ -102,6 +157,20 @@ public class TrackingController : ControllerBase
         return new
         {
             isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(workEntryId)
+        };
+    }
+
+    [EndpointSummary("Deletes specific entry")]
+    [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed)]
+    [HttpDelete("entries/{entryId}/hard-delete")]
+    public async Task<object> HardDeleteEntryAsync(
+    [Required][FromRoute] long entryId,
+    [FromServices] HardDeleteEntityCommand hardDeleteEntityCommand
+    )
+    {
+        return new
+        {
+            isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(entryId)
         };
     }
 }

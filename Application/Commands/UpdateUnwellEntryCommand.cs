@@ -12,7 +12,7 @@ public class UpdateUnwellEntryCommandParams
     public required DateTime EndTime { get; set; }
 }
 
-public class UpdateUnwellEntryCommand : DbValidationWorkEntryCommandBase<UpdateUnwellEntryCommandParams>
+public class UpdateUnwellEntryCommand : DbValidationEntryCommandBase<UpdateUnwellEntryCommandParams>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
@@ -31,7 +31,7 @@ public class UpdateUnwellEntryCommand : DbValidationWorkEntryCommandBase<UpdateU
         return await MakeChangesInDbAsync(updateUnwellEntryCommandParams);
     }
 
-    protected override async Task<long> MakeChangesToWorkEntryAsync(UpdateUnwellEntryCommandParams commandParams)
+    protected override async Task<long> MakeChangesToEntryAsync(UpdateUnwellEntryCommandParams commandParams)
     {
         await _context
             .QueryableWithinTenant<UnwellEntry>()

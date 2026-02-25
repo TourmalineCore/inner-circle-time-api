@@ -9,7 +9,7 @@ public class CreateUnwellEntryCommandParams
     public required DateTime EndTime { get; set; }
 }
 
-public class CreateUnwellEntryCommand : DbValidationWorkEntryCommandBase<CreateUnwellEntryCommandParams>
+public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwellEntryCommandParams>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
@@ -28,7 +28,7 @@ public class CreateUnwellEntryCommand : DbValidationWorkEntryCommandBase<CreateU
         return await MakeChangesInDbAsync(createUnwellEntryCommandParams);
     }
 
-    protected override async Task<long> MakeChangesToWorkEntryAsync(CreateUnwellEntryCommandParams commandParams)
+    protected override async Task<long> MakeChangesToEntryAsync(CreateUnwellEntryCommandParams commandParams)
     {
         var unwellEntry = new UnwellEntry
         {

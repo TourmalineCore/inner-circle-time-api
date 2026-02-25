@@ -1,11 +1,11 @@
-Feature: Work Entries // Todo: delete after UI change contract to task entries
+Feature: Task Entries
     # https://github.com/karatelabs/karate/issues/1191
     # https://github.com/karatelabs/karate?tab=readme-ov-file#karate-fork
 
   Background:
     * header Content-Type = 'application/json'
 
-  Scenario: Work Entries Creation Tenants Isolation
+  Scenario: Task Entries Creation Tenants Isolation
 
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
@@ -33,25 +33,25 @@ Feature: Work Entries // Todo: delete after UI change contract to task entries
     * configure headers = jsUtils().getAuthHeaders(slytherineTenantAccessToken)
 
     # Get employee's projects in slytherin tenant
-    # Here we specified 2026 year to avoid conflicts with other tests
+    # Here we specified 2031 year to avoid conflicts with other tests
     Given url apiRootUrl
-    Given path 'tracking/work-entries/projects'
-    And params { startDate: "2026-11-06", endDate: "2026-11-06" }
+    Given path 'tracking/task-entries/projects'
+    And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
 
     * def slytherineTenantProjectId = response.projects[0].id
 
-    # Create a new work entry in slytherin tenant
-    # Here we specified 2026 year to avoid conflicts with other tests
-    * def randomTitle = '[API-E2E]-Test-work-entry-' + Math.random()
-    * def startTime = '2026-11-06T14:00:00'
-    * def endTime = '2026-11-06T16:00:00'
+    # Create a new task entry in slytherin tenant
+    # Here we specified 2031 year to avoid conflicts with other tests
+    * def randomTitle = '[API-E2E]-Test-task-entry-' + Math.random()
+    * def startTime = '2031-11-06T14:00:00'
+    * def endTime = '2031-11-06T16:00:00'
     * def taskId = '#2233'
     * def description = 'Task description'
     
     Given url apiRootUrl
-    Given path 'tracking/work-entries'
+    Given path 'tracking/task-entries'
     And request
     """
     {
@@ -66,7 +66,7 @@ Feature: Work Entries // Todo: delete after UI change contract to task entries
     When method POST
     Then status 200
 
-    * def slytherineTenantNewWorkEntryId = response.newTaskEntryId
+    * def slytherineTenantNewTaskEntryId = response.newTaskEntryId
 
     # Authentication with ravenclaw tenant
     Given url authApiRootUrl
@@ -86,18 +86,18 @@ Feature: Work Entries // Todo: delete after UI change contract to task entries
     * configure headers = jsUtils().getAuthHeaders(ravenclawTenantAccessToken)
 
     # Get employee's projects in ravenclaw tenant
-    # Here we specified 2026 year to avoid conflicts with other tests
+    # Here we specified 2031 year to avoid conflicts with other tests
     Given url apiRootUrl
-    Given path 'tracking/work-entries/projects'
-    And params { startDate: "2026-11-06", endDate: "2026-11-06" }
+    Given path 'tracking/task-entries/projects'
+    And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
 
     * def ravenclawTenantProjectId = response.projects[0].id
 
-    # Create a new work entry in ravenclaw tenant the same time as slytherin tenant
+    # Create a new task entry in ravenclaw tenant the same time as slytherin tenant
     Given url apiRootUrl
-    Given path 'tracking/work-entries'
+    Given path 'tracking/task-entries'
     And request
     """
     {
@@ -112,34 +112,34 @@ Feature: Work Entries // Todo: delete after UI change contract to task entries
     When method POST
     Then status 200
 
-    * def ravenclawTenantNewWorkEntryId = response.newTaskEntryId
+    * def ravenclawTenantNewTaskEntryId = response.newTaskEntryId
 
-    # Cleanup: Delete work entry in ravenclaw tenant
-    Given path 'tracking/work-entries', ravenclawTenantNewWorkEntryId, 'hard-delete'
+    # Cleanup: Delete task entry in ravenclaw tenant
+    Given path 'tracking/entries', ravenclawTenantNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that work entry in ravenclaw tenant was deleted
-    Given path 'tracking/work-entries'
-    And params { startDate: "2026-11-06", endDate: "2026-11-06" }
+    # Cleanup Verification: Verify that task entry in ravenclaw tenant was deleted
+    Given path 'tracking/entries'
+    And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
-    And assert response.workEntries.filter(x => x.id == ravenclawTenantNewWorkEntryId).length == 0
+    And assert response.taskEntries.filter(x => x.id == ravenclawTenantNewTaskEntryId).length == 0
 
     * configure headers = jsUtils().getAuthHeaders(slytherineTenantAccessToken)
 
-    # Cleanup: Delete work entry in slytherine tenant
-    Given path 'tracking/work-entries', slytherineTenantNewWorkEntryId, 'hard-delete'
+    # Cleanup: Delete task entry in slytherine tenant
+    Given path 'tracking/entries', slytherineTenantNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that work entry in slytherin tenant was deleted
-    Given path 'tracking/work-entries'
-    And params { startDate: "2026-11-06", endDate: "2026-11-06" }
+    # Cleanup Verification: Verify that task entry in slytherin tenant was deleted
+    Given path 'tracking/entries'
+    And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
-    And assert response.workEntries.filter(x => x.id == slytherineTenantNewWorkEntryId).length == 0
+    And assert response.taskEntries.filter(x => x.id == slytherineTenantNewTaskEntryId).length == 0
 
 
