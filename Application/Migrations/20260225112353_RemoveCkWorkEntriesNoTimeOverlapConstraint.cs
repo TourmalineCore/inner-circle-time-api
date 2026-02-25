@@ -14,7 +14,7 @@ namespace Application.Migrations
             ALTER TABLE tracked_entries 
             DROP CONSTRAINT IF EXISTS ck_work_entries_no_time_overlap;
         ");
-
+            // Drop btree_gist extension
             migrationBuilder.Sql(@"
             DROP EXTENSION IF EXISTS btree_gist;
         ");

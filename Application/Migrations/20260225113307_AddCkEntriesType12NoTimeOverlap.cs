@@ -21,6 +21,8 @@ namespace Application.Migrations
             ALTER TABLE tracked_entries
             ADD CONSTRAINT ck_entries_type12_no_time_overlap
             EXCLUDE USING GIST (
+                tenant_id WITH =,
+                employee_id WITH =,
                 tsrange(start_time, end_time, '[)') WITH &&
             )
             WHERE (type IN (1, 2) AND deleted_at_utc IS NULL); 
