@@ -112,6 +112,7 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 	TrackedEntryBase {
 		bigint Id PK
 		timestampwithtimezone DeletedAtUtc 
+		text DeletionReason 
 		charactervarying21 Discriminator 
 		interval Duration 
 		bigint EmployeeId 
