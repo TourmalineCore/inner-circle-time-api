@@ -3,7 +3,7 @@ using Core.Entities;
 using Moq;
 using Xunit;
 
-namespace Application.Queries;
+namespace Application.Features.Tracking.GetEntriesByPeriod;
 
 [UnitTest]
 public class GetEntriesByPeriodQueryTests

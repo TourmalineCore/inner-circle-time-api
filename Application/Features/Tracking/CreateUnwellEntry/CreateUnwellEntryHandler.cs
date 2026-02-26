@@ -1,6 +1,4 @@
-using Application.Commands;
-
-namespace Api.Features.Tracking.CreateUnwellEntry;
+namespace Application.Features.Tracking.CreateUnwellEntry;
 
 public class CreateUnwellEntryHandler
 {
@@ -18,13 +16,7 @@ public class CreateUnwellEntryHandler
         CreateUnwellEntryRequest createUnwellEntryRequest
     )
     {
-        var createUnwellEntryCommandParams = new CreateUnwellEntryCommandParams
-        {
-            StartTime = createUnwellEntryRequest.StartTime,
-            EndTime = createUnwellEntryRequest.EndTime,
-        };
-
-        var newUnwellEntryId = await _createUnwellEntryCommand.ExecuteAsync(createUnwellEntryCommandParams);
+        var newUnwellEntryId = await _createUnwellEntryCommand.ExecuteAsync(createUnwellEntryRequest);
 
         return new CreateUnwellResponse
         {

@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Features.Tracking.CreateTaskEntry;
+namespace Application.Features.Tracking.UpdateTaskEntry;
 
-public class CreateTaskEntryRequest
+public class UpdateTaskEntryRequest
 {
+    public required long Id { get; set; }
+
     [Required]
     public required string Title { get; set; }
 

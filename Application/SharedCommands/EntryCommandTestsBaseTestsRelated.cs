@@ -1,6 +1,6 @@
 ﻿using Application.TestsConfig;
 
-namespace Application.Commands;
+namespace Application.SharedCommands;
 
 // This partial class was introduced to inherited by create and update commands tests in order to run these tests sequentially
 // https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods

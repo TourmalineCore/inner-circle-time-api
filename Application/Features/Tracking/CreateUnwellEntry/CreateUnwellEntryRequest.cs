@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Features.Tracking.UpdateUnwellEntry;
+namespace Application.Features.Tracking.CreateUnwellEntry;
 
-public class UpdateUnwellEntryRequest
+public class CreateUnwellEntryRequest
 {
     [Required]
     public required DateTime StartTime { get; set; }

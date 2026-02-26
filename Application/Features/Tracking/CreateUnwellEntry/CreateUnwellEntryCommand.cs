@@ -1,15 +1,8 @@
 ﻿using Core.Entities;
 
-namespace Application.Commands;
+namespace Application.Features.Tracking.CreateUnwellEntry;
 
-public class CreateUnwellEntryCommandParams
-{
-    public required DateTime StartTime { get; set; }
-
-    public required DateTime EndTime { get; set; }
-}
-
-public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwellEntryCommandParams>
+public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwellEntryRequest>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
@@ -23,19 +16,19 @@ public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwel
         _claimsProvider = claimsProvider;
     }
 
-    public async Task<long> ExecuteAsync(CreateUnwellEntryCommandParams createUnwellEntryCommandParams)
+    public async Task<long> ExecuteAsync(CreateUnwellEntryRequest createUnwellEntryRequest)
     {
-        return await MakeChangesInDbAsync(createUnwellEntryCommandParams);
+        return await MakeChangesInDbAsync(createUnwellEntryRequest);
     }
 
-    protected override async Task<long> MakeChangesToEntryAsync(CreateUnwellEntryCommandParams commandParams)
+    protected override async Task<long> MakeChangesToEntryAsync(CreateUnwellEntryRequest createUnwellEntryRequest)
     {
         var unwellEntry = new UnwellEntry
         {
             TenantId = _claimsProvider.TenantId,
             EmployeeId = _claimsProvider.EmployeeId,
-            StartTime = commandParams.StartTime,
-            EndTime = commandParams.EndTime,
+            StartTime = createUnwellEntryRequest.StartTime,
+            EndTime = createUnwellEntryRequest.EndTime,
         };
 
         await _context

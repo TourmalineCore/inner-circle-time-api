@@ -1,4 +1,4 @@
-namespace Api.Features.Tracking.CreateTaskEntry;
+namespace Application.Features.Tracking.CreateTaskEntry;
 
 public class CreateTaskEntryResponse
 {

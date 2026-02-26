@@ -1,9 +1,9 @@
 using Core.Entities;
 using Xunit;
 
-namespace Application.Commands;
+namespace Application.Features.Tracking.UpdateTaskEntry;
 
-public partial class EntryCommandTestsBase
+public partial class EntryCommandTestsBase : IntegrationTestBase
 {
     [Fact]
     public async Task UpdateTaskEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
@@ -25,7 +25,7 @@ public partial class EntryCommandTestsBase
             Description = "Task description",
         });
 
-        var updateTaskEntryCommandParams = new UpdateTaskEntryCommandParams
+        var updateTaskEntryRequest = new UpdateTaskEntryRequest
         {
             Id = taskEntry.Id,
             Title = "Task 2",
@@ -37,7 +37,7 @@ public partial class EntryCommandTestsBase
         };
 
         var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
-            async () => await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryCommandParams)
+            async () => await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryRequest)
         );
 
         Assert.Contains("ck_entries_end_time_is_greater_than_start_time", exception.InnerException!.Message);
@@ -75,7 +75,7 @@ public partial class EntryCommandTestsBase
 
         var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
 
-        var updateTaskEntryCommandParams = new UpdateTaskEntryCommandParams
+        var updateTaskEntryRequest = new UpdateTaskEntryRequest
         {
             Id = taskEntry2.Id,
             Title = "Task 2",
@@ -87,7 +87,7 @@ public partial class EntryCommandTestsBase
         };
 
         var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-            async () => await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryCommandParams)
+            async () => await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryRequest)
         );
 
         Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException!.Message);

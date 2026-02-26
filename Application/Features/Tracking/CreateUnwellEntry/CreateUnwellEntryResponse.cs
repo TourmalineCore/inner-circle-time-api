@@ -1,4 +1,4 @@
-namespace Api.Features.Tracking.CreateUnwellEntry;
+namespace Application.Features.Tracking.CreateUnwellEntry;
 
 public class CreateUnwellResponse
 {

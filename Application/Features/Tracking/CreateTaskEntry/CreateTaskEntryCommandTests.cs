@@ -1,9 +1,9 @@
 using Core.Entities;
 using Xunit;
 
-namespace Application.Commands;
+namespace Application.Features.Tracking.CreateTaskEntry;
 
-public partial class EntryCommandTestsBase
+public partial class EntryCommandTestsBase : IntegrationTestBase
 {
     [Fact]
     public async Task CreateTaskEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
@@ -14,7 +14,7 @@ public partial class EntryCommandTestsBase
 
         var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
 
-        var createTaskEntryCommandParams = new CreateTaskEntryCommandParams
+        var сreateTaskEntryRequest = new CreateTaskEntryRequest
         {
             Title = "Task 1",
             StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
@@ -25,7 +25,7 @@ public partial class EntryCommandTestsBase
         };
 
         var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
-            async () => await createTaskEntryCommand.ExecuteAsync(createTaskEntryCommandParams)
+            async () => await createTaskEntryCommand.ExecuteAsync(сreateTaskEntryRequest)
         );
 
         Assert.Contains("ck_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
@@ -52,7 +52,7 @@ public partial class EntryCommandTestsBase
 
         var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
 
-        var createTaskEntryCommandParams = new CreateTaskEntryCommandParams
+        var сreateTaskEntryRequest = new CreateTaskEntryRequest
         {
             Title = "Task 2",
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -63,7 +63,7 @@ public partial class EntryCommandTestsBase
         };
 
         var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-            async () => await createTaskEntryCommand.ExecuteAsync(createTaskEntryCommandParams)
+            async () => await createTaskEntryCommand.ExecuteAsync(сreateTaskEntryRequest)
         );
 
         Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException!.InnerException!.Message);

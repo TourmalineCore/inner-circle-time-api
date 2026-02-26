@@ -1,6 +1,6 @@
 using Core.Entities;
 
-namespace Api.Features.Tracking.GetEntriesByPeriod;
+namespace Application.Features.Tracking.GetEntriesByPeriod;
 
 public class GetEntriesByPeriodResponse
 {

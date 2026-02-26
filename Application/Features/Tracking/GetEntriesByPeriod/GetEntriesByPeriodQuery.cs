@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Queries;
+namespace Application.Features.Tracking.GetEntriesByPeriod;
 
 public class GetEntriesByPeriodQuery
 {

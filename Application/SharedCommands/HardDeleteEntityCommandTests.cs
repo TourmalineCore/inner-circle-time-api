@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
-namespace Application.Commands;
+namespace Application.SharedCommands;
 
 [UnitTest]
 public class HardDeleteEntityCommandTests
