@@ -61,7 +61,7 @@ public class SoftDeleteEntryCommandTests
 
         const long NON_EXISTING_ID = -1;
 
-        // try to delete a non-existing item
+        // try to delete a non-existing entry
         Assert.Null(await Record.ExceptionAsync(async () => wasNonExistedDeleted = await _command.ExecuteAsync(NON_EXISTING_ID)));
         Assert.False(wasNonExistedDeleted);
     }
