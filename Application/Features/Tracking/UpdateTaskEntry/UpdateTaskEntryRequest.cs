@@ -4,7 +4,7 @@ namespace Application.Features.Tracking.UpdateTaskEntry;
 
 public class UpdateTaskEntryRequest
 {
-    public required long Id { get; set; }
+    public long Id { get; set; }
 
     [Required]
     public required string Title { get; set; }

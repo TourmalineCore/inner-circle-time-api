@@ -17,6 +17,7 @@ public class UpdateTaskEntryHandler
     )
     {
         updateTaskEntryRequest.Id = taskEntryId;
+
         await _updateTaskEntryCommand.ExecuteAsync(updateTaskEntryRequest);
     }
 }

@@ -4,7 +4,7 @@ namespace Application.Features.Tracking.UpdateUnwellEntry;
 
 public class UpdateUnwellEntryRequest
 {
-    public required long Id { get; set; }
+    public long Id { get; set; }
 
     [Required]
     public required DateTime StartTime { get; set; }

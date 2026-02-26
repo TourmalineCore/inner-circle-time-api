@@ -16,6 +16,7 @@ public class UpdateUnwellEntryHandler
         UpdateUnwellEntryRequest updateUnwellEntryRequest)
     {
         updateUnwellEntryRequest.Id = unwellEntryId;
+
         await _updateUnwellEntryCommand.ExecuteAsync(updateUnwellEntryRequest);
     }
 }
