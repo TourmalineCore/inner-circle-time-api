@@ -6,10 +6,10 @@ public class SoftDeleteEntryHandler
     private readonly SoftDeleteEntryCommand _softDeleteEntryCommand;
 
     public SoftDeleteEntryHandler(
-        SoftDeleteEntryCommand softDeleteEntityCommand
+        SoftDeleteEntryCommand softDeleteEntryCommand
     )
     {
-        _softDeleteEntryCommand = softDeleteEntityCommand;
+        _softDeleteEntryCommand = softDeleteEntryCommand;
     }
 
     public async Task<object> HandleAsync(
