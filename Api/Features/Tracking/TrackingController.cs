@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Api.Features.Tracking.CreateTaskEntry;
 using Api.Features.Tracking.CreateUnwellEntry;
 using Api.Features.Tracking.GetEntriesByPeriod;
+using Api.Features.Tracking.SoftDeleteEntry;
 using Api.Features.Tracking.UpdateTaskEntry;
 using Api.Features.Tracking.UpdateUnwellEntry;
 using Application.Commands;
@@ -105,14 +106,14 @@ public class TrackingController : ControllerBase
         };
     }
 
-    [EndpointSummary("Soft Deletes specific entry")]
-    [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed)]
+    [EndpointSummary("Soft deletes specific entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpDelete("entries/{entryId}/soft-delete")]
-    public Task SoftDeleteEntryAsync(
+    public Task<object> SoftDeleteEntryAsync(
     [Required][FromRoute] long entryId,
-    [FromServices] SoftDeleteEntityCommand softDeleteEntityCommand
+    [FromServices] SoftEntryDeleteHandler softDeleteEntryHandler
     )
     {
-        return softDeleteEntityCommand.ExecuteAsync(entryId);
+        return softDeleteEntryHandler.HandleAsync(entryId);
     }
 }

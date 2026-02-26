@@ -2,6 +2,7 @@
 using Api.Features.Tracking.CreateTaskEntry;
 using Api.Features.Tracking.CreateUnwellEntry;
 using Api.Features.Tracking.GetEntriesByPeriod;
+using Api.Features.Tracking.SoftDeleteEntry;
 using Api.Features.Tracking.UpdateTaskEntry;
 using Api.Features.Tracking.UpdateUnwellEntry;
 using Application;
@@ -43,6 +44,7 @@ public static class DependencyInjection
         services.AddTransient<UpdateUnwellEntryHandler>();
         services.AddTransient<UpdateUnwellEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
-        services.AddTransient<SoftDeleteEntityCommand>();
+        services.AddTransient<SoftEntryDeleteHandler>();
+        services.AddTransient<SoftDeleteEntryCommand>();
     }
 }
