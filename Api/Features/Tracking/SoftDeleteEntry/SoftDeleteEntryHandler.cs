@@ -12,11 +12,19 @@ public class SoftDeleteEntryHandler
         _softDeleteEntryCommand = softDeleteEntityCommand;
     }
 
-    public async Task<object> HandleAsync(long entryId)
+    public async Task<object> HandleAsync(
+        long entryId,
+        SoftDeleteEntryRequest softDeleteEntryRequest
+    )
     {
+        var softDeleteEntryCommandParams = new SoftDeleteEntryCommandParams
+        {
+            DeletionReason = softDeleteEntryRequest.DeletionReason,
+        };
+
         return new
         {
-            isDeleted = await _softDeleteEntryCommand.ExecuteAsync(entryId)
+            isDeleted = await _softDeleteEntryCommand.ExecuteAsync(entryId, softDeleteEntryCommandParams)
         };
     }
 }

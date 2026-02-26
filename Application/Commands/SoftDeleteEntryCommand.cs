@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Commands;
 
+public class SoftDeleteEntryCommandParams
+{
+    public required string DeletionReason { get; set; }
+}
+
 public class SoftDeleteEntryCommand
 {
     private readonly TenantAppDbContext _context;
@@ -14,7 +19,10 @@ public class SoftDeleteEntryCommand
         _claimsProvider = claimsProvider;
     }
 
-    public async Task<bool> ExecuteAsync(long entryId)
+    public async Task<bool> ExecuteAsync(
+        long entryId,
+        SoftDeleteEntryCommandParams softDeleteEntryCommandParams
+    )
     {
         var entry = await _context
             .QueryableWithinTenant<TrackedEntryBase>()
@@ -28,6 +36,7 @@ public class SoftDeleteEntryCommand
         }
 
         entry.DeletedAtUtc = DateTime.UtcNow;
+        entry.DeletionReason = softDeleteEntryCommandParams.DeletionReason;
 
         _context
             .Set<TrackedEntryBase>()

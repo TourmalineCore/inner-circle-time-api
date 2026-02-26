@@ -23,4 +23,6 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee
     public EntryType Type { get; set; }
 
     public DateTime? DeletedAtUtc { get; set; }
+
+    public string? DeletionReason { get; set; }
 }
