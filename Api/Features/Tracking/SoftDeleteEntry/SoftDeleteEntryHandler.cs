@@ -5,7 +5,6 @@ public class SoftEntryDeleteHandler
 {
     private readonly SoftDeleteEntryCommand _softDeleteEntryCommand;
 
-
     public SoftEntryDeleteHandler(
         SoftDeleteEntryCommand softDeleteEntityCommand
     )
