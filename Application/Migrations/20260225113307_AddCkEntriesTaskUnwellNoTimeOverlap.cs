@@ -5,7 +5,7 @@
 namespace Application.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCkEntriesType12NoTimeOverlap : Migration
+    public partial class AddCkEntriesTaskUnwellNoTimeOverlap : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace Application.Migrations
             // ADR about validation can be read here https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/adrs/003-time-api-overlap-validation.md
             migrationBuilder.Sql(@"
             ALTER TABLE tracked_entries
-            ADD CONSTRAINT ck_entries_type12_no_time_overlap
+            ADD CONSTRAINT ck_entries_task_unwell_no_time_overlap
             EXCLUDE USING GIST (
                 tenant_id WITH =,
                 employee_id WITH =,
@@ -34,7 +34,7 @@ namespace Application.Migrations
         {
             migrationBuilder.Sql(@"
             ALTER TABLE tracked_entries 
-            DROP CONSTRAINT IF EXISTS ck_entries_type12_no_time_overlap;
+            DROP CONSTRAINT IF EXISTS ck_entries_task_unwell_no_time_overlap;
         ");
 
             migrationBuilder.Sql(@"

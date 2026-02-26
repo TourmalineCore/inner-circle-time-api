@@ -4,7 +4,7 @@ public abstract class DbValidationEntryCommandBase<TCommandParams>
     where TCommandParams : class
 {
     private const string CK_ENTRIES_END_TIME_IS_GREATER_THAN_START_TIME = "ck_entries_end_time_is_greater_than_start_time";
-    private const string CK_ENTRIES_TYPE12_NO_TIME_OVERLAP = "ck_entries_type12_no_time_overlap";
+    private const string CK_ENTRIES_TASK_UNWELL_NO_TIME_OVERLAP = "ck_entries_task_unwell_no_time_overlap";
 
     public async Task<long> MakeChangesInDbAsync(TCommandParams commandParams)
     {
@@ -25,8 +25,8 @@ public abstract class DbValidationEntryCommandBase<TCommandParams>
             );
         }
         catch (Exception e) when (
-            (e.InnerException as PostgresException)?.ConstraintName == CK_ENTRIES_TYPE12_NO_TIME_OVERLAP ||
-            (e as PostgresException)?.ConstraintName == CK_ENTRIES_TYPE12_NO_TIME_OVERLAP
+            (e.InnerException as PostgresException)?.ConstraintName == CK_ENTRIES_TASK_UNWELL_NO_TIME_OVERLAP ||
+            (e as PostgresException)?.ConstraintName == CK_ENTRIES_TASK_UNWELL_NO_TIME_OVERLAP
         )
         {
             throw new ConflictingTimeRangeException(

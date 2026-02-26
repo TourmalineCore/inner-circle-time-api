@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260225113307_AddCkEntriesType12NoTimeOverlap")]
-    partial class AddCkEntriesType12NoTimeOverlap
+    [Migration("20260225113307_AddCkEntriesTaskUnwellNoTimeOverlap")]
+    partial class AddCkEntriesTaskUnwellNoTimeOverlap
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
