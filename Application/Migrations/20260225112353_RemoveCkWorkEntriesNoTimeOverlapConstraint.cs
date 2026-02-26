@@ -20,14 +20,14 @@ namespace Application.Migrations
         ");
         }
 
+
+        // Reverts the migration and removes the constraint and exstention if it exists.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // Restore btree_gist extension
             migrationBuilder.Sql(@"
                 CREATE EXTENSION IF NOT EXISTS btree_gist;
             ");
 
-            // Restore constraint
             migrationBuilder.Sql(@"
                 ALTER TABLE tracked_entries
                 ADD CONSTRAINT ck_work_entries_no_time_overlap

@@ -16,7 +16,7 @@ namespace Application.Migrations
             migrationBuilder.Sql(@"
             CREATE EXTENSION IF NOT EXISTS btree_gist;
         ");
-
+            // ADR about validation can be read here https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/adrs/003-time-api-overlap-validation.md
             migrationBuilder.Sql(@"
             ALTER TABLE tracked_entries
             ADD CONSTRAINT ck_entries_type12_no_time_overlap
