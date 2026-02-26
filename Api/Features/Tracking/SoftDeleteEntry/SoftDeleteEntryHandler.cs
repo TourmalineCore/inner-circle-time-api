@@ -1,11 +1,11 @@
 using Application.Commands;
 namespace Api.Features.Tracking.SoftDeleteEntry;
 
-public class SoftEntryDeleteHandler
+public class SoftDeleteEntryHandler
 {
     private readonly SoftDeleteEntryCommand _softDeleteEntryCommand;
 
-    public SoftEntryDeleteHandler(
+    public SoftDeleteEntryHandler(
         SoftDeleteEntryCommand softDeleteEntityCommand
     )
     {

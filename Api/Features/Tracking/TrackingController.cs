@@ -111,7 +111,7 @@ public class TrackingController : ControllerBase
     [HttpDelete("entries/{entryId}/soft-delete")]
     public Task<object> SoftDeleteEntryAsync(
     [Required][FromRoute] long entryId,
-    [FromServices] SoftEntryDeleteHandler softDeleteEntryHandler
+    [FromServices] SoftDeleteEntryHandler softDeleteEntryHandler
     )
     {
         return softDeleteEntryHandler.HandleAsync(entryId);

@@ -44,7 +44,7 @@ public static class DependencyInjection
         services.AddTransient<UpdateUnwellEntryHandler>();
         services.AddTransient<UpdateUnwellEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
-        services.AddTransient<SoftEntryDeleteHandler>();
+        services.AddTransient<SoftDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryCommand>();
     }
 }
