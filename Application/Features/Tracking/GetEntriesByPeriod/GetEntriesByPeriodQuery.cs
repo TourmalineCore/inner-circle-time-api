@@ -26,7 +26,6 @@ public class GetEntriesByPeriodQuery
         return _context
             .QueryableWithinTenantAsNoTracking<TEntity>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
-            .Where(x => x.IsDeleted == false)
             .Where(x => x.StartTime >= startDate.ToDateTime(TimeOnly.MinValue) && x.EndTime <= endDate.ToDateTime(TimeOnly.MaxValue))
             .ToListAsync();
     }

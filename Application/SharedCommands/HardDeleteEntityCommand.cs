@@ -15,7 +15,7 @@ public class HardDeleteEntityCommand
     }
 
     public async Task<bool> ExecuteAsync<TEntity>(long entityId)
-        where TEntity : EntityBase, IOwnedByEmployee
+        where TEntity : EntityBase, IOwnedByEmployee, ICanBeDeleted
     {
         var entity = await _context
             .QueryableWithinTenant<TEntity>()

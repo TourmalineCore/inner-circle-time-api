@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api.Features.Tracking.SoftDeleteEntry;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
@@ -102,5 +103,17 @@ public class TrackingController : ControllerBase
         {
             isDeleted = await hardDeleteEntryHandler.HandleAsync(entryId)
         };
+    }
+
+    [EndpointSummary("Soft deletes specific entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpDelete("entries/{entryId}/soft-delete")]
+    public Task<object> SoftDeleteEntryAsync(
+    [Required][FromRoute] long entryId,
+    [Required][FromBody] SoftDeleteEntryRequest softDeleteEntryRequest,
+    [FromServices] SoftDeleteEntryHandler softDeleteEntryHandler
+    )
+    {
+        return softDeleteEntryHandler.HandleAsync(entryId, softDeleteEntryRequest);
     }
 }

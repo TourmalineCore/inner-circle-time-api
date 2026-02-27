@@ -1,4 +1,5 @@
 ﻿using Api.ExternalDeps.AssignmentsApi;
+using Api.Features.Tracking.SoftDeleteEntry;
 using Application;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Tracking.CreateTaskEntry;
@@ -44,5 +45,7 @@ public static class DependencyInjection
         services.AddTransient<UpdateUnwellEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
         services.AddTransient<HardDeleteEntryHandler>();
+        services.AddTransient<SoftDeleteEntryHandler>();
+        services.AddTransient<SoftDeleteEntryCommand>();
     }
 }

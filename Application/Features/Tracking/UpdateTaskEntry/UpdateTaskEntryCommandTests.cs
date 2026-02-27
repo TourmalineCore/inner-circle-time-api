@@ -1,4 +1,5 @@
 using Core.Entities;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Application.Features.Tracking.UpdateTaskEntry;
@@ -90,7 +91,55 @@ public partial class EntryCommandTestsBase : IntegrationTestBase
             async () => await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryRequest)
         );
 
-        Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException!.Message);
+        Assert.Contains("ck_entries_task_unwell_no_time_overlap", exception.InnerException!.Message);
         Assert.Equal("Another task is scheduled for this time", exception.Message);
+    }
+
+    [Fact]
+    public async Task UpdateTaskEntryAsync_ShouldNotUpdateDeletedTaskEntry()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = GetMockClaimsProvider();
+
+        var taskEntry = await SaveEntityAsync(context, new TaskEntry
+        {
+            EmployeeId = EMPLOYEE_ID,
+            Title = "Task 1",
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            TaskId = "#2231",
+            ProjectId = 1,
+            Description = "Task description",
+            DeletedAtUtc = DateTime.UtcNow
+        });
+
+        var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
+
+        var updateTaskEntryCommandParams = new UpdateTaskEntryCommandParams
+        {
+            Id = taskEntry.Id,
+            Title = "Task 2",
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 11, 0, 0),
+            TaskId = "#2232",
+            ProjectId = 1,
+            Description = "Task description",
+        };
+
+        await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryCommandParams);
+
+        var updatedEntry = await context
+            .TaskEntries
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == taskEntry.Id);
+
+        Assert.NotNull(updatedEntry);
+        Assert.Equal(taskEntry.Title, updatedEntry.Title);
+        Assert.Equal(taskEntry.StartTime, updatedEntry.StartTime);
+        Assert.Equal(taskEntry.EndTime, updatedEntry.EndTime);
+        Assert.Equal(taskEntry.TaskId, updatedEntry.TaskId);
+        Assert.Equal(taskEntry.Description, updatedEntry.Description);
+        Assert.NotNull(updatedEntry.DeletedAtUtc);
     }
 }

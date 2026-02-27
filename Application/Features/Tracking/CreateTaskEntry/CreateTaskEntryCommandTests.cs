@@ -66,7 +66,7 @@ public partial class EntryCommandTestsBase : IntegrationTestBase
             async () => await createTaskEntryCommand.ExecuteAsync(сreateTaskEntryRequest)
         );
 
-        Assert.Contains("ck_work_entries_no_time_overlap", exception.InnerException!.InnerException!.Message);
+        Assert.Contains("ck_entries_task_unwell_no_time_overlap", exception.InnerException!.InnerException!.Message);
         Assert.Equal("Another task is scheduled for this time", exception.Message);
     }
 }
