@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Application.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangeIsDeletedToDeletedAtUTC : Migration
+    public partial class ChangeIsDeletedToDeletedAtUtcAndAddDeletionReason : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,6 +20,12 @@ namespace Application.Migrations
                 table: "tracked_entries",
                 type: "timestamp with time zone",
                 nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "deletion_reason",
+                table: "tracked_entries",
+                type: "text",
+                nullable: true);
         }
 
         /// <inheritdoc />
@@ -27,6 +33,10 @@ namespace Application.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "deleted_at_utc",
+                table: "tracked_entries");
+
+            migrationBuilder.DropColumn(
+                name: "deletion_reason",
                 table: "tracked_entries");
 
             migrationBuilder.AddColumn<bool>(

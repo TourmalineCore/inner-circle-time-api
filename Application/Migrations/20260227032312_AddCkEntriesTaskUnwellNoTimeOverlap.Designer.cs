@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260225113307_AddCkEntriesTaskUnwellNoTimeOverlap")]
+    [Migration("20260227032312_AddCkEntriesTaskUnwellNoTimeOverlap")]
     partial class AddCkEntriesTaskUnwellNoTimeOverlap
     {
         /// <inheritdoc />
@@ -37,6 +37,10 @@ namespace Application.Migrations
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at_utc");
+
+                    b.Property<string>("DeletionReason")
+                        .HasColumnType("text")
+                        .HasColumnName("deletion_reason");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()

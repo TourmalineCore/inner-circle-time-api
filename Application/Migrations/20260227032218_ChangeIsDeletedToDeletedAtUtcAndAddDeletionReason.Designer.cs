@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260225112748_ChangeIsDeletedToDeletedAtUTC")]
-    partial class ChangeIsDeletedToDeletedAtUTC
+    [Migration("20260227032218_ChangeIsDeletedToDeletedAtUtcAndAddDeletionReason")]
+    partial class ChangeIsDeletedToDeletedAtUtcAndAddDeletionReason
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,10 @@ namespace Application.Migrations
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("deleted_at_utc");
+
+                    b.Property<string>("DeletionReason")
+                        .HasColumnType("text")
+                        .HasColumnName("deletion_reason");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
