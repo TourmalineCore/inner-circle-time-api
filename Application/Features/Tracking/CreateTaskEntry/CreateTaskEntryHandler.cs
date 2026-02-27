@@ -4,7 +4,6 @@ public class CreateTaskEntryHandler
 {
     private readonly CreateTaskEntryCommand _createTaskEntryCommand;
 
-
     public CreateTaskEntryHandler(
         CreateTaskEntryCommand createTaskEntryCommand
     )
