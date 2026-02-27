@@ -3,10 +3,9 @@ using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
+using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
-using Application.SharedCommands;
-using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -96,12 +95,12 @@ public class TrackingController : ControllerBase
     [HttpDelete("entries/{entryId}/hard-delete")]
     public async Task<object> HardDeleteEntryAsync(
     [Required][FromRoute] long entryId,
-    [FromServices] HardDeleteEntityCommand hardDeleteEntityCommand
+    [FromServices] HardDeleteEntryHandler hardDeleteEntryHandler
     )
     {
         return new
         {
-            isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(entryId)
+            isDeleted = await hardDeleteEntryHandler.HandleAsync(entryId)
         };
     }
 }
