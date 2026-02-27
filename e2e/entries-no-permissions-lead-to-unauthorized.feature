@@ -39,3 +39,7 @@ Feature: Entries
     Given path 'tracking/entries', 100500, 'hard-delete'
     When method DELETE
     Then status 403
+
+    Given path 'tracking/entries', 100500, 'soft-delete'
+    When method DELETE
+    Then status 403
