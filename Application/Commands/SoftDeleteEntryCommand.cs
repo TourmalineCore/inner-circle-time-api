@@ -27,7 +27,6 @@ public class SoftDeleteEntryCommand
         var entry = await _context
             .QueryableWithinTenant<TrackedEntryBase>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
-            .Where(x => x.DeletedAtUtc == null)
             .SingleOrDefaultAsync(x => x.Id == entryId);
 
         if (entry == null)
