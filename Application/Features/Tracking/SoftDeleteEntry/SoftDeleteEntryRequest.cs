@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Features.Tracking.SoftDeleteEntry;
+namespace Application.Features.Tracking.SoftDeleteEntry;
 
 public class SoftDeleteEntryRequest
 {

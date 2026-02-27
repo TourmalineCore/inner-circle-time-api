@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
-using Api.Features.Tracking.SoftDeleteEntry;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.Features.Tracking.HardDeleteEntry;
+using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Microsoft.AspNetCore.Authorization;

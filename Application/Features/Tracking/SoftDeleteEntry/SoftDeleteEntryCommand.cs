@@ -1,12 +1,7 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.SharedCommands;
-
-public class SoftDeleteEntryCommandParams
-{
-    public required string DeletionReason { get; set; }
-}
+namespace Application.Features.Tracking.SoftDeleteEntry;
 
 public class SoftDeleteEntryCommand
 {
@@ -21,7 +16,7 @@ public class SoftDeleteEntryCommand
 
     public async Task<bool> ExecuteAsync(
         long entryId,
-        SoftDeleteEntryCommandParams softDeleteEntryCommandParams
+        SoftDeleteEntryRequest softDeleteEntryRequest
     )
     {
         var entry = await _context
@@ -35,7 +30,7 @@ public class SoftDeleteEntryCommand
         }
 
         entry.DeletedAtUtc = DateTime.UtcNow;
-        entry.DeletionReason = softDeleteEntryCommandParams.DeletionReason;
+        entry.DeletionReason = softDeleteEntryRequest.DeletionReason;
 
         _context
             .Set<TrackedEntryBase>()

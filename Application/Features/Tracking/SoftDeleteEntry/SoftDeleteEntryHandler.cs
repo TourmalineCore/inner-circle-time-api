@@ -1,5 +1,4 @@
-using Application.Commands;
-namespace Api.Features.Tracking.SoftDeleteEntry;
+namespace Application.Features.Tracking.SoftDeleteEntry;
 
 public class SoftDeleteEntryHandler
 {
@@ -17,14 +16,9 @@ public class SoftDeleteEntryHandler
         SoftDeleteEntryRequest softDeleteEntryRequest
     )
     {
-        var softDeleteEntryCommandParams = new SoftDeleteEntryCommandParams
-        {
-            DeletionReason = softDeleteEntryRequest.DeletionReason,
-        };
-
         return new
         {
-            isDeleted = await _softDeleteEntryCommand.ExecuteAsync(entryId, softDeleteEntryCommandParams)
+            isDeleted = await _softDeleteEntryCommand.ExecuteAsync(entryId, softDeleteEntryRequest)
         };
     }
 }

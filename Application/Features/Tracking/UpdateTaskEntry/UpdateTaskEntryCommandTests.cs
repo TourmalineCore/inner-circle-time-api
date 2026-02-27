@@ -116,7 +116,7 @@ public partial class EntryCommandTestsBase : IntegrationTestBase
 
         var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
 
-        var updateTaskEntryCommandParams = new UpdateTaskEntryCommandParams
+        var updateTaskEntryRequest = new UpdateTaskEntryRequest
         {
             Id = taskEntry.Id,
             Title = "Task 2",
@@ -127,7 +127,7 @@ public partial class EntryCommandTestsBase : IntegrationTestBase
             Description = "Task description",
         };
 
-        await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryCommandParams);
+        await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryRequest);
 
         var updatedEntry = await context
             .TaskEntries
