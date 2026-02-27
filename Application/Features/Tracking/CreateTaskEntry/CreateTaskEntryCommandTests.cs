@@ -2,8 +2,13 @@ using Core.Entities;
 using Xunit;
 
 namespace Application.Features.Tracking.CreateTaskEntry;
-
-public partial class EntryCommandTestsBase : IntegrationTestBase
+// Before that there were 2 separate classes and they were running concurrently and often lead to a deadlock and thus tests were flaky
+// There is an issue to investigate the root cause why they fail https://github.com/TourmalineCore/inner-circle-time-api/issues/26
+// Current solution assigns tests to a collection to disable parallelization, 
+// preventing conflicts when accessing shared resources
+//https://xunit.net/docs/running-tests-in-parallel
+[Collection("EntryCommandTests")]
+public class CreateTaskEntryCommandTests : IntegrationTestBase
 {
     [Fact]
     public async Task CreateTaskEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
