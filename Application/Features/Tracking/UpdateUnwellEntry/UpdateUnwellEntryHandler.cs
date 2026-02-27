@@ -13,7 +13,8 @@ public class UpdateUnwellEntryHandler
 
     public async Task HandleAsync(
         long unwellEntryId,
-        UpdateUnwellEntryRequest updateUnwellEntryRequest)
+        UpdateUnwellEntryRequest updateUnwellEntryRequest
+    )
     {
         updateUnwellEntryRequest.Id = unwellEntryId;
 
