@@ -30,6 +30,7 @@ public class SoftDeleteEntryCommandTests
 
         _softDeleteEntryRequest = new SoftDeleteEntryRequest
         {
+            Id = 1,
             DeletionReason = "Deletion reason",
         };
     }
@@ -43,7 +44,7 @@ public class SoftDeleteEntryCommandTests
             TenantId = TENANT_ID
         });
 
-        var wasDeleted = await _command.ExecuteAsync(taskEntry.Id, _softDeleteEntryRequest);
+        var wasDeleted = await _command.ExecuteAsync(_softDeleteEntryRequest);
 
         Assert.True(wasDeleted);
 
@@ -58,7 +59,7 @@ public class SoftDeleteEntryCommandTests
         var wasDeletedAgain = true;
 
         // try to delete again
-        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync(taskEntry.Id, _softDeleteEntryRequest)));
+        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync(_softDeleteEntryRequest)));
         Assert.False(wasDeletedAgain);
     }
 
@@ -69,10 +70,15 @@ public class SoftDeleteEntryCommandTests
 
         const long NON_EXISTING_ID = -1;
 
+        var softDeleteEntryRequest = new SoftDeleteEntryRequest
+        {
+            Id = NON_EXISTING_ID,
+            DeletionReason = "Deletion reason",
+        };
+
         // try to delete a non-existing entry
         Assert.Null(await Record.ExceptionAsync(
-            async () => wasNonExistedDeleted = await _command.ExecuteAsync(NON_EXISTING_ID, _softDeleteEntryRequest
-            )
+            async () => wasNonExistedDeleted = await _command.ExecuteAsync(softDeleteEntryRequest)
         ));
         Assert.False(wasNonExistedDeleted);
     }
@@ -94,7 +100,7 @@ public class SoftDeleteEntryCommandTests
 
         var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider.Object);
 
-        var wasDeleted = await command.ExecuteAsync(taskEntry.Id, _softDeleteEntryRequest);
+        var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
 
         var taskEntryFromDb = await _context
             .TaskEntries
@@ -124,7 +130,7 @@ public class SoftDeleteEntryCommandTests
 
         var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider.Object);
 
-        var wasDeleted = await command.ExecuteAsync(taskEntry.Id, _softDeleteEntryRequest);
+        var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
 
         var taskEntryFromDb = await _context
             .TaskEntries
