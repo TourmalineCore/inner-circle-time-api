@@ -15,14 +15,13 @@ public class SoftDeleteEntryCommand
     }
 
     public async Task<bool> ExecuteAsync(
-        long entryId,
         SoftDeleteEntryRequest softDeleteEntryRequest
     )
     {
         var entry = await _context
             .QueryableWithinTenant<TrackedEntryBase>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
-            .SingleOrDefaultAsync(x => x.Id == entryId);
+            .SingleOrDefaultAsync(x => x.Id == softDeleteEntryRequest.Id);
 
         if (entry == null)
         {

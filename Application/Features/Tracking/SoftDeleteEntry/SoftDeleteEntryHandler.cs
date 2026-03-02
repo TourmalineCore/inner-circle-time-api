@@ -16,9 +16,11 @@ public class SoftDeleteEntryHandler
         SoftDeleteEntryRequest softDeleteEntryRequest
     )
     {
+        softDeleteEntryRequest.Id = entryId;
+
         return new
         {
-            isDeleted = await _softDeleteEntryCommand.ExecuteAsync(entryId, softDeleteEntryRequest)
+            isDeleted = await _softDeleteEntryCommand.ExecuteAsync(softDeleteEntryRequest)
         };
     }
 }
