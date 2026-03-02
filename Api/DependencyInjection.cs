@@ -1,14 +1,14 @@
 ﻿using Api.ExternalDeps.AssignmentsApi;
-using Api.Features.Tracking.CreateTaskEntry;
-using Api.Features.Tracking.CreateUnwellEntry;
-using Api.Features.Tracking.GetEntriesByPeriod;
-using Api.Features.Tracking.SoftDeleteEntry;
-using Api.Features.Tracking.UpdateTaskEntry;
-using Api.Features.Tracking.UpdateUnwellEntry;
 using Application;
-using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
-using Application.Queries;
+using Application.Features.Tracking.CreateTaskEntry;
+using Application.Features.Tracking.CreateUnwellEntry;
+using Application.Features.Tracking.GetEntriesByPeriod;
+using Application.Features.Tracking.HardDeleteEntry;
+using Application.Features.Tracking.SoftDeleteEntry;
+using Application.Features.Tracking.UpdateTaskEntry;
+using Application.Features.Tracking.UpdateUnwellEntry;
+using Application.SharedCommands;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -44,6 +44,7 @@ public static class DependencyInjection
         services.AddTransient<UpdateUnwellEntryHandler>();
         services.AddTransient<UpdateUnwellEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
+        services.AddTransient<HardDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryCommand>();
     }

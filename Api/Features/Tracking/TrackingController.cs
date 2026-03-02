@@ -1,13 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using Api.Features.Tracking.CreateTaskEntry;
-using Api.Features.Tracking.CreateUnwellEntry;
-using Api.Features.Tracking.GetEntriesByPeriod;
-using Api.Features.Tracking.SoftDeleteEntry;
-using Api.Features.Tracking.UpdateTaskEntry;
-using Api.Features.Tracking.UpdateUnwellEntry;
-using Application.Commands;
 using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
+using Application.Features.Tracking.CreateTaskEntry;
+using Application.Features.Tracking.CreateUnwellEntry;
+using Application.Features.Tracking.GetEntriesByPeriod;
+using Application.Features.Tracking.HardDeleteEntry;
+using Application.Features.Tracking.SoftDeleteEntry;
+using Application.Features.Tracking.UpdateTaskEntry;
+using Application.Features.Tracking.UpdateUnwellEntry;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -23,9 +22,9 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("entries")]
     public Task<GetEntriesByPeriodResponse> GetEntriesByPeriodAsync(
-      [Required][FromQuery] DateOnly startDate,
-      [Required][FromQuery] DateOnly endDate,
-      [FromServices] GetEntriesByPeriodHandler getEntriesByPeriodHandler
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate,
+        [FromServices] GetEntriesByPeriodHandler getEntriesByPeriodHandler
     )
     {
         return getEntriesByPeriodHandler.HandleAsync(startDate, endDate);
@@ -35,8 +34,8 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("task-entries")]
     public Task<CreateTaskEntryResponse> CreateTaskEntryAsync(
-      [Required][FromBody] CreateTaskEntryRequest createTaskEntryRequest,
-      [FromServices] CreateTaskEntryHandler createTaskEntryHandler
+        [Required][FromBody] CreateTaskEntryRequest createTaskEntryRequest,
+        [FromServices] CreateTaskEntryHandler createTaskEntryHandler
     )
     {
         return createTaskEntryHandler.HandleAsync(createTaskEntryRequest);
@@ -69,9 +68,9 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("unwell-entries/{unwellEntryId}")]
     public Task UpdateUnwellEntryAsync(
-    [Required][FromRoute] long unwellEntryId,
-    [Required][FromBody] UpdateUnwellEntryRequest updateUnwellEntryRequest,
-    [FromServices] UpdateUnwellEntryHandler updateUnwellEntryHandler
+        [Required][FromRoute] long unwellEntryId,
+        [Required][FromBody] UpdateUnwellEntryRequest updateUnwellEntryRequest,
+        [FromServices] UpdateUnwellEntryHandler updateUnwellEntryHandler
     )
     {
         return updateUnwellEntryHandler.HandleAsync(unwellEntryId, updateUnwellEntryRequest);
@@ -81,9 +80,9 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("task-entries/projects")]
     public async Task<ProjectsResponse> GetEmployeeProjectsByPeriodAsync(
-    [Required][FromQuery] DateOnly startDate,
-    [Required][FromQuery] DateOnly endDate,
-    [FromServices] IAssignmentsApi assignmentsApi
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate,
+        [FromServices] IAssignmentsApi assignmentsApi
     )
     {
         return new ProjectsResponse
@@ -95,24 +94,21 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Deletes specific entry")]
     [RequiresPermission(UserClaimsProvider.AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed)]
     [HttpDelete("entries/{entryId}/hard-delete")]
-    public async Task<object> HardDeleteEntryAsync(
-    [Required][FromRoute] long entryId,
-    [FromServices] HardDeleteEntityCommand hardDeleteEntityCommand
+    public Task<object> HardDeleteEntryAsync(
+        [Required][FromRoute] long entryId,
+        [FromServices] HardDeleteEntryHandler hardDeleteEntryHandler
     )
     {
-        return new
-        {
-            isDeleted = await hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(entryId)
-        };
+        return hardDeleteEntryHandler.HandleAsync(entryId);
     }
 
     [EndpointSummary("Soft deletes specific entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpDelete("entries/{entryId}/soft-delete")]
     public Task<object> SoftDeleteEntryAsync(
-    [Required][FromRoute] long entryId,
-    [Required][FromBody] SoftDeleteEntryRequest softDeleteEntryRequest,
-    [FromServices] SoftDeleteEntryHandler softDeleteEntryHandler
+        [Required][FromRoute] long entryId,
+        [Required][FromBody] SoftDeleteEntryRequest softDeleteEntryRequest,
+        [FromServices] SoftDeleteEntryHandler softDeleteEntryHandler
     )
     {
         return softDeleteEntryHandler.HandleAsync(entryId, softDeleteEntryRequest);
