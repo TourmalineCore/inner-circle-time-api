@@ -20,7 +20,7 @@ jobs:
 
     # this is needed to address this issue according to the comment https://github.com/devcontainers/ci/issues/271#issuecomment-2301764487
     # otherwise our TourmalineCore org name cannot be used in docker image names, only tourmalinecore
-    - name: Add Lowercase Organization and Repo Name REPO_NAME Env Var
+    - name: Add DEV_CONTAINER_IMAGE Env Var with Lowercase Organization, Repo Name and devcontainer postfix
       run: |
         echo "DEV_CONTAINER_IMAGE=${GITHUB_REPOSITORY,,}-devcontainer" >>${GITHUB_ENV}
 
