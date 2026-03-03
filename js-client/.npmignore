@@ -1,0 +1,5 @@
+# we don't need the TS source file in the package
+# it already has index.js wit the client and index.d.ts with its TS types
+index.ts
+
+generation/
