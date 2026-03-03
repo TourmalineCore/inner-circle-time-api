@@ -19,7 +19,7 @@ jobs:
       run: |
         curl -L https://github.com/karatelabs/karate/releases/download/v1.5.1/karate-1.5.1.jar -o karate.jar
 
-    - name: Run E2E Tests Against Local Env
+    - name: Run E2E Tests Against Prod Env
       run: |
         # Learn more about '> /dev/null 2>&1': https://stackoverflow.com/a/42919998
         # In essence it merges output and error streams and doesn't show errors in the terminal to avoid leakage of secrets in the pipeline

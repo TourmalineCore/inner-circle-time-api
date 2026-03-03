@@ -1,0 +1,37 @@
+name: No Pending Migrations
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-no-pending-migrations:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    # this is needed to address this issue according to the comment https://github.com/devcontainers/ci/issues/271#issuecomment-2301764487
+    # otherwise our TourmalineCore org name cannot be used in docker image names, only tourmalinecore
+    - name: Add Lowercase Organization and Repo Name REPO_NAME Env Var
+      run: |
+        echo "DEV_CONTAINER_IMAGE=${GITHUB_REPOSITORY,,}-devcontainer" >>${GITHUB_ENV}
+
+    - name: Build application and check pending migrations
+      uses: devcontainers/ci@v0.3
+      with:
+        imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
+        # docs about has-pending-model-changes https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing?tabs=dotnet-core-cli#checking-for-pending-model-changes
+        runCmd: |
+          dotnet build
+
+          dotnet ef migrations has-pending-model-changes  \
+              --startup-project ./Api/Api.csproj \
+              --project ./Application/Application.csproj \
+              --context AppDbContext \
+              --verbose
+        # in the first step that runs inside Dev Container we push the image we built to re-use it in the next steps
+        # we never push in the next steps, only use the cache if available
+        push: never
+    
