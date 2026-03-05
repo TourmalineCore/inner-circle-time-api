@@ -42,6 +42,8 @@ Feature: Task Entries
 
     * def dracoAccountProjectId = response.projects[0].id
 
+    * def timeZoneId = 'Asia/Yekaterinburg'
+
     # Create a new task entry for Draco
     # Here we specified 2032 year to avoid conflicts with other tests
     * def randomTitle = '[API-E2E]-Test-task-entry-' + Math.random()
@@ -61,6 +63,7 @@ Feature: Task Entries
         "projectId": #(dracoAccountProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
+        "timeZoneId": "#(timeZoneId)"
     }
     """
     When method POST
@@ -107,6 +110,7 @@ Feature: Task Entries
         "projectId": #(severusAccountProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
+        "timeZoneId": "#(timeZoneId)"
     }
     """
     When method POST

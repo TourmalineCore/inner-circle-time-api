@@ -33,21 +33,21 @@ Feature: Task Entries
     # Get employee's projects
     Given url apiRootUrl
     Given path 'tracking/task-entries/projects'
-    And params { startDate: "2030-11-05", endDate: "2030-11-05" }
+    And params { startDate: "2033-11-05", endDate: "2033-11-05" }
     When method GET
     Then status 200
 
     * def firstProjectId = response.projects[0].id
     * def secondProjectId = response.projects[1].id
 
-    * def timeZoneId = 'Asia/Yekaterinburg'
+    * def startTime = '2033-11-05T14:00:00'
+    * def endTime = '2033-11-05T16:00:00'
 
-    # Create a new task entry
+    # Create a new task entry with Asia/Yekaterinburg time zone
     * def randomTitle = '[API-E2E]-Test-task-entry-' + Math.random()
-    * def startTime = '2030-11-05T14:00:00'
-    * def endTime = '2030-11-05T16:00:00'
     * def taskId = '#2233'
     * def description = 'Task description'
+    * def timeZoneIdAsiaYekaterinburg = 'Asia/Yekaterinburg'
     
     Given url apiRootUrl
     Given path 'tracking/task-entries'
@@ -60,65 +60,81 @@ Feature: Task Entries
         "projectId": #(firstProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
-        "timeZoneId": "#(timeZoneId)"
+        "timeZoneId": "#(timeZoneIdAsiaYekaterinburg)"
     }
     """
     When method POST
     Then status 200
 
-    * def newTaskEntryId = response.newTaskEntryId
+    * def newTaskEntryId1 = response.newTaskEntryId
 
-    # Update task entry
-    * def newRandomTitle = '[API-E2E]-Test-task-entry-' + Math.random()
-    * def newStartTime = '2030-11-06T11:00:00'
-    * def newEndTime = '2030-11-06T12:00:00'
-    * def newTaskId = '#2235'
-    * def newDescription = 'New task description'
+    * def timeZoneIdEuropeMoscow = 'Europe/Moscow'
     
-    Given path 'tracking/task-entries', newTaskEntryId
+    Given url apiRootUrl
+    Given path 'tracking/task-entries'
     And request
     """
     {
-        "title": "#(newRandomTitle)",
-        "startTime": "#(newStartTime)",
-        "endTime": "#(newEndTime)",
-        "projectId": #(secondProjectId), 
-        "taskId": "#(newTaskId)",
-        "description": "#(newDescription)",
-        "timeZoneId": "#(timeZoneId)"
+        "title": "#(randomTitle)",
+        "startTime": "#(startTime)",
+        "endTime": "#(endTime)",
+        "projectId": #(firstProjectId), 
+        "taskId": "#(taskId)",
+        "description": "#(description)",
+        "timeZoneId": "#(timeZoneIdEuropeMoscow)"
     }
     """
     When method POST
     Then status 200
 
-    # Verify updated task entry data
+    * def newTaskEntryId2 = response.newTaskEntryId
+
+    # Verify task entry data
     Given path 'tracking/entries'
-    And params { startDate: "2030-11-06", endDate: "2030-11-06" }
+    And params { startDate: "2033-11-05", endDate: "2033-11-05" }
     When method GET
     And match response.taskEntries contains
     """
     {
-        "id": "#(newTaskEntryId)",
+        "id": "#(newTaskEntryId1)",
         "type": 1,
-        "title": "#(newRandomTitle)",
-        "startTime": "#(newStartTime)",
-        "endTime": "#(newEndTime)",
-        "projectId": #(secondProjectId),
-        "taskId": "#(newTaskId)",
-        "description": "#(newDescription)",
-        "timeZoneId": "#(timeZoneId)"
+        "title": "#(randomTitle)",
+        "startTime": "#(startTime)",
+        "endTime": "#(endTime)",
+        "projectId": #(firstProjectId),
+        "taskId": "#(taskId)",
+        "description": "#(description)",
+        "timeZoneId": "#(timeZoneIdAsiaYekaterinburg)"
+    },
+      {
+        "id": "#(newTaskEntryId2)",
+        "type": 1,
+        "title": "#(randomTitle)",
+        "startTime": "#(startTime)",
+        "endTime": "#(endTime)",
+        "projectId": #(firstProjectId),
+        "taskId": "#(taskId)",
+        "description": "#(description)",
+        "timeZoneId": "#(timeZoneIdEuropeMoscow)"
     }
     """
 
     # Cleanup: Delete the task entry (hard delete)
-    Given path 'tracking/entries', newTaskEntryId, 'hard-delete'
+    Given path 'tracking/entries', newTaskEntryId1, 'hard-delete'
+    When method DELETE
+    Then status 200
+    And match response == { isDeleted: true }
+
+    # Cleanup: Delete the task entry (hard delete)
+    Given path 'tracking/entries', newTaskEntryId2, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that task entry was deleted
     Given path 'tracking/entries'
-    And params { startDate: "2030-11-06", endDate: "2030-11-06" }
+    And params { startDate: "2033-11-05", endDate: "2033-11-05" }
     When method GET
     Then status 200
-    And assert response.taskEntries.filter(x => x.id == newTaskEntryId).length == 0
+    And assert response.taskEntries.filter(x => x.id == newTaskEntryId1).length == 0
+    And assert response.taskEntries.filter(x => x.id == newTaskEntryId2).length == 0

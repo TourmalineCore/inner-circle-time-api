@@ -30,6 +30,8 @@ Feature: Unwell Entries
 
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
+    * def timeZoneId = 'Asia/Yekaterinburg'
+
     # Create a new unwell entry
     * def startTime = '2029-11-05T14:00:00'
     * def endTime = '2029-11-05T16:00:00'
@@ -41,6 +43,7 @@ Feature: Unwell Entries
     {
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
+        "timeZoneId": "#(timeZoneId)"
     }
     """
     When method POST
@@ -58,6 +61,7 @@ Feature: Unwell Entries
     {
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
+        "timeZoneId": "#(timeZoneId)"
     }
     """
     When method POST
@@ -74,6 +78,7 @@ Feature: Unwell Entries
         "type": 2,
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
+        "timeZoneId": "#(timeZoneId)"
     }
     """
 

@@ -27,6 +27,7 @@ public class CreateTaskEntryCommandTests : IntegrationTestBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
+            TimeZoneId = "Asia/Yekaterinburg"
         };
 
         var exception = await Assert.ThrowsAsync<InvalidTimeRangeException>(
@@ -65,6 +66,7 @@ public class CreateTaskEntryCommandTests : IntegrationTestBase
             TaskId = "#2232",
             ProjectId = 1,
             Description = "Task description",
+            TimeZoneId = "Asia/Yekaterinburg"
         };
 
         var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(

@@ -15,8 +15,11 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public DateTime EndTime { get; set; }
 
-    // TODO: make it required when we add this prop to frontend
-    public string? TimeZoneId { get; set; }
+    public DateTime StartTimeUtc { get; private set; }
+
+    public DateTime EndTimeUtc { get; private set; }
+
+    public string TimeZoneId { get; set; }
 
     public TimeSpan Duration { get; set; }
 

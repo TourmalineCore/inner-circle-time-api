@@ -21,4 +21,7 @@ public class CreateTaskEntryRequest
 
     [Required]
     public required string Description { get; set; }
+
+    [Required]
+    public required string TimeZoneId { get; set; }
 }

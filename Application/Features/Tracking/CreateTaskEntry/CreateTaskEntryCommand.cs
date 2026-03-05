@@ -33,6 +33,7 @@ public class CreateTaskEntryCommand : DbValidationEntryCommandBase<CreateTaskEnt
             ProjectId = createTaskEntryRequest.ProjectId,
             TaskId = createTaskEntryRequest.TaskId,
             Description = createTaskEntryRequest.Description,
+            TimeZoneId = createTaskEntryRequest.TimeZoneId
         };
 
         await _context

@@ -24,6 +24,7 @@ public class TrackingControllerTests : HttpClientTestBase
             TaskId = "#2231",
             ProjectId = 1,
             Description = "Task description",
+            TimeZoneId = "Asia/Yekaterinburg"
         };
 
         var response = await HttpClient.PostAsJsonAsync("/api/time/tracking/task-entries", createTaskEntryRequest);

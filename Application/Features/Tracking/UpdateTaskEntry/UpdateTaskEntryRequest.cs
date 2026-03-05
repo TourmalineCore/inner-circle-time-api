@@ -23,4 +23,7 @@ public class UpdateTaskEntryRequest
 
     [Required]
     public required string Description { get; set; }
+
+    [Required]
+    public required string TimeZoneId { get; set; }
 }

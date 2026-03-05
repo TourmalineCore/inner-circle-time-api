@@ -31,6 +31,7 @@ public class UpdateUnwellEntryCommand : DbValidationEntryCommandBase<UpdateUnwel
             .ExecuteUpdateAsync(setters => setters
                 .SetProperty(x => x.StartTime, updateUnwellEntryRequest.StartTime)
                 .SetProperty(x => x.EndTime, updateUnwellEntryRequest.EndTime)
+                .SetProperty(x => x.TimeZoneId, updateUnwellEntryRequest.TimeZoneId)
             );
 
         return updateUnwellEntryRequest.Id;

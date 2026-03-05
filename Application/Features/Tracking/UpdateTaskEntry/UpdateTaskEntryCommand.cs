@@ -35,6 +35,7 @@ public class UpdateTaskEntryCommand : DbValidationEntryCommandBase<UpdateTaskEnt
                 .SetProperty(x => x.TaskId, updateTaskEntryRequest.TaskId)
                 .SetProperty(x => x.ProjectId, updateTaskEntryRequest.ProjectId)
                 .SetProperty(x => x.Description, updateTaskEntryRequest.Description)
+                .SetProperty(x => x.TimeZoneId, updateTaskEntryRequest.TimeZoneId)
             );
 
         return updateTaskEntryRequest.Id;
