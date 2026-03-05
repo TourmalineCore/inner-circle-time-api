@@ -18,13 +18,9 @@ public class HardDeleteEntityCommandTests
     public HardDeleteEntityCommandTests()
     {
         _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        _command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
+        _command = new HardDeleteEntityCommand(_context, mockClaimsProvider);
     }
 
     [Fact]
@@ -73,13 +69,9 @@ public class HardDeleteEntityCommandTests
             TenantId = TENANT_ID
         });
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(2, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(2);
-
-        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
+        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider);
 
         var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
@@ -103,13 +95,9 @@ public class HardDeleteEntityCommandTests
             TenantId = 2
         });
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider.Object);
+        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider);
 
         var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 

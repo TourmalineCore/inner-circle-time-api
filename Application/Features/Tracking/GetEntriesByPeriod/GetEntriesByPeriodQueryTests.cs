@@ -15,13 +15,10 @@ public class GetEntriesByPeriodQueryTests
     public async Task GetEntriesByPeriodAsync_ShouldReturnEntriesByPeriodFromDbSet()
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider.Object);
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
 
         var taskEntry1 = new TaskEntry
         {
@@ -83,13 +80,9 @@ public class GetEntriesByPeriodQueryTests
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(3);
-
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider.Object);
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
 
         var result = await getEntriesByPeriodQuery
             .GetByPeriodAsync<TaskEntry>(
@@ -116,13 +109,9 @@ public class GetEntriesByPeriodQueryTests
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider.Object);
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
 
         var result = await getEntriesByPeriodQuery
             .GetByPeriodAsync<TaskEntry>(
