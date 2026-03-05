@@ -5,7 +5,7 @@ Feature: Task Entries
   Background:
     * header Content-Type = 'application/json'
 
-  Scenario: Happy Path
+  Scenario: Task Entries Creation Time Zone Isolation
 
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
