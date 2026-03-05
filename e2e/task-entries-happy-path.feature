@@ -105,8 +105,7 @@ Feature: Task Entries
         "endTime": "#(newEndTime)",
         "projectId": #(secondProjectId),
         "taskId": "#(newTaskId)",
-        "description": "#(newDescription)",
-        "timeZoneId": "#(timeZoneId)"
+        "description": "#(newDescription)"
     }
     """
 

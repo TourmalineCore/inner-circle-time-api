@@ -36,7 +36,6 @@ public class GetEntriesByPeriodHandler
                     ProjectId = x.ProjectId,
                     TaskId = x.TaskId,
                     Description = x.Description,
-                    TimeZoneId = x.TimeZoneId
                 })
                 .ToList();
 
@@ -49,7 +48,6 @@ public class GetEntriesByPeriodHandler
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
                     Type = x.Type,
-                    TimeZoneId = x.TimeZoneId
                 })
                 .ToList();
 

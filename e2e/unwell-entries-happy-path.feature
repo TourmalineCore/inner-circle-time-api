@@ -78,7 +78,6 @@ Feature: Unwell Entries
         "type": 2,
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
-        "timeZoneId": "#(timeZoneId)"
     }
     """
 

@@ -26,8 +26,6 @@ public class TaskEntryDto
     public required string TaskId { get; set; }
 
     public required string Description { get; set; }
-
-    public required string TimeZoneId { get; set; }
 }
 
 public class UnwellEntryDto
@@ -39,6 +37,4 @@ public class UnwellEntryDto
     public required DateTime EndTime { get; set; }
 
     public required EntryType Type { get; set; }
-
-    public required string TimeZoneId { get; set; }
 }

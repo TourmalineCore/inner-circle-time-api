@@ -104,7 +104,6 @@ Feature: Task Entries
         "projectId": #(firstProjectId),
         "taskId": "#(taskId)",
         "description": "#(description)",
-        "timeZoneId": "#(timeZoneIdAsiaYekaterinburg)"
     },
       {
         "id": "#(newTaskEntryId2)",
@@ -115,7 +114,6 @@ Feature: Task Entries
         "projectId": #(firstProjectId),
         "taskId": "#(taskId)",
         "description": "#(description)",
-        "timeZoneId": "#(timeZoneIdEuropeMoscow)"
     }
     """
 
