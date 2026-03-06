@@ -117,7 +117,9 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
+		timestamptz EndTimeUtc 
 		timestampwithouttimezone StartTime 
+		timestamptz StartTimeUtc 
 		bigint TenantId 
 		text TimeZoneId 
 		integer Type 
