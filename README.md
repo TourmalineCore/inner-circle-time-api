@@ -1,10 +1,10 @@
 # inner-circle-time-api
 
 <!-- auto-generated -->
-[![coverage](https://img.shields.io/badge/e2e_coverage-22.20%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/units_coverage-16.07%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/integration_coverage-59.04%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/full_coverage-83.30%25-olivedrab)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/e2e_coverage-19.74%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/units_coverage-13.93%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/integration_coverage-64.12%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/full_coverage-84.63%25-olivedrab)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
 This repo contains Inner Circle Time API.
@@ -117,7 +117,9 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
+		timestamptz EndTimeUtc 
 		timestampwithouttimezone StartTime 
+		timestamptz StartTimeUtc 
 		bigint TenantId 
 		text TimeZoneId 
 		integer Type 

@@ -35,7 +35,7 @@ public class GetEntriesByPeriodHandler
                     Title = x.Title,
                     ProjectId = x.ProjectId,
                     TaskId = x.TaskId,
-                    Description = x.Description
+                    Description = x.Description,
                 })
                 .ToList();
 

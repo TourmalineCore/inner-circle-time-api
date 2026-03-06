@@ -27,5 +27,23 @@ public class TrackedEntryBaseMapping : IEntityTypeConfiguration<TrackedEntryBase
             .ToTable(x => x.HasCheckConstraint(
                 "ck_entries_end_time_is_greater_than_start_time",
                 "\"end_time\" > \"start_time\""));
+
+        builder
+           .Property(x => x.StartTimeUtc)
+           .HasComputedColumnSql(
+               "start_time AT TIME ZONE time_zone_id",
+               stored: true
+            )
+           .HasColumnType("timestamptz")
+           .ValueGeneratedOnAddOrUpdate();
+
+        builder
+            .Property(x => x.EndTimeUtc)
+            .HasComputedColumnSql(
+                "end_time AT TIME ZONE time_zone_id",
+                stored: true
+            )
+            .HasColumnType("timestamptz")
+            .ValueGeneratedOnAddOrUpdate();
     }
 }

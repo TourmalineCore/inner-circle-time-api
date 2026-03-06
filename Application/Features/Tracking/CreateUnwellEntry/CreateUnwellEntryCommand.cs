@@ -29,6 +29,7 @@ public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwel
             EmployeeId = _claimsProvider.EmployeeId,
             StartTime = createUnwellEntryRequest.StartTime,
             EndTime = createUnwellEntryRequest.EndTime,
+            TimeZoneId = createUnwellEntryRequest.TimeZoneId
         };
 
         await _context

@@ -11,4 +11,7 @@ public class UpdateUnwellEntryRequest
 
     [Required]
     public required DateTime EndTime { get; set; }
+
+    [Required]
+    public required string TimeZoneId { get; set; }
 }
