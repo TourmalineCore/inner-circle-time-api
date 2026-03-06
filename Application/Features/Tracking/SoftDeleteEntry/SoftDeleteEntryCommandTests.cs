@@ -20,13 +20,9 @@ public class SoftDeleteEntryCommandTests
     public SoftDeleteEntryCommandTests()
     {
         _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        _command = new SoftDeleteEntryCommand(_context, mockClaimsProvider.Object);
+        _command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
 
         _softDeleteEntryRequest = new SoftDeleteEntryRequest
         {
@@ -92,13 +88,9 @@ public class SoftDeleteEntryCommandTests
             TenantId = TENANT_ID
         });
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(2, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(2);
-
-        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider.Object);
+        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
 
         var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
 
@@ -122,13 +114,9 @@ public class SoftDeleteEntryCommandTests
             TenantId = 2
         });
 
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider.Object);
+        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
 
         var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
 

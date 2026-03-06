@@ -34,15 +34,9 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
                     .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>("Test", options => { });
 
                 // Add fake mockClaimsProvider
-                var mockClaimsProvider = new Mock<IClaimsProvider>();
-                mockClaimsProvider
-                    .Setup(x => x.EmployeeId)
-                    .Returns(EMPLOYEE_ID);
-                mockClaimsProvider
-                    .Setup(x => x.TenantId)
-                    .Returns(TENANT_ID);
+                var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-                services.AddScoped(_ => mockClaimsProvider.Object);
+                services.AddScoped(_ => mockClaimsProvider);
             });
         });
 
