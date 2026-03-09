@@ -32,8 +32,8 @@ jobs:
 
       - name: Re-generate js-client by OpenAPI
         run: |
-          # wait is needed to see that there is an error in docker compose up and fail the step
-          # otherwise it is passing successfully even if there is an error at js-client generation
+          # The option --exit-code-from ensures that the command's exit code exactly matches the exit code of the specified service.
+          # otherwise this step is passing successfully even if there is an error at js-client generation
           docker compose -f ./js-client/generation/docker-compose.yml up --exit-code-from ts_generator
 
       - name: Set up Node.js
