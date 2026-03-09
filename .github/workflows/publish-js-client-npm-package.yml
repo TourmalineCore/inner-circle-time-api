@@ -34,7 +34,7 @@ jobs:
         run: |
           # wait is needed to see that there is an error in docker compose up and fail the step
           # otherwise it is passing successfully even if there is an error at js-client generation
-          docker compose -f ./js-client/generation/docker-compose.yml up --wait --wait-timeout 30
+          docker compose -f ./js-client/generation/docker-compose.yml up --wait --wait-timeout 300
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
