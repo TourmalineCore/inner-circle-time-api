@@ -15,7 +15,7 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        var mockClaimsProvider = GetMockClaimsProvider();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
 
@@ -54,7 +54,7 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        var mockClaimsProvider = GetMockClaimsProvider();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var taskEntry = await SaveEntityAsync(context, new TaskEntry
         {
@@ -104,7 +104,7 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        var mockClaimsProvider = GetMockClaimsProvider();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var taskEntry = await SaveEntityAsync(context, new TaskEntry
         {

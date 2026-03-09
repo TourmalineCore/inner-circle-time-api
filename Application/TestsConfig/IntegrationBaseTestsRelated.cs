@@ -73,9 +73,11 @@ public class IntegrationTestBase : IAsyncLifetime
 
     protected TenantAppDbContext CreateTenantDbContext()
     {
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
         return new TenantAppDbContext(
             _dbContextOptions,
-            GetMockClaimsProvider()
+            mockClaimsProvider
         );
     }
 
@@ -106,20 +108,5 @@ public class IntegrationTestBase : IAsyncLifetime
             .Set<TEntity>()
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
-    }
-
-    protected IClaimsProvider GetMockClaimsProvider()
-    {
-        var mockClaimsProvider = new Mock<IClaimsProvider>();
-
-        mockClaimsProvider
-            .Setup(x => x.EmployeeId)
-            .Returns(EMPLOYEE_ID);
-
-        mockClaimsProvider
-            .Setup(x => x.TenantId)
-            .Returns(TENANT_ID);
-
-        return mockClaimsProvider.Object;
     }
 }
