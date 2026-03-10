@@ -32,7 +32,7 @@ Feature: Task Entries
 
     # Get employee's projects
     Given url apiRootUrl
-    Given path 'tracking/task-entries/projects'
+    Given path 'time/tracking/task-entries/projects'
     And params { startDate: "2030-11-05", endDate: "2030-11-05" }
     When method GET
     Then status 200
@@ -48,7 +48,7 @@ Feature: Task Entries
     * def description = 'Task description'
     
     Given url apiRootUrl
-    Given path 'tracking/task-entries'
+    Given path 'time/tracking/task-entries'
     And request
     """
     {
@@ -72,7 +72,7 @@ Feature: Task Entries
     * def newTaskId = '#2235'
     * def newDescription = 'New task description'
     
-    Given path 'tracking/task-entries', newTaskEntryId
+    Given path 'time/tracking/task-entries', newTaskEntryId
     And request
     """
     {
@@ -88,7 +88,7 @@ Feature: Task Entries
     Then status 200
 
     # Verify updated task entry data
-    Given path 'tracking/entries'
+    Given path 'time/tracking/entries'
     And params { startDate: "2030-11-06", endDate: "2030-11-06" }
     When method GET
     And match response.taskEntries contains
@@ -106,13 +106,13 @@ Feature: Task Entries
     """
 
     # Cleanup: Delete the task entry (hard delete)
-    Given path 'tracking/entries', newTaskEntryId, 'hard-delete'
+    Given path 'time/tracking/entries', newTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that task entry was deleted
-    Given path 'tracking/entries'
+    Given path 'time/tracking/entries'
     And params { startDate: "2030-11-06", endDate: "2030-11-06" }
     When method GET
     Then status 200

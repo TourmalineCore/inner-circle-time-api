@@ -35,7 +35,7 @@ Feature: Task Entries
     # Get employee's projects for Draco
     # Here we specified 2032 year to avoid conflicts with other tests
     Given url apiRootUrl
-    Given path 'tracking/task-entries/projects'
+    Given path 'time/tracking/task-entries/projects'
     And params { startDate: "2032-11-06", endDate: "2032-11-06" }
     When method GET
     Then status 200
@@ -51,7 +51,7 @@ Feature: Task Entries
     * def description = 'Task description'
     
     Given url apiRootUrl
-    Given path 'tracking/task-entries'
+    Given path 'time/tracking/task-entries'
     And request
     """
     {
@@ -88,7 +88,7 @@ Feature: Task Entries
     # Get employee's projects for Severus
     # Here we specified 2032 year to avoid conflicts with other tests
     Given url apiRootUrl
-    Given path 'tracking/task-entries/projects'
+    Given path 'time/tracking/task-entries/projects'
     And params { startDate: "2032-11-06", endDate: "2032-11-06" }
     When method GET
     Then status 200
@@ -97,7 +97,7 @@ Feature: Task Entries
 
     # Create a new task entry for Severus with the same time as Draco
     Given url apiRootUrl
-    Given path 'tracking/task-entries'
+    Given path 'time/tracking/task-entries'
     And request
     """
     {
@@ -115,13 +115,13 @@ Feature: Task Entries
     * def severusAccountNewTaskEntryId = response.newTaskEntryId
 
     # Cleanup: Delete Severus' task entry
-    Given path 'tracking/entries', severusAccountNewTaskEntryId, 'hard-delete'
+    Given path 'time/tracking/entries', severusAccountNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that Severus' task entry was deleted
-    Given path 'tracking/entries'
+    Given path 'time/tracking/entries'
     And params { startDate: "2032-11-06", endDate: "2032-11-06" }
     When method GET
     Then status 200
@@ -130,13 +130,13 @@ Feature: Task Entries
     * configure headers = jsUtils().getAuthHeaders(dracoAccountAccessToken)
 
     # Cleanup: Delete Draco's task entry
-    Given path 'tracking/entries', dracoAccountNewTaskEntryId, 'hard-delete'
+    Given path 'time/tracking/entries', dracoAccountNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that  Draco's task entry was deleted
-    Given path 'tracking/entries'
+    Given path 'time/tracking/entries'
     And params { startDate: "2032-11-06", endDate: "2032-11-06" }
     When method GET
     Then status 200

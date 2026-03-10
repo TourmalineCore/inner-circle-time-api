@@ -31,11 +31,11 @@ Feature: Unwell Entries
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
     Given url apiRootUrl
-    Given path 'tracking/unwell-entries'
+    Given path 'time/tracking/unwell-entries'
     When method POST
     Then status 403
 
     Given url apiRootUrl
-    Given path 'tracking/unwell-entries', 100500
+    Given path 'time/tracking/unwell-entries', 100500
     When method POST
     Then status 403

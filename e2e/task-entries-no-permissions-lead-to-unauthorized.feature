@@ -31,16 +31,16 @@ Feature: Task Entries
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
     Given url apiRootUrl
-    Given path 'tracking/task-entries/projects'
+    Given path 'time/tracking/task-entries/projects'
     When method GET
     Then status 403
 
     Given url apiRootUrl
-    Given path 'tracking/task-entries'
+    Given path 'time/tracking/task-entries'
     When method POST
     Then status 403
     
     Given url apiRootUrl
-    Given path 'tracking/task-entries', 100500
+    Given path 'time/tracking/task-entries', 100500
     When method POST
     Then status 403

@@ -32,14 +32,14 @@ Feature: Entries
 
 
     Given url apiRootUrl
-    Given path 'tracking/entries'
+    Given path 'time/tracking/entries'
     When method GET
     Then status 403
 
-    Given path 'tracking/entries', 100500, 'hard-delete'
+    Given path 'time/tracking/entries', 100500, 'hard-delete'
     When method DELETE
     Then status 403
 
-    Given path 'tracking/entries', 100500, 'soft-delete'
+    Given path 'time/tracking/entries', 100500, 'soft-delete'
     When method DELETE
     Then status 403
