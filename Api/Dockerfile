@@ -26,5 +26,7 @@ RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:Use
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+# need to copy __version file since there is no access to the repo src folder where it lives
+COPY __version .
 ENV ASPNETCORE_HTTP_PORTS=80
 ENTRYPOINT ["dotnet", "Api.dll"]

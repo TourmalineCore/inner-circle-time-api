@@ -18,7 +18,7 @@ Feature: OpenApi
     And match response.info == 
     """
     {
-        "title": "inner-circle-items-api",
+        "title": "inner-circle-time-api",
         "version": "#(apiVersion)"
     }
     """

@@ -95,7 +95,7 @@ The most useful is `PgAdmin` http://localhost:9507 (password is `postgres`).
 
 ## Swagger
 
-You can fetch OpenApi endpoints and types contract using this URL http://localhost:4507/api/swagger/openapi/v1.json. Swagger UI is accessible at http://localhost:4507/api/swagger/index.html. 
+You can fetch OpenApi endpoints and types contract using this URL http://localhost:4507/api/swagger/openapi.json. Swagger UI is accessible at http://localhost:4507/api/swagger/index.html. 
 
 However, UI doesn't support requests execution, this requires adding Auth dialog to pass a token. It is a bit trickier starting from .NET 9 due to the change in support of Swagger packagies family `Swashbuckle`, read [here](https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-8.0&tabs=visual-studio) and [there](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/overview?view=aspnetcore-9.0&preserve-view=true) about that more.
 

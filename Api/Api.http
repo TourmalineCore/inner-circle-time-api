@@ -2,12 +2,12 @@
 @apiRootUrl = {{$processEnv API_ROOT_URL}}
 @authLogin = {{$processEnv AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS}}
 
-GET {{apiRootUrl}}/api/swagger/openapi/v1.json
+GET {{apiRootUrl}}/swagger/openapi.json
 
 ###
 
 # @name login
-POST {{authApiRootUrl}}/auth/login
+POST {{authApiRootUrl}}/login
 
 {
     "login": "{{authLogin}}"
