@@ -24,6 +24,13 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
 
     public async Task InitializeAsync()
     {
+        // Creating a temporary __version file to avoid an error where OpenApiConfiguration cannot find this file
+        var versionFile = "__version";
+        if (!File.Exists(versionFile))
+        {
+            await File.WriteAllTextAsync(versionFile, "1.0.0");
+        }
+
         _factory = _factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureTestServices(services =>
