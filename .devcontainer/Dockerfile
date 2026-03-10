@@ -18,6 +18,8 @@ RUN dotnet tool install --global dotnet-ef --version 9.0.7 && \
 # https://stackoverflow.com/a/72727052
 # we need to manually add it to PATH otherwise it cannot find dotnet ef tool
 ENV PATH="$PATH:/root/.dotnet/tools"
+# need to copy __version file since there is no access to the repo src folder where it lives
+COPY __version .
 
 # installing jre, curl, and unzip for Karate 
 # https://stackoverflow.com/a/44154721
