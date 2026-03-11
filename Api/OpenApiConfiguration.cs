@@ -49,12 +49,6 @@ public static class OpenApiConfiguration
     {
         app.MapOpenApi("api/swagger/openapi.json");
 
-        // Redirect request from /api/swagger/openapi/v1.json to /api/swagger/openapi.json
-        app.MapGet("api/swagger/openapi/v1.json", async (HttpContext context) =>
-        {
-            context.Response.Redirect("/api/swagger/openapi.json");
-        });
-
         app.UseSwaggerUI(options =>
         {
             options.SwaggerEndpoint("openapi.json", "API");
