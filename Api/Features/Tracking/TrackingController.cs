@@ -15,7 +15,7 @@ namespace Api.Features.Tracking;
 
 [Authorize]
 [ApiController]
-[Route("api/time/tracking")]
+[Route("api/tracking")]
 public class TrackingController : ControllerBase
 {
     [EndpointSummary("Get entries by period")]

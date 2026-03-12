@@ -35,7 +35,7 @@ Feature: Task Entries
     # Get employee's projects in slytherin tenant
     # Here we specified 2031 year to avoid conflicts with other tests
     Given url apiRootUrl
-    Given path 'time/tracking/task-entries/projects'
+    Given path 'tracking/task-entries/projects'
     And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
@@ -51,7 +51,7 @@ Feature: Task Entries
     * def description = 'Task description'
     
     Given url apiRootUrl
-    Given path 'time/tracking/task-entries'
+    Given path 'tracking/task-entries'
     And request
     """
     {
@@ -88,7 +88,7 @@ Feature: Task Entries
     # Get employee's projects in ravenclaw tenant
     # Here we specified 2031 year to avoid conflicts with other tests
     Given url apiRootUrl
-    Given path 'time/tracking/task-entries/projects'
+    Given path 'tracking/task-entries/projects'
     And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
@@ -97,7 +97,7 @@ Feature: Task Entries
 
     # Create a new task entry in ravenclaw tenant the same time as slytherin tenant
     Given url apiRootUrl
-    Given path 'time/tracking/task-entries'
+    Given path 'tracking/task-entries'
     And request
     """
     {
@@ -115,13 +115,13 @@ Feature: Task Entries
     * def ravenclawTenantNewTaskEntryId = response.newTaskEntryId
 
     # Cleanup: Delete task entry in ravenclaw tenant
-    Given path 'time/tracking/entries', ravenclawTenantNewTaskEntryId, 'hard-delete'
+    Given path 'tracking/entries', ravenclawTenantNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that task entry in ravenclaw tenant was deleted
-    Given path 'time/tracking/entries'
+    Given path 'tracking/entries'
     And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200
@@ -130,13 +130,13 @@ Feature: Task Entries
     * configure headers = jsUtils().getAuthHeaders(slytherineTenantAccessToken)
 
     # Cleanup: Delete task entry in slytherine tenant
-    Given path 'time/tracking/entries', slytherineTenantNewTaskEntryId, 'hard-delete'
+    Given path 'tracking/entries', slytherineTenantNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that task entry in slytherin tenant was deleted
-    Given path 'time/tracking/entries'
+    Given path 'tracking/entries'
     And params { startDate: "2031-11-06", endDate: "2031-11-06" }
     When method GET
     Then status 200

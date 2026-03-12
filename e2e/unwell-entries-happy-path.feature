@@ -35,7 +35,7 @@ Feature: Unwell Entries
     * def endTime = '2029-11-05T16:00:00'
     
     Given url apiRootUrl
-    Given path 'time/tracking/unwell-entries'
+    Given path 'tracking/unwell-entries'
     And request
     """
     {
@@ -52,7 +52,7 @@ Feature: Unwell Entries
     * def newStartTime = '2029-11-06T11:00:00'
     * def newEndTime = '2029-11-06T12:00:00'
     
-    Given path 'time/tracking/unwell-entries', newUnwellEntryId
+    Given path 'tracking/unwell-entries', newUnwellEntryId
     And request
     """
     {
@@ -64,7 +64,7 @@ Feature: Unwell Entries
     Then status 200
 
     # Verify updated unwell entry data
-    Given path 'time/tracking/entries'
+    Given path 'tracking/entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET
     And match response.unwellEntries contains
@@ -78,13 +78,13 @@ Feature: Unwell Entries
     """
 
     # Cleanup: Delete the unwell entry (hard delete)
-    Given path 'time/tracking/entries', newUnwellEntryId, 'hard-delete'
+    Given path 'tracking/entries', newUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
     # Cleanup Verification: Verify that unwell entry was deleted
-    Given path 'time/tracking/entries'
+    Given path 'tracking/entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET
     Then status 200
