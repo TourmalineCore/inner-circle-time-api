@@ -300,7 +300,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetEntriesByPeriod
      * @summary Get entries by period
-     * @request GET:/api/time/tracking/entries
+     * @request GET:/api/tracking/entries
      */
     trackingGetEntriesByPeriod: (
       query: {
@@ -312,7 +312,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<GetEntriesByPeriodResponse, any>({
-        path: `/api/time/tracking/entries`,
+        path: `/api/tracking/entries`,
         method: "GET",
         query: query,
         format: "json",
@@ -325,14 +325,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingCreateTaskEntry
      * @summary Create a task entry
-     * @request POST:/api/time/tracking/task-entries
+     * @request POST:/api/tracking/task-entries
      */
     trackingCreateTaskEntry: (
       data: CreateTaskEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateTaskEntryResponse, any>({
-        path: `/api/time/tracking/task-entries`,
+        path: `/api/tracking/task-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -346,14 +346,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingCreateUnwellEntry
      * @summary Create an unwell entry
-     * @request POST:/api/time/tracking/unwell-entries
+     * @request POST:/api/tracking/unwell-entries
      */
     trackingCreateUnwellEntry: (
       data: CreateUnwellEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateUnwellResponse, any>({
-        path: `/api/time/tracking/unwell-entries`,
+        path: `/api/tracking/unwell-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -367,7 +367,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingUpdateTaskEntry
      * @summary Update a task entry
-     * @request POST:/api/time/tracking/task-entries/{taskEntryId}
+     * @request POST:/api/tracking/task-entries/{taskEntryId}
      */
     trackingUpdateTaskEntry: (
       taskEntryId: number,
@@ -375,7 +375,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/time/tracking/task-entries/${taskEntryId}`,
+        path: `/api/tracking/task-entries/${taskEntryId}`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -388,7 +388,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingUpdateUnwellEntry
      * @summary Update an unwell entry
-     * @request POST:/api/time/tracking/unwell-entries/{unwellEntryId}
+     * @request POST:/api/tracking/unwell-entries/{unwellEntryId}
      */
     trackingUpdateUnwellEntry: (
       unwellEntryId: number,
@@ -396,7 +396,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/time/tracking/unwell-entries/${unwellEntryId}`,
+        path: `/api/tracking/unwell-entries/${unwellEntryId}`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -409,7 +409,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetEmployeeProjectsByPeriod
      * @summary Get employee projects by period
-     * @request GET:/api/time/tracking/task-entries/projects
+     * @request GET:/api/tracking/task-entries/projects
      */
     trackingGetEmployeeProjectsByPeriod: (
       query: {
@@ -421,7 +421,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<ProjectsResponse, any>({
-        path: `/api/time/tracking/task-entries/projects`,
+        path: `/api/tracking/task-entries/projects`,
         method: "GET",
         query: query,
         format: "json",
@@ -434,11 +434,11 @@ export class Api<
      * @tags Tracking
      * @name TrackingHardDeleteEntry
      * @summary Deletes specific entry
-     * @request DELETE:/api/time/tracking/entries/{entryId}/hard-delete
+     * @request DELETE:/api/tracking/entries/{entryId}/hard-delete
      */
     trackingHardDeleteEntry: (entryId: number, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/api/time/tracking/entries/${entryId}/hard-delete`,
+        path: `/api/tracking/entries/${entryId}/hard-delete`,
         method: "DELETE",
         ...params,
       }),
@@ -449,7 +449,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingSoftDeleteEntry
      * @summary Soft deletes specific entry
-     * @request DELETE:/api/time/tracking/entries/{entryId}/soft-delete
+     * @request DELETE:/api/tracking/entries/{entryId}/soft-delete
      */
     trackingSoftDeleteEntry: (
       entryId: number,
@@ -457,7 +457,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/time/tracking/entries/${entryId}/soft-delete`,
+        path: `/api/tracking/entries/${entryId}/soft-delete`,
         method: "DELETE",
         body: data,
         type: ContentType.Json,
