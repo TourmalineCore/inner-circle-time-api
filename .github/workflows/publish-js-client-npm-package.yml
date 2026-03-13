@@ -1,0 +1,106 @@
+name: Publish js-client npm Package
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: 
+      - master
+    paths:
+      # need to trigger this only when the version is changed on master in a semantic-release produced auto commit
+      # we want this to be in sync with the new version and with the parallel deployment to prod
+      - '__version'
+
+jobs:
+  publish-js-client-npm-package:
+    runs-on: ubuntu-24.04
+    permissions:
+      # Required to commit changes from the workflow
+      contents: write
+      # Required for OIDC (https://docs.npmjs.com/trusted-publishers#github-actions-configuration)
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v6
+        with:
+          # from AI: Without this ref in PRs, you're on a merge commit, and pushing back is ambiguous.
+          ref: ${{ github.head_ref }}
+
+      - name: Run the api via docker-compose
+        run: |
+          docker compose --profile MockForTests up -d
+
+      - name: Re-generate js-client by OpenAPI
+        run: |
+          # The option --exit-code-from ensures that the command's exit code exactly matches the exit code of the specified service.
+          # otherwise this step is passing successfully even if there is an error at js-client generation
+          docker compose -f ./js-client/generation/docker-compose.yml up --exit-code-from ts_generator
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.12.0
+          # it was decided to use npm intead of GitHub Packages
+          # the reason is that GutHub Packages require a token to be added to .npmrc
+          # it looks an overkill for an open source public package
+          # it is native to install in from npm, no changes needed from the DevExp side 
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@tourmalinecore'
+
+      - name: Add SEMVER_VERSION Env Var with Value from __version File
+        run: |
+          echo "SEMVER_VERSION=$(cat __version)" >>${GITHUB_ENV}
+
+      - name: Add new Env Var with new npm package version using commit sha or __version
+        run: |
+          # commit to master uses __version
+          should_use_sem_ver_version="${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}"
+          
+          # sem_ver_version value example is 1.0.3
+          sem_ver_version="${{ env.SEMVER_VERSION }}"
+          
+          # commit_sha value example is 856455dadd9b3c4a0346a01789031b405def40f8
+          commit_sha="${{ github.event.pull_request.head.sha }}"
+          
+          # commit_sha_version value example is 1.0.3-856455dadd9b3c4a0346a01789031b405def40f8
+          # we cannot use commit_sha as an npm package version, it strictly checks its SemVer compliance
+          # the workaround is to add commit_sha after the SemVer like it is a pre-repease version, which it is  in fact
+          commit_sha_version="${{ env.SEMVER_VERSION }}-${commit_sha}"
+
+          [[ "$should_use_sem_ver_version" == "true" ]] && echo "NEW_JS_CLIENT_VERSION=${sem_ver_version}" >> ${GITHUB_ENV} || echo "NEW_JS_CLIENT_VERSION=${commit_sha_version}" >> ${GITHUB_ENV}
+          [[ "$should_use_sem_ver_version" == "true" ]] && echo "NEW_JS_CLIENT_TAG=release-${sem_ver_version}" >> ${GITHUB_ENV} || echo "NEW_JS_CLIENT_TAG=${commit_sha}" >> ${GITHUB_ENV}
+
+      - name: Publish js-client npm package
+        run: |
+          cd js-client
+          npm version "${{ env.NEW_JS_CLIENT_VERSION }}"
+          npm ci
+          npm run build
+          if [ ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }} == "true" ]; then
+            # need to publish a new latest from default branch
+            npm publish --access public
+          else
+            # need to publish a new feature branch intermediate commit version
+            npm publish --tag "${{ env.NEW_JS_CLIENT_TAG }}" --access public
+          fi
+          
+      - name: Commit js-client
+        run: |
+          git config user.email "contact@tourmalinecore.com"
+          git config user.name "Workflow Action"
+
+          git add js-client/index.ts
+
+          # we don't need to commit these files with always changing version
+          # that will allow us to not reset installed packages cache on these files change
+          git restore js-client/package.json js-client/package-lock.json
+          
+          git commit -m "chore(js-client): Update js-client by OpenAPI" || echo "No changes to commit"
+          
+          # these fetch and rebase were needed to address an issue when there are 2 or more parallel jobs which commit
+          # these jobs are doing it concurrently and there were a race condition, only the first modifier could push its changes
+          # github.head_ref || github.ref_name are solving the problem that head_ref is filled only for PRs
+          # and in case of commits to master ref_name is what we need and head_ref is empty
+          git fetch origin ${{ github.head_ref || github.ref_name }}
+          git rebase origin/${{ github.head_ref || github.ref_name }}
+          git push origin HEAD:${{ github.head_ref || github.ref_name }} || echo "No changes to commit"

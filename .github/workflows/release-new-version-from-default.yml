@@ -1,0 +1,53 @@
+name: Release New Version (If Needed)
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      # don't need to trigger this on push of this job's result commit
+      - '__version'
+
+jobs:
+  release-new-version:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v6
+        with:
+          # Downloads the entire commit history for semantic-release
+          fetch-depth: 0
+          # this is needed to use the custom INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN
+          # without this it keeps the default token and deploy job won't be triggered by a new version commit
+          # https://github.com/semantic-release/github/issues/264#issuecomment-888398641
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24.12.0
+
+      - name: Install semantic-release and plugins
+        run: |
+          npm install semantic-release@25.0.2 \
+            @semantic-release/exec@7.1.0 \
+            @semantic-release/commit-analyzer@13.0.1 \
+            @semantic-release/release-notes-generator@14.1.0 \
+            @semantic-release/github@12.0.2 \
+            @semantic-release/git@10.0.1 \
+            conventional-changelog-conventionalcommits@9.1.0
+
+      - name: Configure Git
+        run: |
+          git config user.email "contact@tourmalinecore.com"
+          git config user.name "Workflow Action"
+
+      - name: Run Semantic Release
+        env:
+          # this token should have at lease these permissions:
+          #   contents: write # to be able to publish a GitHub release
+          #   issues: write # to be able to comment on released issues
+          #   pull-requests: write # to be able to comment on released pull requests
+          GITHUB_TOKEN: ${{ secrets.INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN }}
+        run: npx semantic-release

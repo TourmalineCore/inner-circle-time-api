@@ -1,7 +1,6 @@
 using Application;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
@@ -17,22 +16,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddControllers();
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-        builder.Services.AddOpenApi(options =>
-        {
-            options.AddOperationTransformer((operation, context, _) =>
-            {
-                // Try to get the ControllerActionDescriptor to access method information
-                if (context.Description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
-                {
-                    // Set the operationId to the ControllerName and ActionName (which is typically the method name)
-                    // This allows to have unique operationId even if there is the same method name across multiple controllers
-                    operation.OperationId = $"{controllerActionDescriptor.ControllerName}{controllerActionDescriptor.ActionName}";
-                }
 
-                return Task.CompletedTask;
-            });
-        });
+        builder.Services.AddConfiguredOpenApi();
 
         builder.Services.AddApplication(configuration);
 
@@ -88,13 +73,7 @@ public class Program
 
         app.UseProblemDetails();
 
-        app.MapOpenApi("api/swagger/openapi/v1.json");
-
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("openapi/v1.json", "My API V1");
-            options.RoutePrefix = "api/swagger";
-        });
+        app.AddOpenApiSchemaAndUI();
 
         MigrateDatabase(app.Services);
 

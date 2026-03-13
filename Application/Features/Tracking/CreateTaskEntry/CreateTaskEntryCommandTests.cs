@@ -1,3 +1,4 @@
+using Application.TestsConfig;
 using Core.Entities;
 using Xunit;
 
@@ -7,6 +8,7 @@ namespace Application.Features.Tracking.CreateTaskEntry;
 // Current solution assigns tests to a collection to disable parallelization, 
 // preventing conflicts when accessing shared resources
 //https://xunit.net/docs/running-tests-in-parallel
+[IntegrationTest]
 [Collection("EntryCommandTests")]
 public class CreateTaskEntryCommandTests : IntegrationTestBase
 {

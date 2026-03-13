@@ -2,12 +2,12 @@
 @apiRootUrl = {{$processEnv API_ROOT_URL}}
 @authLogin = {{$processEnv AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS}}
 
-GET {{apiRootUrl}}/api/swagger/openapi/v1.json
+GET {{apiRootUrl}}/swagger/openapi.json
 
 ###
 
 # @name login
-POST {{authApiRootUrl}}/auth/login
+POST {{authApiRootUrl}}/login
 
 {
     "login": "{{authLogin}}"
@@ -18,7 +18,7 @@ POST {{authApiRootUrl}}/auth/login
 @accessToken = {{login.response.body.accessToken.value}}
 
 # @name createComment
-GET {{apiRootUrl}}/tracking/work-entries
+GET {{apiRootUrl}}/tracking/entries?startDate=2026-03-09&endDate=2026-03-15
 X-DEBUG-TOKEN: {{accessToken}}
 
 ###

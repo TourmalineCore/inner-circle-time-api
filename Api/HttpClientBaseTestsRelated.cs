@@ -1,12 +1,10 @@
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Api;
-using Application;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Options;
-using Moq;
 using Xunit;
 
 public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
@@ -17,6 +15,8 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
     protected HttpClient HttpClient = null!;
     private WebApplicationFactory<Program> _factory = null!;
 
+    private const string versionFile = "__version";
+
     public HttpClientTestBase(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
@@ -24,6 +24,13 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
 
     public async Task InitializeAsync()
     {
+        // Creating a temporary __version file to avoid an error where OpenApiConfiguration cannot find this file
+        // In the future, we should consider how to solve this problem without creating a temporary file
+        if (!File.Exists(versionFile))
+        {
+            await File.WriteAllTextAsync(versionFile, "1.0.0");
+        }
+
         _factory = _factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureTestServices(services =>
@@ -45,6 +52,12 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
 
     public async Task DisposeAsync()
     {
+        // Deleting a temporary version file
+        if (File.Exists(versionFile))
+        {
+            File.Delete(versionFile);
+        }
+
         HttpClient.Dispose();
         _factory.Dispose();
     }
