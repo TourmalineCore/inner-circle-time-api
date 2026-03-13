@@ -18,7 +18,7 @@ POST {{authApiRootUrl}}/login
 @accessToken = {{login.response.body.accessToken.value}}
 
 # @name createComment
-GET {{apiRootUrl}}/tracking/work-entries
+GET {{apiRootUrl}}/tracking/entries?startDate=2026-03-09&endDate=2026-03-15
 X-DEBUG-TOKEN: {{accessToken}}
 
 ###
