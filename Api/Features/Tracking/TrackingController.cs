@@ -22,12 +22,12 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("entries")]
     public Task<GetEntriesByPeriodResponse> GetEntriesByPeriodAsync(
-        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly startDateTest,
         [Required][FromQuery] DateOnly endDate,
         [FromServices] GetEntriesByPeriodHandler getEntriesByPeriodHandler
     )
     {
-        return getEntriesByPeriodHandler.HandleAsync(startDate, endDate);
+        return getEntriesByPeriodHandler.HandleAsync(startDateTest, endDate);
     }
 
     [EndpointSummary("Create a task entry")]
@@ -100,17 +100,5 @@ public class TrackingController : ControllerBase
     )
     {
         return hardDeleteEntryHandler.HandleAsync(entryId);
-    }
-
-    [EndpointSummary("Soft deletes specific entry")]
-    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
-    [HttpDelete("entries/{entryId}/soft-delete")]
-    public Task<object> SoftDeleteEntryAsync(
-        [Required][FromRoute] long entryId,
-        [Required][FromBody] SoftDeleteEntryRequest softDeleteEntryRequest,
-        [FromServices] SoftDeleteEntryHandler softDeleteEntryHandler
-    )
-    {
-        return softDeleteEntryHandler.HandleAsync(entryId, softDeleteEntryRequest);
     }
 }
