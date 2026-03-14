@@ -27,7 +27,7 @@ export interface CreateTaskEntryResponse {
   newTaskEntryId: number;
 }
 
-export interface CreateUnwellEntryRequest {
+export interface CreateUnwellEntryTestRequest {
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -49,6 +49,7 @@ export interface GetEntriesByPeriodResponse {
 export interface ProjectDto {
   /** @format int64 */
   id: number;
+  name: string;
 }
 
 export interface ProjectsResponse {
@@ -348,7 +349,7 @@ export class Api<
      * @request POST:/api/tracking/unwell-entries
      */
     trackingCreateUnwellEntry: (
-      data: CreateUnwellEntryRequest,
+      data: CreateUnwellEntryTestRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateUnwellResponse, any>({
