@@ -27,7 +27,7 @@ export interface CreateTaskEntryResponse {
   newTaskEntryId: number;
 }
 
-export interface CreateUnwellEntryTestRequest {
+export interface CreateUnwellEntryRequest {
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -54,12 +54,6 @@ export interface ProjectDto {
 
 export interface ProjectsResponse {
   projects: ProjectDto[];
-}
-
-export interface SoftDeleteEntryRequest {
-  /** @format int64 */
-  id?: number;
-  deletionReason: string;
 }
 
 export interface TaskEntryDto {
@@ -305,7 +299,7 @@ export class Api<
     trackingGetEntriesByPeriod: (
       query: {
         /** @format date */
-        startDate: string;
+        startDateTest: string;
         /** @format date */
         endDate: string;
       },
@@ -349,7 +343,7 @@ export class Api<
      * @request POST:/api/tracking/unwell-entries
      */
     trackingCreateUnwellEntry: (
-      data: CreateUnwellEntryTestRequest,
+      data: CreateUnwellEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateUnwellResponse, any>({
@@ -440,27 +434,6 @@ export class Api<
       this.request<void, any>({
         path: `/api/tracking/entries/${entryId}/hard-delete`,
         method: "DELETE",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tracking
-     * @name TrackingSoftDeleteEntry
-     * @summary Soft deletes specific entry
-     * @request DELETE:/api/tracking/entries/{entryId}/soft-delete
-     */
-    trackingSoftDeleteEntry: (
-      entryId: number,
-      data: SoftDeleteEntryRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/tracking/entries/${entryId}/soft-delete`,
-        method: "DELETE",
-        body: data,
-        type: ContentType.Json,
         ...params,
       }),
   };
