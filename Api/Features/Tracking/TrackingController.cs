@@ -20,7 +20,7 @@ public class TrackingController : ControllerBase
 {
     [EndpointSummary("Get entries by period")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
-    [HttpGet("entries-test")]
+    [HttpGet("entries")]
     public Task<GetEntriesByPeriodResponse> GetEntriesByPeriodAsync(
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
