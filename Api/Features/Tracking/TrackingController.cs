@@ -45,7 +45,7 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("unwell-entries")]
     public Task<CreateUnwellResponse> CreateUnwellEntryAsync(
-        [Required][FromBody] CreateUnwellEntryRequest createUnwellRequest,
+        [Required][FromBody] CreateUnwellEntryTestRequest createUnwellRequest,
         [FromServices] CreateUnwellEntryHandler createUnwellEntryHandler
     )
     {

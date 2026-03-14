@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.Tracking.CreateUnwellEntry;
 
-public class CreateUnwellEntryRequest
+public class CreateUnwellEntryTestRequest
 {
     [Required]
     public required DateTime StartTime { get; set; }

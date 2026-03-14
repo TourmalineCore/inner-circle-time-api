@@ -13,7 +13,7 @@ public class CreateUnwellEntryHandler
     }
 
     public async Task<CreateUnwellResponse> HandleAsync(
-        CreateUnwellEntryRequest createUnwellEntryRequest
+        CreateUnwellEntryTestRequest createUnwellEntryRequest
     )
     {
         var newUnwellEntryId = await _createUnwellEntryCommand.ExecuteAsync(createUnwellEntryRequest);
