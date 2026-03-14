@@ -300,7 +300,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetEntriesByPeriod
      * @summary Get entries by period
-     * @request GET:/api/tracking/entries-test
+     * @request GET:/api/tracking/entries
      */
     trackingGetEntriesByPeriod: (
       query: {
@@ -312,7 +312,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<GetEntriesByPeriodResponse, any>({
-        path: `/api/tracking/entries-test`,
+        path: `/api/tracking/entries`,
         method: "GET",
         query: query,
         format: "json",
