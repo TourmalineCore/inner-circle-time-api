@@ -104,3 +104,16 @@ jobs:
           git fetch origin ${{ github.head_ref || github.ref_name }}
           git rebase origin/${{ github.head_ref || github.ref_name }}
           git push origin HEAD:${{ github.head_ref || github.ref_name }} || echo "No changes to commit"
+
+      - name: Check out Time UI
+        uses: actions/checkout@v6
+        with:
+          repository: TourmalineCore/inner-circle-time-ui
+
+      - name: Install new version of js-client npm package
+        run: |
+          npm ci
+          
+          npm install @tourmalinecore/inner-circle-time-api-js-client@"${{ env.NEW_JS_CLIENT_TAG }}" --save
+
+          npm run lint
