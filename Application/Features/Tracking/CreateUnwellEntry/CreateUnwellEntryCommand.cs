@@ -2,7 +2,7 @@
 
 namespace Application.Features.Tracking.CreateUnwellEntry;
 
-public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwellEntryTestRequest>
+public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwellEntryRequest>
 {
     private readonly TenantAppDbContext _context;
     private readonly IClaimsProvider _claimsProvider;
@@ -16,12 +16,12 @@ public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwel
         _claimsProvider = claimsProvider;
     }
 
-    public async Task<long> ExecuteAsync(CreateUnwellEntryTestRequest createUnwellEntryRequest)
+    public async Task<long> ExecuteAsync(CreateUnwellEntryRequest createUnwellEntryRequest)
     {
         return await MakeChangesInDbAsync(createUnwellEntryRequest);
     }
 
-    protected override async Task<long> MakeChangesToEntryAsync(CreateUnwellEntryTestRequest createUnwellEntryRequest)
+    protected override async Task<long> MakeChangesToEntryAsync(CreateUnwellEntryRequest createUnwellEntryRequest)
     {
         var unwellEntry = new UnwellEntry
         {
