@@ -56,6 +56,12 @@ export interface ProjectsResponse {
   projects: ProjectDto[];
 }
 
+export interface SoftDeleteEntryRequest {
+  /** @format int64 */
+  id?: number;
+  deletionReason: string;
+}
+
 export interface TaskEntryDto {
   /** @format int64 */
   id: number;
@@ -294,19 +300,19 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetEntriesByPeriod
      * @summary Get entries by period
-     * @request GET:/api/tracking/entries
+     * @request GET:/api/tracking/entries-test
      */
     trackingGetEntriesByPeriod: (
       query: {
         /** @format date */
-        startDateTest: string;
+        startDate: string;
         /** @format date */
         endDate: string;
       },
       params: RequestParams = {},
     ) =>
       this.request<GetEntriesByPeriodResponse, any>({
-        path: `/api/tracking/entries`,
+        path: `/api/tracking/entries-test`,
         method: "GET",
         query: query,
         format: "json",
@@ -434,6 +440,27 @@ export class Api<
       this.request<void, any>({
         path: `/api/tracking/entries/${entryId}/hard-delete`,
         method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingSoftDeleteEntry
+     * @summary Soft deletes specific entry
+     * @request DELETE:/api/tracking/entries/{entryId}/soft-delete
+     */
+    trackingSoftDeleteEntry: (
+      entryId: number,
+      data: SoftDeleteEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/tracking/entries/${entryId}/soft-delete`,
+        method: "DELETE",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };
