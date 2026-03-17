@@ -1,18 +1,10 @@
-name: Publish js-client npm Package
+name: Publish js-client
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  push:
-    branches: 
-      - master
-    paths:
-      # need to trigger this only when the version is changed on master in a semantic-release produced auto commit
-      # we want this to be in sync with the new version and with the parallel deployment to prod
-      - '__version'
+  workflow_call:
 
 jobs:
-  publish-js-client-npm-package:
+  publish-js-client:
     runs-on: ubuntu-24.04
     permissions:
       # Required to commit changes from the workflow
@@ -104,16 +96,3 @@ jobs:
           git fetch origin ${{ github.head_ref || github.ref_name }}
           git rebase origin/${{ github.head_ref || github.ref_name }}
           git push origin HEAD:${{ github.head_ref || github.ref_name }} || echo "No changes to commit"
-
-      - name: Check out Time UI
-        uses: actions/checkout@v6
-        with:
-          repository: TourmalineCore/inner-circle-time-ui
-
-      - name: Install new version of js-client npm package
-        run: |
-          npm ci
-          
-          npm install @tourmalinecore/inner-circle-time-api-js-client@"${{ env.NEW_JS_CLIENT_TAG }}" --save
-
-          npm run lint

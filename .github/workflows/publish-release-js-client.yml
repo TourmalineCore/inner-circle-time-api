@@ -1,0 +1,14 @@
+name: Publish release js-client
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      # need to trigger this only when the version is changed on master in a semantic-release produced auto commit
+      # we want this to be in sync with the new version and with the parallel deployment to prod
+      - '__version'
+
+jobs:
+  publish-release-js-client:
+    uses: ./.github/workflows/.reusable-publish-js-client.yml
