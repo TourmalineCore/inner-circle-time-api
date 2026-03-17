@@ -34,6 +34,6 @@ jobs:
       run: |
         npm ci
         
-        npm install @tourmalinecore/inner-circle-time-api-js-client@"${{ env.NEW_JS_CLIENT_TAG }}" --save
+        npm install @tourmalinecore/inner-circle-time-api-js-client@${{ github.event.pull_request.head.sha }} --save
 
         npm run lint
