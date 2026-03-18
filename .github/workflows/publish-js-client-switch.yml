@@ -20,10 +20,14 @@ jobs:
   publish-release-js-client:
     if: github.event_name == 'push'
     uses: ./.github/workflows/.reusable-publish-js-client.yml
+    # needed to access INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN inside
+    secrets: inherit
 
   publish-fb-js-client:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/.reusable-publish-js-client.yml
+    # needed to access INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN inside
+    secrets: inherit
 
   lint-fb-js-client-in-ui:
     needs: [publish-fb-js-client]
