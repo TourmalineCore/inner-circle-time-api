@@ -17,6 +17,9 @@ jobs:
         with:
           # from AI: Without this ref in PRs, you're on a merge commit, and pushing back is ambiguous.
           ref: ${{ github.head_ref }}
+          # this is needed to use the custom INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN
+          # without this it keeps the default token and won't be able to push directly to master
+          token: ${{ secrets.INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN }}
 
       - name: Run the api via docker-compose
         run: |
@@ -86,8 +89,11 @@ jobs:
           # we don't need to commit these files with always changing version
           # that will allow us to not reset installed packages cache on these files change
           git restore js-client/package.json js-client/package-lock.json
-          
-          git commit -m "chore(js-client): Update js-client by OpenAPI" || echo "No changes to commit"
+        
+          if ! git commit -m "chore(js-client): Update js-client by OpenAPI"; then
+            echo "No changes to commit."
+            exit 0
+          fi
           
           # these fetch and rebase were needed to address an issue when there are 2 or more parallel jobs which commit
           # these jobs are doing it concurrently and there were a race condition, only the first modifier could push its changes
@@ -95,4 +101,4 @@ jobs:
           # and in case of commits to master ref_name is what we need and head_ref is empty
           git fetch origin ${{ github.head_ref || github.ref_name }}
           git rebase origin/${{ github.head_ref || github.ref_name }}
-          git push origin HEAD:${{ github.head_ref || github.ref_name }} || echo "No changes to commit"
+          git push origin HEAD:${{ github.head_ref || github.ref_name }}
