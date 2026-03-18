@@ -49,6 +49,7 @@ export interface GetEntriesByPeriodResponse {
 export interface ProjectDto {
   /** @format int64 */
   id: number;
+  name: string;
 }
 
 export interface ProjectsResponse {
