@@ -1,4 +1,8 @@
-# https://www.paigeniedringhaus.com/blog/run-multiple-npm-publishing-scripts-with-trusted-publishing-oidc-via-github-reusable-workflows/
+# this switch concept was borrowed from this article https://www.paigeniedringhaus.com/blog/run-multiple-npm-publishing-scripts-with-trusted-publishing-oidc-via-github-reusable-workflows/
+# there is a limitation in npm OIDC configuration with GitHub
+# you can specify only a single workflow filename that will have access to publish to npm, masks in filename as are also not supported
+# thus, it has to be a single file to publishes to npm but we have 2 cases: publish from master and publish from fb with linting afterwards
+# if it supports several files there will be 2 separate workflows with no if conditions by event_name with the same .reusable one
 name: Publish js-client switch
 
 on:
