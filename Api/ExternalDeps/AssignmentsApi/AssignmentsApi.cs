@@ -6,23 +6,23 @@ internal class AssignmentsApi : IAssignmentsApi
 {
     private static readonly List<ProjectDto> MockedProjects = new()
         {
-            new ProjectDto { Id = 1 },
-            new ProjectDto { Id = 2 },
-            new ProjectDto { Id = 3 },
-            new ProjectDto { Id = 4 },
-            new ProjectDto { Id = 5 },
-            new ProjectDto { Id = 6 },
-            new ProjectDto { Id = 7 },
-            new ProjectDto { Id = 8 },
-            new ProjectDto { Id = 9 },
-            new ProjectDto { Id = 10 },
-            new ProjectDto { Id = 11 },
-            new ProjectDto { Id = 12 },
-            new ProjectDto { Id = 13 },
-            new ProjectDto { Id = 14 },
-            new ProjectDto { Id = 15 },
-            new ProjectDto { Id = 16 },
-            new ProjectDto { Id = 17 }
+            new ProjectDto { Id = 1, Name = "L1" },
+            new ProjectDto { Id = 2, Name = "L2" },
+            new ProjectDto { Id = 3, Name = "L3" },
+            new ProjectDto { Id = 4, Name = "Inner Circle" },
+            new ProjectDto { Id = 5, Name = "Sensei" },
+            new ProjectDto { Id = 6, Name = "ML" },
+            new ProjectDto { Id = 7, Name = "Branding" },
+            new ProjectDto { Id = 8, Name = "Infrastructure" },
+            new ProjectDto { Id = 9, Name = "Operations" },
+            new ProjectDto { Id = 10, Name = "Management" },
+            new ProjectDto { Id = 11, Name = "D*d Home" },
+            new ProjectDto { Id = 12, Name = "The Office" },
+            new ProjectDto { Id = 13, Name = "Home" },
+            new ProjectDto { Id = 14, Name = "Talks & Workshops" },
+            new ProjectDto { Id = 15, Name = "Pelican" },
+            new ProjectDto { Id = 16, Name = "Wiki" },
+            new ProjectDto { Id = 17, Name = "Flamingo" }
         };
 
     // for now it is implemented as a mock but later it will be an internal request to assignments-api
