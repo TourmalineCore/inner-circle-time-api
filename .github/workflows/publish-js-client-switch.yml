@@ -1,0 +1,39 @@
+# https://www.paigeniedringhaus.com/blog/run-multiple-npm-publishing-scripts-with-trusted-publishing-oidc-via-github-reusable-workflows/
+name: Publish js-client switch
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: 
+      - master
+    paths:
+      # need to trigger this only when the version is changed on master in a semantic-release produced auto commit
+      # we want this to be in sync with the new version and with the parallel deployment to prod
+      - '__version'
+
+jobs:
+  publish-release-js-client:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/.reusable-publish-js-client.yml
+
+  publish-fb-js-client:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/.reusable-publish-js-client.yml
+
+  lint-fb-js-client-in-ui:
+    needs: [publish-fb-js-client]
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Check out Time UI
+      uses: actions/checkout@v6
+      with:
+        repository: TourmalineCore/inner-circle-time-ui
+
+    - name: Install current commit's js-client and lint to see there are no breaking changes
+      run: |
+        npm ci
+        
+        npm install @tourmalinecore/inner-circle-time-api-js-client@${{ github.event.pull_request.head.sha }} --save
+
+        npm run lint
