@@ -7,6 +7,9 @@ on:
     paths-ignore:
       # don't need to trigger this on push of this job's result commit
       - '__version'
+      # don't need to trigger this on push of a new js-client version that we trigger by a commit from this workflow
+      # that prevents a redundant run on this workflow
+      - 'js-client/index.ts'
 
 jobs:
   release-new-version:
