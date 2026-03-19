@@ -1,18 +1,10 @@
-name: Publish js-client npm Package
+name: Publish js-client
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  push:
-    branches: 
-      - master
-    paths:
-      # need to trigger this only when the version is changed on master in a semantic-release produced auto commit
-      # we want this to be in sync with the new version and with the parallel deployment to prod
-      - '__version'
+  workflow_call:
 
 jobs:
-  publish-js-client-npm-package:
+  publish-js-client:
     runs-on: ubuntu-24.04
     permissions:
       # Required to commit changes from the workflow

@@ -1,0 +1,47 @@
+# this switch concept was borrowed from this article https://www.paigeniedringhaus.com/blog/run-multiple-npm-publishing-scripts-with-trusted-publishing-oidc-via-github-reusable-workflows/
+# there is a limitation in npm OIDC configuration with GitHub
+# you can specify only a single workflow filename that will have access to publish to npm, masks in filename as are also not supported
+# thus, it has to be a single file to publishes to npm but we have 2 cases: publish from master and publish from fb with linting afterwards
+# if it supports several files there will be 2 separate workflows with no if conditions by event_name with the same .reusable one
+name: Publish js-client switch
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: 
+      - master
+    paths:
+      # need to trigger this only when the version is changed on master in a semantic-release produced auto commit
+      # we want this to be in sync with the new version and with the parallel deployment to prod
+      - '__version'
+
+jobs:
+  publish-release-js-client:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/.reusable-publish-js-client.yml
+    # needed to access INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN inside
+    secrets: inherit
+
+  publish-fb-js-client:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/.reusable-publish-js-client.yml
+    # needed to access INNER_CIRCLE_SEMANTIC_RELEASE_GH_TOKEN inside
+    secrets: inherit
+
+  lint-fb-js-client-in-ui:
+    needs: [publish-fb-js-client]
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Check out Time UI
+      uses: actions/checkout@v6
+      with:
+        repository: TourmalineCore/inner-circle-time-ui
+
+    - name: Install current commit's js-client and lint to see there are no breaking changes
+      run: |
+        npm ci
+        
+        npm install @tourmalinecore/inner-circle-time-api-js-client@${{ github.event.pull_request.head.sha }} --save
+
+        npm run lint
