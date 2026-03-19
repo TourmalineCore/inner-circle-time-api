@@ -1,6 +1,7 @@
 ﻿using Api.ExternalDeps.AssignmentsApi;
 using Application;
 using Application.ExternalDeps.AssignmentsApi;
+using Application.Features.Internal.GetEmployeesEntriesByProjectAndPeriod;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
@@ -47,5 +48,7 @@ public static class DependencyInjection
         services.AddTransient<HardDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryCommand>();
+        services.AddTransient<GetEmployeesEntriesByProjectAndPeriodHandler>();
+        services.AddTransient<GetEmployeesEntriesByProjectAndPeriodQuery>();
     }
 }
