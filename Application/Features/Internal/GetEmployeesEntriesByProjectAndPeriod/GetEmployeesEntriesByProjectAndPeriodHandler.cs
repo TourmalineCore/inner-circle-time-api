@@ -16,13 +16,15 @@ public class GetEmployeesEntriesByProjectAndPeriodHandler
     public async Task<GetEmployeesEntriesByProjectAndPeriodResponse> HandleAsync(
         long projectId,
         DateOnly startDate,
-        DateOnly endDate
+        DateOnly endDate,
+        long tenantId
     )
     {
         var employeesEntriesByProjectAndPeriod = await _getEmployeesEntriesByProjectAndPeriodQuery.GetByProjectAndPeriodAsync<TaskEntry>(
             projectId,
             startDate,
-            endDate
+            endDate,
+            tenantId
         );
 
         var employeesEntries = employeesEntriesByProjectAndPeriod
