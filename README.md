@@ -32,7 +32,7 @@ When your Dev Container is ready, the VS Code window will be re-opened. Open a n
 ### Run API
 
 ```cli
-dotnet run --project ./Api
+dotnet run --project ./Api --verbosity detailed
 ```
 
 ### Run Unit and Integrational Tests
