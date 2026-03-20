@@ -15,11 +15,10 @@ public class InternalController : ControllerBase
         [Required][FromQuery] long projectId,
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
-        [Required][FromQuery] long tenantId,
         [FromServices] GetEmployeesEntriesByProjectAndPeriodHandler getEmployeesEntriesByProjectAndPeriod
     )
     {
-        return getEmployeesEntriesByProjectAndPeriod.HandleAsync(projectId, startDate, endDate, tenantId);
+        return getEmployeesEntriesByProjectAndPeriod.HandleAsync(projectId, startDate, endDate, User.GetTenantId());
     }
 
     [EndpointSummary("Get all projects")]
