@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Application.ExternalDeps.AssignmentsApi;
-using Application.Features.Internal.GetEmployeesEntriesByProjectAndPeriod;
+using Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Features.Internal;
@@ -10,12 +10,12 @@ namespace Api.Features.Internal;
 public class InternalController : ControllerBase
 {
     [EndpointSummary("Get employees time entries by project")]
-    [HttpGet("employees-entries-by-project")]
-    public Task<GetEmployeesEntriesByProjectAndPeriodResponse> GetEmployeesEntriesByProjectAndPeriod(
+    [HttpGet("projects/tracked-task-hours")]
+    public Task<GetEmployeesTrackedTaskHoursByProjectResponse> GetEmployeesEntriesByProjectAndPeriod(
         [Required][FromQuery] long projectId,
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
-        [FromServices] GetEmployeesEntriesByProjectAndPeriodHandler getEmployeesEntriesByProjectAndPeriod
+        [FromServices] GetEmployeesTrackedTaskHoursByProjectHandler getEmployeesEntriesByProjectAndPeriod
     )
     {
         return getEmployeesEntriesByProjectAndPeriod.HandleAsync(projectId, startDate, endDate, User.GetTenantId());

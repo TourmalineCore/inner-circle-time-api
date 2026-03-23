@@ -1,13 +1,13 @@
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Internal.GetEmployeesEntriesByProjectAndPeriod;
+namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
 
-public class GetEmployeesEntriesByProjectAndPeriodQuery
+public class GetEmployeesTrackedTaskHoursByProjectQuery
 {
     private readonly AppDbContext _context;
 
-    public GetEmployeesEntriesByProjectAndPeriodQuery(
+    public GetEmployeesTrackedTaskHoursByProjectQuery(
         AppDbContext context
     )
     {
