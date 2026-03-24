@@ -4,7 +4,6 @@ namespace Api;
 
 public static class UserExtensions
 {
-
     private const string TenantIdClaimType = "tenantId";
 
     public static long GetTenantId(this ClaimsPrincipal context)

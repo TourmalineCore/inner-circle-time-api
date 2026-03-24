@@ -24,8 +24,8 @@ public class InternalController : ControllerBase
     [EndpointSummary("Get all projects")]
     [HttpGet("projects")]
     public async Task<ProjectsResponse> GetAllProjectsAsync(
-    [FromServices] IAssignmentsApi assignmentsApi
-)
+        [FromServices] IAssignmentsApi assignmentsApi
+    )
     {
         return new ProjectsResponse
         {

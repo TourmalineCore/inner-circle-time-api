@@ -36,7 +36,7 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
                 x => new EmployeeTrackedTaskHours
                 {
                     EmployeeId = x.EmployeeId,
-                    TrackedHours  = x.TrackedHours,
+                    TrackedHours = x.TrackedHours,
                 })
                 .ToList();
 

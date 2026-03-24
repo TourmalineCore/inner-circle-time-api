@@ -4,11 +4,10 @@ namespace Core
 {
     public class CalculateTotalTrackedTaskHours
     {
-
         public static List<EmployeeTrackedTaskHours> Calculate(List<TaskEntry> employeeTaskEntries)
         {
             var employeeTrackedTaskHours = employeeTaskEntries.Select(
-                x => new EmployeeTrackedTaskHours 
+                x => new EmployeeTrackedTaskHours
                 {
                     EmployeeId = x.EmployeeId,
                     TrackedHours = (x.EndTime - x.StartTime).TotalHours

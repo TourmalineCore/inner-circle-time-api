@@ -24,12 +24,11 @@ public class HolderEmployeeMapperTests
                 EndTime = DateTime.Parse("2026-03-19T17:00:00")
             },
             new TaskEntry {
-                Id = 3, 
+                Id = 3,
                 EmployeeId = 2,
-                StartTime = DateTime.Parse("2026-03-31T21:00:00"), 
+                StartTime = DateTime.Parse("2026-03-31T21:00:00"),
                 EndTime = DateTime.Parse("2026-03-31T23:59:59")
             }
-
         };
 
         var calculatedEmployeesTaskEntries = CalculateTotalTrackedTaskHours.Calculate(employeesTaskEntries);
