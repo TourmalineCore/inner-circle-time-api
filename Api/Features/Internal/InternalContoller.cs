@@ -18,7 +18,7 @@ public class InternalController : ControllerBase
         [FromServices] GetEmployeesTrackedTaskHoursByProjectHandler getEmployeesEntriesByProjectAndPeriod
     )
     {
-        return getEmployeesEntriesByProjectAndPeriod.HandleAsync(projectId, startDate, endDate, User.GetTenantId());
+        return getEmployeesEntriesByProjectAndPeriod.HandleAsync(projectId, startDate, endDate);
     }
 
     [EndpointSummary("Get all projects")]

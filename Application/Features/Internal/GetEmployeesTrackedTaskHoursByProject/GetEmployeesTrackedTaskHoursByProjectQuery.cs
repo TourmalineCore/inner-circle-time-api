@@ -7,23 +7,26 @@ public class GetEmployeesTrackedTaskHoursByProjectQuery
 {
     private readonly AppDbContext _context;
 
+    private readonly IClaimsProvider _claimsProvider;
+
     public GetEmployeesTrackedTaskHoursByProjectQuery(
-        AppDbContext context
+        AppDbContext context,
+        IClaimsProvider claimsProvider
     )
     {
         _context = context;
+        _claimsProvider = claimsProvider;
     }
 
     public Task<List<TEntity>> GetByProjectAndPeriodAsync<TEntity>(
         long projectId,
         DateOnly startDate,
-        DateOnly endDate,
-        long tenantId
+        DateOnly endDate
     )
     where TEntity : TaskEntry
     {
         return _context.Set<TEntity>()
-            .Where(x => x.TenantId == tenantId)
+            .Where(x => x.TenantId == _claimsProvider.TenantId)
             .Where(x => x.DeletedAtUtc == null)
             .Where(x => x.ProjectId == projectId)
             .Where(x => x.StartTime >= startDate.ToDateTime(TimeOnly.MinValue) && x.EndTime <= endDate.ToDateTime(TimeOnly.MaxValue))

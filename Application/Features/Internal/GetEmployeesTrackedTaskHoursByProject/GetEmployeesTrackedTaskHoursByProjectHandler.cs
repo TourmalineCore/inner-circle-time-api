@@ -17,15 +17,13 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
     public async Task<GetEmployeesTrackedTaskHoursByProjectResponse> HandleAsync(
         long projectId,
         DateOnly startDate,
-        DateOnly endDate,
-        long tenantId
+        DateOnly endDate
     )
     {
         var employeesEntriesByProjectAndPeriod = await _getEmployeesTrackedTaskHoursByProjectQuery.GetByProjectAndPeriodAsync<TaskEntry>(
             projectId,
             startDate,
-            endDate,
-            tenantId
+            endDate
         );
 
         var calculatedEmployeesTotalTrackedTaskHours = CalculateTotalTrackedTaskHours.Calculate(employeesEntriesByProjectAndPeriod);
