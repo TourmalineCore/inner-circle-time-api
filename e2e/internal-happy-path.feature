@@ -10,7 +10,7 @@ Feature: Internal
     * def jsUtils = read('./js-utils.js')
     * def authApiRootUrl = jsUtils().getEnvVariable('AUTH_API_ROOT_URL')
     * def apiRootUrl = jsUtils().getEnvVariable('API_ROOT_URL')
-    * def rootUrl  = apiRootUrl.replace('/api', '')
+    * def internalRootUrl  = jsUtils().getEnvVariable('INTERNAL_ROOT_URL') 
     * def authSlytherineTenantDracoLoginWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
     * def authSlytherineTenantDracoPasswordWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
     
@@ -32,8 +32,8 @@ Feature: Internal
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
     # Get projects list
-    Given url rootUrl 
-    Given path 'internal/projects'
+    Given url internalRootUrl 
+    Given path 'projects'
     When method GET
     Then status 200
 
@@ -65,8 +65,8 @@ Feature: Internal
     * def newTaskEntryId = response.newTaskEntryId
 
     # Verify that entries by project are returned correctly
-    Given url rootUrl 
-    Given path 'internal/projects/tracked-task-hours'
+    Given url internalRootUrl 
+    Given path 'projects/tracked-task-hours'
     And params { projectId: "#(firstProjectId)", startDate: "2033-11-01", endDate: "2033-11-30" }
     When method GET
     And match response.employeesTrackedTaskHours contains

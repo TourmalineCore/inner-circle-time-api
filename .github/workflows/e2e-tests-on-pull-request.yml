@@ -70,6 +70,7 @@ jobs:
           "AUTH_SLYTHERINE_TENANT_GREGORY_GOYLE_PASSWORD_WITHOUT_PERMISSIONS": "Crucio1!"
           "AUTH_API_ROOT_URL": "http://localhost:30090/api/auth"
           "API_ROOT_URL": "http://localhost:30090/api/time"
+          "INTERNAL_ROOT_URL": "http://localhost:30090/api/time/internal"
           "SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES": "false"
 
   e2e-karate-tests-in-docker-compose:
