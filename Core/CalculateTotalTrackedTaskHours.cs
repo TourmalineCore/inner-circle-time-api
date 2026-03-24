@@ -6,17 +6,17 @@ namespace Core
     {
         public static List<EmployeeTrackedTaskHours> Calculate(List<TaskEntry> employeeTaskEntries)
         {
-            var employeeTrackedTaskHours = employeeTaskEntries.Select(
-                x => new EmployeeTrackedTaskHours
+            var employeeTrackedTaskHours = employeeTaskEntries
+                .Select(x => new EmployeeTrackedTaskHours
                 {
                     EmployeeId = x.EmployeeId,
-                    TrackedHours = (x.EndTime - x.StartTime).TotalHours
+                    TrackedHours = x.Duration.TotalHours
                 })
                 .GroupBy(x => x.EmployeeId)
-                .Select(v => new EmployeeTrackedTaskHours
+                .Select(y => new EmployeeTrackedTaskHours
                 {
-                    EmployeeId = v.Key,
-                    TrackedHours = v.Sum(x => x.TrackedHours)
+                    EmployeeId = y.Key,
+                    TrackedHours = y.Sum(x => x.TrackedHours)
                 })
                 .ToList();
 
