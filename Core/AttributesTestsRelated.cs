@@ -1,7 +1,7 @@
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace Application.TestsConfig;
+namespace Core;
 
 public class IntegrationTestDiscoverer : ITraitDiscoverer
 {

@@ -3,6 +3,7 @@ using Xunit;
 
 namespace Core;
 
+[UnitTest]
 public class CalculateTotalTrackedTaskHoursTests
 {
     [Fact]

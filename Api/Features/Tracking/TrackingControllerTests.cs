@@ -1,5 +1,5 @@
 using Application.Features.Tracking.CreateTaskEntry;
-using Application.TestsConfig;
+using Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
