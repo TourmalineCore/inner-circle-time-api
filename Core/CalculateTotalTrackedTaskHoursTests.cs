@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Core;
 
-public class CalculateTotalTrackedTaskHoursTest
+public class CalculateTotalTrackedTaskHoursTests
 {
     [Fact]
     public void CalculateTotalTrackedTaskHours_ShouldReturnCorrectEmployeeTrackedTaskHours()
