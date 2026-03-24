@@ -19,13 +19,13 @@ public class UnitTestDiscoverer : ITraitDiscoverer
     }
 }
 
-[TraitDiscoverer("Application.TestsConfig.IntegrationTestDiscoverer", "Application")]
+[TraitDiscoverer("Core.IntegrationTestDiscoverer", "Core")]
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class IntegrationTestAttribute : Attribute, ITraitAttribute
 {
 }
 
-[TraitDiscoverer("Application.TestsConfig.UnitTestDiscoverer", "Application")]
+[TraitDiscoverer("Core.UnitTestDiscoverer", "Core")]
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class UnitTestAttribute : Attribute, ITraitAttribute
 {
