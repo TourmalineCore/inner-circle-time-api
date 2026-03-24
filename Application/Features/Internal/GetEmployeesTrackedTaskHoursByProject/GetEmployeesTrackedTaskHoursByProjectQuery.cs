@@ -7,7 +7,6 @@ public class GetEmployeesTrackedTaskHoursByProjectQuery
 {
     private readonly TenantAppDbContext _context;
 
-
     public GetEmployeesTrackedTaskHoursByProjectQuery(
         TenantAppDbContext context
     )
@@ -15,15 +14,14 @@ public class GetEmployeesTrackedTaskHoursByProjectQuery
         _context = context;
     }
 
-    public Task<List<TEntity>> GetByProjectAndPeriodAsync<TEntity>(
+    public Task<List<TaskEntry>> GetByProjectAndPeriodAsync(
         long projectId,
         DateOnly startDate,
         DateOnly endDate
     )
-    where TEntity : TaskEntry
     {
         return _context
-            .QueryableWithinTenantAsNoTracking<TEntity>()
+            .QueryableWithinTenantAsNoTracking<TaskEntry>()
             .Where(x => x.ProjectId == projectId)
             .Where(x => x.StartTime >= startDate.ToDateTime(TimeOnly.MinValue) && x.EndTime <= endDate.ToDateTime(TimeOnly.MaxValue))
             .ToListAsync();

@@ -20,7 +20,7 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
         DateOnly endDate
     )
     {
-        var employeesEntriesByProjectAndPeriod = await _getEmployeesTrackedTaskHoursByProjectQuery.GetByProjectAndPeriodAsync<TaskEntry>(
+        var employeesEntriesByProjectAndPeriod = await _getEmployeesTrackedTaskHoursByProjectQuery.GetByProjectAndPeriodAsync(
             projectId,
             startDate,
             endDate
