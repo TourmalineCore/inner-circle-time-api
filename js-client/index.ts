@@ -39,19 +39,17 @@ export interface CreateUnwellResponse {
   newUnwellEntryId: number;
 }
 
-export interface EmployeesEntriesDto {
+export interface EmployeeTrackedTaskHours {
   /** @format int64 */
   employeeId: number;
-  /** @format date-time */
-  startTime: string;
-  /** @format date-time */
-  endTime: string;
+  /** @format double */
+  trackedHours: number;
 }
 
 export type EntryType = number;
 
-export interface GetEmployeesEntriesByProjectAndPeriodResponse {
-  employeesEntries: EmployeesEntriesDto[];
+export interface GetEmployeesTrackedTaskHoursByProjectResponse {
+  employeesTrackedTaskHours: EmployeeTrackedTaskHours[];
 }
 
 export interface GetEntriesByPeriodResponse {
@@ -484,7 +482,7 @@ export class Api<
      * @tags Internal
      * @name InternalGetEmployeesEntriesByProjectAndPeriod
      * @summary Get employees time entries by project
-     * @request GET:/internal/employees-entries-by-project
+     * @request GET:/internal/projects/tracked-task-hours
      */
     internalGetEmployeesEntriesByProjectAndPeriod: (
       query: {
@@ -497,8 +495,8 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<GetEmployeesEntriesByProjectAndPeriodResponse, any>({
-        path: `/internal/employees-entries-by-project`,
+      this.request<GetEmployeesTrackedTaskHoursByProjectResponse, any>({
+        path: `/internal/projects/tracked-task-hours`,
         method: "GET",
         query: query,
         format: "json",
