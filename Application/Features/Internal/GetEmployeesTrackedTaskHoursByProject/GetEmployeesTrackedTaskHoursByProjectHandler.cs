@@ -29,7 +29,6 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
         var calculatedEmployeesTotalTrackedTaskHours = CalculateTotalTrackedTaskHours.Calculate(employeesEntriesByProjectAndPeriod);
 
         var employeesEntries = calculatedEmployeesTotalTrackedTaskHours
-            .OfType<EmployeeTrackedTaskHours>()
             .Select(
                 x => new EmployeeTrackedTaskHours
                 {
