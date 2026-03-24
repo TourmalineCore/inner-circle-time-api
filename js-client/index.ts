@@ -474,15 +474,14 @@ export class Api<
         type: ContentType.Json,
         ...params,
       }),
-  };
-  internal = {
+
     /**
      * No description
      *
      * @tags Internal
      * @name InternalGetEmployeesEntriesByProjectAndPeriod
      * @summary Get employees time entries by project
-     * @request GET:/internal/projects/tracked-task-hours
+     * @request GET:/api/internal/projects/tracked-task-hours
      */
     internalGetEmployeesEntriesByProjectAndPeriod: (
       query: {
@@ -496,7 +495,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<GetEmployeesTrackedTaskHoursByProjectResponse, any>({
-        path: `/internal/projects/tracked-task-hours`,
+        path: `/api/internal/projects/tracked-task-hours`,
         method: "GET",
         query: query,
         format: "json",
@@ -509,11 +508,11 @@ export class Api<
      * @tags Internal
      * @name InternalGetAllProjects
      * @summary Get all projects
-     * @request GET:/internal/projects
+     * @request GET:/api/internal/projects
      */
     internalGetAllProjects: (params: RequestParams = {}) =>
       this.request<ProjectsResponse, any>({
-        path: `/internal/projects`,
+        path: `/api/internal/projects`,
         method: "GET",
         format: "json",
         ...params,
