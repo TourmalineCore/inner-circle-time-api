@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Features.Internal;
 
 [ApiController]
-[Route("internal")]
+[Route("/api/internal")]
 public class InternalController : ControllerBase
 {
     [EndpointSummary("Get employees time entries by project")]
