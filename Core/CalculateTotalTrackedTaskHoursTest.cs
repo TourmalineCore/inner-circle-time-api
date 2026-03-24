@@ -3,10 +3,10 @@ using Xunit;
 
 namespace Core;
 
-public class HolderEmployeeMapperTests
+public class CalculateTotalTrackedTaskHoursTest
 {
     [Fact]
-    public void CalculateTotalTrackedTaskHours_HappyPath()
+    public void CalculateTotalTrackedTaskHours_ShouldReturnCorrectEmployeeTrackedTaskHours()
     {
         var employeesTaskEntries = new List<TaskEntry> {
             new TaskEntry
