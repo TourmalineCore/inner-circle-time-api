@@ -11,11 +11,11 @@ public class HardDeleteEntryHandler
     {
         _hardDeleteEntityCommand = new HardDeleteEntityCommand(context, claimsProvider);
     }
-    public async Task<object> HandleAsync(long entryId)
+    public async Task<HardDeleteEntryResponse> HandleAsync(long entryId)
     {
-        return new
+        return new HardDeleteEntryResponse
         {
-            isDeleted = await _hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(entryId)
+            IsDeleted = await _hardDeleteEntityCommand.ExecuteAsync<TrackedEntryBase>(entryId)
         };
     }
 }
