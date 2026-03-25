@@ -57,10 +57,6 @@ export interface GetEntriesByPeriodResponse {
   unwellEntries: UnwellEntryDto[];
 }
 
-export interface HardDeleteEntryResponse {
-  isDeleted: boolean;
-}
-
 export interface ProjectDto {
   /** @format int64 */
   id: number;
@@ -452,10 +448,9 @@ export class Api<
      * @request DELETE:/api/tracking/entries/{entryId}/hard-delete
      */
     trackingHardDeleteEntry: (entryId: number, params: RequestParams = {}) =>
-      this.request<HardDeleteEntryResponse, any>({
+      this.request<void, any>({
         path: `/api/tracking/entries/${entryId}/hard-delete`,
         method: "DELETE",
-        format: "json",
         ...params,
       }),
 
