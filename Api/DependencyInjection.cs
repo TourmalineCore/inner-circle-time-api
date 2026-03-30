@@ -1,6 +1,7 @@
 ﻿using Api.ExternalDeps.AssignmentsApi;
 using Application;
 using Application.ExternalDeps.AssignmentsApi;
+using Application.Features.Internal.GetAllProjects;
 using Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
@@ -34,7 +35,7 @@ public static class DependencyInjection
 
         services.AddScoped<TenantAppDbContext>();
         services.AddTransient<IAssignmentsApi, AssignmentsApi>();
-        services.AddTransient<GetAllProjectsHandler>();
+        services.AddTransient<CreateTaskEntryHandler>();
         services.AddTransient<CreateTaskEntryCommand>();
         services.AddTransient<CreateUnwellEntryHandler>();
         services.AddTransient<CreateUnwellEntryCommand>();
