@@ -48,7 +48,11 @@ export interface EmployeeTrackedTaskHourDto {
 
 export type EntryType = number;
 
-export interface GetEmployeesTrackedTaskHoursByProjectResponse {
+export interface GetAllProjectsResponse {
+  projects: ProjectDto[];
+}
+
+export interface GetEmployeesTrackedTaskHoursResponse {
   employeesTrackedTaskHours: EmployeeTrackedTaskHourDto[];
 }
 
@@ -479,11 +483,11 @@ export class Api<
      * No description
      *
      * @tags Internal
-     * @name InternalGetEmployeesEntriesByProjectAndPeriod
-     * @summary Get employees time entries by project
+     * @name InternalGetEmployeesTrackedTaskHours
+     * @summary Get employees tracked task hours
      * @request GET:/api/internal/projects/tracked-task-hours
      */
-    internalGetEmployeesEntriesByProjectAndPeriod: (
+    internalGetEmployeesTrackedTaskHours: (
       query: {
         /** @format int64 */
         projectId: number;
@@ -494,7 +498,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<GetEmployeesTrackedTaskHoursByProjectResponse, any>({
+      this.request<GetEmployeesTrackedTaskHoursResponse, any>({
         path: `/api/internal/projects/tracked-task-hours`,
         method: "GET",
         query: query,
@@ -511,7 +515,7 @@ export class Api<
      * @request GET:/api/internal/projects
      */
     internalGetAllProjects: (params: RequestParams = {}) =>
-      this.request<ProjectsResponse, any>({
+      this.request<GetAllProjectsResponse, any>({
         path: `/api/internal/projects`,
         method: "GET",
         format: "json",
