@@ -50,15 +50,8 @@ internal class AssignmentsApi : IAssignmentsApi
         return project;
     }
 
-    public async Task<List<ProjectDto>> GetAllProjectsAsync()
+    public Task<List<ProjectDto>> GetAllProjectsAsync()
     {
-        var projects = await Task.FromResult(MockedProjects.ToList());
-
-        if (projects == null)
-        {
-            throw new ArgumentException($"Projects don`t exist");
-        }
-
-        return projects;
+        return Task.FromResult(MockedProjects.ToList());
     }
 }

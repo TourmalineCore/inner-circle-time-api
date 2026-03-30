@@ -13,9 +13,9 @@ public class GetAllProjectsHandler
         _assignmentsApi = assignmentsApi;
     }
 
-    public async Task<ProjectsResponse> HandleAsync()
+    public async Task<GetAllProjectsResponse> HandleAsync()
     {
-        return new ProjectsResponse
+        return new GetAllProjectsResponse
         {
             Projects = await _assignmentsApi.GetAllProjectsAsync()
         };

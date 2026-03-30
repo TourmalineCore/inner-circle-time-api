@@ -29,7 +29,7 @@ public class InternalController : ControllerBase
     [EndpointSummary("Get all projects")]
     [RequiresPermission(UserClaimsProvider.CanViewAllProjects)]
     [HttpGet("projects")]
-    public Task<ProjectsResponse> GetAllProjectsAsync(
+    public Task<GetAllProjectsResponse> GetAllProjectsAsync(
         [FromServices] GetAllProjectsHandler getAllProjectsHandler
     )
     {
