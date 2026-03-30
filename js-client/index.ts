@@ -39,7 +39,7 @@ export interface CreateUnwellResponse {
   newUnwellEntryId: number;
 }
 
-export interface EmployeeTrackedTaskHours {
+export interface EmployeeTrackedTaskHourDto {
   /** @format int64 */
   employeeId: number;
   /** @format double */
@@ -49,7 +49,7 @@ export interface EmployeeTrackedTaskHours {
 export type EntryType = number;
 
 export interface GetEmployeesTrackedTaskHoursByProjectResponse {
-  employeesTrackedTaskHours: EmployeeTrackedTaskHours[];
+  employeesTrackedTaskHours: EmployeeTrackedTaskHourDto[];
 }
 
 export interface GetEntriesByPeriodResponse {
