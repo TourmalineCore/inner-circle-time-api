@@ -34,7 +34,7 @@ public static class DependencyInjection
 
         services.AddScoped<TenantAppDbContext>();
         services.AddTransient<IAssignmentsApi, AssignmentsApi>();
-        services.AddTransient<CreateTaskEntryHandler>();
+        services.AddTransient<GetAllProjectsHandler>();
         services.AddTransient<CreateTaskEntryCommand>();
         services.AddTransient<CreateUnwellEntryHandler>();
         services.AddTransient<CreateUnwellEntryCommand>();
@@ -50,5 +50,6 @@ public static class DependencyInjection
         services.AddTransient<SoftDeleteEntryCommand>();
         services.AddTransient<GetEmployeesTrackedTaskHoursByProjectHandler>();
         services.AddTransient<GetTaskEntriesQuery>();
+        services.AddTransient<GetAllProjectsHandler>();
     }
 }

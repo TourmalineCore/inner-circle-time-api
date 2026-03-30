@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Application.ExternalDeps.AssignmentsApi;
+using Application.Features.Internal.GetAllProjects;
 using Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,13 +29,10 @@ public class InternalController : ControllerBase
     [EndpointSummary("Get all projects")]
     [RequiresPermission(UserClaimsProvider.CanViewAllProjects)]
     [HttpGet("projects")]
-    public async Task<ProjectsResponse> GetAllProjectsAsync(
-        [FromServices] IAssignmentsApi assignmentsApi
+    public Task<ProjectsResponse> GetAllProjectsAsync(
+        [FromServices] GetAllProjectsHandler getAllProjectsHandler
     )
     {
-        return new ProjectsResponse
-        {
-            Projects = await assignmentsApi.GetAllProjectsAsync()
-        };
+        return getAllProjectsHandler.HandleAsync();
     }
 }
