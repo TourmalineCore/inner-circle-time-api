@@ -105,6 +105,18 @@ Feature: Task Entries
     }
     """
 
+    # Verify that entries by project are returned correctly
+    Given path 'internal/projects/tracked-task-hours'
+    And params { projectId: "#(secondProjectId)", startDate: "2030-11-01", endDate: "2030-11-30" }
+    When method GET
+    And match response.employeesTrackedTaskHours contains
+    """
+    {
+        "employeeId": "#number",
+        "trackedHours": 1,
+    }
+    """
+
     # Cleanup: Delete the task entry (hard delete)
     Given path 'tracking/entries', newTaskEntryId, 'hard-delete'
     When method DELETE
