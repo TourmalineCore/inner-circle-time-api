@@ -5,13 +5,13 @@ namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
 
 public class GetEmployeesTrackedTaskHoursByProjectHandler
 {
-    private readonly GetEmployeesTrackedTaskHoursByProjectQuery _getEmployeesTrackedTaskHoursByProjectQuery;
+    private readonly GetTaskEntriesQuery _getTaskEntriesQuery;
 
     public GetEmployeesTrackedTaskHoursByProjectHandler(
-        GetEmployeesTrackedTaskHoursByProjectQuery getEmployeesTrackedTaskHoursByProjectQuery
+        GetTaskEntriesQuery getTaskEntriesQuery
     )
     {
-        _getEmployeesTrackedTaskHoursByProjectQuery = getEmployeesTrackedTaskHoursByProjectQuery;
+        _getTaskEntriesQuery = getTaskEntriesQuery;
     }
 
     public async Task<GetEmployeesTrackedTaskHoursByProjectResponse> HandleAsync(
@@ -20,13 +20,13 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
         DateOnly endDate
     )
     {
-        var employeesEntriesByProjectAndPeriod = await _getEmployeesTrackedTaskHoursByProjectQuery.GetByProjectAndPeriodAsync(
+        var taskEntries = await _getTaskEntriesQuery.GetAsync(
             projectId,
             startDate,
             endDate
         );
 
-        var calculatedEmployeesTotalTrackedTaskHours = CalculateTotalTrackedTaskHours.Calculate(employeesEntriesByProjectAndPeriod);
+        var calculatedEmployeesTotalTrackedTaskHours = CalculateTotalTrackedTaskHours.Calculate(taskEntries);
 
         var employeesEntries = calculatedEmployeesTotalTrackedTaskHours
             .Select(

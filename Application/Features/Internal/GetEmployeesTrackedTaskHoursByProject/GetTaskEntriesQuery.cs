@@ -3,18 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
 
-public class GetEmployeesTrackedTaskHoursByProjectQuery
+public class GetTaskEntriesQuery
 {
     private readonly TenantAppDbContext _context;
 
-    public GetEmployeesTrackedTaskHoursByProjectQuery(
+    public GetTaskEntriesQuery(
         TenantAppDbContext context
     )
     {
         _context = context;
     }
 
-    public Task<List<TaskEntry>> GetByProjectAndPeriodAsync(
+    public Task<List<TaskEntry>> GetAsync(
         long projectId,
         DateOnly startDate,
         DateOnly endDate
