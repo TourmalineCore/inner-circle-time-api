@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public class CalculateTotalTrackedTaskHours
+    public class TotalTrackedTaskHoursCalculator
     {
         public static List<EmployeeTrackedTaskHours> Calculate(List<TaskEntry> employeeTaskEntries)
         {

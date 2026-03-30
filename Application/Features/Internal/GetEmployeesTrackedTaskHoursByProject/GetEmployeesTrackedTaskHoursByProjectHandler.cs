@@ -26,7 +26,7 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
             endDate
         );
 
-        var calculatedEmployeesTotalTrackedTaskHours = CalculateTotalTrackedTaskHours.Calculate(taskEntries);
+        var calculatedEmployeesTotalTrackedTaskHours = TotalTrackedTaskHoursCalculator.Calculate(taskEntries);
 
         var employeesEntries = calculatedEmployeesTotalTrackedTaskHours
             .Select(
