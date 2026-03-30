@@ -30,7 +30,7 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
 
         var employeesEntries = calculatedEmployeesTotalTrackedTaskHours
             .Select(
-                x => new EmployeeTrackedTaskHours
+                x => new EmployeeTrackedTaskHourDto
                 {
                     EmployeeId = x.EmployeeId,
                     TrackedHours = x.TrackedHours,
