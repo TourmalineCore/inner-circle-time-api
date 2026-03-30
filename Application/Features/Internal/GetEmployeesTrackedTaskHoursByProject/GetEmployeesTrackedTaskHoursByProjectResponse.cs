@@ -13,4 +13,3 @@ public class EmployeeTrackedTaskHourDto
 
     public required double TrackedHours { get; set; }
 }
-
