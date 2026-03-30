@@ -1,7 +1,7 @@
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
+namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
 public class GetTaskEntriesQuery
 {

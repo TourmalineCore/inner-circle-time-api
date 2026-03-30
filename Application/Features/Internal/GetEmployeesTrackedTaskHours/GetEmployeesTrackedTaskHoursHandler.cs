@@ -1,20 +1,19 @@
 using Core;
-using Core.Entities;
 
-namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
+namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
-public class GetEmployeesTrackedTaskHoursByProjectHandler
+public class GetEmployeesTrackedTaskHoursHandler
 {
     private readonly GetTaskEntriesQuery _getTaskEntriesQuery;
 
-    public GetEmployeesTrackedTaskHoursByProjectHandler(
+    public GetEmployeesTrackedTaskHoursHandler(
         GetTaskEntriesQuery getTaskEntriesQuery
     )
     {
         _getTaskEntriesQuery = getTaskEntriesQuery;
     }
 
-    public async Task<GetEmployeesTrackedTaskHoursByProjectResponse> HandleAsync(
+    public async Task<GetEmployeesTrackedTaskHoursResponse> HandleAsync(
         long projectId,
         DateOnly startDate,
         DateOnly endDate
@@ -37,7 +36,7 @@ public class GetEmployeesTrackedTaskHoursByProjectHandler
                 })
                 .ToList();
 
-        return new GetEmployeesTrackedTaskHoursByProjectResponse
+        return new GetEmployeesTrackedTaskHoursResponse
         {
             EmployeesTrackedTaskHours = employeesEntries
         };

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Internal.GetAllProjects;
-using Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
+using Application.Features.Internal.GetEmployeesTrackedTaskHours;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -13,17 +13,17 @@ namespace Api.Features.Internal;
 [Route("/api/internal")]
 public class InternalController : ControllerBase
 {
-    [EndpointSummary("Get employees time entries by project")]
+    [EndpointSummary("Get employees tracked task hours")]
     [RequiresPermission(UserClaimsProvider.CanViewAllTimeTrackerEntries)]
     [HttpGet("projects/tracked-task-hours")]
-    public Task<GetEmployeesTrackedTaskHoursByProjectResponse> GetEmployeesEntriesByProjectAndPeriod(
+    public Task<GetEmployeesTrackedTaskHoursResponse> GetEmployeesTrackedTaskHoursAsync(
         [Required][FromQuery] long projectId,
         [Required][FromQuery] DateOnly startDate,
         [Required][FromQuery] DateOnly endDate,
-        [FromServices] GetEmployeesTrackedTaskHoursByProjectHandler getEmployeesEntriesByProjectAndPeriod
+        [FromServices] GetEmployeesTrackedTaskHoursHandler getEmployeesTrackedTaskHoursHandler
     )
     {
-        return getEmployeesEntriesByProjectAndPeriod.HandleAsync(projectId, startDate, endDate);
+        return getEmployeesTrackedTaskHoursHandler.HandleAsync(projectId, startDate, endDate);
     }
 
     [EndpointSummary("Get all projects")]

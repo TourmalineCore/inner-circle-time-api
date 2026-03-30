@@ -1,8 +1,6 @@
-using Core.Entities;
+namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
-namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
-
-public class GetEmployeesTrackedTaskHoursByProjectResponse
+public class GetEmployeesTrackedTaskHoursResponse
 {
     public required List<EmployeeTrackedTaskHourDto> EmployeesTrackedTaskHours { get; set; }
 }

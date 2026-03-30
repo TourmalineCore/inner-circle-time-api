@@ -2,7 +2,7 @@
 using Application;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Internal.GetAllProjects;
-using Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
+using Application.Features.Internal.GetEmployeesTrackedTaskHours;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
@@ -49,7 +49,7 @@ public static class DependencyInjection
         services.AddTransient<HardDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryCommand>();
-        services.AddTransient<GetEmployeesTrackedTaskHoursByProjectHandler>();
+        services.AddTransient<GetEmployeesTrackedTaskHoursHandler>();
         services.AddTransient<GetTaskEntriesQuery>();
         services.AddTransient<GetAllProjectsHandler>();
     }

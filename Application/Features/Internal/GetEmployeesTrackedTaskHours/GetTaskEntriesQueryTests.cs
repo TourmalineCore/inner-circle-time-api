@@ -2,7 +2,7 @@
 using Core.Entities;
 using Xunit;
 
-namespace Application.Features.Internal.GetEmployeesTrackedTaskHoursByProject;
+namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
 [UnitTest]
 public class GetTaskEntriesQueryTests
