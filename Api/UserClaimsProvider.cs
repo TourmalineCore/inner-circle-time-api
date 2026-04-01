@@ -9,6 +9,8 @@ public class UserClaimsProvider : IUserClaimsProvider
 
     public const string AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed = "AUTO_TESTS_ONLY_IsEntriesHardDeleteAllowed";
     public const string CanManagePersonalTimeTracker = "CanManagePersonalTimeTracker";
+    public const string CanViewAllProjects = "CanViewAllProjects";
+    public const string CanViewAllTimeTrackerEntries = "CanViewAllTimeTrackerEntries";
 
     public Task<List<Claim>> GetUserClaimsAsync(string login)
     {

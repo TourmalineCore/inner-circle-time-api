@@ -1,6 +1,5 @@
-﻿using Application.TestsConfig;
+﻿using Core;
 using Core.Entities;
-using Moq;
 using Xunit;
 
 namespace Application.Features.Tracking.GetEntriesByPeriod;

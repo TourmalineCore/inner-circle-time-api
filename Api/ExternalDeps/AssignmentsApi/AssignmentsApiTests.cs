@@ -1,4 +1,4 @@
-using Application.TestsConfig;
+using Core;
 using Xunit;
 
 namespace Api.ExternalDeps.AssignmentsApi;

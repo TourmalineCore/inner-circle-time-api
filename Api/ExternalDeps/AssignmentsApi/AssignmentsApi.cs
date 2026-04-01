@@ -49,4 +49,9 @@ internal class AssignmentsApi : IAssignmentsApi
 
         return project;
     }
+
+    public Task<List<ProjectDto>> GetAllProjectsAsync()
+    {
+        return Task.FromResult(MockedProjects.ToList());
+    }
 }

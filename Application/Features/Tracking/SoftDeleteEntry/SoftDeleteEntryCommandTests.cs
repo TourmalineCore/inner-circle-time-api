@@ -1,7 +1,6 @@
-﻿using Application.TestsConfig;
+﻿using Core;
 using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Xunit;
 
 namespace Application.Features.Tracking.SoftDeleteEntry;

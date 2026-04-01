@@ -39,7 +39,22 @@ export interface CreateUnwellResponse {
   newUnwellEntryId: number;
 }
 
+export interface EmployeeTrackedTaskHourDto {
+  /** @format int64 */
+  employeeId: number;
+  /** @format double */
+  trackedHours: number;
+}
+
 export type EntryType = number;
+
+export interface GetAllProjectsResponse {
+  projects: ProjectDto[];
+}
+
+export interface GetEmployeesTrackedTaskHoursResponse {
+  employeesTrackedTaskHours: EmployeeTrackedTaskHourDto[];
+}
 
 export interface GetEntriesByPeriodResponse {
   taskEntries: TaskEntryDto[];
@@ -461,6 +476,49 @@ export class Api<
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Internal
+     * @name InternalGetEmployeesTrackedTaskHours
+     * @summary Get employees tracked task hours
+     * @request GET:/api/internal/projects/tracked-task-hours
+     */
+    internalGetEmployeesTrackedTaskHours: (
+      query: {
+        /** @format int64 */
+        projectId: number;
+        /** @format date */
+        startDate: string;
+        /** @format date */
+        endDate: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetEmployeesTrackedTaskHoursResponse, any>({
+        path: `/api/internal/projects/tracked-task-hours`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Internal
+     * @name InternalGetAllProjects
+     * @summary Get all projects
+     * @request GET:/api/internal/projects
+     */
+    internalGetAllProjects: (params: RequestParams = {}) =>
+      this.request<GetAllProjectsResponse, any>({
+        path: `/api/internal/projects`,
+        method: "GET",
+        format: "json",
         ...params,
       }),
   };
