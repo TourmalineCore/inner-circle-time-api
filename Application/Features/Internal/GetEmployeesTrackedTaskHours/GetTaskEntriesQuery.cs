@@ -20,6 +20,8 @@ public class GetTaskEntriesQuery
         DateOnly endDate
     )
     {
+        // Todo: Think about how to test date filtering
+        // Issue: https://github.com/orgs/TourmalineCore/projects/5/views/1?pane=issue&itemId=171292110&issue=TourmalineCore%7Cinner-circle-time-api%7C69
         return _context
             .QueryableWithinTenantAsNoTracking<TaskEntry>()
             .Where(x => x.ProjectId == projectId)
