@@ -22,7 +22,7 @@ public class GetTaskEntriesQueryTests
             TenantId = TENANT_ID,
             ProjectId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
         await context.AddEntityAndSaveAsync(taskEntry);
@@ -32,8 +32,8 @@ public class GetTaskEntriesQueryTests
         var result = await getTaskEntriesQuery
             .GetAsync(
                 nonExistentProjectId,
-                new DateOnly(2025, 11, 24),
-                new DateOnly(2025, 11, 27)
+                new DateOnly(2025, 11, 01),
+                new DateOnly(2025, 11, 30)
             );
 
         Assert.Empty(result);
@@ -52,7 +52,7 @@ public class GetTaskEntriesQueryTests
             TenantId = TENANT_ID,
             ProjectId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
         await context.AddEntityAndSaveAsync(taskEntry);
