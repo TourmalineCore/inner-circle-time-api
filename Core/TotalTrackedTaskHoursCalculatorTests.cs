@@ -24,7 +24,8 @@ public class TotalTrackedTaskHoursCalculatorTests
             {
                 Id = 1,
                 EmployeeId = 1,
-                Duration = TimeSpan.Parse("02:59:00")
+                StartTime = DateTime.Parse("2026-03-01T00:00:00"),
+                EndTime = DateTime.Parse("2026-03-01T02:59:00"),
             },
         };
 
@@ -36,6 +37,7 @@ public class TotalTrackedTaskHoursCalculatorTests
         Assert.Equal(2.9833333333333334, firstEmployee.TrackedHours);
     }
 
+
     [Fact]
     public void TotalTrackedTaskHoursCalculatorWithOneEmployeeWithTwoTaskEntries_ShouldReturnCorrectEmployeeTrackedTaskHours()
     {
@@ -44,13 +46,15 @@ public class TotalTrackedTaskHoursCalculatorTests
             {
                 Id = 1,
                 EmployeeId = 1,
-                Duration = TimeSpan.Parse("02:00:00")
+                StartTime = DateTime.Parse("2026-03-01T00:00:00"),
+                EndTime = DateTime.Parse("2026-03-01T02:00:00"),
             },
             new TaskEntry
             {
                 Id = 2,
                 EmployeeId = 1,
-                Duration = TimeSpan.Parse("03:00:00")
+                StartTime = DateTime.Parse("2026-03-01T00:00:00"),
+                EndTime = DateTime.Parse("2026-03-01T03:00:00"),
             },
         };
 
@@ -70,12 +74,14 @@ public class TotalTrackedTaskHoursCalculatorTests
             {
                 Id = 1,
                 EmployeeId = 1,
-                Duration = TimeSpan.Parse("02:45:00")
+                StartTime = DateTime.Parse("2026-03-01T00:00:00"),
+                EndTime = DateTime.Parse("2026-03-01T02:45:00"),
             },
             new TaskEntry {
                 Id = 3,
                 EmployeeId = 2,
-                Duration = TimeSpan.Parse("04:30:00")
+                StartTime = DateTime.Parse("2026-03-01T00:00:00"),
+                EndTime = DateTime.Parse("2026-03-01T04:30:00"),
             }
         };
 
