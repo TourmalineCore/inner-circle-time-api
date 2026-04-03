@@ -109,12 +109,12 @@ public class TotalTrackedTaskHoursCalculatorTests
             new TaskEntry {
                 Id = 3,
                 EmployeeId = 1,
-                Duration = TimeSpan.Parse("00:20:00")
+                Duration = TimeSpan.Parse("00:39:00")
             },
             new TaskEntry {
                 Id = 4,
                 EmployeeId = 1,
-                Duration = TimeSpan.Parse("00:20:00")
+                Duration = TimeSpan.Parse("00:01:00")
             },
         };
 
