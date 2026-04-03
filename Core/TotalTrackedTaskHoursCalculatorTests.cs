@@ -116,6 +116,16 @@ public class TotalTrackedTaskHoursCalculatorTests
                 EmployeeId = 1,
                 Duration = TimeSpan.Parse("00:01:00")
             },
+            new TaskEntry {
+                Id = 5,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:48:00")
+            },
+            new TaskEntry {
+                Id = 6,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:12:00")
+            },
         };
 
         var calculatedEmployeesTaskEntries = TotalTrackedTaskHoursCalculator.Calculate(employeesTaskEntries);
@@ -123,6 +133,6 @@ public class TotalTrackedTaskHoursCalculatorTests
         var firstEmployee = calculatedEmployeesTaskEntries.Single(x => x.EmployeeId == 1);
 
         Assert.Equal(1, firstEmployee.EmployeeId);
-        Assert.Equal(9, firstEmployee.TrackedHours);
+        Assert.Equal(10, firstEmployee.TrackedHours);
     }
 }
