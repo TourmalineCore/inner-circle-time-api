@@ -33,7 +33,7 @@ public class TotalTrackedTaskHoursCalculatorTests
         var firstEmployee = calculatedEmployeesTaskEntries.Single(x => x.EmployeeId == 1);
 
         Assert.Equal(1, firstEmployee.EmployeeId);
-        Assert.Equal(2.9833333333333334, firstEmployee.TrackedHours);
+        Assert.Equal(2.98333333333333m, firstEmployee.TrackedHours);
     }
 
     [Fact]
@@ -85,9 +85,54 @@ public class TotalTrackedTaskHoursCalculatorTests
         var secondEmployee = calculatedEmployeesTaskEntries.Single(x => x.EmployeeId == 2);
 
         Assert.Equal(1, firstEmployee.EmployeeId);
-        Assert.Equal(2.75, firstEmployee.TrackedHours);
+        Assert.Equal(2.75m, firstEmployee.TrackedHours);
 
         Assert.Equal(2, secondEmployee.EmployeeId);
-        Assert.Equal(4.5, secondEmployee.TrackedHours);
+        Assert.Equal(4.5m, secondEmployee.TrackedHours);
+    }
+
+    [Fact]
+    public void TotalTrackedTaskHoursCalculatorWithIncompleteHours_ShouldReturnCorrectEmployeesTrackedTaskHours()
+    {
+        var employeesTaskEntries = new List<TaskEntry> {
+            new TaskEntry
+            {
+                Id = 1,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("08:00:00")
+            },
+            new TaskEntry {
+                Id = 2,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:20:00")
+            },
+            new TaskEntry {
+                Id = 3,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:39:00")
+            },
+            new TaskEntry {
+                Id = 4,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:01:00")
+            },
+            new TaskEntry {
+                Id = 5,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:48:00")
+            },
+            new TaskEntry {
+                Id = 6,
+                EmployeeId = 1,
+                Duration = TimeSpan.Parse("00:12:00")
+            },
+        };
+
+        var calculatedEmployeesTaskEntries = TotalTrackedTaskHoursCalculator.Calculate(employeesTaskEntries);
+
+        var firstEmployee = calculatedEmployeesTaskEntries.Single(x => x.EmployeeId == 1);
+
+        Assert.Equal(1, firstEmployee.EmployeeId);
+        Assert.Equal(10, firstEmployee.TrackedHours);
     }
 }

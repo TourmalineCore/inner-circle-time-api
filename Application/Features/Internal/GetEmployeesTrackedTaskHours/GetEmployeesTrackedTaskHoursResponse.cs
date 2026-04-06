@@ -9,5 +9,5 @@ public class EmployeeTrackedTaskHourDto
 {
     public required long EmployeeId { get; set; }
 
-    public required double TrackedHours { get; set; }
+    public required decimal TrackedHours { get; set; }
 }

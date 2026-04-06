@@ -6,7 +6,7 @@ public class EmployeeTrackedTaskHours
 {
     public required long EmployeeId { get; set; }
 
-    public required double TrackedHours { get; set; }
+    public required decimal TrackedHours { get; set; }
 }
 
 public class TotalTrackedTaskHoursCalculator
@@ -18,7 +18,7 @@ public class TotalTrackedTaskHoursCalculator
             .Select(x => new EmployeeTrackedTaskHours
             {
                 EmployeeId = x.Key,
-                TrackedHours = x.Sum(x => x.Duration.TotalHours)
+                TrackedHours = (decimal)x.Sum(x => x.Duration.TotalHours)
             })
             .ToList();
 
