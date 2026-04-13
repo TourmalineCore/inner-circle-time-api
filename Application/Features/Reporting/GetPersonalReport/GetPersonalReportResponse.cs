@@ -23,9 +23,9 @@ public class TrackedEntryDto
 
     public required EntryType EntryType { get; set; }
 
-    public required ProjectDto? Project { get; set; }
+    public required ProjectDto Project { get; set; }
 
-    public required TaskDto? Task { get; set; }
+    public required TaskDto Task { get; set; }
 
     public string? Description { get; set; }
 }
