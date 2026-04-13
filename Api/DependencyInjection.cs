@@ -3,6 +3,8 @@ using Application;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Internal.GetAllProjects;
 using Application.Features.Internal.GetEmployeesTrackedTaskHours;
+using Application.Features.Reporting.GetAllEmployees;
+using Application.Features.Reporting.GetPersonalReport;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
@@ -52,5 +54,7 @@ public static class DependencyInjection
         services.AddTransient<GetEmployeesTrackedTaskHoursHandler>();
         services.AddTransient<GetTaskEntriesQuery>();
         services.AddTransient<GetAllProjectsHandler>();
+        services.AddTransient<GetPersonalReportHandler>();
+        services.AddTransient<GetAllEmployeesHandler>();
     }
 }
