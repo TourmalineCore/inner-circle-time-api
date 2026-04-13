@@ -85,12 +85,6 @@ export interface ProjectDto {
   name: string;
 }
 
-export type ProjectDto2 = {
-  /** @format int64 */
-  id: number;
-  name: string;
-} | null;
-
 export interface ProjectsResponse {
   projects: ProjectDto[];
 }
@@ -101,11 +95,11 @@ export interface SoftDeleteEntryRequest {
   deletionReason: string;
 }
 
-export type TaskDto = {
+export interface TaskDto {
   /** @format int64 */
   id: number;
   title: string;
-} | null;
+}
 
 export interface TaskEntryDto {
   /** @format int64 */
@@ -132,7 +126,7 @@ export interface TrackedEntryDto {
   /** @format date-time */
   endTime: string;
   entryType: EntryType;
-  project: ProjectDto2;
+  project: ProjectDto;
   task: TaskDto;
   description?: string | null;
 }
