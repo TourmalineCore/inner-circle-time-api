@@ -32,7 +32,7 @@ public class TrackedEntryDto
 
 public class TaskDto
 {
-    public required long Id { get; set; }
+    public required string Id { get; set; }
 
     public required string Title { get; set; }
 }
