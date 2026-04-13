@@ -39,6 +39,12 @@ export interface CreateUnwellResponse {
   newUnwellEntryId: number;
 }
 
+export interface EmployeeDto {
+  /** @format int64 */
+  id?: number;
+  fullName: string;
+}
+
 export interface EmployeeTrackedTaskHourDto {
   /** @format int64 */
   employeeId: number;
@@ -47,6 +53,10 @@ export interface EmployeeTrackedTaskHourDto {
 }
 
 export type EntryType = number;
+
+export interface GetAllEmployeesResponse {
+  employees: EmployeeDto[];
+}
 
 export interface GetAllProjectsResponse {
   projects: ProjectDto[];
@@ -59,6 +69,14 @@ export interface GetEmployeesTrackedTaskHoursResponse {
 export interface GetEntriesByPeriodResponse {
   taskEntries: TaskEntryDto[];
   unwellEntries: UnwellEntryDto[];
+}
+
+export interface GetPersonalReportResponse {
+  trackedEntries: TrackedEntryDto[];
+  /** @format double */
+  taskHours: number;
+  /** @format double */
+  unwellHours: number;
 }
 
 export interface ProjectDto {
@@ -77,6 +95,12 @@ export interface SoftDeleteEntryRequest {
   deletionReason: string;
 }
 
+export interface TaskDto {
+  /** @format int64 */
+  id: number;
+  title: string;
+}
+
 export interface TaskEntryDto {
   /** @format int64 */
   id: number;
@@ -90,6 +114,21 @@ export interface TaskEntryDto {
   projectId: number;
   taskId: string;
   description: string;
+}
+
+export interface TrackedEntryDto {
+  /** @format int64 */
+  id: number;
+  /** @format double */
+  trackedHoursPerDay: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  entryType: EntryType;
+  project: ProjectDto;
+  task: TaskDto;
+  description?: string | null;
 }
 
 export interface UnwellEntryDto {
@@ -476,6 +515,49 @@ export class Api<
         method: "DELETE",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Reporting
+     * @name ReportingGetAllEmployees
+     * @summary Get all employees
+     * @request GET:/api/reporting/employees
+     */
+    reportingGetAllEmployees: (params: RequestParams = {}) =>
+      this.request<GetAllEmployeesResponse, any>({
+        path: `/api/reporting/employees`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Reporting
+     * @name ReportingGetPersonalReport
+     * @summary Get personal report
+     * @request GET:/api/reporting/personal-report
+     */
+    reportingGetPersonalReport: (
+      query: {
+        /** @format int64 */
+        employeeId: number;
+        /** @format int32 */
+        year: number;
+        /** @format int32 */
+        month: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetPersonalReportResponse, any>({
+        path: `/api/reporting/personal-report`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
 
