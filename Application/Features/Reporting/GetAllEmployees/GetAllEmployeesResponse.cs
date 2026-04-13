@@ -7,7 +7,7 @@ public class GetAllEmployeesResponse
 
 public class EmployeeDto
 {
-    public long Id { get; set; }
+    public required long Id { get; set; }
 
     public required string FullName { get; set; }
 }
