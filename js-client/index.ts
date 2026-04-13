@@ -41,7 +41,7 @@ export interface CreateUnwellResponse {
 
 export interface EmployeeDto {
   /** @format int64 */
-  id?: number;
+  id: number;
   fullName: string;
 }
 
