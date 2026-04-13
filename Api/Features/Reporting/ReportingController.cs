@@ -17,7 +17,7 @@ public class ReportingController : ControllerBase
     [HttpGet("employees")]
     public Task<GetAllEmployeesResponse> GetAllEmployeesAsync(
        [FromServices] GetAllEmployeesHandler getAllEmployeesHandler
-   )
+    )
     {
         return getAllEmployeesHandler.HandleAsync();
     }
