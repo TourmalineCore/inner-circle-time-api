@@ -96,8 +96,7 @@ export interface SoftDeleteEntryRequest {
 }
 
 export interface TaskDto {
-  /** @format int64 */
-  id: number;
+  id: string;
   title: string;
 }
 
