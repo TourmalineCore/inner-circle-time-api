@@ -34,7 +34,9 @@ public static class DependencyInjection
         });
 
         services.AddScoped<TenantAppDbContext>();
+        services.Configure<ExternalDepsUrls>(configuration.GetSection(nameof(ExternalDepsUrls)));
         services.AddTransient<IAssignmentsApi, AssignmentsApi>();
+        services.AddTransient<IEmployeesApi, EmployeesApi>();
         services.AddTransient<CreateTaskEntryHandler>();
         services.AddTransient<CreateTaskEntryCommand>();
         services.AddTransient<CreateUnwellEntryHandler>();
