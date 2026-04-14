@@ -35,6 +35,8 @@ public class GetPersonalReportHandler
 
         var trackedEntries = await _getTrackedEntriesQuery.GetAsync(employeeId, startDate, endDate);
 
+        var projectDict = projects.ToDictionary(x => x.Id);
+
         var taskEntries = trackedEntries
             .OfType<TaskEntry>()
             .Select(
@@ -49,7 +51,7 @@ public class GetPersonalReportHandler
                     Project = new ProjectDto
                     {
                         Id = x.ProjectId,
-                        Name = projects.Find(project => project.Id == x.ProjectId)!.Name
+                        Name = projectDict[x.ProjectId].Name
                     },
                     Task = new TaskDto
                     {
