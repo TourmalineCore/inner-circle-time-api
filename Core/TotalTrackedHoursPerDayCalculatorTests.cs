@@ -72,7 +72,7 @@ public class TotalTrackedHoursPerDayCalculatorTests
     }
 
     [Fact]
-    public void TotalTrackedHoursPerDayCalculatorWithTwoTrackedEntriesWithDifferentDate_ShouldReturnCorrectTrackedHoursPerDays()
+    public void TotalTrackedHoursPerDayCalculatorWithTwoTrackedEntriesWithDifferentDate_ShouldReturnCorrectTrackedHoursPerDay()
     {
         var firstEntryStartTime = new DateTime(2025, 11, 01);
 
@@ -95,7 +95,7 @@ public class TotalTrackedHoursPerDayCalculatorTests
     }
 
     [Fact]
-    public void TotalTrackedHoursPerDayCalculatorWithIncompleteHours_ShouldReturnCorrectTrackedHoursPerDays()
+    public void TotalTrackedHoursPerDayCalculatorWithIncompleteHours_ShouldReturnCorrectTrackedHoursPerDay()
     {
         var startTime = new DateTime(2025, 11, 24);
 
