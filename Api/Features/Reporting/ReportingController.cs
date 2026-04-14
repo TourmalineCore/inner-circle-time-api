@@ -15,9 +15,11 @@ public class ReportingController : ControllerBase
     [EndpointSummary("Get all employees")]
     [RequiresPermission(UserClaimsProvider.CanViewPersonalReport)]
     [HttpGet("employees")]
-    public Task<GetAllEmployeesResponse> GetAllEmployeesAsync()
+    public Task<GetAllEmployeesResponse> GetAllEmployeesAsync(
+       [FromServices] GetAllEmployeesHandler getAllEmployeesHandler
+    )
     {
-        throw new NotImplementedException();
+        return getAllEmployeesHandler.HandleAsync();
     }
 
     [EndpointSummary("Get personal report")]
