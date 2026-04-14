@@ -33,7 +33,7 @@ public class TotalTrackedHoursPerDayCalculatorTests
     }
 
     [Fact]
-    public void TotalTrackedHoursPerDayCalculatorWithOneTrackedEntries_ShouldReturnCorrectTrackedHoursPerDay()
+    public void TotalTrackedHoursPerDayCalculatorWithOneTrackedEntry_ShouldReturnCorrectTrackedHoursPerDay()
     {
         var startTime = new DateTime(2025, 11, 24);
 
@@ -51,7 +51,7 @@ public class TotalTrackedHoursPerDayCalculatorTests
     }
 
     [Fact]
-    public void TotalTrackedHoursPerDayCalculatorWithTwoTrackedEntries_ShouldReturnCorrectTrackedHoursPerDays()
+    public void TotalTrackedHoursPerDayCalculatorWithTwoTrackedEntries_ShouldReturnCorrectTrackedHoursPerDay()
     {
         var trackedEntries = new List<TrackedEntryBase> {
             new TaskEntry
