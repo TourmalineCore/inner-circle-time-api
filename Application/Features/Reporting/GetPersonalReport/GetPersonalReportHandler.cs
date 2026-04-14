@@ -71,8 +71,8 @@ public class GetPersonalReportHandler
                     Hours = (decimal)x.Duration.TotalHours,
                     TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(trackedEntries, x.StartTime),
                     EntryType = x.Type,
-                    Project = null,
-                    Task = null,
+                    Project = null!,
+                    Task = null!,
                     Description = null
                 })
                 .ToList();
