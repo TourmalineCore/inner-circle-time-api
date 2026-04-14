@@ -28,9 +28,10 @@ public class ReportingController : ControllerBase
     public Task<GetPersonalReportResponse> GetPersonalReportAsync(
         [Required][FromQuery] long employeeId,
         [Required][FromQuery] int year,
-        [Required][FromQuery] int month
+        [Required][FromQuery] int month,
+        [FromServices] GetPersonalReportHandler getPersonalReportHandler
     )
     {
-        throw new NotImplementedException();
+        return getPersonalReportHandler.HandleAsync(employeeId, year, month);
     }
 }
