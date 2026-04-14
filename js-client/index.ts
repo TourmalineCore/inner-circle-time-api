@@ -124,6 +124,8 @@ export interface TrackedEntryDto {
   startTime: string;
   /** @format date-time */
   endTime: string;
+  /** @format double */
+  hours: number;
   entryType: EntryType;
   project: ProjectDto;
   task: TaskDto;
