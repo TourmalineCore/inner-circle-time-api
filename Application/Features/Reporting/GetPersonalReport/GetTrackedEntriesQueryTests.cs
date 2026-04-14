@@ -14,7 +14,7 @@ public class GetTrackedEntriesQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var getTaskEntriesQuery = new GetTrackedEntriesQuery(context);
+        var getTrackedEntriesQuery = new GetTrackedEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
@@ -29,7 +29,7 @@ public class GetTrackedEntriesQueryTests
 
         var nonExistentEmployeeId = 999;
 
-        var result = await getTaskEntriesQuery
+        var result = await getTrackedEntriesQuery
             .GetAsync(
                 nonExistentEmployeeId,
                 new DateOnly(2025, 11, 01),
@@ -44,7 +44,7 @@ public class GetTrackedEntriesQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var getTaskEntriesQuery = new GetTrackedEntriesQuery(context);
+        var getTrackedEntriesQuery = new GetTrackedEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
@@ -57,7 +57,7 @@ public class GetTrackedEntriesQueryTests
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var result = await getTaskEntriesQuery
+        var result = await getTrackedEntriesQuery
             .GetAsync(
                 taskEntry.EmployeeId,
                 new DateOnly(2025, 11, 20),
