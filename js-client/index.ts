@@ -540,7 +540,7 @@ export class Api<
      *
      * @tags Reporting
      * @name ReportingGetPersonalReport
-     * @summary Get personal report
+     * @summary Get a personal employee report sorted by date
      * @request GET:/api/reporting/personal-report
      */
     reportingGetPersonalReport: (
