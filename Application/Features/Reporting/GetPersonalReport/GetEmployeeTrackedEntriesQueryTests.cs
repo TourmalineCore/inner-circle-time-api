@@ -5,7 +5,7 @@ using Xunit;
 namespace Application.Features.Reporting.GetPersonalReport;
 
 [UnitTest]
-public class GetTrackedEntriesQueryTests
+public class GetEmployeeTrackedEntriesQueryTests
 {
     private const long TENANT_ID = 777;
 
@@ -14,7 +14,7 @@ public class GetTrackedEntriesQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var getTrackedEntriesQuery = new GetTrackedEntriesQuery(context);
+        var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
@@ -29,7 +29,7 @@ public class GetTrackedEntriesQueryTests
 
         var nonExistentEmployeeId = 999;
 
-        var result = await getTrackedEntriesQuery
+        var result = await getEmployeeTrackedEntriesQuery
             .GetAsync(
                 nonExistentEmployeeId,
                 new DateOnly(2025, 11, 01),
@@ -44,7 +44,7 @@ public class GetTrackedEntriesQueryTests
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var getTrackedEntriesQuery = new GetTrackedEntriesQuery(context);
+        var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
@@ -57,7 +57,7 @@ public class GetTrackedEntriesQueryTests
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var result = await getTrackedEntriesQuery
+        var result = await getEmployeeTrackedEntriesQuery
             .GetAsync(
                 taskEntry.EmployeeId,
                 new DateOnly(2025, 11, 20),

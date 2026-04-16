@@ -60,6 +60,6 @@ public static class DependencyInjection
         services.AddTransient<GetAllProjectsHandler>();
         services.AddTransient<GetAllEmployeesHandler>();
         services.AddTransient<GetPersonalReportHandler>();
-        services.AddTransient<GetTrackedEntriesQuery>();
+        services.AddTransient<GetEmployeeTrackedEntriesQuery>();
     }
 }

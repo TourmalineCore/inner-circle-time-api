@@ -6,16 +6,16 @@ namespace Application.Features.Reporting.GetPersonalReport;
 
 public class GetPersonalReportHandler
 {
-    private GetTrackedEntriesQuery _getTrackedEntriesQuery;
+    private GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
 
     private IAssignmentsApi _assignmentsApi;
 
     public GetPersonalReportHandler(
-        GetTrackedEntriesQuery getTrackedEntriesQuery,
+        GetEmployeeTrackedEntriesQuery getEmployeeTrackedEntriesQuery,
         IAssignmentsApi assignmentsApi
     )
     {
-        _getTrackedEntriesQuery = getTrackedEntriesQuery;
+        _getEmployeeTrackedEntriesQuery = getEmployeeTrackedEntriesQuery;
         _assignmentsApi = assignmentsApi;
     }
 
@@ -33,11 +33,11 @@ public class GetPersonalReportHandler
 
         var projects = await _assignmentsApi.GetAllProjectsAsync();
 
-        var trackedEntries = await _getTrackedEntriesQuery.GetAsync(employeeId, startDate, endDate);
+        var employeeTrackedEntries = await _getEmployeeTrackedEntriesQuery.GetAsync(employeeId, startDate, endDate);
 
         var projectDict = projects.ToDictionary(x => x.Id);
 
-        var taskEntries = trackedEntries
+        var taskEntries = employeeTrackedEntries
             .OfType<TaskEntry>()
             .Select(
                 x => new TrackedEntryDto
@@ -46,7 +46,7 @@ public class GetPersonalReportHandler
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
                     Hours = (decimal)x.Duration.TotalHours,
-                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(trackedEntries, x.StartTime),
+                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime),
                     EntryType = x.Type,
                     Project = new ProjectDto
                     {
@@ -62,7 +62,7 @@ public class GetPersonalReportHandler
                 })
                 .ToList();
 
-        var unwellEntries = trackedEntries
+        var unwellEntries = employeeTrackedEntries
             .OfType<UnwellEntry>()
             .Select(
                 x => new TrackedEntryDto
@@ -71,7 +71,7 @@ public class GetPersonalReportHandler
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
                     Hours = (decimal)x.Duration.TotalHours,
-                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(trackedEntries, x.StartTime),
+                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime),
                     EntryType = x.Type,
                     Project = null!,
                     Task = null!,
