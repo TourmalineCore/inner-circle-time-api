@@ -21,6 +21,8 @@ public class TrackedEntryDto
 
     public required DateTime EndTime { get; set; }
 
+    public required decimal Hours { get; set; }
+
     public required EntryType EntryType { get; set; }
 
     public required ProjectDto Project { get; set; }

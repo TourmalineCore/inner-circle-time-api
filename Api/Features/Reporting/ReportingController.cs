@@ -15,20 +15,23 @@ public class ReportingController : ControllerBase
     [EndpointSummary("Get all employees")]
     [RequiresPermission(UserClaimsProvider.CanViewPersonalReport)]
     [HttpGet("employees")]
-    public Task<GetAllEmployeesResponse> GetAllEmployeesAsync()
+    public Task<GetAllEmployeesResponse> GetAllEmployeesAsync(
+       [FromServices] GetAllEmployeesHandler getAllEmployeesHandler
+    )
     {
-        throw new NotImplementedException();
+        return getAllEmployeesHandler.HandleAsync();
     }
 
-    [EndpointSummary("Get personal report")]
+    [EndpointSummary("Get a personal employee report sorted by date in ascending order")]
     [RequiresPermission(UserClaimsProvider.CanViewPersonalReport)]
     [HttpGet("personal-report")]
     public Task<GetPersonalReportResponse> GetPersonalReportAsync(
         [Required][FromQuery] long employeeId,
         [Required][FromQuery] int year,
-        [Required][FromQuery] int month
+        [Required][FromQuery] int month,
+        [FromServices] GetPersonalReportHandler getPersonalReportHandler
     )
     {
-        throw new NotImplementedException();
+        return getPersonalReportHandler.HandleAsync(employeeId, year, month);
     }
 }

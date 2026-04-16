@@ -124,6 +124,8 @@ export interface TrackedEntryDto {
   startTime: string;
   /** @format date-time */
   endTime: string;
+  /** @format double */
+  hours: number;
   entryType: EntryType;
   project: ProjectDto;
   task: TaskDto;
@@ -538,7 +540,7 @@ export class Api<
      *
      * @tags Reporting
      * @name ReportingGetPersonalReport
-     * @summary Get personal report
+     * @summary Get a personal employee report sorted by date in ascending order
      * @request GET:/api/reporting/personal-report
      */
     reportingGetPersonalReport: (
