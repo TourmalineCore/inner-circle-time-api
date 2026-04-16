@@ -22,7 +22,7 @@ public class ReportingController : ControllerBase
         return getAllEmployeesHandler.HandleAsync();
     }
 
-    [EndpointSummary("Get a personal employee report sorted by date")]
+    [EndpointSummary("Get a personal employee report sorted by date in ascending order")]
     [RequiresPermission(UserClaimsProvider.CanViewPersonalReport)]
     [HttpGet("personal-report")]
     public Task<GetPersonalReportResponse> GetPersonalReportAsync(
