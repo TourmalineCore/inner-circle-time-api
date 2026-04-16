@@ -49,8 +49,8 @@ Feature: Personal Reporting
 
     # Create a new task entry
     * def randomTitle = '[API-E2E]-Test-task-entry-' + Math.random()
-    * def startTime = '2033-11-05T14:00:00'
-    * def endTime = '2033-11-05T16:00:00'
+    * def taskStartTime = '2033-11-05T14:00:00'
+    * def taskEndTime = '2033-11-05T16:00:00'
     * def taskId = '#2233'
     * def description = 'Task description'
     
@@ -59,8 +59,8 @@ Feature: Personal Reporting
     """
     {
         "title": "#(randomTitle)",
-        "startTime": "#(startTime)",
-        "endTime": "#(endTime)",
+        "startTime": "#(taskStartTime)",
+        "endTime": "#(taskEndTime)",
         "projectId": #(firstProjectId), 
         "taskId": "#(taskId)",
         "description": "#(description)",
@@ -71,6 +71,25 @@ Feature: Personal Reporting
 
     * def newTaskEntryId = response.newTaskEntryId
 
+
+    # Create a new unwell entry
+    * def unwellStartTime = '2033-11-05T10:00:00'
+    * def unwellEndTime = '2033-11-05T11:00:00'
+    
+    Given url apiRootUrl
+    Given path 'tracking/unwell-entries'
+    And request
+    """
+    {
+        "startTime": "#(unwellStartTime)",
+        "endTime": "#(unwellEndTime)",
+    }
+    """
+    When method POST
+    Then status 200
+
+    * def newUnwellEntryId = response.newUnwellEntryId
+
     # Verify: Get personal report
     Given path 'reporting/personal-report'
     And params { employeeId: "#(holderEmployeeId)", year: "2033", month: "11" }
@@ -79,9 +98,9 @@ Feature: Personal Reporting
     """
     {
         "id": "#number",
-        "trackedHoursPerDay": 2,
-        "startTime": "#(startTime)",
-        "endTime": "#(endTime)",
+        "trackedHoursPerDay": 3,
+        "startTime": "#(taskStartTime)",
+        "endTime": "#(taskEndTime)",
         "hours": 2,
         "entryType": 1,
         "project": {
@@ -95,12 +114,31 @@ Feature: Personal Reporting
         "description": "#(description)"
     }
     """
+    And match response.trackedEntries contains 
+    """
+    {
+        "id": "#number",
+        "trackedHoursPerDay": 3,
+        "startTime": "#(unwellStartTime)",
+        "endTime": "#(unwellEndTime)",
+        "hours": 1,
+        "entryType": 2,
+        "project": null,
+        "task": null,
+        "description": null
+    }
+    """
     And assert response.taskHours == 2
-    And assert response.unwellHours == 0
+    And assert response.unwellHours == 1
     
-
     # Cleanup: Delete the task entry (hard delete)
     Given path 'tracking/entries', newTaskEntryId, 'hard-delete'
+    When method DELETE
+    Then status 200
+    And match response == { isDeleted: true }
+
+    # Cleanup: Delete the unwell entry (hard delete)
+    Given path 'tracking/entries', newUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
@@ -111,3 +149,4 @@ Feature: Personal Reporting
     When method GET
     Then status 200
     And assert response.taskEntries.filter(x => x.id == newTaskEntryId).length == 0
+    And assert response.unwellEntries.filter(x => x.id == newUnwellEntryId).length == 0
