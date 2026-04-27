@@ -84,7 +84,7 @@ public class TotalTrackedMinutesPerDayCalculatorTests
             },
             new UnwellEntry
             {
-                StartTime = new DateTime(2025, 11, 30, 9, 0, 0),
+                StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
                 EndTime = new DateTime(2025, 11, 24, 11, 0, 0)
             },
         };
