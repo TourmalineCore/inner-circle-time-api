@@ -11,6 +11,6 @@ public class TotalTrackedMinutesPerDayCalculator
     {
         return trackedEntries
             .Where(x => x.StartTime.Date == startTime.Date)
-            .Sum(x => (int)(x.EndTime - x.StartTime).TotalMinutes);
+            .Sum(x => x.StartTime.GetTotalMinutes(x.EndTime));
     }
 }

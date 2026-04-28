@@ -45,7 +45,7 @@ public class GetPersonalReportHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Hours = (decimal)(x.EndTime - x.StartTime).TotalMinutes / 60,
+                    Hours = x.StartTime.GetHours(x.EndTime),
                     TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime) / 60,
                     EntryType = x.Type,
                     Project = new ProjectDto
@@ -70,7 +70,7 @@ public class GetPersonalReportHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Hours = (decimal)(x.EndTime - x.StartTime).TotalMinutes / 60,
+                    Hours = x.StartTime.GetHours(x.EndTime),
                     TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime) / 60,
                     EntryType = x.Type,
                     Project = null!,
@@ -85,10 +85,10 @@ public class GetPersonalReportHandler
             .ToList();
 
         var taskTotalMinutes = taskEntries
-            .Sum(x => (decimal)(x.EndTime - x.StartTime).TotalMinutes);
+            .Sum(x => x.StartTime.GetTotalMinutes(x.EndTime));
 
         var unwellTotalMinutes = unwellEntries
-            .Sum(x => (decimal)(x.EndTime - x.StartTime).TotalMinutes);
+            .Sum(x => x.StartTime.GetTotalMinutes(x.EndTime));
 
         return new GetPersonalReportResponse
         {
