@@ -2,15 +2,15 @@ using Core.Entities;
 
 namespace Core;
 
-public class TotalTrackedHoursPerDayCalculator
+public class TotalTrackedMinutesPerDayCalculator
 {
-    public static decimal Calculate(
+    public static int Calculate(
         List<TrackedEntryBase> trackedEntries,
         DateTime startTime
     )
     {
-        return (decimal)trackedEntries
+        return trackedEntries
             .Where(x => x.StartTime.Date == startTime.Date)
-            .Sum(x => x.Duration.TotalHours);
+            .Sum(x => x.StartTime.GetTotalMinutes(x.EndTime));
     }
 }

@@ -45,8 +45,8 @@ public class GetPersonalReportHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Hours = (decimal)x.Duration.TotalHours,
-                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime),
+                    Hours = x.StartTime.GetHours(x.EndTime),
+                    TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime) / 60,
                     EntryType = x.Type,
                     Project = new ProjectDto
                     {
@@ -70,8 +70,8 @@ public class GetPersonalReportHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Hours = (decimal)x.Duration.TotalHours,
-                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime),
+                    Hours = x.StartTime.GetHours(x.EndTime),
+                    TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime) / 60,
                     EntryType = x.Type,
                     Project = null!,
                     Task = null!,
@@ -84,11 +84,17 @@ public class GetPersonalReportHandler
             .OrderBy(e => e.StartTime)
             .ToList();
 
+        var taskTotalMinutes = taskEntries
+            .Sum(x => x.StartTime.GetTotalMinutes(x.EndTime));
+
+        var unwellTotalMinutes = unwellEntries
+            .Sum(x => x.StartTime.GetTotalMinutes(x.EndTime));
+
         return new GetPersonalReportResponse
         {
             TrackedEntries = sortedByDateAllEntries,
-            TaskHours = taskEntries.Sum(e => e.Hours),
-            UnwellHours = unwellEntries.Sum(e => e.Hours)
+            TaskHours = taskTotalMinutes / 60,
+            UnwellHours = unwellTotalMinutes / 60
         };
     }
 }
