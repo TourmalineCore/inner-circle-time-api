@@ -23,7 +23,6 @@ public class DateTimeExtensionsTests
         Assert.Equal(8.5m, startTime.GetHours(endTime));
     }
 
-
     [Fact]
     public void GetHours_With20Minutes_ShouldReturnCorrectHour()
     {
