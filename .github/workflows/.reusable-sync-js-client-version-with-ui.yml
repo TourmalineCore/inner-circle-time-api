@@ -1,9 +1,9 @@
-name: Trigger UI JS-client sync
+name: Sync JS-client version with UI
 
 on:
   workflow_call:
     inputs:
-      npm-package-version:
+      js-client-package-version:
         required: true
         type: string
       
@@ -23,6 +23,6 @@ jobs:
           -d '{
           "event_type": "latest-api-js-client-version",
            "client_payload": {
-              "client-version": "${{ inputs.npm-package-version }}",
+              "client-version": "${{ inputs.js-client-package-version }}",
               "commit_message": ${{ toJson(github.event.head_commit.message) }}
             }}'
