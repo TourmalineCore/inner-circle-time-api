@@ -2,6 +2,9 @@ name: Publish js-client
 
 on:
   workflow_call:
+    outputs:
+      npm-package-version:
+        value: ${{ jobs.publish-js-client.outputs.npm-package-version }}
 
 jobs:
   publish-js-client:
@@ -11,6 +14,8 @@ jobs:
       contents: write
       # Required for OIDC (https://docs.npmjs.com/trusted-publishers#github-actions-configuration)
       id-token: write
+    outputs:
+      npm-package-version: ${{ steps.set-version-output.outputs.npm-package-version }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v6
@@ -65,6 +70,11 @@ jobs:
           [[ "$should_use_sem_ver_version" == "true" ]] && echo "NEW_JS_CLIENT_VERSION=${sem_ver_version}" >> ${GITHUB_ENV} || echo "NEW_JS_CLIENT_VERSION=${commit_sha_version}" >> ${GITHUB_ENV}
           [[ "$should_use_sem_ver_version" == "true" ]] && echo "NEW_JS_CLIENT_TAG=release-${sem_ver_version}" >> ${GITHUB_ENV} || echo "NEW_JS_CLIENT_TAG=${commit_sha}" >> ${GITHUB_ENV}
 
+      - name: Set version output
+        id: set-version-output
+        run: |
+              echo "npm-package-version=${NEW_JS_CLIENT_VERSION}" >> $GITHUB_OUTPUT
+
       - name: Publish js-client npm package
         run: |
           cd js-client
@@ -73,10 +83,12 @@ jobs:
           npm run build
           if [ ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }} == "true" ]; then
             # need to publish a new latest from default branch
-            npm publish --access public
+            # npm publish --access public
+            echo "skipping publish"
           else
             # need to publish a new feature branch intermediate commit version
-            npm publish --tag "${{ env.NEW_JS_CLIENT_TAG }}" --access public
+            # npm publish --tag "${{ env.NEW_JS_CLIENT_TAG }}" --access public
+            echo "skipping publish"
           fi
           
       - name: Commit js-client
