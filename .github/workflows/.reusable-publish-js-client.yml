@@ -2,6 +2,9 @@ name: Publish js-client
 
 on:
   workflow_call:
+    outputs:
+      js-client-package-version:
+        value: ${{ jobs.publish-js-client.outputs.js-client-package-version }}
 
 jobs:
   publish-js-client:
@@ -11,6 +14,8 @@ jobs:
       contents: write
       # Required for OIDC (https://docs.npmjs.com/trusted-publishers#github-actions-configuration)
       id-token: write
+    outputs:
+      js-client-package-version: ${{ steps.set-js-client-package-version-to-output.outputs.js-client-package-version }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v6
@@ -64,6 +69,11 @@ jobs:
 
           [[ "$should_use_sem_ver_version" == "true" ]] && echo "NEW_JS_CLIENT_VERSION=${sem_ver_version}" >> ${GITHUB_ENV} || echo "NEW_JS_CLIENT_VERSION=${commit_sha_version}" >> ${GITHUB_ENV}
           [[ "$should_use_sem_ver_version" == "true" ]] && echo "NEW_JS_CLIENT_TAG=release-${sem_ver_version}" >> ${GITHUB_ENV} || echo "NEW_JS_CLIENT_TAG=${commit_sha}" >> ${GITHUB_ENV}
+
+      - name: Set js-client-package-version to output
+        id: set-js-client-package-version-to-output
+        run: |
+              echo "js-client-package-version=${NEW_JS_CLIENT_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Publish js-client npm package
         run: |

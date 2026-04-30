@@ -1,0 +1,29 @@
+name: Sync UI JS-client version with API
+
+on:
+  workflow_call:
+    inputs:
+      js-client-package-version:
+        required: true
+        type: string
+      
+jobs:
+  sync-ui-js-client-version-with-api:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+        
+      - name: Trigger sync-js-client-version workflow in ui
+        # NOTE: quotes for commit_message not needed because toJson writes quotes automatically 
+        run: |
+          curl -X POST https://api.github.com/repos/TourmalineCore/inner-circle-time-ui/dispatches \
+          -H "Accept: application/vnd.github.everest-preview+json" \
+          -u ${{ secrets.INNER_CIRCLE_TIME_UI_TRIGGER_TOKEN }} \
+          -d '{
+          "event_type": "synchronize-js-client-package-version",
+           "client_payload": {
+              "client_version": "${{ inputs.js-client-package-version }}",
+              "commit_message": ${{ toJson(github.event.head_commit.message) }}
+            }
+          }'
