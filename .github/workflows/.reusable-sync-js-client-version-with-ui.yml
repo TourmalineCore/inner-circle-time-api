@@ -19,7 +19,7 @@ jobs:
         run: |
           curl -X POST https://api.github.com/repos/TourmalineCore/inner-circle-time-ui/dispatches \
           -H "Accept: application/vnd.github.everest-preview+json" \
-          -u ${{ secrets.INNER_CIRCLE_TIME_UI_TRIGGER_TOKEN  }} \
+          -u ${{ secrets.INNER_CIRCLE_TIME_UI_TRIGGER_TOKEN }} \
           -d '{
           "event_type": "synchronize-js-client-package-version",
            "client_payload": {
