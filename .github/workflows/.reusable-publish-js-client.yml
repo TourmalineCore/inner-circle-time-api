@@ -83,12 +83,10 @@ jobs:
           npm run build
           if [ ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }} == "true" ]; then
             # need to publish a new latest from default branch
-            # npm publish --access public
-            echo "skipping publish"
+            npm publish --access public
           else
             # need to publish a new feature branch intermediate commit version
-            # npm publish --tag "${{ env.NEW_JS_CLIENT_TAG }}" --access public
-            echo "skipping publish"
+            npm publish --tag "${{ env.NEW_JS_CLIENT_TAG }}" --access public
           fi
           
       - name: Commit js-client
