@@ -21,8 +21,9 @@ jobs:
           -H "Accept: application/vnd.github.everest-preview+json" \
           -u ${{ secrets.INNER_CIRCLE_TIME_UI_TRIGGER_TOKEN  }} \
           -d '{
-          "event_type": "latest-api-js-client-version",
+          "event_type": "synchronize-js-client-package-version",
            "client_payload": {
               "client-version": "${{ inputs.js-client-package-version }}",
               "commit_message": ${{ toJson(github.event.head_commit.message) }}
-            }}'
+            }
+          }'
