@@ -46,10 +46,10 @@ jobs:
 
         npm run lint
         
-  sync-ui-js-client:
+  sync-js-client-in-ui:
     needs: [publish-release-js-client]
     if: github.event_name == 'push'
-    uses: ./.github/workflows/.reusable-sync-ui-js-client-version-with-api.yml
+    uses: ./.github/workflows/.reusable-trigger-js-client-sync-in-ui.yml
     with:
-      js-client-package-version: ${{ needs.publish-release-js-client.outputs.js-client-package-version }}
+      new-js-client-version: ${{ needs.publish-release-js-client.outputs.new-js-client-version }}
     secrets: inherit
