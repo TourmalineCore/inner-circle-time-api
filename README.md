@@ -16,7 +16,6 @@ Full info about Inner Circle .NET related code conventions, patterns, decisions,
 
 More info about the Inner Circle project and its related repos can be found here: [inner-circle-documentation](https://github.com/TourmalineCore/inner-circle-documentation).
 
-
 ## Prerequisites
 
 1. Install Docker Desktop (Windows, macOS) or Docker Engine (Linux)
