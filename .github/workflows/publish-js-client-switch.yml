@@ -45,3 +45,11 @@ jobs:
         npm install @tourmalinecore/inner-circle-time-api-js-client@${{ github.event.pull_request.head.sha }} --save
 
         npm run lint
+        
+  sync-js-client-in-ui:
+    needs: [publish-release-js-client]
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/.reusable-trigger-js-client-sync-in-ui.yml
+    with:
+      new-js-client-version: ${{ needs.publish-release-js-client.outputs.new-js-client-version }}
+    secrets: inherit
