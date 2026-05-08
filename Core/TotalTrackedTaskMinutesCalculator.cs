@@ -18,7 +18,7 @@ public class TotalTrackedTaskMinutesCalculator
             .Select(x => new EmployeeTrackedTaskMinutes
             {
                 EmployeeId = x.Key,
-                TrackedMinutes = x.Sum(x => x.StartTime.GetTotalMinutes(x.EndTime))
+                TrackedMinutes = x.Sum(x => x.GetDurationInMinutes())
             })
             .ToList();
 
