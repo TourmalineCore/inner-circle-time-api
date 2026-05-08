@@ -45,8 +45,8 @@ public class GetPersonalReportHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Hours = (decimal)x.Duration.TotalHours,
-                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime),
+                    Hours = x.GetDurationInHours(),
+                    TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime) / 60,
                     EntryType = x.Type,
                     Project = new ProjectDto
                     {
@@ -70,8 +70,8 @@ public class GetPersonalReportHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Hours = (decimal)x.Duration.TotalHours,
-                    TrackedHoursPerDay = TotalTrackedHoursPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime),
+                    Hours = x.GetDurationInHours(),
+                    TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime) / 60,
                     EntryType = x.Type,
                     Project = null!,
                     Task = null!,
@@ -84,11 +84,19 @@ public class GetPersonalReportHandler
             .OrderBy(e => e.StartTime)
             .ToList();
 
+        var taskTotalMinutes = employeeTrackedEntries
+            .OfType<TaskEntry>()
+            .Sum(x => x.GetDurationInMinutes());
+
+        var unwellTotalMinutes = employeeTrackedEntries
+            .OfType<UnwellEntry>()
+            .Sum(x => x.GetDurationInMinutes());
+
         return new GetPersonalReportResponse
         {
             TrackedEntries = sortedByDateAllEntries,
-            TaskHours = taskEntries.Sum(e => e.Hours),
-            UnwellHours = unwellEntries.Sum(e => e.Hours)
+            TaskHours = taskTotalMinutes / 60,
+            UnwellHours = unwellTotalMinutes / 60
         };
     }
 }

@@ -25,14 +25,14 @@ public class GetEmployeesTrackedTaskHoursHandler
             endDate
         );
 
-        var calculatedEmployeesTotalTrackedTaskHours = TotalTrackedTaskHoursCalculator.Calculate(taskEntries);
+        var calculatedEmployeesTotalTrackedTaskMinutes = TotalTrackedTaskMinutesCalculator.Calculate(taskEntries);
 
-        var employeesEntries = calculatedEmployeesTotalTrackedTaskHours
+        var employeesEntries = calculatedEmployeesTotalTrackedTaskMinutes
             .Select(
                 x => new EmployeeTrackedTaskHourDto
                 {
                     EmployeeId = x.EmployeeId,
-                    TrackedHours = x.TrackedHours,
+                    TrackedHours = x.TrackedMinutes / 60,
                 })
                 .ToList();
 

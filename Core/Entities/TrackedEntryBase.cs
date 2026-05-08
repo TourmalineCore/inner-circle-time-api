@@ -25,4 +25,14 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
     public DateTime? DeletedAtUtc { get; set; }
 
     public string? DeletionReason { get; set; }
+
+    public int GetDurationInMinutes()
+    {
+        return (int)(EndTime - StartTime).TotalMinutes;
+    }
+
+    public decimal GetDurationInHours()
+    {
+        return (decimal)GetDurationInMinutes() / 60;
+    }
 }
