@@ -4,7 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
-public class GetTaskEntriesQuery
+public interface IGetTaskEntriesQuery
+{
+    Task<List<TaskEntry>> GetAsync(
+        long projectId,
+        DateOnly startDate,
+        DateOnly endDate
+    );
+}
+
+public class GetTaskEntriesQuery : IGetTaskEntriesQuery
 {
     private readonly TenantAppDbContext _context;
 

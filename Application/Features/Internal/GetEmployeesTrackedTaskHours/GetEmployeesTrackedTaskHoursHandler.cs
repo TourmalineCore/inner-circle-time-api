@@ -4,10 +4,10 @@ namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
 public class GetEmployeesTrackedTaskHoursHandler
 {
-    private readonly GetTaskEntriesQuery _getTaskEntriesQuery;
+    private readonly IGetTaskEntriesQuery _getTaskEntriesQuery;
 
     public GetEmployeesTrackedTaskHoursHandler(
-        GetTaskEntriesQuery getTaskEntriesQuery
+        IGetTaskEntriesQuery getTaskEntriesQuery
     )
     {
         _getTaskEntriesQuery = getTaskEntriesQuery;
