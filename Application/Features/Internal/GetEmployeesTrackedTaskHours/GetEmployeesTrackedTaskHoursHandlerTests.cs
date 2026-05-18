@@ -11,22 +11,21 @@ public class GetEmployeesTrackedTaskHoursHandlerTests
     [Fact]
     public async Task GetEmployeesTrackedTaskHoursHandler_ShouldReturnCorrectResultWithoutRoundingTrackedHours()
     {
+        const long projectId = 1;
+        const long employeeId = 1;
+
         var taskEntries = new List<TaskEntry>{
             new TaskEntry
             {
-                Id = 11,
-                EmployeeId = 1,
-                TenantId = 1,
-                ProjectId = 1,
+                EmployeeId = employeeId,
+                ProjectId = projectId,
                 StartTime = new DateTime(2025, 11, 24, 10, 0, 0),
                 EndTime = new DateTime(2025, 11, 24, 10, 30, 0),
             },
              new TaskEntry
             {
-                Id = 11,
-                EmployeeId = 1,
-                TenantId = 1,
-                ProjectId = 1,
+                EmployeeId = employeeId,
+                ProjectId = projectId,
                 StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
                 EndTime = new DateTime(2025, 11, 24, 11, 40, 0),
             },
@@ -42,10 +41,10 @@ public class GetEmployeesTrackedTaskHoursHandlerTests
             getTaskEntriesQueryMock.Object
         );
 
-        var result = await getEmployeesTrackedTaskHoursHandler.HandleAsync(1, new DateOnly(2025, 11, 1), new DateOnly(2025, 11, 28));
+        var result = await getEmployeesTrackedTaskHoursHandler.HandleAsync(projectId, new DateOnly(2025, 11, 1), new DateOnly(2025, 11, 28));
 
         Assert.NotEmpty(result.EmployeesTrackedTaskHours);
         Assert.Equal(1.1666666666666666666666666667m, result.EmployeesTrackedTaskHours[0].TrackedHours);
-        Assert.Equal(1, result.EmployeesTrackedTaskHours[0].EmployeeId);
+        Assert.Equal(employeeId, result.EmployeesTrackedTaskHours[0].EmployeeId);
     }
 }
