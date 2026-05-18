@@ -1,9 +1,11 @@
+using Core;
 using Core.Entities;
 using Moq;
 using Xunit;
 
 namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
+[UnitTest]
 public class GetEmployeesTrackedTaskHoursHandlerTests
 {
     [Fact]
