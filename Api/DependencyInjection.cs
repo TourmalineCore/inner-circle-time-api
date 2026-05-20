@@ -56,7 +56,7 @@ public static class DependencyInjection
         services.AddTransient<SoftDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryCommand>();
         services.AddTransient<GetEmployeesTrackedTaskHoursHandler>();
-        services.AddTransient<GetTaskEntriesQuery>();
+        services.AddTransient<IGetTaskEntriesQuery, GetTaskEntriesQuery>();
         services.AddTransient<GetAllProjectsHandler>();
         services.AddTransient<GetAllEmployeesHandler>();
         services.AddTransient<GetPersonalReportHandler>();
