@@ -26,15 +26,13 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public string? DeletionReason { get; set; }
 
-
-    // Although TotalMinutes always returns an integer value in our case, since we don't track seconds, we need to use a decimal number to save fractional minutes and prevent rounding to an integer.
-    public decimal GetDurationInMinutes()
+    public int GetDurationInMinutes()
     {
-        return (decimal)(EndTime - StartTime).TotalMinutes;
+        return (int)(EndTime - StartTime).TotalMinutes;
     }
 
     public decimal GetDurationInHours()
     {
-        return GetDurationInMinutes() / 60;
+        return GetDurationInMinutes() / 60m;
     }
 }

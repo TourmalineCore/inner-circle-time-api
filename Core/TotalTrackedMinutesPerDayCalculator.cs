@@ -4,7 +4,7 @@ namespace Core;
 
 public class TotalTrackedMinutesPerDayCalculator
 {
-    public static decimal Calculate(
+    public static int Calculate(
         List<TrackedEntryBase> trackedEntries,
         DateTime startTime
     )

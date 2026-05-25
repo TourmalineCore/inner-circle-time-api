@@ -32,7 +32,7 @@ public class GetEmployeesTrackedTaskHoursHandler
                 x => new EmployeeTrackedTaskHourDto
                 {
                     EmployeeId = x.EmployeeId,
-                    TrackedHours = x.TrackedMinutes / 60,
+                    TrackedHours = x.TrackedMinutes.ToHoursWithoutRounding(),
                 })
                 .ToList();
 
