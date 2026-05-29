@@ -33,6 +33,6 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public decimal GetDurationInHours()
     {
-        return GetDurationInMinutes() / 60m;
+        return GetDurationInMinutes().ToHoursWithoutRounding();
     }
 }
