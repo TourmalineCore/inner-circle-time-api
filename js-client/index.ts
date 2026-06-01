@@ -10,6 +10,20 @@
  * ---------------------------------------------------------------
  */
 
+export interface CreateAwayWithMakeUpTimeEntryRequest {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  description: string;
+  makeUpTimeList: MakeUpTimeEntry[];
+}
+
+export interface CreateAwayWithMakeUpTimeEntryResponse {
+  /** @format int64 */
+  newAwayWithMakeUpTimeEntryId: number;
+}
+
 export interface CreateTaskEntryRequest {
   title: string;
   /** @format date-time */
@@ -79,6 +93,28 @@ export interface GetPersonalReportResponse {
   unwellHours: number;
 }
 
+export interface MakeUpTimeEntry {
+  /** @format int64 */
+  relatedEntryId?: number;
+  /** @format int64 */
+  employeeId?: number;
+  /** @format date-time */
+  startTime?: string;
+  /** @format date-time */
+  endTime?: string;
+  timeZoneId?: string | null;
+  /** @pattern ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$ */
+  duration?: string;
+  type?: EntryType;
+  /** @format date-time */
+  deletedAtUtc?: string | null;
+  deletionReason?: string | null;
+  /** @format int64 */
+  id?: number;
+  /** @format int64 */
+  tenantId?: number;
+}
+
 export interface ProjectDto {
   /** @format int64 */
   id: number;
@@ -140,6 +176,17 @@ export interface UnwellEntryDto {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+}
+
+export interface UpdateAwayWithMakeUpTimeEntryRequest {
+  /** @format int64 */
+  id?: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  description: string;
+  makeUpTimeList: MakeUpTimeEntry[];
 }
 
 export interface UpdateTaskEntryRequest {
@@ -420,6 +467,27 @@ export class Api<
      * No description
      *
      * @tags Tracking
+     * @name TrackingCreateAwayWithMakeUpTimeEntry
+     * @summary Create a away with make up time entry
+     * @request POST:/api/tracking/away-with-make-up-time-entries
+     */
+    trackingCreateAwayWithMakeUpTimeEntry: (
+      data: CreateAwayWithMakeUpTimeEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAwayWithMakeUpTimeEntryResponse, any>({
+        path: `/api/tracking/away-with-make-up-time-entries`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
      * @name TrackingUpdateTaskEntry
      * @summary Update a task entry
      * @request POST:/api/tracking/task-entries/{taskEntryId}
@@ -455,6 +523,28 @@ export class Api<
         method: "POST",
         body: data,
         type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingUpdateAwayWithMakeUpTimeEntry
+     * @summary Update a away with make up time entry
+     * @request POST:/api/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
+     */
+    trackingUpdateAwayWithMakeUpTimeEntry: (
+      awayWithMakeUpTimeEntryId: number,
+      data: UpdateAwayWithMakeUpTimeEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateAwayWithMakeUpTimeEntryResponse, any>({
+        path: `/api/tracking/away-with-make-up-time-entries/${awayWithMakeUpTimeEntryId}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
