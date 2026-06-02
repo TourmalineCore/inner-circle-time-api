@@ -9,11 +9,11 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
     {
     }
 
-    public required long EmployeeId { get; set; }
+    public long EmployeeId { get; set; }
 
-    public required DateTime StartTime { get; set; }
+    public DateTime StartTime { get; set; }
 
-    public required DateTime EndTime { get; set; }
+    public DateTime EndTime { get; set; }
 
     // TODO: make it required when we add this prop to frontend
     public string? TimeZoneId { get; set; }
