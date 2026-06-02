@@ -10,5 +10,5 @@ public class MakeUpTimeEntry : TrackedEntryBase
         Type = EntryType.MakeUpTime;
     }
 
-    public long RelatedEntryId { get; set; }
+    public required long RelatedEntryId { get; set; }
 }
