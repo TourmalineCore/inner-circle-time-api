@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Core.Entities;
 
 public class MakeUpTimeEntry : TrackedEntryBase
@@ -10,5 +11,6 @@ public class MakeUpTimeEntry : TrackedEntryBase
         Type = EntryType.MakeUpTime;
     }
 
+    [Required]
     public long RelatedEntryId { get; set; }
 }
