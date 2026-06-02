@@ -99,9 +99,9 @@ export interface MakeUpTimeEntry {
   /** @format int64 */
   employeeId?: number;
   /** @format date-time */
-  startTime?: string;
+  startTime: string;
   /** @format date-time */
-  endTime?: string;
+  endTime: string;
   timeZoneId?: string | null;
   /** @pattern ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$ */
   duration?: string;
