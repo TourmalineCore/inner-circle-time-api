@@ -13,10 +13,8 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public long EmployeeId { get; set; }
 
-    [Required]
     public DateTime StartTime { get; set; }
 
-    [Required]
     public DateTime EndTime { get; set; }
 
     // TODO: make it required when we add this prop to frontend

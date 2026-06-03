@@ -14,5 +14,15 @@ public class CreateAwayWithMakeUpTimeEntryRequest
     public required string Description { get; set; }
 
     [Required]
-    public required List<MakeUpTimeEntry> MakeUpTimeList { get; set; }
+    public required List<MakeUpTimeEntryDto> MakeUpTimeList { get; set; }
+}
+
+
+public class MakeUpTimeEntryDto
+{
+    [Required]
+    public required DateTime StartTime { get; set; }
+
+    [Required]
+    public required DateTime EndTime { get; set; }
 }
