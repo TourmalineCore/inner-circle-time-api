@@ -16,7 +16,7 @@ export interface CreateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   endTime: string;
   description: string;
-  makeUpTimeList: MakeUpTimeEntry[];
+  makeUpTimeList: MakeUpTimeEntryDto[];
 }
 
 export interface CreateAwayWithMakeUpTimeEntryResponse {
@@ -99,9 +99,9 @@ export interface MakeUpTimeEntry {
   /** @format int64 */
   employeeId?: number;
   /** @format date-time */
-  startTime: string;
+  startTime?: string;
   /** @format date-time */
-  endTime: string;
+  endTime?: string;
   timeZoneId?: string | null;
   /** @pattern ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$ */
   duration?: string;
@@ -113,6 +113,13 @@ export interface MakeUpTimeEntry {
   id?: number;
   /** @format int64 */
   tenantId?: number;
+}
+
+export interface MakeUpTimeEntryDto {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
 }
 
 export interface ProjectDto {
