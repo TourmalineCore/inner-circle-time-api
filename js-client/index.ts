@@ -93,28 +93,6 @@ export interface GetPersonalReportResponse {
   unwellHours: number;
 }
 
-export interface MakeUpTimeEntry {
-  /** @format int64 */
-  relatedEntryId?: number;
-  /** @format int64 */
-  employeeId?: number;
-  /** @format date-time */
-  startTime?: string;
-  /** @format date-time */
-  endTime?: string;
-  timeZoneId?: string | null;
-  /** @pattern ^-?(\d+\.)?\d{2}:\d{2}:\d{2}(\.\d{1,7})?$ */
-  duration?: string;
-  type?: EntryType;
-  /** @format date-time */
-  deletedAtUtc?: string | null;
-  deletionReason?: string | null;
-  /** @format int64 */
-  id?: number;
-  /** @format int64 */
-  tenantId?: number;
-}
-
 export interface MakeUpTimeEntryDto {
   /** @format date-time */
   startTime: string;
@@ -193,7 +171,7 @@ export interface UpdateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   endTime: string;
   description: string;
-  makeUpTimeList: MakeUpTimeEntry[];
+  makeUpTimeList: MakeUpTimeEntryDto[];
 }
 
 export interface UpdateTaskEntryRequest {
