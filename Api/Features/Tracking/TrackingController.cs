@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using Application.ExternalDeps.AssignmentsApi;
+using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
+using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Microsoft.AspNetCore.Authorization;
@@ -52,6 +54,16 @@ public class TrackingController : ControllerBase
         return createUnwellEntryHandler.HandleAsync(createUnwellRequest);
     }
 
+    [EndpointSummary("Create an away with make up time entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("away-with-make-up-time-entries")]
+    public Task<CreateAwayWithMakeUpTimeEntryResponse> CreateAwayWithMakeUpTimeEntryAsync(
+        [Required][FromBody] CreateAwayWithMakeUpTimeEntryRequest createAwayWithMakeUpTimeEntryRequest
+    )
+    {
+        throw new NotImplementedException();
+    }
+
     [EndpointSummary("Update a task entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("task-entries/{taskEntryId}")]
@@ -74,6 +86,17 @@ public class TrackingController : ControllerBase
     )
     {
         return updateUnwellEntryHandler.HandleAsync(unwellEntryId, updateUnwellEntryRequest);
+    }
+
+    [EndpointSummary("Update an away with make up time entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}")]
+    public Task<CreateAwayWithMakeUpTimeEntryResponse> UpdateAwayWithMakeUpTimeEntryAsync(
+        [Required][FromRoute] long awayWithMakeUpTimeEntryId,
+        [Required][FromBody] UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest
+    )
+    {
+        throw new NotImplementedException();
     }
 
     [EndpointSummary("Get employee projects by period")]
