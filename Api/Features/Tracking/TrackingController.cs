@@ -88,7 +88,7 @@ public class TrackingController : ControllerBase
         return updateUnwellEntryHandler.HandleAsync(unwellEntryId, updateUnwellEntryRequest);
     }
 
-    [EndpointSummary("Update a away with make up time entry")]
+    [EndpointSummary("Update an away with make up time entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}")]
     public Task<CreateAwayWithMakeUpTimeEntryResponse> UpdateAwayWithMakeUpTimeEntryAsync(
