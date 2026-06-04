@@ -54,7 +54,7 @@ public class TrackingController : ControllerBase
         return createUnwellEntryHandler.HandleAsync(createUnwellRequest);
     }
 
-    [EndpointSummary("Create a away with make up time entry")]
+    [EndpointSummary("Create an away with make up time entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("away-with-make-up-time-entries")]
     public Task<CreateAwayWithMakeUpTimeEntryResponse> CreateAwayWithMakeUpTimeEntryAsync(
