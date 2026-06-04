@@ -2,7 +2,6 @@ Feature: Away with Make Up Time Entries
     # https://github.com/karatelabs/karate/issues/1191
     # https://github.com/karatelabs/karate?tab=readme-ov-file#karate-fork
 
-    
     # Use case:  
     # I was away for two hours
     # I want a 30-minute make-up tomorrow and 1 hour 30 minutes the day after tomorrow
