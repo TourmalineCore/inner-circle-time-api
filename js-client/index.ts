@@ -516,7 +516,7 @@ export class Api<
      *
      * @tags Tracking
      * @name TrackingUpdateAwayWithMakeUpTimeEntry
-     * @summary Update a away with make up time entry
+     * @summary Update an away with make up time entry
      * @request POST:/api/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
      */
     trackingUpdateAwayWithMakeUpTimeEntry: (
