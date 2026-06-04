@@ -453,7 +453,7 @@ export class Api<
      *
      * @tags Tracking
      * @name TrackingCreateAwayWithMakeUpTimeEntry
-     * @summary Create a away with make up time entry
+     * @summary Create an away with make up time entry
      * @request POST:/api/tracking/away-with-make-up-time-entries
      */
     trackingCreateAwayWithMakeUpTimeEntry: (
