@@ -74,7 +74,7 @@ public class Program
         var corsOptions = configuration.GetSection(nameof(CorsOptions)).Get<CorsOptions>();
 
         app.UseCors(
-            corsPolicyBuilder => corsPolicyBuilder.WithOrigins(corsOptions!.AllowedDomain)
+            corsPolicyBuilder => corsPolicyBuilder.WithOrigins(corsOptions!.AllowedOrigins)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
         );

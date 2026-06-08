@@ -1,4 +1,4 @@
 public class CorsOptions
 {
-    public required string AllowedDomain { get; set; }
+    public required string AllowedOrigins { get; set; }
 }
