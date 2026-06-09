@@ -12,6 +12,7 @@ Feature: CORS Settings
     * def apiRootUrl = jsUtils().getEnvVariable('API_ROOT_URL')
     * def authSlytherineTenantDracoLoginWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_LOGIN_WITH_ALL_PERMISSIONS')
     * def authSlytherineTenantDracoPasswordWithAllPermissions = jsUtils().getEnvVariable('AUTH_SLYTHERINE_TENANT_DRACO_MALFOY_PASSWORD_WITH_ALL_PERMISSIONS')
+    * def corsAllowedOrigins = jsUtils().getEnvVariable('CORS_ALLOWED_ORIGINS')
 
     # Authentication
     Given url authApiRootUrl
@@ -30,13 +31,13 @@ Feature: CORS Settings
 
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
-    # Send CORS preflight OPTIONS request
-    Given url apiRootUrl
+    # Send CORS preflight OPTIONS request like UI does
+    Given url apiRootUrl 
     Given path 'reporting/employees'
-    And header Origin = '*'
+    And header Origin = 'http://localhost:4007'
     And header Access-Control-Request-Method = 'GET'
     When method OPTIONS
     Then status 204
-    And match responseHeaders["Access-Control-Allow-Origin"][0] == "*"
+    And match responseHeaders["Access-Control-Allow-Origin"] == ["#(corsAllowedOrigins)"]
     And match responseHeaders["Access-Control-Allow-Methods"] == ["GET,POST,DELETE"]
     And match responseHeaders["Access-Control-Allow-Headers"] == ["Authorization,Content-Type"]
