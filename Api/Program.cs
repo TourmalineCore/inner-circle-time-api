@@ -76,7 +76,7 @@ public class Program
         app.UseCors(
             corsPolicyBuilder => corsPolicyBuilder.WithOrigins(corsOptions!.AllowedOrigins)
                 .WithMethods("GET", "POST", "DELETE")
-                .AllowAnyHeader()
+                .WithHeaders("Authorization", "Content-Type")
         );
 
         app.UseProblemDetails();

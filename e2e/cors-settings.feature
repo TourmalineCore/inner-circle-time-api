@@ -39,3 +39,4 @@ Feature: CORS Settings
     Then status 204
     And match responseHeaders["Access-Control-Allow-Origin"][0] == "*"
     And match responseHeaders["Access-Control-Allow-Methods"] == ["GET,POST,DELETE"]
+    And match responseHeaders["Access-Control-Allow-Headers"] == ["Authorization,Content-Type"]
