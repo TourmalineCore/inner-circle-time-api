@@ -32,10 +32,10 @@ Feature: CORS Settings
 
     # Send CORS preflight OPTIONS request
     Given url apiRootUrl
-    Given path 'tracking/entries'
-    And params { startDate: "2030-11-06", endDate: "2030-11-06" }
+    Given path 'reporting/employees'
     And header Origin = '*'
     And header Access-Control-Request-Method = 'GET'
     When method OPTIONS
     Then status 204
     And match responseHeaders["Access-Control-Allow-Origin"][0] == "*"
+    And match responseHeaders["Access-Control-Allow-Methods"] == ["GET,POST,DELETE"]
