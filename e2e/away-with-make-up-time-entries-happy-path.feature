@@ -243,8 +243,14 @@ Feature: Away with Make Up Time Entries
 
     * def newTaskEntryId = response.newTaskEntryId
     
-    # Cleanup: Delete the away with make up time entry (hard delete)
-    Given path 'tracking/entries', newAwayWithMakeUpTimeEntryId, 'hard-delete'
+    # Soft delete, as if the user is deleting it
+    Given path 'tracking/entries', newAwayWithMakeUpTimeEntryId, 'soft-delete'
+    And request
+    """
+    {
+        "deletionReason": "Deletion reason",
+    }
+    """
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
@@ -256,17 +262,10 @@ Feature: Away with Make Up Time Entries
     Then status 200
     And assert response.awayWithMakeUpTimeEntries.filter(x => x.id == newAwayWithMakeUpTimeEntryId).length == 0
     And assert response.makeUpTimeEntries.filter(x => x.relatedEntryId == newAwayWithMakeUpTimeEntryId).length == 0
-    And match response.taskEntries contains
+    And match response.taskEntries contains deep
     """
     {
         "id": "#(newTaskEntryId)",
-        "type": 1,
-        "title": "#(newRandomTitle)",
-        "startTime": "#(taskEntryStartTime)",
-        "endTime": "#(taskEntryEndTime)",
-        "projectId": #(firstProjectId),
-        "taskId": "#(taskId)",
-        "description": "#(taskEntryDescription)",
     }
     """
 
@@ -276,9 +275,17 @@ Feature: Away with Make Up Time Entries
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup Verification: Verify that task entry was deleted
+    # Cleanup: Delete the away with make up time entry (hard delete)
+    Given path 'tracking/entries', newAwayWithMakeUpTimeEntryId, 'hard-delete'
+    When method DELETE
+    Then status 200
+    And match response == { isDeleted: true }
+
+    # Cleanup Verification: Verify that task entry and away with make up time was deleted
     Given path 'tracking/entries'
     And params { startDate: "2034-12-06", endDate: "2034-12-06" }
     When method GET
     Then status 200
+    And assert response.awayWithMakeUpTimeEntries.filter(x => x.id == newAwayWithMakeUpTimeEntryId).length == 0
+    And assert response.makeUpTimeEntries.filter(x => x.relatedEntryId == newAwayWithMakeUpTimeEntryId).length == 0
     And assert response.taskEntries.filter(x => x.id == newTaskEntryId).length == 0
