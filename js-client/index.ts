@@ -10,13 +10,25 @@
  * ---------------------------------------------------------------
  */
 
+export interface AwayWithMakeUpTimeEntryDto {
+  /** @format int64 */
+  id: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
+  description: string;
+  makeUpTimeList: MakeUpTimeEntryWithoutRelatedEntryIdDto[];
+}
+
 export interface CreateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   startTime: string;
   /** @format date-time */
   endTime: string;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryDto[];
+  makeUpTimeList: MakeUpTimeEntryDto2[];
 }
 
 export interface CreateAwayWithMakeUpTimeEntryResponse {
@@ -83,6 +95,8 @@ export interface GetEmployeesTrackedTaskHoursResponse {
 export interface GetEntriesByPeriodResponse {
   taskEntries: TaskEntryDto[];
   unwellEntries: UnwellEntryDto[];
+  awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
+  makeUpTimeEntries: MakeUpTimeEntryDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -94,6 +108,22 @@ export interface GetPersonalReportResponse {
 }
 
 export interface MakeUpTimeEntryDto {
+  /** @format int64 */
+  relatedEntryId: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+}
+
+export interface MakeUpTimeEntryDto2 {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+}
+
+export interface MakeUpTimeEntryWithoutRelatedEntryIdDto {
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -171,7 +201,7 @@ export interface UpdateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   endTime: string;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryDto[];
+  makeUpTimeList: MakeUpTimeEntryDto2[];
 }
 
 export interface UpdateTaskEntryRequest {
