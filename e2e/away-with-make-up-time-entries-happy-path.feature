@@ -66,8 +66,8 @@ Feature: Away with Make Up Time Entries
     * def newAwayWithMakeUpTimeEntryId = response.newAwayWithMakeUpTimeEntryId
 
     # Update a first make up time entry
-    * def newMakeUpTime1StartTime = '2034-11-08T18:00:00'
-    * def newMakeUpTime1EndTime = '2034-11-08T18:30:00'
+    * def rescheduledMakeUpTime1StartTime = '2034-11-08T18:00:00'
+    * def rescheduledMakeUpTime1EndTime = '2034-11-08T18:30:00'
     
     Given path 'tracking/away-with-make-up-time-entries', newAwayWithMakeUpTimeEntryId
     And request
@@ -78,8 +78,8 @@ Feature: Away with Make Up Time Entries
         "description": "#(description)",
         "makeUpTimeList": [
             {
-                "startTime": "#(newMakeUpTime1StartTime)",
-                "endTime": "#(newMakeUpTime1EndTime)"
+                "startTime": "#(rescheduledMakeUpTime1StartTime)",
+                "endTime": "#(rescheduledMakeUpTime1EndTime)"
             },
             {
                 "startTime": "#(makeUpTime2StartTime)",
@@ -106,8 +106,8 @@ Feature: Away with Make Up Time Entries
         "description": "#(description)",
         "makeUpTimeList": [
             {
-                "startTime": "#(newMakeUpTime1StartTime)",
-                "endTime": "#(newMakeUpTime1EndTime)"
+                "startTime": "#(rescheduledMakeUpTime1StartTime)",
+                "endTime": "#(rescheduledMakeUpTime1EndTime)"
             },
             {
                 "startTime": "#(makeUpTime2StartTime)",
@@ -121,8 +121,8 @@ Feature: Away with Make Up Time Entries
     {
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
         "type": 4,
-        "startTime": "#(newMakeUpTime1StartTime)",
-        "endTime": "#(newMakeUpTime1EndTime)",
+        "startTime": "#(rescheduledMakeUpTime1StartTime)",
+        "endTime": "#(rescheduledMakeUpTime1EndTime)",
     }
     """
     And match response.makeUpTimeEntries contains
