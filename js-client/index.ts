@@ -10,6 +10,18 @@
  * ---------------------------------------------------------------
  */
 
+export interface AwayWithMakeUpTimeEntryDto {
+  /** @format int64 */
+  id: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
+  description: string;
+  makeUpTimeList: MakeUpTimeEntryDto[];
+}
+
 export interface CreateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   startTime: string;
@@ -83,6 +95,8 @@ export interface GetEmployeesTrackedTaskHoursResponse {
 export interface GetEntriesByPeriodResponse {
   taskEntries: TaskEntryDto[];
   unwellEntries: UnwellEntryDto[];
+  awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
+  makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryIdDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -94,6 +108,15 @@ export interface GetPersonalReportResponse {
 }
 
 export interface MakeUpTimeEntryDto {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+}
+
+export interface MakeUpTimeEntryWithRelatedEntryIdDto {
+  /** @format int64 */
+  relatedEntryId: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -374,7 +397,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title inner-circle-time-api
- * @version 1.4.10
+ * @version 1.6.1
  * @baseUrl http://localhost:6507/
  */
 export class Api<

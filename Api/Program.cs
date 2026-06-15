@@ -71,6 +71,15 @@ public class Program
 
         var app = builder.Build();
 
+        var corsOptions = configuration.GetSection(nameof(CorsOptions)).Get<CorsOptions>();
+
+        app.UseCors(
+            corsPolicyBuilder => corsPolicyBuilder
+                .WithOrigins(corsOptions!.AllowedOrigins)
+                .WithMethods("GET", "POST", "DELETE")
+                .WithHeaders("Authorization", "Content-Type")
+        );
+
         app.UseProblemDetails();
 
         app.AddOpenApiSchemaAndUI();

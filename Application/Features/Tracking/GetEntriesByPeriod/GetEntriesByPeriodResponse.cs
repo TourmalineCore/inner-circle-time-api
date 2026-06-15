@@ -7,6 +7,10 @@ public class GetEntriesByPeriodResponse
     public required List<TaskEntryDto> TaskEntries { get; set; }
 
     public required List<UnwellEntryDto> UnwellEntries { get; set; }
+
+    public required List<AwayWithMakeUpTimeEntryDto> AwayWithMakeUpTimeEntries { get; set; }
+
+    public required List<MakeUpTimeEntryWithRelatedEntryIdDto> MakeUpTimeEntries { get; set; }
 }
 
 public class TaskEntryDto
@@ -38,3 +42,28 @@ public class UnwellEntryDto
 
     public required EntryType Type { get; set; }
 }
+
+public class AwayWithMakeUpTimeEntryDto
+{
+    public required long Id { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
+
+    public required EntryType Type { get; set; }
+
+    public required string Description { get; set; }
+
+    public required List<MakeUpTimeEntryDto> MakeUpTimeList { get; set; }
+}
+
+public class MakeUpTimeEntryWithRelatedEntryIdDto
+{
+    public required long RelatedEntryId { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
+}
+
