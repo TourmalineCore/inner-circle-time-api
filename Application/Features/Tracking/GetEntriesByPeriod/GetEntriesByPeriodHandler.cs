@@ -54,7 +54,9 @@ public class GetEntriesByPeriodHandler
         return new GetEntriesByPeriodResponse
         {
             TaskEntries = taskEntries,
-            UnwellEntries = unwellEntries
+            UnwellEntries = unwellEntries,
+            AwayWithMakeUpTimeEntries = [],
+            MakeUpTimeEntries = []
         };
     }
 }
