@@ -1,0 +1,16 @@
+using Core.Entities;
+
+public class AwayWithMakeUpTimeEntry : TrackedEntryBase
+{
+    // EntityFrameworkCore related empty default constructor
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    public AwayWithMakeUpTimeEntry()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    {
+        Type = EntryType.AwayWithMakeUpTime;
+    }
+
+    public string Description { get; set; }
+
+    public List<MakeUpTimeEntry> MakeUpTimeList { get; set; }
+}

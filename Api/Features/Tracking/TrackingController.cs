@@ -58,10 +58,11 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("away-with-make-up-time-entries")]
     public Task<CreateAwayWithMakeUpTimeEntryResponse> CreateAwayWithMakeUpTimeEntryAsync(
-        [Required][FromBody] CreateAwayWithMakeUpTimeEntryRequest createAwayWithMakeUpTimeEntryRequest
+        [Required][FromBody] CreateAwayWithMakeUpTimeEntryRequest createAwayWithMakeUpTimeEntryRequest,
+        [FromServices] CreateAwayWithMakeUpTimeEntryHandler createAwayWithMakeUpTimeEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return createAwayWithMakeUpTimeEntryHandler.HandleAsync(createAwayWithMakeUpTimeEntryRequest);
     }
 
     [EndpointSummary("Update a task entry")]

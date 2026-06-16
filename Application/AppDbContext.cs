@@ -23,6 +23,8 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<TaskEntry> TaskEntries { get; set; }
 
+    public virtual DbSet<AwayWithMakeUpTimeEntry> AwayWithMakeUpTimeEntries { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
