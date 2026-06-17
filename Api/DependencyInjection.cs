@@ -47,6 +47,7 @@ public static class DependencyInjection
         services.AddTransient<CreateUnwellEntryHandler>();
         services.AddTransient<CreateUnwellEntryCommand>();
         services.AddTransient<CreateAwayWithMakeUpTimeEntryHandler>();
+        services.AddTransient<CreateAwayWithMakeUpTimeEntryCommand>();
         services.AddTransient<GetEntriesByPeriodHandler>();
         services.AddTransient<GetEntriesByPeriodQuery>();
         services.AddTransient<UpdateTaskEntryHandler>();

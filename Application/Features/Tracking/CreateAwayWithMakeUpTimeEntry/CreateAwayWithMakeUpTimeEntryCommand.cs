@@ -27,19 +27,17 @@ public class CreateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
             EmployeeId = _claimsProvider.EmployeeId,
             StartTime = createAwayWithMakeUpTimeEntryRequest.StartTime,
             EndTime = createAwayWithMakeUpTimeEntryRequest.EndTime,
-            Description = createAwayWithMakeUpTimeEntryRequest.Description
-        };
-
-        awayWithMakeUpTimeEntry.MakeUpTimeList = createAwayWithMakeUpTimeEntryRequest
-            .MakeUpTimeList
-            .Select(
-                x => new MakeUpTimeEntry
+            Description = createAwayWithMakeUpTimeEntryRequest.Description,
+            MakeUpTimeList = createAwayWithMakeUpTimeEntryRequest
+                .MakeUpTimeList
+                .Select(x => new MakeUpTimeEntry
                 {
-                    RelatedEntryId = awayWithMakeUpTimeEntry.Id,
+                    TenantId = _claimsProvider.TenantId,
+                    EmployeeId = _claimsProvider.EmployeeId,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime
-                }
-            ).ToList();
+                }).ToList()
+        };
 
         await _context
             .AwayWithMakeUpTimeEntries
