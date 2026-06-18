@@ -11,6 +11,4 @@ public class AwayWithMakeUpTimeEntry : TrackedEntryBase
     }
 
     public string Description { get; set; }
-
-    public List<MakeUpTimeEntry> MakeUpTimeList { get; set; }
 }

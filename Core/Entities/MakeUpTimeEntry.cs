@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Core.Entities;
 
 public class MakeUpTimeEntry : TrackedEntryBase
@@ -11,4 +12,7 @@ public class MakeUpTimeEntry : TrackedEntryBase
     }
 
     public long RelatedEntryId { get; set; }
+
+    [ForeignKey(nameof(RelatedEntryId))]
+    public TrackedEntryBase RelatedEntry { get; set; }
 }
