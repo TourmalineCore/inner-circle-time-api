@@ -107,6 +107,12 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 ```mermaid
 	erDiagram
 	%%{init: {'theme':'neutral'}}%%
+	AwayWithMakeUpTimeEntry {
+		text Description 
+	}
+	MakeUpTimeEntry {
+		bigint RelatedEntryId FK
+	}
 	TaskEntry {
 		text Description 
 		bigint ProjectId 
@@ -117,7 +123,7 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		bigint Id PK
 		timestampwithtimezone DeletedAtUtc 
 		text DeletionReason 
-		charactervarying21 Discriminator 
+		charactervarying34 Discriminator 
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
@@ -126,5 +132,6 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		text TimeZoneId 
 		integer Type 
 	}
+MakeUpTimeEntry}o--||TrackedEntryBase : ""
 ```
 <!--- SIREN_END -->
