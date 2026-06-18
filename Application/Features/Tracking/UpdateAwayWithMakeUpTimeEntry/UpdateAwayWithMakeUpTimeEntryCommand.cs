@@ -1,5 +1,4 @@
-﻿using Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 
@@ -25,7 +24,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
     protected override async Task<long> MakeChangesToEntryAsync(UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest)
     {
         await _context
-            .QueryableWithinTenant<awayWithMakeUpTimeEntry>()
+            .QueryableWithinTenant<AwayWithMakeUpTimeEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == updateAwayWithMakeUpTimeEntryRequest.Id)
             .ExecuteUpdateAsync(setters => setters
@@ -34,23 +33,12 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
                 .SetProperty(x => x.Description, updateAwayWithMakeUpTimeEntryRequest.Description)
             );
 
-        // awayWithMakeUpTimeEntry.MakeUpTimeList = createAwayWithMakeUpTimeEntryRequest
-        //     .MakeUpTimeList
-        //     .Select(
-        //         x => new MakeUpTimeEntry
-        //         {
-        //             RelatedEntryId = awayWithMakeUpTimeEntry.Id,
-        //             StartTime = x.StartTime,
-        //             EndTime = x.EndTime
-        //         }
-        //     ).ToList();
-            
-        await _context.Set<MakeUpTimeEntry>() 
-            .Where(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id)
-            .ExecuteUpdateAsync(setters => setters
-                .SetProperty(x=> x.StartTime, updateAwayWithMakeUpTimeEntryRequest.StartTime)
-                .SetProperty(x=> x.EndTime, updateAwayWithMakeUpTimeEntryRequest.EndTime)
-            );
+        // await _context.Set<MakeUpTimeEntry>()
+        //     .Where(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id)
+        //     .ExecuteUpdateAsync(setters => setters
+        //         .SetProperty(x => x.StartTime, updateAwayWithMakeUpTimeEntryRequest.StartTime)
+        //         .SetProperty(x => x.EndTime, updateAwayWithMakeUpTimeEntryRequest.EndTime)
+        //     );
 
         return updateAwayWithMakeUpTimeEntryRequest.Id;
     }

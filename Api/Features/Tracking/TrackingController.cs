@@ -92,12 +92,14 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Update an away with make up time entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}")]
-    public Task<CreateAwayWithMakeUpTimeEntryResponse> UpdateAwayWithMakeUpTimeEntryAsync(
+    public Task UpdateAwayWithMakeUpTimeEntryAsync(
         [Required][FromRoute] long awayWithMakeUpTimeEntryId,
-        [Required][FromBody] UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest
+        [Required][FromBody] UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest,
+        [FromServices] UpdateAwayWithMakeUpTimeEntryHandler updateAwayWithMakeUpTimeEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return updateAwayWithMakeUpTimeEntryHandler.HandleAsync(awayWithMakeUpTimeEntryId, updateAwayWithMakeUpTimeEntryRequest);
+
     }
 
     [EndpointSummary("Get employee projects by period")]
