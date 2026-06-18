@@ -23,22 +23,44 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
 
     protected override async Task<long> MakeChangesToEntryAsync(UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest)
     {
-        await _context
+        var awayWithMakeUpTimeEntry = await _context
             .QueryableWithinTenant<AwayWithMakeUpTimeEntry>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == updateAwayWithMakeUpTimeEntryRequest.Id)
-            .ExecuteUpdateAsync(setters => setters
-                .SetProperty(x => x.StartTime, updateAwayWithMakeUpTimeEntryRequest.StartTime)
-                .SetProperty(x => x.EndTime, updateAwayWithMakeUpTimeEntryRequest.EndTime)
-                .SetProperty(x => x.Description, updateAwayWithMakeUpTimeEntryRequest.Description)
-            );
+            .FirstOrDefaultAsync();
 
-        // await _context.Set<MakeUpTimeEntry>()
-        //     .Where(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id)
-        //     .ExecuteUpdateAsync(setters => setters
-        //         .SetProperty(x => x.StartTime, updateAwayWithMakeUpTimeEntryRequest.StartTime)
-        //         .SetProperty(x => x.EndTime, updateAwayWithMakeUpTimeEntryRequest.EndTime)
-        //     );
+        if (awayWithMakeUpTimeEntry == null)
+        {
+            throw new ArgumentException($"Away With Make Up Time Entry with id {updateAwayWithMakeUpTimeEntryRequest.Id} does not exist");
+        }
+
+        awayWithMakeUpTimeEntry.Description = updateAwayWithMakeUpTimeEntryRequest.Description;
+        awayWithMakeUpTimeEntry.StartTime = updateAwayWithMakeUpTimeEntryRequest.StartTime;
+        awayWithMakeUpTimeEntry.EndTime = updateAwayWithMakeUpTimeEntryRequest.EndTime;
+
+        var makeUpTimeListToDelete = await _context
+            .QueryableWithinTenant<MakeUpTimeEntry>()
+            .Where(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id)
+            .ToListAsync();
+
+        _context.RemoveRange(makeUpTimeListToDelete);
+
+        var newMakeUpTimeList = updateAwayWithMakeUpTimeEntryRequest
+           .MakeUpTimeList
+           .Select(x => new MakeUpTimeEntry
+           {
+               TenantId = _claimsProvider.TenantId,
+               EmployeeId = _claimsProvider.EmployeeId,
+               RelatedEntryId = updateAwayWithMakeUpTimeEntryRequest.Id,
+               StartTime = x.StartTime,
+               EndTime = x.EndTime
+           }).ToList();
+
+        await _context
+            .MakeUpTimeEntries
+            .AddRangeAsync(newMakeUpTimeList);
+
+        await _context.SaveChangesAsync();
 
         return updateAwayWithMakeUpTimeEntryRequest.Id;
     }

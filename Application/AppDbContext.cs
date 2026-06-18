@@ -25,6 +25,8 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<AwayWithMakeUpTimeEntry> AwayWithMakeUpTimeEntries { get; set; }
 
+    public virtual DbSet<MakeUpTimeEntry> MakeUpTimeEntries { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
