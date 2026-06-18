@@ -547,12 +547,11 @@ export class Api<
       data: UpdateAwayWithMakeUpTimeEntryRequest,
       params: RequestParams = {},
     ) =>
-      this.request<CreateAwayWithMakeUpTimeEntryResponse, any>({
+      this.request<void, any>({
         path: `/api/tracking/away-with-make-up-time-entries/${awayWithMakeUpTimeEntryId}`,
         method: "POST",
         body: data,
         type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 
