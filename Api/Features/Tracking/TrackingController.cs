@@ -99,7 +99,6 @@ public class TrackingController : ControllerBase
     )
     {
         return updateAwayWithMakeUpTimeEntryHandler.HandleAsync(awayWithMakeUpTimeEntryId, updateAwayWithMakeUpTimeEntryRequest);
-
     }
 
     [EndpointSummary("Get employee projects by period")]
