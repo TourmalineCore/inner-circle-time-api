@@ -38,27 +38,46 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
         awayWithMakeUpTimeEntry.StartTime = updateAwayWithMakeUpTimeEntryRequest.StartTime;
         awayWithMakeUpTimeEntry.EndTime = updateAwayWithMakeUpTimeEntryRequest.EndTime;
 
-        var makeUpTimeListToDelete = await _context
+        var makeUpTimeListFromDb = await _context
             .QueryableWithinTenant<MakeUpTimeEntry>()
             .Where(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id)
             .ToListAsync();
 
-        _context.RemoveRange(makeUpTimeListToDelete);
+        foreach (var makeUpTimeFromDb in makeUpTimeListFromDb)
+        {
+            var doesEntryWithSameTimeExistInRequest = updateAwayWithMakeUpTimeEntryRequest
+                .MakeUpTimeList
+                .Any(x => x.StartTime == makeUpTimeFromDb.StartTime && x.EndTime == makeUpTimeFromDb.EndTime);
 
-        var newMakeUpTimeList = updateAwayWithMakeUpTimeEntryRequest
-           .MakeUpTimeList
-           .Select(x => new MakeUpTimeEntry
-           {
-               TenantId = _claimsProvider.TenantId,
-               EmployeeId = _claimsProvider.EmployeeId,
-               RelatedEntryId = updateAwayWithMakeUpTimeEntryRequest.Id,
-               StartTime = x.StartTime,
-               EndTime = x.EndTime
-           }).ToList();
+            if (!doesEntryWithSameTimeExistInRequest)
+            {
+                _context
+                    .MakeUpTimeEntries
+                    .Remove(makeUpTimeFromDb);
+            }
+        }
 
-        await _context
-            .MakeUpTimeEntries
-            .AddRangeAsync(newMakeUpTimeList);
+        foreach (var makeUpTimeFromRequest in updateAwayWithMakeUpTimeEntryRequest.MakeUpTimeList)
+        {
+            var doesEntryWithSameTimeExistInDb = makeUpTimeListFromDb
+                .Any(x => x.StartTime == makeUpTimeFromRequest.StartTime && x.EndTime == makeUpTimeFromRequest.EndTime);
+
+            if (!doesEntryWithSameTimeExistInDb)
+            {
+                var makeUpTimeEntry = new MakeUpTimeEntry
+                {
+                    TenantId = _claimsProvider.TenantId,
+                    EmployeeId = _claimsProvider.EmployeeId,
+                    RelatedEntryId = updateAwayWithMakeUpTimeEntryRequest.Id,
+                    StartTime = makeUpTimeFromRequest.StartTime,
+                    EndTime = makeUpTimeFromRequest.EndTime
+                };
+
+                await _context
+                    .MakeUpTimeEntries
+                    .AddAsync(makeUpTimeEntry);
+            }
+        }
 
         await _context.SaveChangesAsync();
 
