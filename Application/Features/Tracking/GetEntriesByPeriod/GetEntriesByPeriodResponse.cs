@@ -65,5 +65,7 @@ public class MakeUpTimeEntryWithRelatedEntryIdDto
     public required DateTime StartTime { get; set; }
 
     public required DateTime EndTime { get; set; }
+
+    public required EntryType Type { get; set; }
 }
 
