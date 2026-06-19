@@ -121,6 +121,7 @@ export interface MakeUpTimeEntryWithRelatedEntryIdDto {
   startTime: string;
   /** @format date-time */
   endTime: string;
+  type: EntryType;
 }
 
 export interface ProjectDto {
