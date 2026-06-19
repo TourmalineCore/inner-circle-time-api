@@ -106,13 +106,13 @@ Feature: Away with Make Up Time Entries
         "description": "#(description)",
         "makeUpTimeList": [
             {
+                "startTime": "#(makeUpTime2StartTime)",
+                "endTime": "#(makeUpTime2EndTime)"
+            },
+            {
                 "startTime": "#(rescheduledMakeUpTime1StartTime)",
                 "endTime": "#(rescheduledMakeUpTime1EndTime)"
             },
-            {
-                "startTime": "#(makeUpTime2StartTime)",
-                "endTime": "#(makeUpTime2EndTime)"
-            }
         ]
     }
     """
@@ -198,8 +198,8 @@ Feature: Away with Make Up Time Entries
         "description": "#(awayDescription)",
         "makeUpTimeList": [
             {
-                "startTime": "#(makeUpTime1StartTime)",
-                "endTime": "#(makeUpTime1EndTime)"
+                "startTime": "#(makeUpTimeStartTime)",
+                "endTime": "#(makeUpTimeEndTime)"
             },
         ]
     }
