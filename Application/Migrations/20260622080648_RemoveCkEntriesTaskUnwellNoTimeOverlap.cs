@@ -11,13 +11,13 @@ namespace Application.Migrations
         {
             // Drop constraint
             migrationBuilder.Sql(@"
-            ALTER TABLE tracked_entries 
-            DROP CONSTRAINT IF EXISTS ck_entries_task_unwell_no_time_overlap;
-        ");
+                ALTER TABLE tracked_entries 
+                DROP CONSTRAINT IF EXISTS ck_entries_task_unwell_no_time_overlap;
+            ");
             // Drop btree_gist extension
             migrationBuilder.Sql(@"
-            DROP EXTENSION IF EXISTS btree_gist;
-        ");
+                DROP EXTENSION IF EXISTS btree_gist;
+            ");
         }
 
 
