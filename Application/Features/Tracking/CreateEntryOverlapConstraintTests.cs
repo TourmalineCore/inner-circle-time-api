@@ -12,7 +12,7 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
 {
     [Theory]
     [MemberData(nameof(OverlapTestData))]
-    public async Task CreateEntryAsync_ShouldRespectOverlapRules(
+    public async Task CreateEntryAsync_ShouldRespectOverlapConstraint(
         TrackedEntryBase entry,
         Func<TenantAppDbContext, IClaimsProvider, Task> command,
         bool canOverlap
@@ -179,6 +179,3 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
         return false;
     }
 }
-
-
-
