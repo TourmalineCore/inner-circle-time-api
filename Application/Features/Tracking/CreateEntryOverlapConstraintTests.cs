@@ -109,7 +109,7 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
                     }
                 ]
             },
-            _ => throw new Exception($"The test configuration is not configured to work with {entryType}."),
+            _ => throw new Exception($"The test is not configured to work with {entryType}."),
         };
     }
 
@@ -165,7 +165,7 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
                         }
                     ]
                 }),
-            _ => throw new Exception($"The test configuration is not configured to work with {entryType}."),
+            _ => throw new Exception($"The test is not configured to work with {entryType}."),
         };
     }
 
