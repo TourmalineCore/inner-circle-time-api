@@ -44,27 +44,6 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         }
     }
 
-    public static IEnumerable<object[]> CreateOverlapTestData()
-    {
-        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
-            .Where(x => x != EntryType.Unspecified)
-            .ToArray();
-
-        var startTime = new DateTime(2026, 11, 24, 9, 0, 0);
-        var endTime = new DateTime(2026, 11, 24, 11, 0, 0);
-
-        foreach (EntryType existingEntryType in entryTypesWithoutUnspecified)
-            foreach (EntryType createdEntryType in entryTypesWithoutUnspecified)
-            {
-                yield return new object[]
-                {
-                    CreateExistingEntry(existingEntryType, startTime, endTime),
-                    CreateEntryCommand(createdEntryType, startTime, endTime),
-                    IsOverlapAllowed(existingEntryType, createdEntryType)
-                };
-            }
-    }
-
     [Theory]
     [MemberData(nameof(UpdateOverlapTestData))]
     public async Task UpdateEntryAsync_ShouldRespectOverlapConstraint(
@@ -97,6 +76,27 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
 
             Assert.Null(exception);
         }
+    }
+
+    public static IEnumerable<object[]> CreateOverlapTestData()
+    {
+        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
+            .Where(x => x != EntryType.Unspecified)
+            .ToArray();
+
+        var startTime = new DateTime(2026, 11, 24, 9, 0, 0);
+        var endTime = new DateTime(2026, 11, 24, 11, 0, 0);
+
+        foreach (EntryType existingEntryType in entryTypesWithoutUnspecified)
+            foreach (EntryType createdEntryType in entryTypesWithoutUnspecified)
+            {
+                yield return new object[]
+                {
+                    CreateExistingEntry(existingEntryType, startTime, endTime),
+                    CreateEntryCommand(createdEntryType, startTime, endTime),
+                    IsOverlapAllowed(existingEntryType, createdEntryType)
+                };
+            }
     }
 
     public static IEnumerable<object[]> UpdateOverlapTestData()
