@@ -88,6 +88,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         var endTime = new DateTime(2026, 11, 24, 11, 0, 0);
 
         foreach (EntryType existingEntryType in entryTypesWithoutUnspecified)
+        {
             foreach (EntryType createdEntryType in entryTypesWithoutUnspecified)
             {
                 yield return new object[]
@@ -97,6 +98,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
                     IsOverlapAllowed(existingEntryType, createdEntryType)
                 };
             }
+        }
     }
 
     public static IEnumerable<object[]> UpdateOverlapTestData()
@@ -112,6 +114,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         var endTimeForEntryToUpdate = new DateTime(2026, 10, 23, 11, 0, 0);
 
         foreach (EntryType existingEntryType in entryTypesWithoutUnspecified)
+        {
             foreach (EntryType createdEntryType in entryTypesWithoutUnspecified)
             {
                 yield return new object[]
@@ -122,6 +125,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
                     IsOverlapAllowed(existingEntryType, createdEntryType)
                 };
             }
+        }
     }
 
     public static TrackedEntryBase CreateExistingEntry(
