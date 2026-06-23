@@ -90,7 +90,8 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
                 Description = "Description",
                 MakeUpTimeList = []
             },
-            // MakeUpTimeEntry can't be persisted without a linked related entry.
+            // MakeUpTimeEntry can't be saved without a related linked record.
+            // Therefore, to create a make up time entry через away entry.
             EntryType.MakeUpTime => new AwayWithMakeUpTimeEntry
             {
                 EmployeeId = EMPLOYEE_ID,
@@ -146,8 +147,9 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
                     Description = "Description",
                     MakeUpTimeList = []
                 }),
-            // MakeUpTimeEntry can't be persisted without a linked related entry.
+            // MakeUpTimeEntry can't be saved without a related linked record.
             // It does't have its own command to create, it is always created as part of another entry.
+            // Therefore, to create a make up time entry, we use the away command.
             EntryType.MakeUpTime =>
              (context, claimsProvider) => new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
                 .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
