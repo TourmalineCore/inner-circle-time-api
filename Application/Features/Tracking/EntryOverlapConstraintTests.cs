@@ -65,7 +65,6 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
             }
     }
 
-
     [Theory]
     [MemberData(nameof(UpdateOverlapTestData))]
     public async Task UpdateEntryAsync_ShouldRespectOverlapConstraint(
