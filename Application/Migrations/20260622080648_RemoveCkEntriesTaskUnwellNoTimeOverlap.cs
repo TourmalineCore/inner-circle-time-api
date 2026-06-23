@@ -21,7 +21,7 @@ namespace Application.Migrations
         }
 
 
-        // Reverts the migration and removes the constraint and exstention if it exists.
+        // Reverts the migration.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"

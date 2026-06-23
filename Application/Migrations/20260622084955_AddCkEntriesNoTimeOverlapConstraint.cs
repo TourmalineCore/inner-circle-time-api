@@ -42,11 +42,11 @@ namespace Application.Migrations
             ");
         }
 
-        /// <inheritdoc />
+        // Reverts the migration and removes the constraint and extention if it exists.
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
-                ALTER TABLE tracked_entries 
+                ALTER TABLE tracked_entries
                 DROP CONSTRAINT IF EXISTS ck_entries_1_2_3_no_time_overlap;
             ");
 
