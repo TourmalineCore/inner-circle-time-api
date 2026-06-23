@@ -91,7 +91,7 @@ public class CreateEntryOverlapConstraintTests : IntegrationTestBase
                 MakeUpTimeList = []
             },
             // MakeUpTimeEntry can't be saved without a related linked record.
-            // Therefore, to create a make up time entry через away entry.
+            // Therefore, to create a make up time entry via away entry.
             EntryType.MakeUpTime => new AwayWithMakeUpTimeEntry
             {
                 EmployeeId = EMPLOYEE_ID,
