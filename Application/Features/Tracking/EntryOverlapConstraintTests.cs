@@ -12,9 +12,9 @@ namespace Application.Features.Tracking;
 
 public class EntryOverlapTestFactory
 {
-    public Func<DateTime, DateTime, TrackedEntryBase> CreateEntry { get; set; }
-    public Func<Func<TenantAppDbContext, IClaimsProvider, Task>> CreateEntryCommand { get; set; }
-    public Func<Func<TenantAppDbContext, IClaimsProvider, long, Task>> UpdateEntryCommand { get; set; }
+    public Func<DateTime, DateTime, TrackedEntryBase> CreateEntry { get; set; } = null!;
+    public Func<Func<TenantAppDbContext, IClaimsProvider, Task>> CreateEntryCommand { get; set; } = null!;
+    public Func<Func<TenantAppDbContext, IClaimsProvider, long, Task>> UpdateEntryCommand { get; set; } = null!;
 }
 
 [IntegrationTest]
