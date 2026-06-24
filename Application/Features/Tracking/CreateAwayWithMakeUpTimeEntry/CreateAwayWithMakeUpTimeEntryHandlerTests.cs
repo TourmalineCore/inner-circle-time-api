@@ -38,6 +38,6 @@ public class CreateAwayWithMakeUpTimeEntryHandlerTests
                 async () => await createAwayWithMakeUpTimeEntryHandler.HandleAsync(createAwayWithMakeUpTimeEntryRequest)
             );
 
-        Assert.Equal("The time doesn't match, please update your make-up or away time.", exception.Message);
+        Assert.Equal("Total make-up time must equal your away time. Please check and adjust your entries.", exception.Message);
     }
 }

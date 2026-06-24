@@ -25,7 +25,7 @@ public class CreateAwayWithMakeUpTimeEntryHandler
 
         if (!isTimeConvering)
         {
-            throw new ArgumentException("The time doesn't match, please update your make-up or away time.");
+            throw new ArgumentException("Total make-up time must equal your away time. Please check and adjust your entries.");
         }
 
         var newAwayWithMakeUpTimeEntryId = await _createAwayWithMakeUpTimeEntryCommand.ExecuteAsync(createAwayWithMakeUpTimeEntryRequest);
