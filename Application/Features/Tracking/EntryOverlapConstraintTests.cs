@@ -10,26 +10,46 @@ using Xunit;
 
 namespace Application.Features.Tracking;
 
+public class EntryOverlapTestFactory
+{
+    public Func<DateTime, DateTime, TrackedEntryBase> CreateEntry { get; set; }
+    public Func<Func<TenantAppDbContext, IClaimsProvider, Task>> CreateEntryCommand { get; set; }
+    public Func<Func<TenantAppDbContext, IClaimsProvider, long, Task>> UpdateEntryCommand { get; set; }
+}
+
 [IntegrationTest]
 public class EntryOverlapConstraintTests : IntegrationTestBase
 {
+    private static readonly DateTime _createTestStartTime = new DateTime(2026, 11, 24, 9, 0, 0);
+    private static readonly DateTime _createTestEndTime = new DateTime(2026, 11, 24, 11, 0, 0);
+
+    private static readonly DateTime _updateTestStartTime = new DateTime(2026, 10, 24, 9, 0, 0);
+    private static readonly DateTime _updateTestEndTime = new DateTime(2026, 10, 24, 11, 0, 0);
+
+    // Pairs that may overlap, this list needs to be expanded as new pairs appear that may overlap.
+    private static readonly HashSet<(EntryType, EntryType)> _allowedOverlaps = new HashSet<(EntryType, EntryType)>
+    {
+        (EntryType.Task, EntryType.MakeUpTime),
+    };
+
+    private static readonly IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
     [Theory]
-    [MemberData(nameof(CreateOverlapTestData))]
+    [MemberData(nameof(OverlapTestDataForCreate))]
     public async Task CreateEntryAsync_ShouldRespectOverlapConstraint(
-        TrackedEntryBase entry,
-        Func<TenantAppDbContext, IClaimsProvider, Task> command,
+        TrackedEntryBase entryToSaveInDb,
+        Func<TenantAppDbContext, IClaimsProvider, Task> createCommand,
         bool canOverlap
     )
     {
         var context = CreateTenantDbContext();
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        await SaveEntityAsync(context, entry);
+        await SaveEntityAsync(context, entryToSaveInDb);
 
         if (!canOverlap)
         {
             var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-                async () => await command(context, mockClaimsProvider)
+                async () => await createCommand(context, _mockClaimsProvider)
             );
 
             Assert.Equal("Another task is scheduled for this time", exception.Message);
@@ -37,7 +57,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         else
         {
             var exception = await Record.ExceptionAsync(
-                async () => await command(context, mockClaimsProvider)
+                async () => await createCommand(context, _mockClaimsProvider)
             );
 
             Assert.Null(exception);
@@ -45,25 +65,24 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
     }
 
     [Theory]
-    [MemberData(nameof(UpdateOverlapTestData))]
+    [MemberData(nameof(OverlapTestDataForUpdate))]
     public async Task UpdateEntryAsync_ShouldRespectOverlapConstraint(
-        TrackedEntryBase entry,
+        TrackedEntryBase entryToSaveInDb,
         TrackedEntryBase entryToUpdate,
-        Func<TenantAppDbContext, IClaimsProvider, long, Task> command,
+        Func<TenantAppDbContext, IClaimsProvider, long, Task> updateCommand,
         bool canOverlap
     )
     {
         var context = CreateTenantDbContext();
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        await SaveEntityAsync(context, entry);
+        await SaveEntityAsync(context, entryToSaveInDb);
 
         var entryIdToUpdate = (await SaveEntityAsync(context, entryToUpdate)).Id;
 
         if (!canOverlap)
         {
             var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-                async () => await command(context, mockClaimsProvider, entryIdToUpdate)
+                async () => await updateCommand(context, _mockClaimsProvider, entryIdToUpdate)
             );
 
             Assert.Equal("Another task is scheduled for this time", exception.Message);
@@ -71,245 +90,222 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         else
         {
             var exception = await Record.ExceptionAsync(
-                async () => await command(context, mockClaimsProvider, entryIdToUpdate)
+                async () => await updateCommand(context, _mockClaimsProvider, entryIdToUpdate)
             );
 
             Assert.Null(exception);
         }
     }
 
-    public static IEnumerable<object[]> CreateOverlapTestData()
+    public static IEnumerable<object[]> OverlapTestDataForCreate()
     {
         var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
             .Where(x => x != EntryType.Unspecified)
-            .ToArray();
+            .ToList();
 
-        var startTime = new DateTime(2026, 11, 24, 9, 0, 0);
-        var endTime = new DateTime(2026, 11, 24, 11, 0, 0);
-
-        foreach (EntryType existingEntryType in entryTypesWithoutUnspecified)
+        foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
         {
-            foreach (EntryType createdEntryType in entryTypesWithoutUnspecified)
+            var saveFactory = CreateEntryFactory(entryTypeToSaveInDb);
+
+            foreach (EntryType entryTypeToCheckOverlap in entryTypesWithoutUnspecified)
             {
+                var entryToCheckOverlapFactory = CreateEntryFactory(entryTypeToCheckOverlap);
+
                 yield return new object[]
                 {
-                    CreateExistingEntry(existingEntryType, startTime, endTime),
-                    CreateEntryCommand(createdEntryType, startTime, endTime),
-                    IsOverlapAllowed(existingEntryType, createdEntryType)
+                    saveFactory.CreateEntry(_createTestStartTime, _createTestEndTime),
+                    entryToCheckOverlapFactory.CreateEntryCommand(),
+                    IsOverlapAllowed(entryTypeToSaveInDb, entryTypeToCheckOverlap)
                 };
             }
         }
     }
 
-    public static IEnumerable<object[]> UpdateOverlapTestData()
+    public static IEnumerable<object[]> OverlapTestDataForUpdate()
     {
         var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
             .Where(x => x != EntryType.Unspecified)
             .ToArray();
 
-        var startTime = new DateTime(2026, 10, 24, 9, 0, 0);
-        var endTime = new DateTime(2026, 10, 24, 11, 0, 0);
-
-        var startTimeForEntryToUpdate = new DateTime(2026, 10, 23, 9, 0, 0);
-        var endTimeForEntryToUpdate = new DateTime(2026, 10, 23, 11, 0, 0);
-
-        foreach (EntryType existingEntryType in entryTypesWithoutUnspecified)
+        foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
         {
-            foreach (EntryType createdEntryType in entryTypesWithoutUnspecified)
+            var saveFactory = CreateEntryFactory(entryTypeToSaveInDb);
+
+            foreach (EntryType entryTypeToCheckOverlap in entryTypesWithoutUnspecified)
             {
+                var entryToCheckOverlapFactory = CreateEntryFactory(entryTypeToCheckOverlap);
+
                 yield return new object[]
                 {
-                    CreateExistingEntry(existingEntryType, startTime, endTime),
-                    CreateExistingEntry(createdEntryType, startTimeForEntryToUpdate, endTimeForEntryToUpdate),
-                    UpdateEntryCommand(createdEntryType, startTime, endTime),
-                    IsOverlapAllowed(existingEntryType, createdEntryType)
+                    saveFactory.CreateEntry(_updateTestStartTime, _updateTestEndTime),
+                    entryToCheckOverlapFactory.CreateEntry(new DateTime(2026, 10, 23, 9, 0, 0), new DateTime(2026, 10, 23, 11, 0, 0)),
+                    entryToCheckOverlapFactory.UpdateEntryCommand(),
+                    IsOverlapAllowed(entryTypeToSaveInDb, entryTypeToCheckOverlap)
                 };
             }
         }
     }
 
-    public static TrackedEntryBase CreateExistingEntry(
-        EntryType entryType,
-        DateTime startTime,
-        DateTime endTime
-    )
+    private static EntryOverlapTestFactory CreateEntryFactory(EntryType entryType)
     {
         return entryType switch
         {
-            EntryType.Task => new TaskEntry
+            EntryType.Task => new EntryOverlapTestFactory
             {
-                EmployeeId = EMPLOYEE_ID,
-                Title = "Existing Task",
-                StartTime = startTime,
-                EndTime = endTime,
-                TaskId = "#2231",
-                ProjectId = 1,
-                Description = "Task description",
-            },
-            EntryType.Unwell => new UnwellEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                StartTime = startTime,
-                EndTime = endTime,
-            },
-            EntryType.AwayWithMakeUpTime => new AwayWithMakeUpTimeEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                StartTime = startTime,
-                EndTime = endTime,
-                Description = "Description",
-                MakeUpTimeList = []
-            },
-            // MakeUpTimeEntry can't be saved without a related linked record.
-            // Therefore, to create a make up time entry via away entry.
-            EntryType.MakeUpTime => new AwayWithMakeUpTimeEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                StartTime = startTime.AddYears(-10),
-                EndTime = endTime.AddYears(-10),
-                Description = "Description",
-                MakeUpTimeList =
-                [
-                    new MakeUpTimeEntry
-                    {
-                        TenantId = TENANT_ID,
-                        EmployeeId = EMPLOYEE_ID,
-                        StartTime = startTime,
-                        EndTime = endTime
-                    }
-                ]
-            },
-            _ => throw new Exception($"The test is not configured to work with {entryType}."),
-        };
-    }
-
-    public static Func<TenantAppDbContext, IClaimsProvider, Task> CreateEntryCommand(
-        EntryType entryType,
-        DateTime startTime,
-        DateTime endTime
-    )
-    {
-        return entryType switch
-        {
-            EntryType.Task =>
-             (context, claimsProvider) => new CreateTaskEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new CreateTaskEntryRequest
+                CreateEntry = (startTime, endTime) => new TaskEntry
                 {
-                    Title = "New Task",
+                    EmployeeId = EMPLOYEE_ID,
+                    Title = "Existing Task",
                     StartTime = startTime,
                     EndTime = endTime,
-                    TaskId = "#222",
+                    TaskId = "#2231",
                     ProjectId = 1,
-                    Description = "Description"
-                }),
-            EntryType.Unwell =>
-             (context, claimsProvider) => new CreateUnwellEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new CreateUnwellEntryRequest
+                    Description = "Task description",
+                },
+                CreateEntryCommand = () =>
+                    (context, claimsProvider) => new CreateTaskEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new CreateTaskEntryRequest
+                        {
+                            Title = "New Task",
+                            StartTime = _createTestStartTime,
+                            EndTime = _createTestEndTime,
+                            TaskId = "#222",
+                            ProjectId = 1,
+                            Description = "Description"
+                        }),
+                UpdateEntryCommand = () =>
+                    (context, claimsProvider, entryId) => new UpdateTaskEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new UpdateTaskEntryRequest
+                        {
+                            Id = entryId,
+                            Title = "New Task",
+                            StartTime = _updateTestStartTime,
+                            EndTime = _updateTestEndTime,
+                            TaskId = "#222",
+                            ProjectId = 1,
+                            Description = "Description"
+                        })
+            },
+            EntryType.Unwell => new EntryOverlapTestFactory
+            {
+                CreateEntry = (startTime, endTime) => new UnwellEntry
                 {
+                    EmployeeId = EMPLOYEE_ID,
                     StartTime = startTime,
                     EndTime = endTime,
-                }),
-            EntryType.AwayWithMakeUpTime =>
-             (context, claimsProvider) => new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
+                },
+                CreateEntryCommand = () =>
+                    (context, claimsProvider) => new CreateUnwellEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new CreateUnwellEntryRequest
+                        {
+                            StartTime = _createTestStartTime,
+                            EndTime = _createTestEndTime,
+                        }),
+                UpdateEntryCommand = () =>
+                    (context, claimsProvider, entryId) => new UpdateUnwellEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new UpdateUnwellEntryRequest
+                        {
+                            Id = entryId,
+                            StartTime = _updateTestStartTime,
+                            EndTime = _updateTestEndTime,
+                        })
+            },
+            EntryType.AwayWithMakeUpTime => new EntryOverlapTestFactory
+            {
+                CreateEntry = (startTime, endTime) => new AwayWithMakeUpTimeEntry
                 {
+                    EmployeeId = EMPLOYEE_ID,
                     StartTime = startTime,
                     EndTime = endTime,
                     Description = "Description",
                     MakeUpTimeList = []
-                }),
-            // MakeUpTimeEntry can't be saved without a related linked record.
-            // It does't have its own command to create, it is always created as part of another entry.
-            // Therefore, to create a make up time entry, we use the away command.
-            EntryType.MakeUpTime =>
-             (context, claimsProvider) => new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
-                {
-                    StartTime = new DateTime(1999, 11, 24, 15, 0, 0),
-                    EndTime = new DateTime(1999, 11, 24, 16, 0, 0),
-                    Description = "Description",
-                    MakeUpTimeList = [
-                    new MakeUpTimeEntryDto
+                },
+                CreateEntryCommand = () =>
+                    (context, claimsProvider) => new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
                         {
+                            StartTime = _createTestStartTime,
+                            EndTime = _createTestEndTime,
+                            Description = "Description",
+                            MakeUpTimeList = []
+                        }),
+                UpdateEntryCommand = () =>
+                    (context, claimsProvider, entryId) => new UpdateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
+                        {
+                            Id = entryId,
+                            StartTime = _updateTestStartTime,
+                            EndTime = _updateTestEndTime,
+                            Description = "Description",
+                            MakeUpTimeList = []
+                        })
+            },
+            // MakeUpTimeEntry requires a linked record to be saved.
+            // Create it together with the "Away With Make Up Time Entry".
+            EntryType.MakeUpTime => new EntryOverlapTestFactory
+            {
+                CreateEntry = (startTime, endTime) => new AwayWithMakeUpTimeEntry
+                {
+                    EmployeeId = EMPLOYEE_ID,
+                    // Subtract one week to prevent any overlap.
+                    StartTime = startTime.AddDays(-7),
+                    EndTime = endTime.AddDays(-7),
+                    Description = "Description",
+                    MakeUpTimeList =
+                    [
+                        new MakeUpTimeEntry
+                        {
+                            TenantId = TENANT_ID,
+                            EmployeeId = EMPLOYEE_ID,
                             StartTime = startTime,
-                            EndTime = endTime,
+                            EndTime = endTime
                         }
                     ]
-                }),
-            _ => throw new Exception($"The test is not configured to work with {entryType}."),
+                },
+                CreateEntryCommand = () =>
+                    (context, claimsProvider) => new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
+                        {
+                            // Subtract one week to prevent any overlap.
+                            StartTime = _createTestStartTime.AddDays(-7),
+                            EndTime = _createTestEndTime.AddDays(-7),
+                            Description = "Description",
+                            MakeUpTimeList = [
+                                new MakeUpTimeEntryDto
+                                {
+                                    StartTime = _createTestStartTime,
+                                    EndTime = _createTestEndTime,
+                                }
+                            ]
+                        }),
+
+                UpdateEntryCommand = () =>
+                    (context, claimsProvider, entryId) => new UpdateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
+                        .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
+                        {
+                            Id = entryId,
+                            // Subtract one week to prevent any overlap.
+                            StartTime = _updateTestStartTime.AddDays(-7),
+                            EndTime = _updateTestEndTime.AddDays(-7),
+                            Description = "Description",
+                            MakeUpTimeList = [
+                                new MakeUpTimeEntryDto
+                                {
+                                    StartTime = _updateTestStartTime,
+                                    EndTime = _updateTestEndTime,
+                                }
+                            ]
+                        })
+            },
+            _ => throw new Exception($"The test is not configured to work with {entryType}.")
         };
     }
 
-    public static Func<TenantAppDbContext, IClaimsProvider, long, Task> UpdateEntryCommand(
-        EntryType entryType,
-        DateTime startTime,
-        DateTime endTime
-    )
+    private static bool IsOverlapAllowed(EntryType entryTypeToSaveInDb, EntryType entryTypeToCheckOverlap)
     {
-        return entryType switch
-        {
-            EntryType.Task =>
-             (context, claimsProvider, entryId) => new UpdateTaskEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new UpdateTaskEntryRequest
-                {
-                    Id = entryId,
-                    Title = "New Task",
-                    StartTime = startTime,
-                    EndTime = endTime,
-                    TaskId = "#222",
-                    ProjectId = 1,
-                    Description = "Description"
-                }),
-            EntryType.Unwell =>
-             (context, claimsProvider, entryId) => new UpdateUnwellEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new UpdateUnwellEntryRequest
-                {
-                    Id = entryId,
-                    StartTime = startTime,
-                    EndTime = endTime,
-                }),
-            EntryType.AwayWithMakeUpTime =>
-             (context, claimsProvider, entryId) => new UpdateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
-                {
-                    Id = entryId,
-                    StartTime = startTime,
-                    EndTime = endTime,
-                    Description = "Description",
-                    MakeUpTimeList = []
-                }),
-            // MakeUpTimeEntry can't be saved without a related linked record.
-            // It does't have its own command to create, it is always created as part of another entry.
-            // Therefore, to create a make up time entry, we use the away command.
-            EntryType.MakeUpTime =>
-             (context, claimsProvider, entryId) => new UpdateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
-                {
-                    Id = entryId,
-                    StartTime = new DateTime(1999, 10, 24, 15, 0, 0),
-                    EndTime = new DateTime(1999, 10, 24, 16, 0, 0),
-                    Description = "Description",
-                    MakeUpTimeList = [
-                    new MakeUpTimeEntryDto
-                        {
-                            StartTime = startTime,
-                            EndTime = endTime,
-                        }
-                    ]
-                }),
-            _ => throw new Exception($"The test is not configured to work with {entryType}."),
-        };
-    }
+        var pair = (entryTypeToSaveInDb, entryTypeToCheckOverlap);
+        var reversedPair = (entryTypeToCheckOverlap, entryTypeToSaveInDb);
 
-    private static bool IsOverlapAllowed(EntryType existingEntryType, EntryType createdEntryType)
-    {
-        if (existingEntryType == EntryType.Task && createdEntryType == EntryType.MakeUpTime ||
-            existingEntryType == EntryType.MakeUpTime && createdEntryType == EntryType.Task
-        )
-        {
-            return true;
-        }
-
-        return false;
+        return _allowedOverlaps.Contains(pair) || _allowedOverlaps.Contains(reversedPair);
     }
 }
