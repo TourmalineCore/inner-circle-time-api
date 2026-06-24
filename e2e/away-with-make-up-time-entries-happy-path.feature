@@ -106,10 +106,12 @@ Feature: Away with Make Up Time Entries
         "description": "#(description)",
         "makeUpTimeList": [
             {
+               "id": "#number",
                 "startTime": "#(makeUpTime2StartTime)",
                 "endTime": "#(makeUpTime2EndTime)"
             },
             {
+                "id": "#number",
                 "startTime": "#(rescheduledMakeUpTime1StartTime)",
                 "endTime": "#(rescheduledMakeUpTime1EndTime)"
             },
