@@ -19,7 +19,7 @@ export interface AwayWithMakeUpTimeEntryDto {
   endTime: string;
   type: EntryType;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryDto[];
+  makeUpTimeList: MakeUpTimeEntryWithIdDto[];
 }
 
 export interface CreateAwayWithMakeUpTimeEntryRequest {
@@ -108,6 +108,15 @@ export interface GetPersonalReportResponse {
 }
 
 export interface MakeUpTimeEntryDto {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+}
+
+export interface MakeUpTimeEntryWithIdDto {
+  /** @format int64 */
+  id: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
