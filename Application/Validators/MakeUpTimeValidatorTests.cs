@@ -4,7 +4,7 @@ using Xunit;
 namespace Application.Validators;
 
 [UnitTest]
-public class MakeUpTimeValidatorTest
+public class MakeUpTimeValidatorTests
 {
     [Fact]
     public async Task MakeUpTimeValidator_ShouldReturnTrueIfMakeUpTotalTimeIsConveringWithPeriod()
