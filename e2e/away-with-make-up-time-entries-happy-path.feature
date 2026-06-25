@@ -33,7 +33,7 @@ Feature: Away with Make Up Time Entries
 
     # Create a new away with two make up time entry
     * def startTime = '2034-11-05T14:00:00'
-    * def endTime = '2034-11-05T15:00:00'
+    * def endTime = '2034-11-05T16:00:00'
     * def description = '[API-E2E]-Away description-'+ Math.random()
     * def makeUpTime1StartTime = '2034-11-06T17:00:00'
     * def makeUpTime1EndTime = '2034-11-06T17:30:00'
@@ -106,10 +106,12 @@ Feature: Away with Make Up Time Entries
         "description": "#(description)",
         "makeUpTimeList": [
             {
+               "id": "#number",
                 "startTime": "#(makeUpTime2StartTime)",
                 "endTime": "#(makeUpTime2EndTime)"
             },
             {
+                "id": "#number",
                 "startTime": "#(rescheduledMakeUpTime1StartTime)",
                 "endTime": "#(rescheduledMakeUpTime1EndTime)"
             },
