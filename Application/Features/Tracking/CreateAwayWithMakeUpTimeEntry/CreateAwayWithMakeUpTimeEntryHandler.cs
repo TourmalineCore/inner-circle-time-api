@@ -17,13 +17,13 @@ public class CreateAwayWithMakeUpTimeEntryHandler
         CreateAwayWithMakeUpTimeEntryRequest createAwayWithMakeUpTimeEntryRequest
     )
     {
-        var isTimeConvering = MakeUpTimeValidator.DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(
+        var doesTimeMatch = MakeUpTimeValidator.DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(
             createAwayWithMakeUpTimeEntryRequest.StartTime,
             createAwayWithMakeUpTimeEntryRequest.EndTime,
             createAwayWithMakeUpTimeEntryRequest.MakeUpTimeList
         );
 
-        if (!isTimeConvering)
+        if (!doesTimeMatch)
         {
             throw new ArgumentException("Total make-up time must equal your away time. Please check and adjust your entries.");
         }

@@ -10,7 +10,7 @@ public class CreateAwayWithMakeUpTimeEntryHandlerTests
     protected const long TENANT_ID = 777;
 
     [Fact]
-    public async Task CreateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeIsNotConveringWithRelatedTotalTime()
+    public async Task CreateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
 
         var createAwayWithMakeUpTimeEntryRequest = new CreateAwayWithMakeUpTimeEntryRequest
