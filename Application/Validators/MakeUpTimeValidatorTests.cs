@@ -47,7 +47,7 @@ public class MakeUpTimeValidatorTests
         var startTime = new DateTime(2025, 11, 24, 10, 0, 0);
         var endTime = new DateTime(2025, 11, 24, 11, 30, 0);
 
-        var result = MakeUpTimeValidator.IsMakeUpTotalTimeConvergingWithPeriod(startTime, endTime, makeUpTimeList);
+        var result = MakeUpTimeValidator.DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(startTime, endTime, makeUpTimeList);
 
         Assert.True(result);
     }
@@ -96,7 +96,7 @@ public class MakeUpTimeValidatorTests
         var startTime = new DateTime(2025, 11, 24, 10, 0, 0);
         var endTime = new DateTime(2025, 11, 24, 11, 30, 0);
 
-        var result = MakeUpTimeValidator.IsMakeUpTotalTimeConvergingWithPeriod(startTime, endTime, makeUpTimeList);
+        var result = MakeUpTimeValidator.DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(startTime, endTime, makeUpTimeList);
 
         Assert.False(result);
     }

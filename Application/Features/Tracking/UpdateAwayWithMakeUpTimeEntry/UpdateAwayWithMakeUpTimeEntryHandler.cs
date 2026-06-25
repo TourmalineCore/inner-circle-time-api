@@ -18,7 +18,7 @@ public class UpdateAwayWithMakeUpTimeEntryHandler
         UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest
     )
     {
-        var isTimeConvering = MakeUpTimeValidator.IsMakeUpTotalTimeConvergingWithPeriod(
+        var isTimeConvering = MakeUpTimeValidator.DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(
             updateAwayWithMakeUpTimeEntryRequest.StartTime,
             updateAwayWithMakeUpTimeEntryRequest.EndTime,
             updateAwayWithMakeUpTimeEntryRequest.MakeUpTimeList
