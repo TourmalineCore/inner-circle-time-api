@@ -1,3 +1,5 @@
+using Application.Validators;
+
 namespace Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 
 public class CreateAwayWithMakeUpTimeEntryHandler
@@ -15,6 +17,17 @@ public class CreateAwayWithMakeUpTimeEntryHandler
         CreateAwayWithMakeUpTimeEntryRequest createAwayWithMakeUpTimeEntryRequest
     )
     {
+        var doesTimeMatch = MakeUpTimeValidator.DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(
+            createAwayWithMakeUpTimeEntryRequest.StartTime,
+            createAwayWithMakeUpTimeEntryRequest.EndTime,
+            createAwayWithMakeUpTimeEntryRequest.MakeUpTimeList
+        );
+
+        if (!doesTimeMatch)
+        {
+            throw new ArgumentException("Total make-up time must equal your away time. Please check and adjust your entries.");
+        }
+
         var newAwayWithMakeUpTimeEntryId = await _createAwayWithMakeUpTimeEntryCommand.ExecuteAsync(createAwayWithMakeUpTimeEntryRequest);
 
         return new CreateAwayWithMakeUpTimeEntryResponse
