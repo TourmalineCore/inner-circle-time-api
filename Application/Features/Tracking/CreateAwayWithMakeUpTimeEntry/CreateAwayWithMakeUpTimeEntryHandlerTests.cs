@@ -12,7 +12,6 @@ public class CreateAwayWithMakeUpTimeEntryHandlerTests
     [Fact]
     public async Task CreateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
-
         var createAwayWithMakeUpTimeEntryRequest = new CreateAwayWithMakeUpTimeEntryRequest
         {
             StartTime = new DateTime(2026, 11, 24, 10, 0, 0),
