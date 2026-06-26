@@ -16,6 +16,31 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
 
     private static readonly IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
+
+    public static IEnumerable<object[]> OverlapTestDataForCreate()
+    {
+        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
+            .Where(x => x != EntryType.Unspecified)
+            .ToList();
+
+        foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
+        {
+            var entryFactoryToSaveInDb = EntryOverlapFactoryTest.Create(entryTypeToSaveInDb);
+
+            foreach (EntryType entryTypeToCheckOverlap in entryTypesWithoutUnspecified)
+            {
+                var entryFactoryToCheckOverlap = EntryOverlapFactoryTest.Create(entryTypeToCheckOverlap);
+
+                yield return new object[]
+                {
+                    entryFactoryToSaveInDb.CreateEntry(EntryOverlapFactoryTest.createTestStartTime, EntryOverlapFactoryTest.createTestEndTime),
+                    entryFactoryToCheckOverlap.CreateEntryCommand(),
+                    IsOverlapAllowed(entryTypeToSaveInDb, entryTypeToCheckOverlap)
+                };
+            }
+        }
+    }
+
     [Theory]
     [MemberData(nameof(OverlapTestDataForCreate))]
     public async Task CreateEntryAsync_ShouldRespectOverlapConstraint(
@@ -43,6 +68,31 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
             );
 
             Assert.Null(exception);
+        }
+    }
+
+    public static IEnumerable<object[]> OverlapTestDataForUpdate()
+    {
+        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
+            .Where(x => x != EntryType.Unspecified)
+            .ToArray();
+
+        foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
+        {
+            var entryFactoryToSaveInDb = EntryOverlapFactoryTest.Create(entryTypeToSaveInDb);
+
+            foreach (EntryType entryTypeToCheckOverlap in entryTypesWithoutUnspecified)
+            {
+                var entryFactoryToCheckOverlap = EntryOverlapFactoryTest.Create(entryTypeToCheckOverlap);
+
+                yield return new object[]
+                {
+                    entryFactoryToSaveInDb.CreateEntry(EntryOverlapFactoryTest.updateTestStartTime, EntryOverlapFactoryTest.updateTestEndTime),
+                    entryFactoryToCheckOverlap.CreateEntry(new DateTime(2026, 10, 23, 9, 0, 0), new DateTime(2026, 10, 23, 11, 0, 0)),
+                    entryFactoryToCheckOverlap.UpdateEntryCommand(),
+                    IsOverlapAllowed(entryTypeToSaveInDb, entryTypeToCheckOverlap)
+                };
+            }
         }
     }
 
@@ -76,55 +126,6 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
             );
 
             Assert.Null(exception);
-        }
-    }
-
-    public static IEnumerable<object[]> OverlapTestDataForCreate()
-    {
-        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
-            .Where(x => x != EntryType.Unspecified)
-            .ToList();
-
-        foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
-        {
-            var saveFactory = EntryOverlapTestFactory.Create(entryTypeToSaveInDb);
-
-            foreach (EntryType entryTypeToCheckOverlap in entryTypesWithoutUnspecified)
-            {
-                var entryToCheckOverlapFactory = EntryOverlapTestFactory.Create(entryTypeToCheckOverlap);
-
-                yield return new object[]
-                {
-                    saveFactory.CreateEntry(EntryOverlapTestFactory.createTestStartTime, EntryOverlapTestFactory.createTestEndTime),
-                    entryToCheckOverlapFactory.CreateEntryCommand(),
-                    IsOverlapAllowed(entryTypeToSaveInDb, entryTypeToCheckOverlap)
-                };
-            }
-        }
-    }
-
-    public static IEnumerable<object[]> OverlapTestDataForUpdate()
-    {
-        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
-            .Where(x => x != EntryType.Unspecified)
-            .ToArray();
-
-        foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
-        {
-            var saveFactory = EntryOverlapTestFactory.Create(entryTypeToSaveInDb);
-
-            foreach (EntryType entryTypeToCheckOverlap in entryTypesWithoutUnspecified)
-            {
-                var entryToCheckOverlapFactory = EntryOverlapTestFactory.Create(entryTypeToCheckOverlap);
-
-                yield return new object[]
-                {
-                    saveFactory.CreateEntry(EntryOverlapTestFactory.updateTestStartTime, EntryOverlapTestFactory.updateTestEndTime),
-                    entryToCheckOverlapFactory.CreateEntry(new DateTime(2026, 10, 23, 9, 0, 0), new DateTime(2026, 10, 23, 11, 0, 0)),
-                    entryToCheckOverlapFactory.UpdateEntryCommand(),
-                    IsOverlapAllowed(entryTypeToSaveInDb, entryTypeToCheckOverlap)
-                };
-            }
         }
     }
 
