@@ -2,7 +2,7 @@ using Core.Entities;
 
 namespace Application.Features.Tracking.EntryOverlapConstraintTests.EntryFactories;
 
-public abstract class EntryOverlapTestFactory
+public abstract class EntryOverlapFactoryTest
 {
     protected static readonly long employeeId = 1;
     protected static readonly long tenantId = 777;
@@ -16,14 +16,14 @@ public abstract class EntryOverlapTestFactory
     public abstract Func<TenantAppDbContext, IClaimsProvider, Task> CreateEntryCommand();
     public abstract Func<TenantAppDbContext, IClaimsProvider, long, Task> UpdateEntryCommand();
 
-    public static EntryOverlapTestFactory Create(EntryType entryType)
+    public static EntryOverlapFactoryTest Create(EntryType entryType)
     {
         return entryType switch
         {
-            EntryType.Task => new TaskEntryTestFactory(),
-            EntryType.Unwell => new UnwellEntryTestFactory(),
-            EntryType.AwayWithMakeUpTime => new AwayWithMakeUpTimeEntryTestFactory(),
-            EntryType.MakeUpTime => new MakeUpTimeEntryTestFactory(),
+            EntryType.Task => new TaskEntryFactoryTest(),
+            EntryType.Unwell => new UnwellEntryFactoryTest(),
+            EntryType.AwayWithMakeUpTime => new AwayWithMakeUpTimeEntryFactoryTest(),
+            EntryType.MakeUpTime => new MakeUpTimeEntryFactoryTest(),
             _ => throw new Exception($"The test is not configured to work with {entryType}.")
         };
     }

@@ -1,47 +1,53 @@
 using Application;
-using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
+using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.EntryOverlapConstraintTests.EntryFactories;
-using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
+using Application.Features.Tracking.UpdateTaskEntry;
 using Core.Entities;
 
-public class AwayWithMakeUpTimeEntryTestFactory : EntryOverlapTestFactory
+public class TaskEntryFactoryTest : EntryOverlapFactoryTest
 {
     public override TrackedEntryBase CreateEntry(DateTime startTime, DateTime endTime)
     {
-        return new AwayWithMakeUpTimeEntry
+        return new TaskEntry
         {
             EmployeeId = employeeId,
+            Title = "Existing Task",
             StartTime = startTime,
             EndTime = endTime,
-            Description = "Description",
-            MakeUpTimeList = []
+            TaskId = "#2231",
+            ProjectId = 1,
+            Description = "Task description",
         };
     }
 
     public override Func<TenantAppDbContext, IClaimsProvider, Task> CreateEntryCommand()
     {
         return (context, claimsProvider) =>
-            new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
+            new CreateTaskEntryCommand(context, claimsProvider)
+                .ExecuteAsync(new CreateTaskEntryRequest
                 {
+                    Title = "New Task",
                     StartTime = createTestStartTime,
                     EndTime = createTestEndTime,
-                    Description = "Description",
-                    MakeUpTimeList = []
+                    TaskId = "#222",
+                    ProjectId = 1,
+                    Description = "Description"
                 });
     }
 
     public override Func<TenantAppDbContext, IClaimsProvider, long, Task> UpdateEntryCommand()
     {
         return (context, claimsProvider, entryId) =>
-           new UpdateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
-                .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
+            new UpdateTaskEntryCommand(context, claimsProvider)
+                .ExecuteAsync(new UpdateTaskEntryRequest
                 {
                     Id = entryId,
+                    Title = "New Task",
                     StartTime = updateTestStartTime,
                     EndTime = updateTestEndTime,
-                    Description = "Description",
-                    MakeUpTimeList = []
+                    TaskId = "#222",
+                    ProjectId = 1,
+                    Description = "Description"
                 });
     }
 }

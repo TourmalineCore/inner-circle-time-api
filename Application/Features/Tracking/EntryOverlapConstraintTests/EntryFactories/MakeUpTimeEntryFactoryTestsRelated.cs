@@ -4,7 +4,7 @@ using Application.Features.Tracking.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 using Core.Entities;
 
-public class MakeUpTimeEntryTestFactory : EntryOverlapTestFactory
+public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
 {
     public override TrackedEntryBase CreateEntry(DateTime startTime, DateTime endTime)
     {
