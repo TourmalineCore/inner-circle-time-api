@@ -96,7 +96,7 @@ export interface GetEntriesByPeriodResponse {
   taskEntries: TaskEntryDto[];
   unwellEntries: UnwellEntryDto[];
   awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
-  makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryIdDto[];
+  makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryIdAndTypeDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -123,14 +123,14 @@ export interface MakeUpTimeEntryWithIdDto {
   endTime: string;
 }
 
-export interface MakeUpTimeEntryWithRelatedEntryIdDto {
+export interface MakeUpTimeEntryWithRelatedEntryIdAndTypeDto {
   /** @format int64 */
   relatedEntryId: number;
+  type: EntryType;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
   endTime: string;
-  type: EntryType;
 }
 
 export interface ProjectDto {
