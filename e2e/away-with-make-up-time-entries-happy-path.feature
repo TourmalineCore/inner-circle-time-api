@@ -106,7 +106,7 @@ Feature: Away with Make Up Time Entries
         "description": "#(description)",
         "makeUpTimeList": [
             {
-               "id": "#number",
+                "id": "#number",
                 "startTime": "#(makeUpTime2StartTime)",
                 "endTime": "#(makeUpTime2EndTime)"
             },
