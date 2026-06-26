@@ -76,7 +76,7 @@ public class GetEntriesByPeriodHandler
         var makeUpTimeEntries = entriesByPeriod
            .OfType<MakeUpTimeEntry>()
            .Select(
-               x => new MakeUpTimeEntryWithRelatedEntryIdDto
+               x => new MakeUpTimeEntryWithRelatedEntryIdAndTypeDto
                {
                    RelatedEntryId = x.RelatedEntryId,
                    StartTime = x.StartTime,
