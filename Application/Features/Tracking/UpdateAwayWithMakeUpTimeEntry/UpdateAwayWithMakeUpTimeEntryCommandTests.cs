@@ -70,8 +70,8 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
                         EmployeeId = EMPLOYEE_ID,
                         TenantId = TENANT_ID,
                         RelatedEntryId = 1,
-                        StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
-                        EndTime = new DateTime(2025, 11, 24, 12, 0, 0)
+                        StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                     }
                 ]
             });
@@ -79,14 +79,14 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
             Id = awayWithMakeUpTimeEntry.Id,
-            StartTime = new DateTime(2025, 11, 25, 12, 0, 0),
-            EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
+            StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
             Description = "New Description",
             MakeUpTimeList = [
                 new MakeUpTimeEntryDto
                 {
-                    StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
-                    EndTime = new DateTime(2025, 11, 24, 12, 0, 0)
+                    StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
+                    EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                 }
             ]
         };
@@ -124,8 +124,8 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
                         EmployeeId = EMPLOYEE_ID,
                         TenantId = TENANT_ID,
                         RelatedEntryId = 1,
-                        StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
-                        EndTime = new DateTime(2025, 11, 24, 12, 0, 0)
+                        StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                     },
                     new MakeUpTimeEntry
                     {
@@ -133,8 +133,8 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
                         EmployeeId = EMPLOYEE_ID,
                         TenantId = TENANT_ID,
                         RelatedEntryId = 1,
-                        StartTime = new DateTime(2025, 11, 24, 13, 0, 0),
-                        EndTime = new DateTime(2025, 11, 24, 14, 0, 0)
+                        StartTime = new DateTime(2025, 11, 25, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 25, 18, 0, 0)
                     }
                 ]
             });
@@ -142,19 +142,19 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
             Id = awayWithMakeUpTimeEntry.Id,
-            StartTime = new DateTime(2025, 11, 25, 12, 0, 0),
-            EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
+            StartTime = new DateTime(2025, 11, 25, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 25, 12, 0, 0),
             Description = "New Description",
             MakeUpTimeList = [
                 new MakeUpTimeEntryDto
                 {
-                    StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
-                    EndTime = new DateTime(2025, 11, 24, 12, 0, 0)
+                    StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
+                    EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                 },
                     new MakeUpTimeEntryDto
                 {
-                    StartTime = new DateTime(2025, 11, 25, 13, 0, 0),
-                    EndTime = new DateTime(2025, 11, 25, 14, 0, 0)
+                    StartTime = new DateTime(2025, 11, 26, 17, 0, 0),
+                    EndTime = new DateTime(2025, 11, 26, 18, 0, 0)
                 }
             ]
         };
