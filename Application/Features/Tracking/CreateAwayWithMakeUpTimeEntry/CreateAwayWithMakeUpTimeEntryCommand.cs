@@ -36,7 +36,8 @@ public class CreateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
                     EmployeeId = _claimsProvider.EmployeeId,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime
-                }).ToList()
+                })
+                .ToList()
         };
 
         await _context
