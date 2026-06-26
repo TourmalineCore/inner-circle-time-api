@@ -18,6 +18,7 @@ namespace Application.Migrations
             ");
 
             // ADR about validation can be read here https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/adrs/003-time-api-overlap-validation.md
+            // Entry types: Task - 1, Unwell - 2, Away With Make-up time - 3, Make-up time - 4
             migrationBuilder.Sql(@"
                 ALTER TABLE tracked_entries
                 ADD CONSTRAINT ck_entries_1_2_3_no_time_overlap
@@ -28,7 +29,6 @@ namespace Application.Migrations
                 )
                 WHERE (type IN (1, 2, 3) AND deleted_at_utc IS NULL); 
             ");
-
 
             migrationBuilder.Sql(@"
                 ALTER TABLE tracked_entries
