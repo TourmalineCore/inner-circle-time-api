@@ -16,13 +16,12 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
 
     private static readonly IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
+    private static readonly IReadOnlyList<EntryType> entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
+        .Where(x => x != EntryType.Unspecified)
+        .ToList();
 
     public static IEnumerable<object[]> OverlapTestDataForCreate()
     {
-        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
-            .Where(x => x != EntryType.Unspecified)
-            .ToList();
-
         foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
         {
             var entryFactoryToSaveInDb = EntryOverlapFactoryTest.Create(entryTypeToSaveInDb);
@@ -73,10 +72,6 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
 
     public static IEnumerable<object[]> OverlapTestDataForUpdate()
     {
-        var entryTypesWithoutUnspecified = Enum.GetValues<EntryType>()
-            .Where(x => x != EntryType.Unspecified)
-            .ToArray();
-
         foreach (EntryType entryTypeToSaveInDb in entryTypesWithoutUnspecified)
         {
             var entryFactoryToSaveInDb = EntryOverlapFactoryTest.Create(entryTypeToSaveInDb);
