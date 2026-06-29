@@ -10,7 +10,7 @@ public class GetEntriesByPeriodResponse
 
     public required List<AwayWithMakeUpTimeEntryDto> AwayWithMakeUpTimeEntries { get; set; }
 
-    public required List<MakeUpTimeEntryWithRelatedEntryIdAndTypeDto> MakeUpTimeEntries { get; set; }
+    public required List<MakeUpTimeEntryWithRelatedEntryDto> MakeUpTimeEntries { get; set; }
 }
 
 public class TaskEntryDto
@@ -63,7 +63,7 @@ public class MakeUpTimeEntryWithIdDto : MakeUpTimeEntryDto
     public required long Id { get; set; }
 }
 
-public class MakeUpTimeEntryWithRelatedEntryIdAndTypeDto : MakeUpTimeEntryDto
+public class MakeUpTimeEntryWithRelatedEntryDto : MakeUpTimeEntryDto
 {
     public required long RelatedEntryId { get; set; }
 
