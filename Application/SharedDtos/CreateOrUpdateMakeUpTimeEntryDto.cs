@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-public class MakeUpTimeEntryDto
+public class CreateOrUpdateMakeUpTimeEntryDto
 {
     [Required]
     public required DateTime StartTime { get; set; }

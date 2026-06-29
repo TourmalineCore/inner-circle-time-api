@@ -18,7 +18,7 @@ public class UpdateAwayWithMakeUpTimeEntryHandlerTests
             EndTime = new DateTime(2026, 11, 24, 12, 0, 0),
             Description = "Description",
             MakeUpTimeList = [
-                new MakeUpTimeEntryDto
+                new CreateOrUpdateMakeUpTimeEntryDto
                     {
                         StartTime = new DateTime(2026, 11, 24, 17, 0, 0),
                         EndTime = new DateTime(2026, 11, 24, 18, 0, 0),

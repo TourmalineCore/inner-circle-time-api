@@ -40,7 +40,7 @@ public class MakeUpTimeEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelate
                     EndTime = createTestEndTime.AddDays(+2),
                     Description = "Description",
                     MakeUpTimeList = [
-                        new MakeUpTimeEntryDto
+                        new CreateOrUpdateMakeUpTimeEntryDto
                         {
                             StartTime = createTestStartTime,
                             EndTime = createTestEndTime,
@@ -61,7 +61,7 @@ public class MakeUpTimeEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelate
                     EndTime = updateTestEndTime.AddDays(+2),
                     Description = "Description",
                     MakeUpTimeList = [
-                        new MakeUpTimeEntryDto
+                        new CreateOrUpdateMakeUpTimeEntryDto
                         {
                             StartTime = updateTestStartTime,
                             EndTime = updateTestEndTime,

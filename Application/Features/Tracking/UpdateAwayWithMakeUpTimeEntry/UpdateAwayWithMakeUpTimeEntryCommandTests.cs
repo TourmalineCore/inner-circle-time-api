@@ -34,7 +34,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
             EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
             Description = "Description",
             MakeUpTimeList = [
-                new MakeUpTimeEntryDto
+                new CreateOrUpdateMakeUpTimeEntryDto
                 {
                     StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
                     EndTime = new DateTime(2025, 11, 24, 12, 0, 0)
@@ -83,7 +83,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
             EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
             Description = "New Description",
             MakeUpTimeList = [
-                new MakeUpTimeEntryDto
+                new CreateOrUpdateMakeUpTimeEntryDto
                 {
                     StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
                     EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
@@ -146,12 +146,12 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
             EndTime = new DateTime(2025, 11, 25, 12, 0, 0),
             Description = "New Description",
             MakeUpTimeList = [
-                new MakeUpTimeEntryDto
+                new CreateOrUpdateMakeUpTimeEntryDto
                 {
                     StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
                     EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                 },
-                    new MakeUpTimeEntryDto
+                    new CreateOrUpdateMakeUpTimeEntryDto
                 {
                     StartTime = new DateTime(2025, 11, 26, 17, 0, 0),
                     EndTime = new DateTime(2025, 11, 26, 18, 0, 0)

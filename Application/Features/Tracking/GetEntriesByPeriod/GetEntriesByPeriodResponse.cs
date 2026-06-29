@@ -58,15 +58,23 @@ public class AwayWithMakeUpTimeEntryDto
     public required List<MakeUpTimeEntryWithIdDto> MakeUpTimeList { get; set; }
 }
 
-public class MakeUpTimeEntryWithIdDto : MakeUpTimeEntryDto
+public class MakeUpTimeEntryWithIdDto
 {
     public required long Id { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
 }
 
-public class MakeUpTimeEntryWithRelatedEntryDto : MakeUpTimeEntryDto
+public class MakeUpTimeEntryWithRelatedEntryDto
 {
     public required long RelatedEntryId { get; set; }
 
     public required EntryType Type { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
 }
 

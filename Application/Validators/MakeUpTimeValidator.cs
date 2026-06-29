@@ -5,7 +5,7 @@ public class MakeUpTimeValidator
     public static bool DoesMakeUpTotalTimeMatchWithRelatedEntryPeriod(
         DateTime startTime,
         DateTime endTime,
-        List<MakeUpTimeEntryDto> makeUpTimeList
+        List<CreateOrUpdateMakeUpTimeEntryDto> makeUpTimeList
     )
     {
         var totalRelatedEntryPeriodMinutes = (int)(endTime - startTime).TotalMinutes;
