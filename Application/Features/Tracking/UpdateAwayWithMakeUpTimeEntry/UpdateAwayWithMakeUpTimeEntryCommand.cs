@@ -45,11 +45,11 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
 
         foreach (var makeUpTimeFromDb in makeUpTimeListFromDb)
         {
-            var doesEntryWithSameTimeExistInRequest = updateAwayWithMakeUpTimeEntryRequest
+            var doesNotEntryWithSameTimeExistInRequest = !updateAwayWithMakeUpTimeEntryRequest
                 .MakeUpTimeList
                 .Any(x => x.StartTime == makeUpTimeFromDb.StartTime && x.EndTime == makeUpTimeFromDb.EndTime);
 
-            if (!doesEntryWithSameTimeExistInRequest)
+            if (doesNotEntryWithSameTimeExistInRequest)
             {
                 _context
                     .MakeUpTimeEntries
@@ -59,10 +59,10 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
 
         foreach (var makeUpTimeFromRequest in updateAwayWithMakeUpTimeEntryRequest.MakeUpTimeList)
         {
-            var doesEntryWithSameTimeExistInDb = makeUpTimeListFromDb
+            var doesNotEntryWithSameTimeExistInDb = !makeUpTimeListFromDb
                 .Any(x => x.StartTime == makeUpTimeFromRequest.StartTime && x.EndTime == makeUpTimeFromRequest.EndTime);
 
-            if (!doesEntryWithSameTimeExistInDb)
+            if (doesNotEntryWithSameTimeExistInDb)
             {
                 var makeUpTimeEntry = new MakeUpTimeEntry
                 {
