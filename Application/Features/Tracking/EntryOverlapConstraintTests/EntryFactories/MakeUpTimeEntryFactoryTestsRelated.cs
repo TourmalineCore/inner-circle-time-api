@@ -13,9 +13,9 @@ public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
         return new AwayWithMakeUpTimeEntry
         {
             EmployeeId = employeeId,
-            // Subtract one week to prevent any overlap.
-            StartTime = startTime.AddDays(-7),
-            EndTime = endTime.AddDays(-7),
+            // Add one day to avoid any overlaps.
+            StartTime = startTime.AddDays(+1),
+            EndTime = endTime.AddDays(+1),
             Description = "Description",
             MakeUpTimeList = [
                 new MakeUpTimeEntry
@@ -35,9 +35,9 @@ public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
             new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
                 .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
                 {
-                    // Subtract one week to prevent any overlap.
-                    StartTime = createTestStartTime.AddDays(-7),
-                    EndTime = createTestEndTime.AddDays(-7),
+                    // Add one day to avoid any overlaps.
+                    StartTime = createTestStartTime.AddDays(+1),
+                    EndTime = createTestEndTime.AddDays(+1),
                     Description = "Description",
                     MakeUpTimeList = [
                         new MakeUpTimeEntryDto
@@ -56,9 +56,9 @@ public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
                 .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
                 {
                     Id = entryId,
-                    // Subtract one week to prevent any overlap.
-                    StartTime = updateTestStartTime.AddDays(-7),
-                    EndTime = updateTestEndTime.AddDays(-7),
+                    // Add one day to avoid any overlaps.
+                    StartTime = updateTestStartTime.AddDays(+1),
+                    EndTime = updateTestEndTime.AddDays(+1),
                     Description = "Description",
                     MakeUpTimeList = [
                         new MakeUpTimeEntryDto
