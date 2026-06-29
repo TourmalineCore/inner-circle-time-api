@@ -114,6 +114,25 @@ export interface GetPersonalReportResponse {
   unwellHours: number;
 }
 
+export interface GetTaskEntryDto {
+  /** @format int64 */
+  id: number;
+  title: string;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
+  /** @format int64 */
+  projectId: number;
+  taskId: string;
+  description: string;
+}
+
+export interface GetTaskEntryResponse {
+  taskEntry: GetTaskEntryDto;
+}
+
 export interface MakeUpTimeEntryWithIdDto {
   /** @format int64 */
   id: number;
@@ -443,6 +462,43 @@ export class Api<
      * No description
      *
      * @tags Tracking
+     * @name TrackingGetTaskEntry
+     * @summary Get a task entry
+     * @request GET:/api/tracking/task-entries/{taskEntryId}
+     */
+    trackingGetTaskEntry: (taskEntryId: number, params: RequestParams = {}) =>
+      this.request<GetTaskEntryResponse, any>({
+        path: `/api/tracking/task-entries/${taskEntryId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingUpdateTaskEntry
+     * @summary Update a task entry
+     * @request POST:/api/tracking/task-entries/{taskEntryId}
+     */
+    trackingUpdateTaskEntry: (
+      taskEntryId: number,
+      data: UpdateTaskEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/tracking/task-entries/${taskEntryId}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
      * @name TrackingCreateTaskEntry
      * @summary Create a task entry
      * @request POST:/api/tracking/task-entries
@@ -499,27 +555,6 @@ export class Api<
         body: data,
         type: ContentType.Json,
         format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tracking
-     * @name TrackingUpdateTaskEntry
-     * @summary Update a task entry
-     * @request POST:/api/tracking/task-entries/{taskEntryId}
-     */
-    trackingUpdateTaskEntry: (
-      taskEntryId: number,
-      data: UpdateTaskEntryRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/tracking/task-entries/${taskEntryId}`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
         ...params,
       }),
 
