@@ -28,12 +28,19 @@ export interface CreateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   endTime: string;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryDto[];
+  makeUpTimeList: CreateOrUpdateMakeUpTimeEntryDto[];
 }
 
 export interface CreateAwayWithMakeUpTimeEntryResponse {
   /** @format int64 */
   newAwayWithMakeUpTimeEntryId: number;
+}
+
+export interface CreateOrUpdateMakeUpTimeEntryDto {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
 }
 
 export interface CreateTaskEntryRequest {
@@ -105,13 +112,6 @@ export interface GetPersonalReportResponse {
   taskHours: number;
   /** @format double */
   unwellHours: number;
-}
-
-export interface MakeUpTimeEntryDto {
-  /** @format date-time */
-  startTime: string;
-  /** @format date-time */
-  endTime: string;
 }
 
 export interface MakeUpTimeEntryWithIdDto {
@@ -204,7 +204,7 @@ export interface UpdateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   endTime: string;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryDto[];
+  makeUpTimeList: CreateOrUpdateMakeUpTimeEntryDto[];
 }
 
 export interface UpdateTaskEntryRequest {
