@@ -13,9 +13,9 @@ public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
         return new AwayWithMakeUpTimeEntry
         {
             EmployeeId = employeeId,
-            // Add one day to avoid any overlaps.
-            StartTime = startTime.AddDays(+1),
-            EndTime = endTime.AddDays(+1),
+            // Add two days to avoid any overlaps.
+            StartTime = startTime.AddDays(+2),
+            EndTime = endTime.AddDays(+2),
             Description = "Description",
             MakeUpTimeList = [
                 new MakeUpTimeEntry
@@ -35,9 +35,9 @@ public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
             new CreateAwayWithMakeUpTimeEntryCommand(context, claimsProvider)
                 .ExecuteAsync(new CreateAwayWithMakeUpTimeEntryRequest
                 {
-                    // Add one day to avoid any overlaps.
-                    StartTime = createTestStartTime.AddDays(+1),
-                    EndTime = createTestEndTime.AddDays(+1),
+                    // Add two days to avoid any overlaps.
+                    StartTime = createTestStartTime.AddDays(+2),
+                    EndTime = createTestEndTime.AddDays(+2),
                     Description = "Description",
                     MakeUpTimeList = [
                         new MakeUpTimeEntryDto
@@ -56,9 +56,9 @@ public class MakeUpTimeEntryFactoryTest : EntryOverlapFactoryTest
                 .ExecuteAsync(new UpdateAwayWithMakeUpTimeEntryRequest
                 {
                     Id = entryId,
-                    // Add one day to avoid any overlaps.
-                    StartTime = updateTestStartTime.AddDays(+1),
-                    EndTime = updateTestEndTime.AddDays(+1),
+                    // Add two days to avoid any overlaps.
+                    StartTime = updateTestStartTime.AddDays(+2),
+                    EndTime = updateTestEndTime.AddDays(+2),
                     Description = "Description",
                     MakeUpTimeList = [
                         new MakeUpTimeEntryDto
