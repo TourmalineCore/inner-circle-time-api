@@ -10,7 +10,7 @@ public class UpdateAwayWithMakeUpTimeEntryHandlerTests
     protected const long tenantId = 777;
 
     [Fact]
-    public async Task UpdateAwayWithMakeUpTimeEntryHandlerAsync_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
+    public async Task UpdateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
