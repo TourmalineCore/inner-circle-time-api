@@ -1,10 +1,10 @@
 using Application;
+using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.CreateUnwellEntry;
-using Application.Features.Tracking.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Core.Entities;
 
-public class UnwellEntryFactoryTest : EntryOverlapFactoryTest
+public class UnwellEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {
     public override TrackedEntryBase CreateEntry(DateTime startTime, DateTime endTime)
     {

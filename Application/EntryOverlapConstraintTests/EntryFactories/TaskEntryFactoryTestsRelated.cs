@@ -1,10 +1,10 @@
 using Application;
+using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.CreateTaskEntry;
-using Application.Features.Tracking.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Core.Entities;
 
-public class TaskEntryFactoryTest : EntryOverlapFactoryTest
+public class TaskEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {
     public override TrackedEntryBase CreateEntry(DateTime startTime, DateTime endTime)
     {
