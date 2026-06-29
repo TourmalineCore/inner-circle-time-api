@@ -64,6 +64,18 @@ Feature: Unwell Entries
     Then status 200
 
     # Verify updated unwell entry data
+    Given path 'tracking/unwell-entries', newUnwellEntryId
+    When method GET
+    And match response.unwellEntry contains
+    """
+    {
+        "id": "#(newUnwellEntryId)",
+        "type": 2,
+        "startTime": "#(newStartTime)",
+        "endTime": "#(newEndTime)",
+    }
+    """
+
     Given path 'tracking/entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET

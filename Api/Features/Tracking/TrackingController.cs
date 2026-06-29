@@ -5,6 +5,7 @@ using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.Features.Tracking.GetTaskEntry;
+using Application.Features.Tracking.GetUnwellEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
@@ -53,6 +54,17 @@ public class TrackingController : ControllerBase
     )
     {
         return createTaskEntryHandler.HandleAsync(createTaskEntryRequest);
+    }
+
+    [EndpointSummary("Get an unwell entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("unwell-entries/{unwellEntryId}")]
+    public Task<GetUnwellEntryResponse> GetUnwellntryAsync(
+      [Required][FromRoute] long unwellEntryId,
+      [FromServices] GetUnwellEntryHandler getUnwellEntryHandler
+  )
+    {
+        return getUnwellEntryHandler.HandleAsync(unwellEntryId);
     }
 
     [EndpointSummary("Create an unwell entry")]

@@ -12,6 +12,7 @@ using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.Features.Tracking.GetTaskEntry;
+using Application.Features.Tracking.GetUnwellEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
@@ -50,6 +51,7 @@ public static class DependencyInjection
         services.AddTransient<GetTaskEntryHandler>();
         services.AddTransient<CreateUnwellEntryHandler>();
         services.AddTransient<CreateUnwellEntryCommand>();
+        services.AddTransient<GetUnwellEntryHandler>();
         services.AddTransient<CreateAwayWithMakeUpTimeEntryHandler>();
         services.AddTransient<CreateAwayWithMakeUpTimeEntryCommand>();
         services.AddTransient<UpdateAwayWithMakeUpTimeEntryHandler>();
