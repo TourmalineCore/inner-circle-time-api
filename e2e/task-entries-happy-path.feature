@@ -88,6 +88,22 @@ Feature: Task Entries
     Then status 200
 
     # Verify updated task entry data
+    Given path 'tracking/task-entries', newTaskEntryId
+    When method GET
+    And match response.taskEntry contains
+    """
+    {
+        "id": "#(newTaskEntryId)",
+        "type": 1,
+        "title": "#(newRandomTitle)",
+        "startTime": "#(newStartTime)",
+        "endTime": "#(newEndTime)",
+        "projectId": #(secondProjectId),
+        "taskId": "#(newTaskId)",
+        "description": "#(newDescription)",
+    }
+    """
+    
     Given path 'tracking/entries'
     And params { startDate: "2030-11-06", endDate: "2030-11-06" }
     When method GET

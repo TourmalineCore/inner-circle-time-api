@@ -36,6 +36,11 @@ Feature: Task Entries
     Then status 403
 
     Given url apiRootUrl
+    Given path 'tracking/task-entries', 100500
+    When method GET
+    Then status 403
+
+    Given url apiRootUrl
     Given path 'tracking/task-entries'
     When method POST
     Then status 403

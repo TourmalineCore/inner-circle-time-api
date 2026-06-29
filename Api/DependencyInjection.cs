@@ -11,12 +11,14 @@ using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
+using Application.Features.Tracking.GetTaskEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Application.SharedCommands;
+using Application.SharedQueries;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -45,6 +47,7 @@ public static class DependencyInjection
         services.AddTransient<IEmployeesApi, EmployeesApi>();
         services.AddTransient<CreateTaskEntryHandler>();
         services.AddTransient<CreateTaskEntryCommand>();
+        services.AddTransient<GetTaskEntryHandler>();
         services.AddTransient<CreateUnwellEntryHandler>();
         services.AddTransient<CreateUnwellEntryCommand>();
         services.AddTransient<CreateAwayWithMakeUpTimeEntryHandler>();
@@ -66,6 +69,7 @@ public static class DependencyInjection
         services.AddTransient<GetAllProjectsHandler>();
         services.AddTransient<GetAllEmployeesHandler>();
         services.AddTransient<GetPersonalReportHandler>();
+        services.AddTransient<IGetEntryByIdQuery, GetEntryByIdQuery>();
         services.AddTransient<GetEmployeeTrackedEntriesQuery>();
     }
 }
