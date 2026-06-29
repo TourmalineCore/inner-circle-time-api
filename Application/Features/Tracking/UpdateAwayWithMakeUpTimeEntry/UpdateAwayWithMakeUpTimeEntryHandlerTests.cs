@@ -6,11 +6,11 @@ namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 [UnitTest]
 public class UpdateAwayWithMakeUpTimeEntryHandlerTests
 {
-    protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 777;
+    protected const long employeeId = 1;
+    protected const long tenantId = 777;
 
     [Fact]
-    public async Task UpdateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
+    public async Task UpdateAwayWithMakeUpTimeEntryHandlerAsync_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
@@ -26,8 +26,8 @@ public class UpdateAwayWithMakeUpTimeEntryHandlerTests
                 ]
         };
 
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
 
         var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
 
