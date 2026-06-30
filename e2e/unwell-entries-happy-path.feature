@@ -63,7 +63,7 @@ Feature: Unwell Entries
     When method POST
     Then status 200
 
-    # Verify updated unwell entry data
+    # Verify updated away with make up time entry data using endpoint with id
     Given path 'tracking/unwell-entries', newUnwellEntryId
     When method GET
     And match response.unwellEntry contains
@@ -76,6 +76,7 @@ Feature: Unwell Entries
     }
     """
 
+    # Verify updated away with make up time entry data using endpoint with period
     Given path 'tracking/entries'
     And params { startDate: "2029-11-06", endDate: "2029-11-06" }
     When method GET

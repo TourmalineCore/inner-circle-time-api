@@ -3,6 +3,7 @@ using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
+using Application.Features.Tracking.GetAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.Features.Tracking.GetTaskEntry;
 using Application.Features.Tracking.GetUnwellEntry;
@@ -62,7 +63,7 @@ public class TrackingController : ControllerBase
     public Task<GetUnwellEntryResponse> GetUnwellntryAsync(
       [Required][FromRoute] long unwellEntryId,
       [FromServices] GetUnwellEntryHandler getUnwellEntryHandler
-  )
+    )
     {
         return getUnwellEntryHandler.HandleAsync(unwellEntryId);
     }
@@ -76,6 +77,17 @@ public class TrackingController : ControllerBase
     )
     {
         return createUnwellEntryHandler.HandleAsync(createUnwellRequest);
+    }
+
+    [EndpointSummary("Get an away with make up time entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}")]
+    public Task<GetAwayWithMakeUpTimeEntryResponse> GetAwayWithMakeUpTimeEntryAsync(
+        [Required][FromRoute] long awayWithMakeUpTimeEntryId,
+        [FromServices] GetAwayWithMakeUpTimeEntryHandler getAwayWithMakeUpTimeEntryHandler
+    )
+    {
+        return getAwayWithMakeUpTimeEntryHandler.HandleAsync(awayWithMakeUpTimeEntryId);
     }
 
     [EndpointSummary("Create an away with make up time entry")]

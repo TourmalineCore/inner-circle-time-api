@@ -1,4 +1,3 @@
-using System.Data.Common;
 using Core.Entities;
 
 namespace Application.Features.Tracking.GetEntriesByPeriod;
@@ -27,7 +26,7 @@ public class GetEntriesByPeriodHandler
         var taskEntries = entriesByPeriod
             .OfType<TaskEntry>()
             .Select(
-                x => new TaskEntryDto
+                x => new GetTaskEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -43,7 +42,7 @@ public class GetEntriesByPeriodHandler
         var unwellEntries = entriesByPeriod
             .OfType<UnwellEntry>()
             .Select(
-                x => new UnwellEntryDto
+                x => new GetUnwellEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -55,7 +54,7 @@ public class GetEntriesByPeriodHandler
         var awayWithMakeUpTimeEntries = entriesByPeriod
             .OfType<AwayWithMakeUpTimeEntry>()
             .Select(
-                x => new AwayWithMakeUpTimeEntryDto
+                x => new GetAwayWithMakeUpTimeEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -76,7 +75,7 @@ public class GetEntriesByPeriodHandler
         var makeUpTimeEntries = entriesByPeriod
            .OfType<MakeUpTimeEntry>()
            .Select(
-               x => new MakeUpTimeEntryWithRelatedEntryDto
+               x => new GetMakeUpTimeEntryEntryDto
                {
                    RelatedEntryId = x.RelatedEntryId,
                    StartTime = x.StartTime,

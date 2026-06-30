@@ -1,0 +1,46 @@
+using Application.SharedQueries;
+
+namespace Application.Features.Tracking.GetAwayWithMakeUpTimeEntry;
+
+public class GetAwayWithMakeUpTimeEntryHandler
+{
+    private readonly IGetEntryByIdQuery _getEntryByIdQuery;
+
+    public GetAwayWithMakeUpTimeEntryHandler(
+        IGetEntryByIdQuery getEntryByIdQuery
+    )
+    {
+        _getEntryByIdQuery = getEntryByIdQuery;
+    }
+
+    public async Task<GetAwayWithMakeUpTimeEntryResponse> HandleAsync(long awayWithMakeUpTimeEntryId)
+    {
+        var awayWithMakeUpTimeEntry = await _getEntryByIdQuery.GetAsync<AwayWithMakeUpTimeEntry>(awayWithMakeUpTimeEntryId);
+
+        if (awayWithMakeUpTimeEntry == null)
+        {
+            throw new ArgumentException($"Away With Make-up Time Entry with id {awayWithMakeUpTimeEntryId} does not exist");
+        }
+
+        return new GetAwayWithMakeUpTimeEntryResponse
+        {
+            AwayWithMakeUpTimeEntry = new GetAwayWithMakeUpTimeEntryDto
+            {
+                Id = awayWithMakeUpTimeEntry.Id,
+                StartTime = awayWithMakeUpTimeEntry.StartTime,
+                EndTime = awayWithMakeUpTimeEntry.EndTime,
+                Type = awayWithMakeUpTimeEntry.Type,
+                Description = awayWithMakeUpTimeEntry.Description,
+                MakeUpTimeList = awayWithMakeUpTimeEntry.MakeUpTimeList
+                        .Select(x => new MakeUpTimeEntryWithIdDto
+                        {
+                            Id = x.Id,
+                            StartTime = x.StartTime,
+                            EndTime = x.EndTime
+                        })
+                        .ToList()
+            }
+        };
+    }
+}
+
