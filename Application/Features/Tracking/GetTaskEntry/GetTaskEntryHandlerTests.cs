@@ -23,7 +23,7 @@ public class GetTaskEntryHandlerTests
 
         getEntryByIdQueryMock
             .Setup(x => x.GetAsync<TaskEntry>(It.IsAny<long>()))
-            .Returns(Task.FromResult<TaskEntry>(null));
+            .Returns(Task.FromResult<TaskEntry>(null!)!);
 
         var getTaskEntryHandler = new GetTaskEntryHandler(getEntryByIdQueryMock.Object);
 

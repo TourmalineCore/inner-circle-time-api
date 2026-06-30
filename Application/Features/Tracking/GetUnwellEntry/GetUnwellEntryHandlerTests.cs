@@ -23,7 +23,7 @@ public class GetUnwellEntryHandlerTests
 
         getEntryByIdQueryMock
             .Setup(x => x.GetAsync<UnwellEntry>(It.IsAny<long>()))
-            .Returns(Task.FromResult<UnwellEntry>(null));
+            .Returns(Task.FromResult<UnwellEntry>(null!)!);
 
         var getTaskEntryHandler = new GetUnwellEntryHandler(getEntryByIdQueryMock.Object);
 
