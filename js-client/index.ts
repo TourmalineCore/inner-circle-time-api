@@ -133,6 +133,20 @@ export interface GetTaskEntryResponse {
   taskEntry: GetTaskEntryDto;
 }
 
+export interface GetUnwellEntryDto {
+  /** @format int64 */
+  id: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
+}
+
+export interface GetUnwellEntryResponse {
+  unwellEntry: GetUnwellEntryDto;
+}
+
 export interface MakeUpTimeEntryWithIdDto {
   /** @format int64 */
   id: number;
@@ -520,6 +534,46 @@ export class Api<
      * No description
      *
      * @tags Tracking
+     * @name TrackingGetUnwellntry
+     * @summary Get an unwell entry
+     * @request GET:/api/tracking/unwell-entries/{unwellEntryId}
+     */
+    trackingGetUnwellntry: (
+      unwellEntryId: number,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetUnwellEntryResponse, any>({
+        path: `/api/tracking/unwell-entries/${unwellEntryId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingUpdateUnwellEntry
+     * @summary Update an unwell entry
+     * @request POST:/api/tracking/unwell-entries/{unwellEntryId}
+     */
+    trackingUpdateUnwellEntry: (
+      unwellEntryId: number,
+      data: UpdateUnwellEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/tracking/unwell-entries/${unwellEntryId}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
      * @name TrackingCreateUnwellEntry
      * @summary Create an unwell entry
      * @request POST:/api/tracking/unwell-entries
@@ -555,27 +609,6 @@ export class Api<
         body: data,
         type: ContentType.Json,
         format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tracking
-     * @name TrackingUpdateUnwellEntry
-     * @summary Update an unwell entry
-     * @request POST:/api/tracking/unwell-entries/{unwellEntryId}
-     */
-    trackingUpdateUnwellEntry: (
-      unwellEntryId: number,
-      data: UpdateUnwellEntryRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, any>({
-        path: `/api/tracking/unwell-entries/${unwellEntryId}`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
         ...params,
       }),
 
