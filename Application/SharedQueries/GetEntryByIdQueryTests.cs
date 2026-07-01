@@ -28,9 +28,9 @@ public class GetEntryByIdQueryTests
 
         var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
 
-        var result = await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id);
-
-        Assert.Null(result);
+        await Assert.ThrowsAsync<InvalidOperationException>(
+                async () => await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id)
+            );
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class GetEntryByIdQueryTests
 
         var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
 
-        var result = await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id);
-
-        Assert.Null(result);
+        await Assert.ThrowsAsync<InvalidOperationException>(
+                  async () => await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id)
+              );
     }
 }
