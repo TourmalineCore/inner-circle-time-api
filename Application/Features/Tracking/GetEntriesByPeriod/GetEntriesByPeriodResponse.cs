@@ -71,6 +71,8 @@ public class MakeUpTimeEntryWithRelatedEntryDto
 {
     public required long RelatedEntryId { get; set; }
 
+    public required EntryType RelatedEntryType { get; set; }
+
     public required EntryType Type { get; set; }
 
     public required DateTime StartTime { get; set; }

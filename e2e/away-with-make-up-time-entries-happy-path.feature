@@ -122,6 +122,7 @@ Feature: Away with Make Up Time Entries
     """
     {
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
+        "relatedEntryType": 3,
         "type": 4,
         "startTime": "#(rescheduledMakeUpTime1StartTime)",
         "endTime": "#(rescheduledMakeUpTime1EndTime)",
@@ -131,6 +132,7 @@ Feature: Away with Make Up Time Entries
     """
     {
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
+        "relatedEntryType": 3,
         "type": 4,
         "startTime": "#(makeUpTime2StartTime)",
         "endTime": "#(makeUpTime2EndTime)"

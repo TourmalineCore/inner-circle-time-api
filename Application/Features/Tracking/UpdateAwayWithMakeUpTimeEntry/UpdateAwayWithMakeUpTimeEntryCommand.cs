@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 
@@ -69,6 +71,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
                     TenantId = _claimsProvider.TenantId,
                     EmployeeId = _claimsProvider.EmployeeId,
                     RelatedEntryId = updateAwayWithMakeUpTimeEntryRequest.Id,
+                    RelatedEntryType = EntryType.AwayWithMakeUpTime,
                     StartTime = makeUpTimeFromRequest.StartTime,
                     EndTime = makeUpTimeFromRequest.EndTime
                 };

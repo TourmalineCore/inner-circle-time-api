@@ -79,6 +79,7 @@ public class GetEntriesByPeriodHandler
                x => new MakeUpTimeEntryWithRelatedEntryDto
                {
                    RelatedEntryId = x.RelatedEntryId,
+                   RelatedEntryType = x.RelatedEntryType,
                    StartTime = x.StartTime,
                    EndTime = x.EndTime,
                    Type = x.Type,
