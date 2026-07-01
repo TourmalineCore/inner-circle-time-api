@@ -112,6 +112,7 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 	}
 	MakeUpTimeEntry {
 		bigint RelatedEntryId FK
+		integer RelatedEntryType 
 	}
 	TaskEntry {
 		text Description 
