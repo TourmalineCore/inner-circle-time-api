@@ -15,4 +15,6 @@ public class MakeUpTimeEntry : TrackedEntryBase
 
     [ForeignKey(nameof(RelatedEntryId))]
     public TrackedEntryBase RelatedEntry { get; set; }
+
+    public EntryType RelatedEntryType { get; set; }
 }

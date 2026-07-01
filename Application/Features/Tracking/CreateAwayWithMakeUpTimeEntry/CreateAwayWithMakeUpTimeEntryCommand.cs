@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
+﻿using Core.Entities;
+
+namespace Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 
 public class CreateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase<CreateAwayWithMakeUpTimeEntryRequest>
 {
@@ -34,6 +36,7 @@ public class CreateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
                 {
                     TenantId = _claimsProvider.TenantId,
                     EmployeeId = _claimsProvider.EmployeeId,
+                    RelatedEntryType = EntryType.AwayWithMakeUpTime,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime
                 })

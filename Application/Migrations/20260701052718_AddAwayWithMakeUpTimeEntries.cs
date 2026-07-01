@@ -5,7 +5,7 @@
 namespace Application.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAwayWithMakeUpTimeEntry : Migration
+    public partial class AddAwayWithMakeUpTimeEntries : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,12 @@ namespace Application.Migrations
                 name: "related_entry_id",
                 table: "tracked_entries",
                 type: "bigint",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "related_entry_type",
+                table: "tracked_entries",
+                type: "integer",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
@@ -53,6 +59,10 @@ namespace Application.Migrations
 
             migrationBuilder.DropColumn(
                 name: "related_entry_id",
+                table: "tracked_entries");
+
+            migrationBuilder.DropColumn(
+                name: "related_entry_type",
                 table: "tracked_entries");
 
             migrationBuilder.AlterColumn<string>(
