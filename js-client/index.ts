@@ -10,6 +10,18 @@
  * ---------------------------------------------------------------
  */
 
+export interface AwayWithMakeUpTimeEntryDto {
+  /** @format int64 */
+  id: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
+  description: string;
+  makeUpTimeList: MakeUpTimeEntryWithIdDto[];
+}
+
 export interface CreateAwayWithMakeUpTimeEntryRequest {
   /** @format date-time */
   startTime: string;
@@ -83,7 +95,7 @@ export interface GetAllProjectsResponse {
   projects: ProjectDto[];
 }
 
-export interface GetAwayWithMakeUpTimeEntryDto {
+export interface GetAwayWithMakeUpTimeEntryResponse {
   /** @format int64 */
   id: number;
   /** @format date-time */
@@ -95,29 +107,15 @@ export interface GetAwayWithMakeUpTimeEntryDto {
   makeUpTimeList: MakeUpTimeEntryWithIdDto[];
 }
 
-export interface GetAwayWithMakeUpTimeEntryResponse {
-  awayWithMakeUpTimeEntry: GetAwayWithMakeUpTimeEntryDto;
-}
-
 export interface GetEmployeesTrackedTaskHoursResponse {
   employeesTrackedTaskHours: EmployeeTrackedTaskHourDto[];
 }
 
 export interface GetEntriesByPeriodResponse {
-  taskEntries: GetTaskEntryDto[];
-  unwellEntries: GetUnwellEntryDto[];
-  awayWithMakeUpTimeEntries: GetAwayWithMakeUpTimeEntryDto[];
-  makeUpTimeEntries: GetMakeUpTimeEntryEntryDto[];
-}
-
-export interface GetMakeUpTimeEntryEntryDto {
-  /** @format int64 */
-  relatedEntryId: number;
-  type: EntryType;
-  /** @format date-time */
-  startTime: string;
-  /** @format date-time */
-  endTime: string;
+  taskEntries: TaskEntryDto[];
+  unwellEntries: UnwellEntryDto[];
+  awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
+  makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -128,7 +126,7 @@ export interface GetPersonalReportResponse {
   unwellHours: number;
 }
 
-export interface GetTaskEntryDto {
+export interface GetTaskEntryResponse {
   /** @format int64 */
   id: number;
   title: string;
@@ -143,11 +141,7 @@ export interface GetTaskEntryDto {
   description: string;
 }
 
-export interface GetTaskEntryResponse {
-  taskEntry: GetTaskEntryDto;
-}
-
-export interface GetUnwellEntryDto {
+export interface GetUnwellEntryResponse {
   /** @format int64 */
   id: number;
   /** @format date-time */
@@ -157,13 +151,19 @@ export interface GetUnwellEntryDto {
   type: EntryType;
 }
 
-export interface GetUnwellEntryResponse {
-  unwellEntry: GetUnwellEntryDto;
-}
-
 export interface MakeUpTimeEntryWithIdDto {
   /** @format int64 */
   id: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+}
+
+export interface MakeUpTimeEntryWithRelatedEntryDto {
+  /** @format int64 */
+  relatedEntryId: number;
+  type: EntryType;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -191,6 +191,21 @@ export interface TaskDto {
   title: string;
 }
 
+export interface TaskEntryDto {
+  /** @format int64 */
+  id: number;
+  title: string;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
+  /** @format int64 */
+  projectId: number;
+  taskId: string;
+  description: string;
+}
+
 export interface TrackedEntryDto {
   /** @format int64 */
   id: number;
@@ -206,6 +221,16 @@ export interface TrackedEntryDto {
   project: ProjectDto;
   task: TaskDto;
   description?: string | null;
+}
+
+export interface UnwellEntryDto {
+  /** @format int64 */
+  id: number;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  type: EntryType;
 }
 
 export interface UpdateAwayWithMakeUpTimeEntryRequest {
