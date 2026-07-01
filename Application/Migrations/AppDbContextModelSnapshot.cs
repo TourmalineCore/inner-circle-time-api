@@ -164,6 +164,10 @@ namespace Application.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("related_entry_id");
 
+                    b.Property<int>("RelatedEntryType")
+                        .HasColumnType("integer")
+                        .HasColumnName("related_entry_type");
+
                     b.HasIndex("RelatedEntryId")
                         .HasDatabaseName("ix_tracked_entries_related_entry_id");
 
