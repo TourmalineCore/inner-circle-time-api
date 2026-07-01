@@ -19,7 +19,7 @@ export interface AwayWithMakeUpTimeEntryDto {
   endTime: string;
   type: EntryType;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryWithIdDto[];
+  makeUpTimeList: MakeUpTimeEntryDto[];
 }
 
 export interface CreateAwayWithMakeUpTimeEntryRequest {
@@ -104,7 +104,7 @@ export interface GetAwayWithMakeUpTimeEntryResponse {
   endTime: string;
   type: EntryType;
   description: string;
-  makeUpTimeList: MakeUpTimeEntryWithIdDto[];
+  makeUpTimeList: MakeUpTimeEntryDto[];
 }
 
 export interface GetEmployeesTrackedTaskHoursResponse {
@@ -151,7 +151,7 @@ export interface GetUnwellEntryResponse {
   type: EntryType;
 }
 
-export interface MakeUpTimeEntryWithIdDto {
+export interface MakeUpTimeEntryDto {
   /** @format int64 */
   id: number;
   /** @format date-time */
