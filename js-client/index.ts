@@ -539,11 +539,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name TrackingGetUnwellntry
+     * @name TrackingGetUnwellEntry
      * @summary Get an unwell entry
      * @request GET:/api/tracking/unwell-entries/{unwellEntryId}
      */
-    trackingGetUnwellntry: (
+    trackingGetUnwellEntry: (
       unwellEntryId: number,
       params: RequestParams = {},
     ) =>
