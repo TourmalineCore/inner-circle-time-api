@@ -18,11 +18,6 @@ public class GetAwayWithMakeUpTimeEntryHandler
     {
         var awayWithMakeUpTimeEntry = await _getEntryByIdQuery.GetAsync<AwayWithMakeUpTimeEntry>(awayWithMakeUpTimeEntryId);
 
-        if (awayWithMakeUpTimeEntry == null)
-        {
-            throw new ArgumentException($"Away With Make-up Time Entry with id {awayWithMakeUpTimeEntryId} does not exist");
-        }
-
         return new GetAwayWithMakeUpTimeEntryResponse
         {
             Id = awayWithMakeUpTimeEntry.Id,

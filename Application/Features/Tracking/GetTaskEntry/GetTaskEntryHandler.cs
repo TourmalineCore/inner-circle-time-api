@@ -18,11 +18,6 @@ public class GetTaskEntryHandler
     {
         var taskEntry = await _getEntryByIdQuery.GetAsync<TaskEntry>(taskEntryId);
 
-        if (taskEntry == null)
-        {
-            throw new ArgumentException($"Task Entry with id {taskEntryId} does not exist");
-        }
-
         return new GetTaskEntryResponse
         {
             Id = taskEntry.Id,

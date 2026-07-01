@@ -5,7 +5,7 @@ namespace Application.SharedQueries;
 
 public interface IGetEntryByIdQuery
 {
-    Task<TEntity?> GetAsync<TEntity>(long entryId) where TEntity : TrackedEntryBase;
+    Task<TEntity> GetAsync<TEntity>(long entryId) where TEntity : TrackedEntryBase;
 }
 
 public class GetEntryByIdQuery : IGetEntryByIdQuery
@@ -22,7 +22,7 @@ public class GetEntryByIdQuery : IGetEntryByIdQuery
         _claimsProvider = claimsProvider;
     }
 
-    public Task<TEntity?> GetAsync<TEntity>(long entryId)
+    public Task<TEntity> GetAsync<TEntity>(long entryId)
     where TEntity : TrackedEntryBase
     {
         return _context
@@ -30,6 +30,6 @@ public class GetEntryByIdQuery : IGetEntryByIdQuery
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .Where(x => x.Id == entryId)
             .Include(x => x.MakeUpTimeList)
-            .SingleOrDefaultAsync();
+            .SingleAsync();
     }
 }

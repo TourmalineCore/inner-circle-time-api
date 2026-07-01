@@ -18,11 +18,6 @@ public class GetUnwellEntryHandler
     {
         var unwellEntry = await _getEntryByIdQuery.GetAsync<UnwellEntry>(unwellEntryId);
 
-        if (unwellEntry == null)
-        {
-            throw new ArgumentException($"Unwell Entry with id {unwellEntryId} does not exist");
-        }
-
         return new GetUnwellEntryResponse
         {
             Id = unwellEntry.Id,
