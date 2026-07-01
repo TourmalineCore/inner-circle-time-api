@@ -90,7 +90,7 @@ Feature: Task Entries
     # Verify updated away with make up time entry data using endpoint with id
     Given path 'tracking/task-entries', newTaskEntryId
     When method GET
-    And match response.taskEntry contains
+    And match response contains
     """
     {
         "id": "#(newTaskEntryId)",

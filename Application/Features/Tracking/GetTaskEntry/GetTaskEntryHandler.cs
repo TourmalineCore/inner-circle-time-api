@@ -25,17 +25,14 @@ public class GetTaskEntryHandler
 
         return new GetTaskEntryResponse
         {
-            TaskEntry = new GetTaskEntryDto
-            {
-                Id = taskEntry.Id,
-                StartTime = taskEntry.StartTime,
-                EndTime = taskEntry.EndTime,
-                Type = taskEntry.Type,
-                Title = taskEntry.Title,
-                ProjectId = taskEntry.ProjectId,
-                TaskId = taskEntry.TaskId,
-                Description = taskEntry.Description
-            },
+            Id = taskEntry.Id,
+            StartTime = taskEntry.StartTime,
+            EndTime = taskEntry.EndTime,
+            Type = taskEntry.Type,
+            Title = taskEntry.Title,
+            ProjectId = taskEntry.ProjectId,
+            TaskId = taskEntry.TaskId,
+            Description = taskEntry.Description
         };
     }
 }

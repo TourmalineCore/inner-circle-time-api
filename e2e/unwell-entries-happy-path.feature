@@ -66,7 +66,7 @@ Feature: Unwell Entries
     # Verify updated away with make up time entry data using endpoint with id
     Given path 'tracking/unwell-entries', newUnwellEntryId
     When method GET
-    And match response.unwellEntry contains
+    And match response contains
     """
     {
         "id": "#(newUnwellEntryId)",

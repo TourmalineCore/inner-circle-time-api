@@ -26,7 +26,7 @@ public class GetEntriesByPeriodHandler
         var taskEntries = entriesByPeriod
             .OfType<TaskEntry>()
             .Select(
-                x => new GetTaskEntryDto
+                x => new TaskEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -42,7 +42,7 @@ public class GetEntriesByPeriodHandler
         var unwellEntries = entriesByPeriod
             .OfType<UnwellEntry>()
             .Select(
-                x => new GetUnwellEntryDto
+                x => new UnwellEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -54,7 +54,7 @@ public class GetEntriesByPeriodHandler
         var awayWithMakeUpTimeEntries = entriesByPeriod
             .OfType<AwayWithMakeUpTimeEntry>()
             .Select(
-                x => new GetAwayWithMakeUpTimeEntryDto
+                x => new AwayWithMakeUpTimeEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
@@ -75,7 +75,7 @@ public class GetEntriesByPeriodHandler
         var makeUpTimeEntries = entriesByPeriod
            .OfType<MakeUpTimeEntry>()
            .Select(
-               x => new GetMakeUpTimeEntryEntryDto
+               x => new MakeUpTimeEntryWithRelatedEntryDto
                {
                    RelatedEntryId = x.RelatedEntryId,
                    StartTime = x.StartTime,

@@ -95,7 +95,7 @@ Feature: Away with Make Up Time Entries
     Given path 'tracking/away-with-make-up-time-entries', newAwayWithMakeUpTimeEntryId
     When method GET
     Then status 200
-    And match response.awayWithMakeUpTimeEntry contains
+    And match response contains
     """
     {
         "id": "#(newAwayWithMakeUpTimeEntryId)",

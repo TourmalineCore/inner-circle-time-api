@@ -1,3 +1,4 @@
+using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.SharedQueries;
 
 namespace Application.Features.Tracking.GetAwayWithMakeUpTimeEntry;
@@ -24,22 +25,19 @@ public class GetAwayWithMakeUpTimeEntryHandler
 
         return new GetAwayWithMakeUpTimeEntryResponse
         {
-            AwayWithMakeUpTimeEntry = new GetAwayWithMakeUpTimeEntryDto
-            {
-                Id = awayWithMakeUpTimeEntry.Id,
-                StartTime = awayWithMakeUpTimeEntry.StartTime,
-                EndTime = awayWithMakeUpTimeEntry.EndTime,
-                Type = awayWithMakeUpTimeEntry.Type,
-                Description = awayWithMakeUpTimeEntry.Description,
-                MakeUpTimeList = awayWithMakeUpTimeEntry.MakeUpTimeList
-                        .Select(x => new MakeUpTimeEntryWithIdDto
-                        {
-                            Id = x.Id,
-                            StartTime = x.StartTime,
-                            EndTime = x.EndTime
-                        })
-                        .ToList()
-            }
+            Id = awayWithMakeUpTimeEntry.Id,
+            StartTime = awayWithMakeUpTimeEntry.StartTime,
+            EndTime = awayWithMakeUpTimeEntry.EndTime,
+            Type = awayWithMakeUpTimeEntry.Type,
+            Description = awayWithMakeUpTimeEntry.Description,
+            MakeUpTimeList = awayWithMakeUpTimeEntry.MakeUpTimeList
+                .Select(x => new MakeUpTimeEntryWithIdDto
+                {
+                    Id = x.Id,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime
+                })
+                .ToList()
         };
     }
 }

@@ -25,13 +25,10 @@ public class GetUnwellEntryHandler
 
         return new GetUnwellEntryResponse
         {
-            UnwellEntry = new GetUnwellEntryDto
-            {
-                Id = unwellEntry.Id,
-                StartTime = unwellEntry.StartTime,
-                EndTime = unwellEntry.EndTime,
-                Type = unwellEntry.Type,
-            },
+            Id = unwellEntry.Id,
+            StartTime = unwellEntry.StartTime,
+            EndTime = unwellEntry.EndTime,
+            Type = unwellEntry.Type,
         };
     }
 }
