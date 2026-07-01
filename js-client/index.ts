@@ -163,6 +163,7 @@ export interface MakeUpTimeEntryWithIdDto {
 export interface MakeUpTimeEntryWithRelatedEntryDto {
   /** @format int64 */
   relatedEntryId: number;
+  relatedEntryType: EntryType;
   type: EntryType;
   /** @format date-time */
   startTime: string;
