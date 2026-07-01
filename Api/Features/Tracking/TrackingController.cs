@@ -60,7 +60,7 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Get an unwell entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("unwell-entries/{unwellEntryId}")]
-    public Task<GetUnwellEntryResponse> GetUnwellntryAsync(
+    public Task<GetUnwellEntryResponse> GetUnwellEntryAsync(
       [Required][FromRoute] long unwellEntryId,
       [FromServices] GetUnwellEntryHandler getUnwellEntryHandler
     )
