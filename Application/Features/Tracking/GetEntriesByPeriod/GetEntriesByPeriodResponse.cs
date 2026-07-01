@@ -55,7 +55,7 @@ public class AwayWithMakeUpTimeEntryDto
 
     public required string Description { get; set; }
 
-    public required List<MakeUpTimeEntryWithIdDto> MakeUpTimeList { get; set; }
+    public required List<MakeUpTimeEntryDto> MakeUpTimeList { get; set; }
 }
 
 public class MakeUpTimeEntryWithRelatedEntryDto

@@ -15,5 +15,5 @@ public class GetAwayWithMakeUpTimeEntryResponse
 
     public required string Description { get; set; }
 
-    public required List<MakeUpTimeEntryWithIdDto> MakeUpTimeList { get; set; }
+    public required List<MakeUpTimeEntryDto> MakeUpTimeList { get; set; }
 }

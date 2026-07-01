@@ -1,4 +1,4 @@
-public class MakeUpTimeEntryWithIdDto
+public class MakeUpTimeEntryDto
 {
     public required long Id { get; set; }
 

@@ -26,7 +26,7 @@ public class GetAwayWithMakeUpTimeEntryHandler
             Type = awayWithMakeUpTimeEntry.Type,
             Description = awayWithMakeUpTimeEntry.Description,
             MakeUpTimeList = awayWithMakeUpTimeEntry.MakeUpTimeList
-                .Select(x => new MakeUpTimeEntryWithIdDto
+                .Select(x => new MakeUpTimeEntryDto
                 {
                     Id = x.Id,
                     StartTime = x.StartTime,
