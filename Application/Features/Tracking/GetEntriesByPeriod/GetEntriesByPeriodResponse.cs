@@ -60,8 +60,6 @@ public class AwayWithMakeUpTimeEntryDto
 
 public class MakeUpTimeEntryWithRelatedEntryDto
 {
-    public required long Id { get; set; }
-
     public required long RelatedEntryId { get; set; }
 
     public required EntryType Type { get; set; }
