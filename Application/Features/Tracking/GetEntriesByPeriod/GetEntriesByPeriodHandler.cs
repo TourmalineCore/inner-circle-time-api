@@ -1,4 +1,3 @@
-using System.Data.Common;
 using Core.Entities;
 
 namespace Application.Features.Tracking.GetEntriesByPeriod;
@@ -63,7 +62,7 @@ public class GetEntriesByPeriodHandler
                     Type = x.Type,
                     Description = x.Description,
                     MakeUpTimeList = x.MakeUpTimeList
-                        .Select(x => new MakeUpTimeEntryWithIdDto
+                        .Select(x => new MakeUpTimeEntryDto
                         {
                             Id = x.Id,
                             StartTime = x.StartTime,

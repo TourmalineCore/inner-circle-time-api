@@ -91,7 +91,34 @@ Feature: Away with Make Up Time Entries
     When method POST
     Then status 200
 
-    # Verify updated away with make up time entry data
+    # Verify updated away with make up time entry data using endpoint with id
+    Given path 'tracking/away-with-make-up-time-entries', newAwayWithMakeUpTimeEntryId
+    When method GET
+    Then status 200
+    And match response contains
+    """
+    {
+        "id": "#(newAwayWithMakeUpTimeEntryId)",
+        "type": 3,
+        "startTime": "#(startTime)",
+        "endTime": "#(endTime)",
+        "description": "#(description)",
+        "makeUpTimeList": [
+            {
+                "id": "#number",
+                "startTime": "#(makeUpTime2StartTime)",
+                "endTime": "#(makeUpTime2EndTime)"
+            },
+            {
+                "id": "#number",
+                "startTime": "#(rescheduledMakeUpTime1StartTime)",
+                "endTime": "#(rescheduledMakeUpTime1EndTime)"
+            },
+        ]
+    }
+    """
+
+    # Verify updated away with make up time entry data using endpoint with period
     Given path 'tracking/entries'
     And params { startDate: "2034-11-05", endDate: "2034-11-08" }
     When method GET

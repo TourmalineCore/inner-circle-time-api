@@ -37,5 +37,10 @@ Feature: Unwell Entries
 
     Given url apiRootUrl
     Given path 'tracking/unwell-entries', 100500
+    When method GET
+    Then status 403
+
+    Given url apiRootUrl
+    Given path 'tracking/unwell-entries', 100500
     When method POST
     Then status 403

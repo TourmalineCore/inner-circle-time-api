@@ -34,6 +34,11 @@ Feature: Away with Make Up Time Entries
     Given path 'tracking/away-with-make-up-time-entries'
     When method POST
     Then status 403
+
+    Given url apiRootUrl
+    Given path 'tracking/away-with-make-up-time-entries', 100500
+    When method GET
+    Then status 403
     
     Given url apiRootUrl
     Given path 'tracking/away-with-make-up-time-entries', 100500
