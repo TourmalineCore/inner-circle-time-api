@@ -40,4 +40,11 @@ public class TenantAppDbContext : AppDbContext
         return QueryableWithinTenant<TEntity>()
             .AsNoTracking();
     }
+
+    public IQueryable<TEntity> DeletedAndNotDeletedQueryableWithinTenant<TEntity>()
+        where TEntity : EntityBase
+    {
+        return Set<TEntity>()
+            .Where(x => x.TenantId == _tenantId);
+    }
 }

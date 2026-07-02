@@ -18,7 +18,7 @@ public class HardDeleteEntityCommand
         where TEntity : EntityBase, IOwnedByEmployee, ICanBeDeleted
     {
         var entity = await _context
-            .QueryableWithinTenant<TEntity>()
+            .DeletedAndNotDeletedQueryableWithinTenant<TEntity>()
             .Where(x => x.EmployeeId == _claimsProvider.EmployeeId)
             .SingleOrDefaultAsync(x => x.Id == entityId);
 

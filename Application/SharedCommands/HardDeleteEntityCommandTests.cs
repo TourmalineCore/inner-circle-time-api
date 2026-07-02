@@ -107,4 +107,28 @@ public class HardDeleteEntityCommandTests
         Assert.False(wasDeleted);
         Assert.NotNull(taskEntryFromDb);
     }
+
+    [Fact]
+    public async Task DeleteEntryThatWasPreviouslyDeletedUsingTheSoftMethod_ShouldDeleteEntityFromDb()
+    {
+        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
+        {
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            DeletedAtUtc = DateTime.UtcNow
+        });
+
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
+        var command = new HardDeleteEntityCommand(_context, mockClaimsProvider);
+
+        var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
+
+        var deletedTaskEntry = await _context
+            .TaskEntries
+            .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
+
+        Assert.True(wasDeleted);
+        Assert.Null(deletedTaskEntry);
+    }
 }

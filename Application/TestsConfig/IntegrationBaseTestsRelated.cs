@@ -75,10 +75,14 @@ public class IntegrationTestBase : IAsyncLifetime
     {
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        return new TenantAppDbContext(
-            _dbContextOptions,
-            mockClaimsProvider
-        );
+        var context = new TenantAppDbContext(_dbContextOptions, mockClaimsProvider);
+
+        // Using an existing transaction rather than creating a new one.
+        // This avoids errors in the tests. System.InvalidOperationException : A transaction is already in progress; nested/concurrent transactions aren't supported.
+        // The error occurs when trying to save an entry with a nested make up time entry.
+        context.Database.UseTransaction(_dbTransaction);
+
+        return context;
     }
 
     protected async Task<TEntity> SaveEntityAsync<TEntity>(

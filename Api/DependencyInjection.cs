@@ -7,14 +7,20 @@ using Application.Features.Internal.GetAllProjects;
 using Application.Features.Internal.GetEmployeesTrackedTaskHours;
 using Application.Features.Reporting.GetAllEmployees;
 using Application.Features.Reporting.GetPersonalReport;
+using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
+using Application.Features.Tracking.GetAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
+using Application.Features.Tracking.GetTaskEntry;
+using Application.Features.Tracking.GetUnwellEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
+using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Application.SharedCommands;
+using Application.SharedQueries;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -45,6 +51,13 @@ public static class DependencyInjection
         services.AddTransient<CreateTaskEntryCommand>();
         services.AddTransient<CreateUnwellEntryHandler>();
         services.AddTransient<CreateUnwellEntryCommand>();
+        services.AddTransient<CreateAwayWithMakeUpTimeEntryHandler>();
+        services.AddTransient<CreateAwayWithMakeUpTimeEntryCommand>();
+        services.AddTransient<UpdateAwayWithMakeUpTimeEntryHandler>();
+        services.AddTransient<UpdateAwayWithMakeUpTimeEntryCommand>();
+        services.AddTransient<GetTaskEntryHandler>();
+        services.AddTransient<GetUnwellEntryHandler>();
+        services.AddTransient<GetAwayWithMakeUpTimeEntryHandler>();
         services.AddTransient<GetEntriesByPeriodHandler>();
         services.AddTransient<GetEntriesByPeriodQuery>();
         services.AddTransient<UpdateTaskEntryHandler>();
@@ -60,6 +73,7 @@ public static class DependencyInjection
         services.AddTransient<GetAllProjectsHandler>();
         services.AddTransient<GetAllEmployeesHandler>();
         services.AddTransient<GetPersonalReportHandler>();
+        services.AddTransient<IGetEntryByIdQuery, GetEntryByIdQuery>();
         services.AddTransient<GetEmployeeTrackedEntriesQuery>();
     }
 }
