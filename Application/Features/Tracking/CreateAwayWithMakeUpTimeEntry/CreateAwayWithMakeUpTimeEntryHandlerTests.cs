@@ -33,7 +33,7 @@ public class CreateAwayWithMakeUpTimeEntryHandlerTests
 
         var createAwayWithMakeUpTimeEntryHandler = new CreateAwayWithMakeUpTimeEntryHandler(createAwayWithMakeUpTimeEntryCommand);
 
-        var exception = await Assert.ThrowsAsync<ArgumentException>(
+        var exception = await Assert.ThrowsAsync<TimeDoesNotMatchException>(
                 async () => await createAwayWithMakeUpTimeEntryHandler.HandleAsync(createAwayWithMakeUpTimeEntryRequest)
             );
 

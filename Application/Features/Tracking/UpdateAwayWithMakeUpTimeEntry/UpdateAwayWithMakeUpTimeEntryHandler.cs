@@ -26,7 +26,7 @@ public class UpdateAwayWithMakeUpTimeEntryHandler
 
         if (!doesTimeMatch)
         {
-            throw new ArgumentException("Total make-up time must equal your away time. Please check and adjust your entries.");
+            throw new TimeDoesNotMatchException("Total make-up time must equal your away time. Please check and adjust your entries.");
         }
 
         updateAwayWithMakeUpTimeEntryRequest.Id = awayWithMakeUpTimeEntryId;

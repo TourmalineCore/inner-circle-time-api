@@ -25,7 +25,7 @@ public class CreateAwayWithMakeUpTimeEntryHandler
 
         if (!doesTimeMatch)
         {
-            throw new ArgumentException("Total make-up time must equal your away time. Please check and adjust your entries.");
+            throw new TimeDoesNotMatchException("Total make-up time must equal your away time. Please check and adjust your entries.");
         }
 
         var newAwayWithMakeUpTimeEntryId = await _createAwayWithMakeUpTimeEntryCommand.ExecuteAsync(createAwayWithMakeUpTimeEntryRequest);

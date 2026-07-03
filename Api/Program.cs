@@ -46,6 +46,16 @@ public class Program
                     Detail = ex.Message,
                 };
             });
+
+            options.Map<TimeDoesNotMatchException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Time does not match",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
         });
 
         builder.Services.AddControllers()
