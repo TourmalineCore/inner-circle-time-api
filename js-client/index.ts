@@ -18,6 +18,7 @@ export interface AwayWithMakeUpTimeEntryDto {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+  entryType: EntryType;
   description: string;
   makeUpTimeList: MakeUpTimeEntryDto[];
 }
@@ -103,6 +104,7 @@ export interface GetAwayWithMakeUpTimeEntryResponse {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+  entryType: EntryType;
   description: string;
   makeUpTimeList: MakeUpTimeEntryDto[];
 }
@@ -135,6 +137,7 @@ export interface GetTaskEntryResponse {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+  entryType: EntryType;
   /** @format int64 */
   projectId: number;
   taskId: string;
@@ -149,6 +152,7 @@ export interface GetUnwellEntryResponse {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+  entryType: EntryType;
 }
 
 export interface MakeUpTimeEntryDto {
@@ -165,6 +169,7 @@ export interface MakeUpTimeEntryWithRelatedEntryDto {
   relatedEntryId: number;
   relatedEntryType: EntryType;
   type: EntryType;
+  entryType: EntryType;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -201,6 +206,7 @@ export interface TaskEntryDto {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+  entryType: EntryType;
   /** @format int64 */
   projectId: number;
   taskId: string;
@@ -232,6 +238,7 @@ export interface UnwellEntryDto {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+  entryType: EntryType;
 }
 
 export interface UpdateAwayWithMakeUpTimeEntryRequest {
