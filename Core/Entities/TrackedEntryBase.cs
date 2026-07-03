@@ -20,7 +20,7 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public TimeSpan Duration { get; set; }
 
-    public EntryType Type { get; set; }
+    public EntryType EntryType { get; set; }
 
     public DateTime? DeletedAtUtc { get; set; }
 

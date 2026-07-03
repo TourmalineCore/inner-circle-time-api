@@ -31,7 +31,8 @@ public class GetEntriesByPeriodHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Type = x.Type,
+                    Type = x.EntryType,
+                    EntryType = x.EntryType,
                     Title = x.Title,
                     ProjectId = x.ProjectId,
                     TaskId = x.TaskId,
@@ -47,7 +48,8 @@ public class GetEntriesByPeriodHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Type = x.Type,
+                    Type = x.EntryType,
+                    EntryType = x.EntryType,
                 })
                 .ToList();
 
@@ -59,7 +61,8 @@ public class GetEntriesByPeriodHandler
                     Id = x.Id,
                     StartTime = x.StartTime,
                     EndTime = x.EndTime,
-                    Type = x.Type,
+                    Type = x.EntryType,
+                    EntryType = x.EntryType,
                     Description = x.Description,
                     MakeUpTimeList = x.MakeUpTimeList
                         .Select(x => new MakeUpTimeEntryDto
@@ -81,7 +84,8 @@ public class GetEntriesByPeriodHandler
                    RelatedEntryType = x.RelatedEntryType,
                    StartTime = x.StartTime,
                    EndTime = x.EndTime,
-                   Type = x.Type,
+                   Type = x.EntryType,
+                   EntryType = x.EntryType,
                })
                .ToList();
 
