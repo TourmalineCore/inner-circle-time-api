@@ -41,8 +41,8 @@ namespace Application.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("character varying(21)")
+                        .HasMaxLength(34)
+                        .HasColumnType("character varying(34)")
                         .HasColumnName("discriminator");
 
                     b.Property<TimeSpan>("Duration")
@@ -90,6 +90,25 @@ namespace Application.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("AwayWithMakeUpTimeEntry", b =>
+                {
+                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.ToTable(t =>
+                        {
+                            t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
+                        });
+
+                    b.HasDiscriminator().HasValue("AwayWithMakeUpTimeEntry");
+                });
+
             modelBuilder.Entity("Core.Entities.TaskEntry", b =>
                 {
                     b.HasBaseType("Core.Entities.TrackedEntryBase");
@@ -135,6 +154,48 @@ namespace Application.Migrations
                         });
 
                     b.HasDiscriminator().HasValue("UnwellEntry");
+                });
+
+            modelBuilder.Entity("MakeUpTimeEntry", b =>
+                {
+                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+
+                    b.Property<long>("RelatedEntryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("related_entry_id");
+
+                    b.Property<int>("RelatedEntryType")
+                        .HasColumnType("integer")
+                        .HasColumnName("related_entry_type");
+
+                    b.HasIndex("RelatedEntryId")
+                        .HasDatabaseName("ix_tracked_entries_related_entry_id");
+
+                    b.ToTable(t =>
+                        {
+                            t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
+                        });
+
+                    b.HasDiscriminator().HasValue("MakeUpTimeEntry");
+                });
+
+            modelBuilder.Entity("MakeUpTimeEntry", b =>
+                {
+                    b.HasOne("Core.Entities.TrackedEntryBase", "RelatedEntry")
+                        .WithMany("MakeUpTimeList")
+                        .HasForeignKey("RelatedEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_tracked_entries_tracked_entries_related_entry_id");
+
+                    b.Navigation("RelatedEntry");
+                });
+
+            modelBuilder.Entity("Core.Entities.TrackedEntryBase", b =>
+                {
+                    b.Navigation("MakeUpTimeList");
                 });
 #pragma warning restore 612, 618
         }
