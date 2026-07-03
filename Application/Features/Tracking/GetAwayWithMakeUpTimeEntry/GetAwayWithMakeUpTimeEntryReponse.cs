@@ -13,6 +13,8 @@ public class GetAwayWithMakeUpTimeEntryResponse
 
     public required EntryType Type { get; set; }
 
+    public required EntryType EntryType { get; set; }
+
     public required string Description { get; set; }
 
     public required List<MakeUpTimeEntryDto> MakeUpTimeList { get; set; }

@@ -95,6 +95,7 @@ Feature: Task Entries
     {
         "id": "#(newTaskEntryId)",
         "type": 1,
+        "entryType": 1,
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
@@ -113,6 +114,7 @@ Feature: Task Entries
     {
         "id": "#(newTaskEntryId)",
         "type": 1,
+        "entryType": 1,
         "title": "#(newRandomTitle)",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",

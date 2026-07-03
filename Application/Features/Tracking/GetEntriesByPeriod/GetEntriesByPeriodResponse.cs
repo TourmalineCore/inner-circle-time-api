@@ -25,6 +25,8 @@ public class TaskEntryDto
 
     public required EntryType Type { get; set; }
 
+    public required EntryType EntryType { get; set; }
+
     public required long ProjectId { get; set; }
 
     public required string TaskId { get; set; }
@@ -41,6 +43,8 @@ public class UnwellEntryDto
     public required DateTime EndTime { get; set; }
 
     public required EntryType Type { get; set; }
+
+    public required EntryType EntryType { get; set; }
 }
 
 public class AwayWithMakeUpTimeEntryDto
@@ -52,6 +56,8 @@ public class AwayWithMakeUpTimeEntryDto
     public required DateTime EndTime { get; set; }
 
     public required EntryType Type { get; set; }
+
+    public required EntryType EntryType { get; set; }
 
     public required string Description { get; set; }
 
@@ -65,6 +71,8 @@ public class MakeUpTimeEntryWithRelatedEntryDto
     public required EntryType RelatedEntryType { get; set; }
 
     public required EntryType Type { get; set; }
+
+    public required EntryType EntryType { get; set; }
 
     public required DateTime StartTime { get; set; }
 

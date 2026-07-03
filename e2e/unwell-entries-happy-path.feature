@@ -71,6 +71,7 @@ Feature: Unwell Entries
     {
         "id": "#(newUnwellEntryId)",
         "type": 2,
+        "entryType": 2,
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
     }
@@ -85,6 +86,7 @@ Feature: Unwell Entries
     {
         "id": "#(newUnwellEntryId)",
         "type": 2,
+        "entryType": 2,
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
     }

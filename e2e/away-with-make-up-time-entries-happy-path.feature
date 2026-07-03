@@ -100,6 +100,7 @@ Feature: Away with Make Up Time Entries
     {
         "id": "#(newAwayWithMakeUpTimeEntryId)",
         "type": 3,
+        "entryType": 3,
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
         "description": "#(description)",
@@ -128,6 +129,7 @@ Feature: Away with Make Up Time Entries
     {
         "id": "#(newAwayWithMakeUpTimeEntryId)",
         "type": 3,
+        "entryType": 3,
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
         "description": "#(description)",
@@ -151,6 +153,7 @@ Feature: Away with Make Up Time Entries
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
         "relatedEntryType": 3,
         "type": 4,
+        "entryType": 4,
         "startTime": "#(rescheduledMakeUpTime1StartTime)",
         "endTime": "#(rescheduledMakeUpTime1EndTime)",
     }
@@ -161,6 +164,7 @@ Feature: Away with Make Up Time Entries
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
         "relatedEntryType": 3,
         "type": 4,
+        "entryType": 4,
         "startTime": "#(makeUpTime2StartTime)",
         "endTime": "#(makeUpTime2EndTime)"
     }

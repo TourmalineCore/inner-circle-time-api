@@ -14,6 +14,8 @@ public class GetTaskEntryResponse
 
     public required EntryType Type { get; set; }
 
+    public required EntryType EntryType { get; set; }
+
     public required long ProjectId { get; set; }
 
     public required string TaskId { get; set; }

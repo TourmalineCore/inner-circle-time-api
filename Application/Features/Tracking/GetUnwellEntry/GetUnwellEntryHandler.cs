@@ -23,7 +23,8 @@ public class GetUnwellEntryHandler
             Id = unwellEntry.Id,
             StartTime = unwellEntry.StartTime,
             EndTime = unwellEntry.EndTime,
-            Type = unwellEntry.Type,
+            Type = unwellEntry.EntryType,
+            EntryType = unwellEntry.EntryType,
         };
     }
 }

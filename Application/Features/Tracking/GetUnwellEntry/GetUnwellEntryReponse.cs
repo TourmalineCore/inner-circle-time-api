@@ -11,4 +11,6 @@ public class GetUnwellEntryResponse
     public required DateTime EndTime { get; set; }
 
     public required EntryType Type { get; set; }
+
+    public required EntryType EntryType { get; set; }
 }

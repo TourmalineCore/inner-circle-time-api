@@ -47,7 +47,7 @@ public class GetPersonalReportHandler
                     EndTime = x.EndTime,
                     Hours = x.GetDurationInHours(),
                     TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime).ToHoursWithoutRounding(),
-                    EntryType = x.Type,
+                    EntryType = x.EntryType,
                     Project = new ProjectDto
                     {
                         Id = x.ProjectId,
@@ -72,7 +72,7 @@ public class GetPersonalReportHandler
                     EndTime = x.EndTime,
                     Hours = x.GetDurationInHours(),
                     TrackedHoursPerDay = TotalTrackedMinutesPerDayCalculator.Calculate(employeeTrackedEntries, x.StartTime).ToHoursWithoutRounding(),
-                    EntryType = x.Type,
+                    EntryType = x.EntryType,
                     Project = null!,
                     Task = null!,
                     Description = null
