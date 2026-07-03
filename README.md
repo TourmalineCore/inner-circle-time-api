@@ -128,10 +128,10 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
+		integer EntryType 
 		timestampwithouttimezone StartTime 
 		bigint TenantId 
 		text TimeZoneId 
-		integer Type 
 	}
 MakeUpTimeEntry}o--||TrackedEntryBase : ""
 ```
