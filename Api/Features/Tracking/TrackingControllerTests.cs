@@ -65,6 +65,6 @@ public class TrackingControllerTests : HttpClientTestBase
 
         Assert.NotNull(validationProblemDetails);
         Assert.Equal("Total make-up time must equal your away time. Please check and adjust your entries.", validationProblemDetails.Detail);
-        Assert.Equal("Invalid request parameters", validationProblemDetails.Title);
+        Assert.Equal("Time does not match", validationProblemDetails.Title);
     }
 }

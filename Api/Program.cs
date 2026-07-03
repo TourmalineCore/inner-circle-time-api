@@ -47,11 +47,11 @@ public class Program
                 };
             });
 
-            options.Map<ArgumentException>(ex =>
+            options.Map<TimeDoesNotMatchException>(ex =>
             {
                 return new ProblemDetails
                 {
-                    Title = "Invalid request parameters",
+                    Title = "Time does not match",
                     Status = StatusCodes.Status400BadRequest,
                     Detail = ex.Message,
                 };
