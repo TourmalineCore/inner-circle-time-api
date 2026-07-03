@@ -46,6 +46,16 @@ public class Program
                     Detail = ex.Message,
                 };
             });
+
+            options.Map<ArgumentException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Invalid request parameters",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
         });
 
         builder.Services.AddControllers()
