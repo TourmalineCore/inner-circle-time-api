@@ -83,4 +83,3 @@ public class SickLeaveEntryDto
 
     public required DateOnly EndDate { get; set; }
 }
-
