@@ -1,15 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using Application.ExternalDeps.AssignmentsApi;
 using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
+using Application.Features.Tracking.CreateSickLeaveEntry;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
 using Application.Features.Tracking.GetAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
+using Application.Features.Tracking.GetSickLeaveEntry;
 using Application.Features.Tracking.GetTaskEntry;
 using Application.Features.Tracking.GetUnwellEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
+using Application.Features.Tracking.UpdateSickLeaveEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Microsoft.AspNetCore.Authorization;
@@ -135,6 +138,37 @@ public class TrackingController : ControllerBase
     )
     {
         return updateAwayWithMakeUpTimeEntryHandler.HandleAsync(awayWithMakeUpTimeEntryId, updateAwayWithMakeUpTimeEntryRequest);
+    }
+
+    [EndpointSummary("Get a sick leave entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("sick-leave-entries/{sickLeaveEntryId}")]
+    public Task<GetSickLeaveEntryResponse> GetSickLeaveEntryAsync(
+        [Required][FromRoute] long sickLeaveEntryId
+    )
+    {
+        throw new NotImplementedException();
+    }
+
+    [EndpointSummary("Create a sick leave entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("sick-leave-entries")]
+    public Task<CreateSickLeaveEntryResponse> CreateSickLeaveEntryAsync(
+      [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest
+    )
+    {
+        throw new NotImplementedException();
+    }
+
+    [EndpointSummary("Update a sick leave entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("sick-leave-entries/{sickLeaveEntryId}")]
+    public Task UpdateSickLeaveEntryAsync(
+        [Required][FromRoute] long sickLeaveEntryId,
+        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest
+    )
+    {
+        throw new NotImplementedException();
     }
 
     [EndpointSummary("Get employee projects by period")]
