@@ -280,8 +280,6 @@ export interface UpdateAwayWithMakeUpTimeEntryRequest {
 }
 
 export interface UpdateSickLeaveEntryRequest {
-  /** @format int64 */
-  id?: number;
   period: PeriodDto;
 }
 
