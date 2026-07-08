@@ -107,7 +107,7 @@ Feature: Sick Leave Entries
 
     # Cleanup Verification: Verify that sick leave entry was deleted
     Given path 'tracking/entries'
-    And params { startDate: "2035-06-04", endDate: "2035-06-08" }
+    And params { startDate: "2035-06-04", endDate: "2035-06-11" }
     When method GET
     Then status 200
     And assert response.sickLeaveEntries.filter(x => x.id == newSickLeaveEntryId).length == 0
