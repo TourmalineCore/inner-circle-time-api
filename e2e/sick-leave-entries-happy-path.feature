@@ -86,7 +86,7 @@ Feature: Sick Leave Entries
 
     # Verify updated sick leave entry data using endpoint with period
     Given path 'tracking/entries'
-    And params { startDate: "2035-06-04", endDate: "2035-06-08" }
+    And params { startDate: "2035-06-04", endDate: "2035-06-10" }
     When method GET
     Then status 200
     And match response.sickLeaveEntries contains
