@@ -209,10 +209,7 @@ export interface SickLeaveEntryDto {
   /** @format int64 */
   id: number;
   entryType: EntryType;
-  /** @format date */
-  startDate: string;
-  /** @format date */
-  endDate: string;
+  period: PeriodDto;
 }
 
 export interface SoftDeleteEntryRequest {
