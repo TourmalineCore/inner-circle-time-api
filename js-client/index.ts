@@ -43,6 +43,15 @@ export interface CreateOrUpdateMakeUpTimeEntryDto {
   endTime: string;
 }
 
+export interface CreateSickLeaveEntryRequest {
+  period: PeriodDto;
+}
+
+export interface CreateSickLeaveEntryResponse {
+  /** @format int64 */
+  newSickLeaveEntryId: number;
+}
+
 export interface CreateTaskEntryRequest {
   title: string;
   /** @format date-time */
@@ -116,6 +125,7 @@ export interface GetEntriesByPeriodResponse {
   unwellEntries: UnwellEntryDto[];
   awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
   makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryDto[];
+  sickLeaveEntries: SickLeaveEntryDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -124,6 +134,13 @@ export interface GetPersonalReportResponse {
   taskHours: number;
   /** @format double */
   unwellHours: number;
+}
+
+export interface GetSickLeaveEntryResponse {
+  /** @format int64 */
+  id: number;
+  period: PeriodDto;
+  entryType: EntryType;
 }
 
 export interface GetTaskEntryResponse {
@@ -171,6 +188,13 @@ export interface MakeUpTimeEntryWithRelatedEntryDto {
   endTime: string;
 }
 
+export interface PeriodDto {
+  /** @format date */
+  startDate: string;
+  /** @format date */
+  endDate: string;
+}
+
 export interface ProjectDto {
   /** @format int64 */
   id: number;
@@ -179,6 +203,13 @@ export interface ProjectDto {
 
 export interface ProjectsResponse {
   projects: ProjectDto[];
+}
+
+export interface SickLeaveEntryDto {
+  /** @format int64 */
+  id: number;
+  entryType: EntryType;
+  period: PeriodDto;
 }
 
 export interface SoftDeleteEntryRequest {
@@ -243,6 +274,10 @@ export interface UpdateAwayWithMakeUpTimeEntryRequest {
   endTime: string;
   description: string;
   makeUpTimeList: CreateOrUpdateMakeUpTimeEntryDto[];
+}
+
+export interface UpdateSickLeaveEntryRequest {
+  period: PeriodDto;
 }
 
 export interface UpdateTaskEntryRequest {
@@ -650,6 +685,67 @@ export class Api<
     ) =>
       this.request<CreateAwayWithMakeUpTimeEntryResponse, any>({
         path: `/api/tracking/away-with-make-up-time-entries`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingGetSickLeaveEntry
+     * @summary Get a sick leave entry
+     * @request GET:/api/tracking/sick-leave-entries/{sickLeaveEntryId}
+     */
+    trackingGetSickLeaveEntry: (
+      sickLeaveEntryId: number,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetSickLeaveEntryResponse, any>({
+        path: `/api/tracking/sick-leave-entries/${sickLeaveEntryId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingUpdateSickLeaveEntry
+     * @summary Update a sick leave entry
+     * @request POST:/api/tracking/sick-leave-entries/{sickLeaveEntryId}
+     */
+    trackingUpdateSickLeaveEntry: (
+      sickLeaveEntryId: number,
+      data: UpdateSickLeaveEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/tracking/sick-leave-entries/${sickLeaveEntryId}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingCreateSickLeaveEntry
+     * @summary Create a sick leave entry
+     * @request POST:/api/tracking/sick-leave-entries
+     */
+    trackingCreateSickLeaveEntry: (
+      data: CreateSickLeaveEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateSickLeaveEntryResponse, any>({
+        path: `/api/tracking/sick-leave-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
