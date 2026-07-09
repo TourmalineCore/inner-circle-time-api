@@ -94,8 +94,10 @@ Feature: Sick Leave Entries
     {
         "id": "#(newSickLeaveEntryId)",
         "entryType": 5,
-        "startDate": "#(sickLeaveStartDate)",
-        "endDate": "#(newSickLeaveEndDate)",
+        "period": {
+            "startDate": "#(sickLeaveStartDate)",
+            "endDate": "#(newSickLeaveEndDate)"
+        }
     }
     """
 
