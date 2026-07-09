@@ -79,7 +79,5 @@ public class SickLeaveEntryDto
 
     public required EntryType EntryType { get; set; }
 
-    public required DateOnly StartDate { get; set; }
-
-    public required DateOnly EndDate { get; set; }
+    public required PeriodDto Period { get; set; }
 }
