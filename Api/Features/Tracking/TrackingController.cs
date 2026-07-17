@@ -154,10 +154,11 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("sick-leave-entries")]
     public Task<CreateSickLeaveEntryResponse> CreateSickLeaveEntryAsync(
-        [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest
+        [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest,
+        [FromServices] CreateSickLeaveEntryHandler createSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return createSickLeaveEntryHandler.HandleAsync(createSickLeaveEntryRequest);
     }
 
     [EndpointSummary("Update a sick leave entry")]
