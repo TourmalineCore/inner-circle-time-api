@@ -144,10 +144,11 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("sick-leave-entries/{sickLeaveEntryId}")]
     public Task<GetSickLeaveEntryResponse> GetSickLeaveEntryAsync(
-        [Required][FromRoute] long sickLeaveEntryId
+        [Required][FromRoute] long sickLeaveEntryId,
+        [FromServices] GetSickLeaveEntryHandler getSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return getSickLeaveEntryHandler.HandleAsync(sickLeaveEntryId);
     }
 
     [EndpointSummary("Create a sick leave entry")]
