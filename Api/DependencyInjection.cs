@@ -18,6 +18,7 @@ using Application.Features.Tracking.GetUnwellEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
+using Application.Features.Tracking.UpdateSickLeaveEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Application.SharedCommands;
@@ -56,8 +57,6 @@ public static class DependencyInjection
         services.AddTransient<CreateAwayWithMakeUpTimeEntryCommand>();
         services.AddTransient<CreateSickLeaveEntryHandler>();
         services.AddTransient<CreateSickLeaveEntryCommand>();
-        services.AddTransient<UpdateAwayWithMakeUpTimeEntryHandler>();
-        services.AddTransient<UpdateAwayWithMakeUpTimeEntryCommand>();
         services.AddTransient<GetTaskEntryHandler>();
         services.AddTransient<GetUnwellEntryHandler>();
         services.AddTransient<GetAwayWithMakeUpTimeEntryHandler>();
@@ -67,6 +66,10 @@ public static class DependencyInjection
         services.AddTransient<UpdateTaskEntryCommand>();
         services.AddTransient<UpdateUnwellEntryHandler>();
         services.AddTransient<UpdateUnwellEntryCommand>();
+        services.AddTransient<UpdateAwayWithMakeUpTimeEntryHandler>();
+        services.AddTransient<UpdateAwayWithMakeUpTimeEntryCommand>();
+        services.AddTransient<UpdateSickLeaveEntryHandler>();
+        services.AddTransient<UpdateSickLeaveEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
         services.AddTransient<HardDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryHandler>();

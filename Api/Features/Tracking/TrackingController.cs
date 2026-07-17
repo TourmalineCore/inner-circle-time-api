@@ -166,10 +166,11 @@ public class TrackingController : ControllerBase
     [HttpPost("sick-leave-entries/{sickLeaveEntryId}")]
     public Task UpdateSickLeaveEntryAsync(
         [Required][FromRoute] long sickLeaveEntryId,
-        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest
+        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest,
+        [FromServices] UpdateSickLeaveEntryHandler updateSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return updateSickLeaveEntryHandler.HandleAsync(sickLeaveEntryId, updateSickLeaveEntryRequest);
     }
 
     [EndpointSummary("Get employee projects by period")]

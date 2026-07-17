@@ -4,17 +4,16 @@ using Xunit;
 
 namespace Application.Features.Tracking.CreateSickLeaveEntry;
 
-
 [UnitTest]
 public class CreateSickLeaveEntryCommandTests
 {
-    private long tenantId = 777;
+    private long TENANT_ID = 777;
 
     [Fact]
     public async Task CreateSickLeaveEntryAsync_ShouldSaveInDbWithCorrectStartTimeAndEndTime()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(1, tenantId);
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(1, TENANT_ID);
 
         var createSickLeaveEntryCommand = new CreateSickLeaveEntryCommand(context, mockClaimsProvider);
 
