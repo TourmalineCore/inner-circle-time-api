@@ -10,14 +10,14 @@ public class GetEntriesByPeriodQueryTests
     private const long EMPLOYEE_ID = 1;
     private const long TENANT_ID = 777;
 
+    private IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
     [Fact]
     public async Task GetEntriesByPeriodAsync_ShouldReturnEntriesByPeriodFromDbSet()
     {
         var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
-
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
         var taskEntry1 = new TaskEntry
         {
@@ -108,9 +108,7 @@ public class GetEntriesByPeriodQueryTests
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
-
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
         var result = await getEntriesByPeriodQuery
             .GetByPeriodAsync<TaskEntry>(
@@ -119,5 +117,115 @@ public class GetEntriesByPeriodQueryTests
             );
 
         Assert.DoesNotContain(result, x => x.Id == taskEntry.Id);
+    }
+
+    [Fact]
+    public async Task GetEntriesByPeriodAsync_ShouldReturnEntryWhenEntryEndsExactlyOnPeriodStart()
+    {
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+
+        var sickLeaveEntry = new SickLeaveEntry
+        {
+            Id = 1,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
+            EndTime = new DateTime(2026, 7, 20, 0, 0, 0),
+            Type = EntryType.SickLeave
+        };
+
+        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
+
+        var startDate = new DateOnly(2026, 7, 20);
+        var endDate = new DateOnly(2026, 7, 26);
+
+        var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
+
+        Assert.NotEmpty(result);
+        Assert.Contains(result, x => x.Id == sickLeaveEntry.Id);
+    }
+
+    [Fact]
+    public async Task GetEntriesByPeriodAsync_ShouldReturnEntryWhenEntryStartsExactlyOnPeriodEnd()
+    {
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+
+        var sickLeaveEntry = new SickLeaveEntry
+        {
+            Id = 1,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
+            EndTime = new DateTime(2026, 7, 20, 0, 0, 0),
+            Type = EntryType.SickLeave
+        };
+
+        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
+
+        var startDate = new DateOnly(2026, 7, 10);
+        var endDate = new DateOnly(2026, 7, 13);
+
+        var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
+
+        Assert.NotEmpty(result);
+        Assert.Contains(result, x => x.Id == sickLeaveEntry.Id);
+    }
+
+    [Fact]
+    public async Task GetEntriesByPeriodAsync_ShouldNotReturnEntryWhenEntryEndsBeforePeriodStart()
+    {
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+
+        var sickLeaveEntry = new SickLeaveEntry
+        {
+            Id = 1,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            StartTime = new DateTime(2026, 7, 10, 0, 0, 0),
+            EndTime = new DateTime(2026, 7, 12, 0, 0, 0),
+            Type = EntryType.SickLeave
+        };
+
+        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
+
+        var startDate = new DateOnly(2026, 7, 13);
+        var endDate = new DateOnly(2026, 7, 19);
+
+        var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
+
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public async Task GetEntriesByPeriodAsync_ShouldNotReturnEntryWhenEntryStartsAfterPeriodEnd()
+    {
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+
+        var sickLeaveEntry = new SickLeaveEntry
+        {
+            Id = 1,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            StartTime = new DateTime(2026, 7, 20, 0, 0, 0),
+            EndTime = new DateTime(2026, 7, 26, 0, 0, 0),
+            Type = EntryType.SickLeave
+        };
+
+        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+
+        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
+
+        var startDate = new DateOnly(2026, 7, 13);
+        var endDate = new DateOnly(2026, 7, 19);
+
+        var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
+
+        Assert.Empty(result);
     }
 }
