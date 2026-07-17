@@ -24,7 +24,9 @@ public class GetSickLeaveEntryHandler
             Period = new PeriodDto
             {
                 StartDate = DateOnly.FromDateTime(sickLeave.StartTime),
-                EndDate = DateOnly.FromDateTime(sickLeave.EndTime),
+                // DB stores end_time as the start of the next day (see ADR #008)
+                // Subtract 1 day when displaying to show the correct end date on UI
+                EndDate = DateOnly.FromDateTime(sickLeave.EndTime.AddDays(-1)),
             },
             EntryType = sickLeave.Type,
         };

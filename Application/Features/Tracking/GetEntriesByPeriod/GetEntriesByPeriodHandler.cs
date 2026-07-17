@@ -94,7 +94,9 @@ public class GetEntriesByPeriodHandler
                     Period = new PeriodDto
                     {
                         StartDate = DateOnly.FromDateTime(x.StartTime),
-                        EndDate = DateOnly.FromDateTime(x.EndTime),
+                        // DB stores end_time as the start of the next day (see ADR #008)
+                        // Subtract 1 day when displaying to show the correct end date on UI
+                        EndDate = DateOnly.FromDateTime(x.EndTime.AddDays(-1)),
                     },
                     EntryType = x.Type,
                 })
