@@ -85,13 +85,28 @@ public class GetEntriesByPeriodHandler
                })
                .ToList();
 
+        var sickLeaveEntries = entriesByPeriod
+            .OfType<SickLeaveEntry>()
+            .Select(
+                x => new SickLeaveEntryDto
+                {
+                    Id = x.Id,
+                    Period = new PeriodDto
+                    {
+                        StartDate = DateOnly.FromDateTime(x.StartTime),
+                        EndDate = DateOnly.FromDateTime(x.EndTime),
+                    },
+                    EntryType = x.Type,
+                })
+                .ToList();
+
         return new GetEntriesByPeriodResponse
         {
             TaskEntries = taskEntries,
             UnwellEntries = unwellEntries,
             AwayWithMakeUpTimeEntries = awayWithMakeUpTimeEntries,
             MakeUpTimeEntries = makeUpTimeEntries,
-            SickLeaveEntries = []
+            SickLeaveEntries = sickLeaveEntries
         };
     }
 }
