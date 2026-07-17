@@ -1,9 +1,7 @@
 using Application.Validators;
-using Core;
 
 namespace Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 
-[UnitTest]
 public class CreateAwayWithMakeUpTimeEntryHandler
 {
     private readonly CreateAwayWithMakeUpTimeEntryCommand _createAwayWithMakeUpTimeEntryCommand;
