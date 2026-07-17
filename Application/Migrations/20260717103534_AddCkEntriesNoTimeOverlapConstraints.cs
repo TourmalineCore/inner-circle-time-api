@@ -10,7 +10,6 @@ namespace Application.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             // Enable the btree_gist PostgreSQL extension. 
             // This extension makes it possible for our complex constraint to work with several fields.
             // In our case they are: tenant_id, employee_id, and tsrange
