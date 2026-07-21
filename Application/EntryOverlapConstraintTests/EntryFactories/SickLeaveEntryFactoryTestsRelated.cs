@@ -4,7 +4,7 @@ using Application.Features.Tracking.CreateSickLeaveEntry;
 using Application.Features.Tracking.UpdateSickLeaveEntry;
 using Core.Entities;
 
-public class SickLeaveFactoryTestsRelated : EntryOverlapFactoryTestsRelated
+public class SickLeaveEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {
     public override TrackedEntryBase CreateEntry(DateTime startTime, DateTime endTime)
     {
