@@ -1,10 +1,10 @@
 # inner-circle-time-api
 
 <!-- auto-generated -->
-[![coverage](https://img.shields.io/badge/e2e_coverage-27.97%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/units_coverage-22.69%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/integration_coverage-60.48%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
-[![coverage](https://img.shields.io/badge/full_coverage-93.86%25-forestgreen)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/e2e_coverage-27.72%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/units_coverage-28.73%25-crimson)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/integration_coverage-63.05%25-orange)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
+[![coverage](https://img.shields.io/badge/full_coverage-94.94%25-forestgreen)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
 This repo contains Inner Circle Time API.
@@ -107,6 +107,13 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 ```mermaid
 	erDiagram
 	%%{init: {'theme':'neutral'}}%%
+	AwayWithMakeUpTimeEntry {
+		text Description 
+	}
+	MakeUpTimeEntry {
+		bigint RelatedEntryId FK
+		integer RelatedEntryType 
+	}
 	TaskEntry {
 		text Description 
 		bigint ProjectId 
@@ -117,7 +124,7 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		bigint Id PK
 		timestampwithtimezone DeletedAtUtc 
 		text DeletionReason 
-		charactervarying21 Discriminator 
+		charactervarying34 Discriminator 
 		interval Duration 
 		bigint EmployeeId 
 		timestampwithouttimezone EndTime 
@@ -126,5 +133,6 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		text TimeZoneId 
 		integer Type 
 	}
+MakeUpTimeEntry}o--||TrackedEntryBase : ""
 ```
 <!--- SIREN_END -->

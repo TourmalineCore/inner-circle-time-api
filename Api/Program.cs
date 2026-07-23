@@ -46,6 +46,16 @@ public class Program
                     Detail = ex.Message,
                 };
             });
+
+            options.Map<TimeDoesNotMatchException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Time does not match",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
         });
 
         builder.Services.AddControllers()
@@ -70,6 +80,15 @@ public class Program
         builder.Services.AddJwtAuthentication(authenticationOptions).WithUserClaimsProvider<UserClaimsProvider>(UserClaimsProvider.PermissionClaimType);
 
         var app = builder.Build();
+
+        var corsOptions = configuration.GetSection(nameof(CorsOptions)).Get<CorsOptions>();
+
+        app.UseCors(
+            corsPolicyBuilder => corsPolicyBuilder
+                .WithOrigins(corsOptions!.AllowedOrigins)
+                .WithMethods("GET", "POST", "DELETE")
+                .WithHeaders("Authorization", "Content-Type")
+        );
 
         app.UseProblemDetails();
 

@@ -26,6 +26,8 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public string? DeletionReason { get; set; }
 
+    public List<MakeUpTimeEntry> MakeUpTimeList { get; set; }
+
     public int GetDurationInMinutes()
     {
         return (int)(EndTime - StartTime).TotalMinutes;
@@ -33,6 +35,6 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public decimal GetDurationInHours()
     {
-        return (decimal)GetDurationInMinutes() / 60;
+        return GetDurationInMinutes().ToHoursWithoutRounding();
     }
 }

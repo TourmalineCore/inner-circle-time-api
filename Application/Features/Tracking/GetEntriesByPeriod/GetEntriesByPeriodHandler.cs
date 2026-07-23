@@ -51,10 +51,47 @@ public class GetEntriesByPeriodHandler
                 })
                 .ToList();
 
+        var awayWithMakeUpTimeEntries = entriesByPeriod
+            .OfType<AwayWithMakeUpTimeEntry>()
+            .Select(
+                x => new AwayWithMakeUpTimeEntryDto
+                {
+                    Id = x.Id,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+                    Type = x.Type,
+                    Description = x.Description,
+                    MakeUpTimeList = x.MakeUpTimeList
+                        .Select(x => new MakeUpTimeEntryDto
+                        {
+                            Id = x.Id,
+                            StartTime = x.StartTime,
+                            EndTime = x.EndTime
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+        var makeUpTimeEntries = entriesByPeriod
+           .OfType<MakeUpTimeEntry>()
+           .Select(
+               x => new MakeUpTimeEntryWithRelatedEntryDto
+               {
+                   RelatedEntryId = x.RelatedEntryId,
+                   RelatedEntryType = x.RelatedEntryType,
+                   StartTime = x.StartTime,
+                   EndTime = x.EndTime,
+                   Type = x.Type,
+               })
+               .ToList();
+
         return new GetEntriesByPeriodResponse
         {
             TaskEntries = taskEntries,
-            UnwellEntries = unwellEntries
+            UnwellEntries = unwellEntries,
+            AwayWithMakeUpTimeEntries = awayWithMakeUpTimeEntries,
+            MakeUpTimeEntries = makeUpTimeEntries,
+            SickLeaveEntries = []
         };
     }
 }

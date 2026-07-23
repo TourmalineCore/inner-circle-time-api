@@ -4,7 +4,11 @@ public abstract class DbValidationEntryCommandBase<TRequest>
     where TRequest : class
 {
     private const string CK_ENTRIES_END_TIME_IS_GREATER_THAN_START_TIME = "ck_entries_end_time_is_greater_than_start_time";
-    private const string CK_ENTRIES_TASK_UNWELL_NO_TIME_OVERLAP = "ck_entries_task_unwell_no_time_overlap";
+    private IReadOnlyList<string> _overlapConstraints { get; } = new List<string>
+    {
+        "ck_entries_1_2_3_no_time_overlap",
+        "ck_entries_2_3_4_no_time_overlap"
+    };
 
     public async Task<long> MakeChangesInDbAsync(TRequest request)
     {
@@ -25,8 +29,8 @@ public abstract class DbValidationEntryCommandBase<TRequest>
             );
         }
         catch (Exception e) when (
-            (e.InnerException as PostgresException)?.ConstraintName == CK_ENTRIES_TASK_UNWELL_NO_TIME_OVERLAP ||
-            (e as PostgresException)?.ConstraintName == CK_ENTRIES_TASK_UNWELL_NO_TIME_OVERLAP
+            _overlapConstraints.Contains((e.InnerException as PostgresException)?.ConstraintName) ||
+            _overlapConstraints.Contains((e as PostgresException)?.ConstraintName)
         )
         {
             throw new ConflictingTimeRangeException(
