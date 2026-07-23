@@ -391,7 +391,7 @@ export class HttpClient<SecurityDataType = unknown> {
       headers: {
         ...((method &&
           this.instance.defaults.headers[
-          method.toLowerCase() as keyof HeadersDefaults
+            method.toLowerCase() as keyof HeadersDefaults
           ]) ||
           {}),
         ...(params1.headers || {}),
@@ -516,40 +516,14 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name TrackingCreateTaskEntry
-     * @summary Create a task entry
-     * @request POST:/tracking/task-entries
+     * @name TrackingGetTaskEntry
+     * @summary Get a task entry
+     * @request GET:/tracking/task-entries/{taskEntryId}
      */
-    trackingCreateTaskEntry: (
-      data: CreateTaskEntryRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<CreateTaskEntryResponse, any>({
-        path: `/tracking/task-entries`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Tracking
-     * @name TrackingCreateUnwellEntry
-     * @summary Create an unwell entry
-     * @request POST:/tracking/unwell-entries
-     */
-    trackingCreateUnwellEntry: (
-      data: CreateUnwellEntryRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<CreateUnwellResponse, any>({
-        path: `/tracking/unwell-entries`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
+    trackingGetTaskEntry: (taskEntryId: number, params: RequestParams = {}) =>
+      this.request<GetTaskEntryResponse, any>({
+        path: `/tracking/task-entries/${taskEntryId}`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -581,14 +555,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingCreateTaskEntry
      * @summary Create a task entry
-     * @request POST:/api/tracking/task-entries
+     * @request POST:/tracking/task-entries
      */
     trackingCreateTaskEntry: (
       data: CreateTaskEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateTaskEntryResponse, any>({
-        path: `/api/tracking/task-entries`,
+        path: `/tracking/task-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -602,14 +576,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetUnwellEntry
      * @summary Get an unwell entry
-     * @request GET:/api/tracking/unwell-entries/{unwellEntryId}
+     * @request GET:/tracking/unwell-entries/{unwellEntryId}
      */
     trackingGetUnwellEntry: (
       unwellEntryId: number,
       params: RequestParams = {},
     ) =>
       this.request<GetUnwellEntryResponse, any>({
-        path: `/api/tracking/unwell-entries/${unwellEntryId}`,
+        path: `/tracking/unwell-entries/${unwellEntryId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -642,14 +616,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingCreateUnwellEntry
      * @summary Create an unwell entry
-     * @request POST:/api/tracking/unwell-entries
+     * @request POST:/tracking/unwell-entries
      */
     trackingCreateUnwellEntry: (
       data: CreateUnwellEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateUnwellResponse, any>({
-        path: `/api/tracking/unwell-entries`,
+        path: `/tracking/unwell-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -663,14 +637,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetAwayWithMakeUpTimeEntry
      * @summary Get an away with make up time entry
-     * @request GET:/api/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
+     * @request GET:/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
      */
     trackingGetAwayWithMakeUpTimeEntry: (
       awayWithMakeUpTimeEntryId: number,
       params: RequestParams = {},
     ) =>
       this.request<GetAwayWithMakeUpTimeEntryResponse, any>({
-        path: `/api/tracking/away-with-make-up-time-entries/${awayWithMakeUpTimeEntryId}`,
+        path: `/tracking/away-with-make-up-time-entries/${awayWithMakeUpTimeEntryId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -682,7 +656,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingUpdateAwayWithMakeUpTimeEntry
      * @summary Update an away with make up time entry
-     * @request POST:/api/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
+     * @request POST:/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
      */
     trackingUpdateAwayWithMakeUpTimeEntry: (
       awayWithMakeUpTimeEntryId: number,
@@ -690,7 +664,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/tracking/away-with-make-up-time-entries/${awayWithMakeUpTimeEntryId}`,
+        path: `/tracking/away-with-make-up-time-entries/${awayWithMakeUpTimeEntryId}`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -703,14 +677,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingCreateAwayWithMakeUpTimeEntry
      * @summary Create an away with make up time entry
-     * @request POST:/api/tracking/away-with-make-up-time-entries
+     * @request POST:/tracking/away-with-make-up-time-entries
      */
     trackingCreateAwayWithMakeUpTimeEntry: (
       data: CreateAwayWithMakeUpTimeEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateAwayWithMakeUpTimeEntryResponse, any>({
-        path: `/api/tracking/away-with-make-up-time-entries`,
+        path: `/tracking/away-with-make-up-time-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -724,14 +698,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingGetSickLeaveEntry
      * @summary Get a sick leave entry
-     * @request GET:/api/tracking/sick-leave-entries/{sickLeaveEntryId}
+     * @request GET:/tracking/sick-leave-entries/{sickLeaveEntryId}
      */
     trackingGetSickLeaveEntry: (
       sickLeaveEntryId: number,
       params: RequestParams = {},
     ) =>
       this.request<GetSickLeaveEntryResponse, any>({
-        path: `/api/tracking/sick-leave-entries/${sickLeaveEntryId}`,
+        path: `/tracking/sick-leave-entries/${sickLeaveEntryId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -743,7 +717,7 @@ export class Api<
      * @tags Tracking
      * @name TrackingUpdateSickLeaveEntry
      * @summary Update a sick leave entry
-     * @request POST:/api/tracking/sick-leave-entries/{sickLeaveEntryId}
+     * @request POST:/tracking/sick-leave-entries/{sickLeaveEntryId}
      */
     trackingUpdateSickLeaveEntry: (
       sickLeaveEntryId: number,
@@ -751,7 +725,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<void, any>({
-        path: `/api/tracking/sick-leave-entries/${sickLeaveEntryId}`,
+        path: `/tracking/sick-leave-entries/${sickLeaveEntryId}`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -764,14 +738,14 @@ export class Api<
      * @tags Tracking
      * @name TrackingCreateSickLeaveEntry
      * @summary Create a sick leave entry
-     * @request POST:/api/tracking/sick-leave-entries
+     * @request POST:/tracking/sick-leave-entries
      */
     trackingCreateSickLeaveEntry: (
       data: CreateSickLeaveEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateSickLeaveEntryResponse, any>({
-        path: `/api/tracking/sick-leave-entries`,
+        path: `/tracking/sick-leave-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
