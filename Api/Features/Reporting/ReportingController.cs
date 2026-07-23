@@ -9,7 +9,7 @@ namespace Api.Features.Reporting;
 
 [Authorize]
 [ApiController]
-[Route("api/reporting")]
+[Route("reporting")]
 public class ReportingController : ControllerBase
 {
     [EndpointSummary("Get all employees")]
