@@ -29,6 +29,8 @@ public class AppDbContext : DbContext
 
     public virtual DbSet<SickLeaveEntry> SickLeaveEntries { get; set; }
 
+    public virtual DbSet<ToDo> ToDos { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

@@ -1,8 +1,13 @@
+
 namespace Core.Entities;
 
-public class ToDo
+public class ToDo : EntityBase, ICanBeDeleted
 {
-    public required long Id { get; set; }
+    public ToDo()
+    {
+    }
 
     public required string Name { get; set; }
+
+    public DateTime? DeletedAtUtc { get; set; }
 }
