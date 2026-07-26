@@ -7,6 +7,9 @@ using Application.Features.Internal.GetAllProjects;
 using Application.Features.Internal.GetEmployeesTrackedTaskHours;
 using Application.Features.Reporting.GetAllEmployees;
 using Application.Features.Reporting.GetPersonalReport;
+using Application.Features.ToDos.Handlers.CreateToDo;
+using Application.Features.ToDos.Handlers.GetToDos;
+using Application.Features.ToDos.Handlers.HardDeleteToDo;
 using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.CreateSickLeaveEntry;
 using Application.Features.Tracking.CreateTaskEntry;
@@ -83,5 +86,12 @@ public static class DependencyInjection
         services.AddTransient<GetPersonalReportHandler>();
         services.AddTransient<IGetEntryByIdQuery, GetEntryByIdQuery>();
         services.AddTransient<GetEmployeeTrackedEntriesQuery>();
+
+        services.AddTransient<CreateToDoHandler>();
+        services.AddTransient<CreateToDoCommand>();
+        services.AddTransient<GetToDosHandler>();
+        services.AddTransient<GetToDosQuery>();
+        services.AddTransient<HardDeleteToDoHandler>();
+        services.AddTransient<HardDeleteToDoCommand>();
     }
 }

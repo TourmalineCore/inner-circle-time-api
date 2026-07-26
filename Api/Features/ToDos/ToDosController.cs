@@ -1,8 +1,7 @@
-using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using Application.Features.ToDos.Handlers.CreateToDo;
 using Application.Features.ToDos.Handlers.GetToDos;
-using Core.Entities;
+using Application.Features.ToDos.Handlers.HardDeleteToDo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,56 +12,29 @@ namespace Api.Features.ToDos;
 [Route("api/to-dos")]
 public class ToDosController : ControllerBase
 {
-    private static long _nextToDoId = 0;
-    private static readonly ConcurrentDictionary<long, ToDo> _toDos = new();
-
     [HttpGet]
-    public Task<GetToDosResponse> GetToDosAsync()
+    public Task<GetToDosResponse> GetToDosAsync(
+        [FromServices] GetToDosHandler getToDosHandler
+    )
     {
-        return Task.FromResult(
-            new GetToDosResponse
-            {
-                ToDos = _toDos
-                    .Values
-                    .Select(x => new ToDoDto
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    })
-                    .ToList(),
-            }
-        );
+        return getToDosHandler.HandleAsync();
     }
 
     [HttpPost]
-    public Task<CreateToDoResponse> CreatToDoAsync(
-        [Required][FromBody] CreateToDoRequest createToDoRequest
+    public Task<CreateToDoResponse> CreateToDoAsync(
+        [Required][FromBody] CreateToDoRequest createToDoRequest,
+        [FromServices] CreateToDoHandler createToDoHandler
     )
     {
-        var newToDo = new ToDo
-        {
-            Id = Interlocked.Increment(ref _nextToDoId),
-            Name = createToDoRequest.Name,
-        };
-
-        _toDos[newToDo.Id] = newToDo;
-
-        return Task.FromResult(
-            new CreateToDoResponse()
-            {
-                NewToDoId = newToDo.Id,
-            }
-        );
+        return createToDoHandler.HandleAsync(createToDoRequest);
     }
 
     [HttpDelete]
-    public object DeleteToDoAsync(
-        [Required][FromQuery] long toDoId
+    public Task<object> DeleteToDoAsync(
+        [Required][FromQuery] long toDoId,
+        [FromServices] HardDeleteToDoHandler hardDeleteToDoHandler
     )
     {
-        return new
-        {
-            isDeleted = _toDos.Remove(toDoId, out _)
-        };
+        return hardDeleteToDoHandler.HandleAsync(toDoId);
     }
 }
