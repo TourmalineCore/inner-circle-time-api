@@ -2,8 +2,6 @@ name: Deploy to Prod
 
 on:
   push:
-    branches:
-      - feature
 
 jobs:
   # docker-build-and-push:
