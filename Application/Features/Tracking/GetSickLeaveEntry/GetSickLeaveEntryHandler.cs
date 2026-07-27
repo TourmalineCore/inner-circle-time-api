@@ -1,3 +1,4 @@
+using Application.SharedMappers;
 using Application.SharedQueries;
 using Core.Entities;
 
@@ -21,13 +22,10 @@ public class GetSickLeaveEntryHandler
         return new GetSickLeaveEntryResponse
         {
             Id = sickLeaveEntry.Id,
-            Period = new PeriodDto
-            {
-                StartDate = DateOnly.FromDateTime(sickLeaveEntry.StartTime),
-                // DB stores end_time as the start of the next day (see ADR #008 - https://github.com/TourmalineCore/inner-circle-documentation/blob/master/time-tracker/adrs/008-sick-leave-and-vacation-storage.md)
-                // Subtract 1 day when displaying to show the correct end date on UI
-                EndDate = DateOnly.FromDateTime(sickLeaveEntry.EndTime.AddDays(-1)),
-            },
+            Period = PeriodMapper.ToPeriodDto(
+                sickLeaveEntry.StartTime,
+                sickLeaveEntry.EndTime
+            ),
             EntryType = sickLeaveEntry.Type,
         };
     }
