@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core;
+using Core.Entities;
 
 namespace Application.Features.Tracking.CreateSickLeaveEntry;
 
@@ -23,23 +24,18 @@ public class CreateSickLeaveEntryCommand : DbValidationEntryCommandBase<CreateSi
 
     protected override async Task<long> MakeChangesToEntryAsync(CreateSickLeaveEntryRequest createSickLeaveEntryRequest)
     {
-        var startTime = createSickLeaveEntryRequest
-            .Period
-            .StartDate
-            .ToDateTime(TimeOnly.MinValue);
-
-        var endTime = createSickLeaveEntryRequest
-            .Period
-            .EndDate
-            .AddDays(1)
-            .ToDateTime(TimeOnly.MinValue);
+        var duration = new PeriodToDurationConverter().ConvertToDuration(new Period
+        {
+            StartDate = createSickLeaveEntryRequest.Period.StartDate,
+            EndDate = createSickLeaveEntryRequest.Period.EndDate,
+        });
 
         var sickLeaveEntry = new SickLeaveEntry
         {
             TenantId = _claimsProvider.TenantId,
             EmployeeId = _claimsProvider.EmployeeId,
-            StartTime = startTime,
-            EndTime = endTime,
+            StartTime = duration.StartTime,
+            EndTime = duration.EndTime,
         };
 
         await _context
