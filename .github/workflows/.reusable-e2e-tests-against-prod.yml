@@ -22,7 +22,7 @@ jobs:
 
     - name: Run E2E Tests Against Prod Env
       run: |
-        # Learn more about '> /dev/null 2>&1': https://stackoverflow.com/a/42919998
+        # Redirecting logs to a file on the server
         # In essence it merges output and error streams and doesn't show errors in the terminal to avoid leakage of secrets in the pipeline
         java -jar karate.jar . > "/var/log/inner-circle/e2e/$(date +%F)-${{ github.event.repository.name }}-run-${{ github.run_id }}-job-${{ job.check_run_id }}.log" 2>&1
       env:
