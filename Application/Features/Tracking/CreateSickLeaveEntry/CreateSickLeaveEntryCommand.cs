@@ -24,7 +24,7 @@ public class CreateSickLeaveEntryCommand : DbValidationEntryCommandBase<CreateSi
 
     protected override async Task<long> MakeChangesToEntryAsync(CreateSickLeaveEntryRequest createSickLeaveEntryRequest)
     {
-        var duration = new PeriodToDurationConverter().ConvertToDuration(new Period
+        var duration = PeriodToDurationConverter.ConvertToDuration(new Period
         {
             StartDate = createSickLeaveEntryRequest.Period.StartDate,
             EndDate = createSickLeaveEntryRequest.Period.EndDate,

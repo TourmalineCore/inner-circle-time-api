@@ -1,8 +1,8 @@
 using Core;
 
-public class PeriodToDurationConverter
+public static class PeriodToDurationConverter
 {
-    public Duration ConvertToDuration(Period period)
+    public static Duration ConvertToDuration(Period period)
     {
         return new Duration
         {

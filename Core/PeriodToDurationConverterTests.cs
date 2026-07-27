@@ -15,7 +15,7 @@ public class PeriodToDurationConverterTests
             EndDate = new DateOnly(2026, 7, 17)
         };
 
-        var result = new PeriodToDurationConverter().ConvertToDuration(period);
+        var result = PeriodToDurationConverter.ConvertToDuration(period);
 
         Assert.Equal(new DateTime(2026, 7, 13, 0, 0, 0), result.StartTime);
         Assert.Equal(new DateTime(2026, 7, 18, 0, 0, 0), result.EndTime);
