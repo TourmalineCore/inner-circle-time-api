@@ -121,7 +121,6 @@ public class GetEntriesByPeriodQueryTests
 
 
     public static IEnumerable<object[]> SickLeaveEntryOverlapsPeriodTestData()
-
     {
         return new List<object[]>
         {
