@@ -1,6 +1,7 @@
 name: E2E Tests Against Prod
 
 on:
+  push:
   workflow_call:
 
 jobs:
