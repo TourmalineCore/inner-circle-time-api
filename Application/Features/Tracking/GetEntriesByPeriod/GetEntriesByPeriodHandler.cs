@@ -92,7 +92,7 @@ public class GetEntriesByPeriodHandler
                 x => new SickLeaveEntryDto
                 {
                     Id = x.Id,
-                    Period = PeriodMapper.ToPeriodDto(
+                    Period = PeriodMapper.ToDisplayPeriod(
                         x.StartTime,
                         x.EndTime
                     ),

@@ -2,7 +2,7 @@ namespace Application.SharedMappers;
 
 public static class PeriodMapper
 {
-    public static PeriodDto ToPeriodDto(DateTime startTime, DateTime endTime)
+    public static PeriodDto ToDisplayPeriod(DateTime startTime, DateTime endTime)
     {
         return new PeriodDto
         {
