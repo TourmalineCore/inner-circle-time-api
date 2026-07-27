@@ -4,6 +4,7 @@
 
 namespace Application.Migrations
 {
+    // The migration is empty because SickLeaveEntry has not added any new fields, all the necessary fields are already in TrackedEntryBase, from which it inherits
     /// <inheritdoc />
     public partial class AddSickLeaveEntry : Migration
     {
