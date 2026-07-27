@@ -34,7 +34,7 @@ Feature: CORS Settings
     # Send CORS preflight OPTIONS request like UI does
     Given url apiRootUrl 
     Given path 'reporting/employees'
-    And header Origin = 'http://localhost:4007'
+    And header Origin = corsAllowedOrigins
     And header Access-Control-Request-Method = 'GET'
     When method OPTIONS
     Then status 204
