@@ -8,7 +8,6 @@ public class PeriodToDurationConverterTests
     [Fact]
     public void ConvertToDuration_ShouldReturnCorrectDuration()
     {
-
         var period = new Period
         {
             StartDate = new DateOnly(2026, 7, 13),
