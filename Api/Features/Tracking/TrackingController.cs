@@ -144,20 +144,22 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("sick-leave-entries/{sickLeaveEntryId}")]
     public Task<GetSickLeaveEntryResponse> GetSickLeaveEntryAsync(
-        [Required][FromRoute] long sickLeaveEntryId
+        [Required][FromRoute] long sickLeaveEntryId,
+        [FromServices] GetSickLeaveEntryHandler getSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return getSickLeaveEntryHandler.HandleAsync(sickLeaveEntryId);
     }
 
     [EndpointSummary("Create a sick leave entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("sick-leave-entries")]
     public Task<CreateSickLeaveEntryResponse> CreateSickLeaveEntryAsync(
-        [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest
+        [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest,
+        [FromServices] CreateSickLeaveEntryHandler createSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return createSickLeaveEntryHandler.HandleAsync(createSickLeaveEntryRequest);
     }
 
     [EndpointSummary("Update a sick leave entry")]
@@ -165,10 +167,11 @@ public class TrackingController : ControllerBase
     [HttpPost("sick-leave-entries/{sickLeaveEntryId}")]
     public Task UpdateSickLeaveEntryAsync(
         [Required][FromRoute] long sickLeaveEntryId,
-        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest
+        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest,
+        [FromServices] UpdateSickLeaveEntryHandler updateSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return updateSickLeaveEntryHandler.HandleAsync(sickLeaveEntryId, updateSickLeaveEntryRequest);
     }
 
     [EndpointSummary("Get employee projects by period")]

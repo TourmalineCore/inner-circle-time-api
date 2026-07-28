@@ -7,7 +7,7 @@ public abstract class DbValidationEntryCommandBase<TRequest>
     private IReadOnlyList<string> _overlapConstraints { get; } = new List<string>
     {
         "ck_entries_1_2_3_no_time_overlap",
-        "ck_entries_2_3_4_no_time_overlap"
+        "ck_entries_2_3_4_5_no_time_overlap"
     };
 
     public async Task<long> MakeChangesInDbAsync(TRequest request)

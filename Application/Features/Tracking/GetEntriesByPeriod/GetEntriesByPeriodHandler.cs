@@ -1,3 +1,4 @@
+using Application.SharedMappers;
 using Core.Entities;
 
 namespace Application.Features.Tracking.GetEntriesByPeriod;
@@ -85,13 +86,27 @@ public class GetEntriesByPeriodHandler
                })
                .ToList();
 
+        var sickLeaveEntries = entriesByPeriod
+            .OfType<SickLeaveEntry>()
+            .Select(
+                x => new SickLeaveEntryDto
+                {
+                    Id = x.Id,
+                    Period = PeriodMapper.MapToPeriodDto(
+                        x.StartTime,
+                        x.EndTime
+                    ),
+                    EntryType = x.Type,
+                })
+                .ToList();
+
         return new GetEntriesByPeriodResponse
         {
             TaskEntries = taskEntries,
             UnwellEntries = unwellEntries,
             AwayWithMakeUpTimeEntries = awayWithMakeUpTimeEntries,
             MakeUpTimeEntries = makeUpTimeEntries,
-            SickLeaveEntries = []
+            SickLeaveEntries = sickLeaveEntries
         };
     }
 }
