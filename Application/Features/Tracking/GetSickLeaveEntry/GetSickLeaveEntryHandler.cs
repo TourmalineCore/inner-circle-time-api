@@ -22,7 +22,7 @@ public class GetSickLeaveEntryHandler
         return new GetSickLeaveEntryResponse
         {
             Id = sickLeaveEntry.Id,
-            Period = PeriodMapper.ToDisplayPeriod(
+            Period = PeriodMapper.MapToPeriodDto(
                 sickLeaveEntry.StartTime,
                 sickLeaveEntry.EndTime
             ),
