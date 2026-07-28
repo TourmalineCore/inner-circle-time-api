@@ -200,7 +200,7 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Update a vacation entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("vacation-entries/{vacationEntryId}")]
-    public Task UpdateVacationAsync(
+    public Task UpdateVacationEntryAsync(
         [Required][FromRoute] long vacationEntryId,
         [Required][FromBody] UpdateVacationEntryRequest updateVacationEntryRequest
     )
