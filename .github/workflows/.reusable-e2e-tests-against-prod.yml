@@ -5,6 +5,8 @@ on:
 
 jobs:
   e2e-test-against-prod:
+    # need to run on our own runners that we have access to the logs later on our servers
+    # otherwise, if we use shared runners they store log files in their VMs which we cannot access
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v4
