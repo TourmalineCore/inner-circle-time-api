@@ -6,7 +6,7 @@ using Xunit;
 public class PeriodToDurationConverterTests
 {
     [Fact]
-    public void ConvertToDuration_ShouldReturnCorrectDuration()
+    public void ConvertToDuration_ShouldReturnDurationThatStartsOnMidnightOfStartDateAndEndsOnMidnightOfTheDayAfterEndDate()
     {
         var period = new Period
         {
