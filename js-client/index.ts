@@ -829,7 +829,7 @@ export class Api<
      * @request POST:/api/tracking/vacation-entries
      */
     trackingCreateVacationEntry: (
-      data: CreateSickLeaveEntryRequest,
+      data: CreateVacationEntryRequest,
       params: RequestParams = {},
     ) =>
       this.request<CreateVacationEntryRequest, any>({
