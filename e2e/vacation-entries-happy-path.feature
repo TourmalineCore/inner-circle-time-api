@@ -32,8 +32,8 @@ Feature: Vacation Entries
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
     # Create a new vacation entry
-    * def vacationLeaveStartDate = '2036-06-02'
-    * def vacationLeaveEndDate = '2036-06-15'
+    * def vacationStartDate = '2036-06-02'
+    * def vacationEndDate = '2036-06-15'
     * def isUnpaid = false
     
     Given url apiRootUrl
@@ -42,8 +42,8 @@ Feature: Vacation Entries
     """
     {
         "period": {
-            "startDate": "#(vacationLeaveStartDate)",
-            "endDate": "#(vacationLeaveEndDate)"
+            "startDate": "#(vacationStartDate)",
+            "endDate": "#(vacationEndDate)"
         },
         "isUnpaid": "#(isUnpaid)"
     }
