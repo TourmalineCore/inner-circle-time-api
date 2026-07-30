@@ -133,6 +133,9 @@ However, UI doesn't support requests execution, this requires adding Auth dialog
 		text TimeZoneId 
 		integer Type 
 	}
+	VacationEntry {
+		boolean IsUnpaid 
+	}
 MakeUpTimeEntry}o--||TrackedEntryBase : ""
 ```
 <!--- SIREN_END -->
