@@ -106,7 +106,8 @@ public class GetEntriesByPeriodHandler
             UnwellEntries = unwellEntries,
             AwayWithMakeUpTimeEntries = awayWithMakeUpTimeEntries,
             MakeUpTimeEntries = makeUpTimeEntries,
-            SickLeaveEntries = sickLeaveEntries
+            SickLeaveEntries = sickLeaveEntries,
+            VacationEntries = []
         };
     }
 }

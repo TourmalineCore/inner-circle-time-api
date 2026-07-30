@@ -81,6 +81,11 @@ export interface CreateUnwellResponse {
   newUnwellEntryId: number;
 }
 
+export interface CreateVacationEntryRequest {
+  period: PeriodDto;
+  isUnpaid: boolean;
+}
+
 export interface EmployeeDto {
   /** @format int64 */
   id: number;
@@ -126,6 +131,7 @@ export interface GetEntriesByPeriodResponse {
   awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
   makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryDto[];
   sickLeaveEntries: SickLeaveEntryDto[];
+  vacationEntries: VacationEntryDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -166,6 +172,14 @@ export interface GetUnwellEntryResponse {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+}
+
+export interface GetVacationEntryResponse {
+  /** @format int64 */
+  id: number;
+  entryType: EntryType;
+  period: PeriodDto;
+  isUnpaid: boolean;
 }
 
 export interface MakeUpTimeEntryDto {
@@ -301,6 +315,19 @@ export interface UpdateUnwellEntryRequest {
   startTime: string;
   /** @format date-time */
   endTime: string;
+}
+
+export interface UpdateVacationEntryRequest {
+  period: PeriodDto;
+  isUnpaid: boolean;
+}
+
+export interface VacationEntryDto {
+  /** @format int64 */
+  id: number;
+  entryType: EntryType;
+  period: PeriodDto;
+  isUnpaid: boolean;
 }
 
 import type {
@@ -746,6 +773,67 @@ export class Api<
     ) =>
       this.request<CreateSickLeaveEntryResponse, any>({
         path: `/api/tracking/sick-leave-entries`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingGetVacationEntry
+     * @summary Get a vacation entry
+     * @request GET:/api/tracking/vacation-entries/{vacationEntryId}
+     */
+    trackingGetVacationEntry: (
+      vacationEntryId: number,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetVacationEntryResponse, any>({
+        path: `/api/tracking/vacation-entries/${vacationEntryId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingUpdateVacationEntry
+     * @summary Update a vacation entry
+     * @request POST:/api/tracking/vacation-entries/{vacationEntryId}
+     */
+    trackingUpdateVacationEntry: (
+      vacationEntryId: number,
+      data: UpdateVacationEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/tracking/vacation-entries/${vacationEntryId}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingCreateVacationEntry
+     * @summary Create a vacation entry
+     * @request POST:/api/tracking/vacation-entries
+     */
+    trackingCreateVacationEntry: (
+      data: CreateVacationEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateVacationEntryRequest, any>({
+        path: `/api/tracking/vacation-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
