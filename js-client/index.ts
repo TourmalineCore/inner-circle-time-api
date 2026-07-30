@@ -266,8 +266,6 @@ export interface UnwellEntryDto {
 }
 
 export interface UpdateAwayWithMakeUpTimeEntryRequest {
-  /** @format int64 */
-  id?: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -281,8 +279,6 @@ export interface UpdateSickLeaveEntryRequest {
 }
 
 export interface UpdateTaskEntryRequest {
-  /** @format int64 */
-  id?: number;
   title: string;
   /** @format date-time */
   startTime: string;
@@ -295,8 +291,6 @@ export interface UpdateTaskEntryRequest {
 }
 
 export interface UpdateUnwellEntryRequest {
-  /** @format int64 */
-  id?: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
