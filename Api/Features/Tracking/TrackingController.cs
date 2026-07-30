@@ -181,10 +181,11 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("vacation-entries/{vacationEntryId}")]
     public Task<GetVacationEntryResponse> GetVacationEntryAsync(
-        [Required][FromRoute] long vacationEntryId
+        [Required][FromRoute] long vacationEntryId,
+        [FromServices] GetVacationEntryHandler getVacationEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return getVacationEntryHandler.HandleAsync(vacationEntryId);
     }
 
     [EndpointSummary("Create a vacation entry")]
