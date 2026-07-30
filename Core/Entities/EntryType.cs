@@ -8,4 +8,5 @@ public enum EntryType
     AwayWithMakeUpTime = 3,
     MakeUpTime = 4,
     SickLeave = 5,
+    Vacation = 6,
 }

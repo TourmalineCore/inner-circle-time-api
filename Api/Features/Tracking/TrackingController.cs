@@ -190,11 +190,12 @@ public class TrackingController : ControllerBase
     [EndpointSummary("Create a vacation entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("vacation-entries")]
-    public Task<CreateVacationEntryRequest> CreateVacationEntryAsync(
-        [Required][FromBody] CreateVacationEntryRequest createVacationEntryRequest
+    public Task<CreateVacationEntryResponse> CreateVacationEntryAsync(
+        [Required][FromBody] CreateVacationEntryRequest createVacationEntryRequest,
+        [FromServices] CreateVacationEntryHandler createVacationEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return createVacationEntryHandler.HandleAsync(createVacationEntryRequest);
     }
 
     [EndpointSummary("Update a vacation entry")]
