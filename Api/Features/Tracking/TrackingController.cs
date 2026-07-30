@@ -203,10 +203,11 @@ public class TrackingController : ControllerBase
     [HttpPost("vacation-entries/{vacationEntryId}")]
     public Task UpdateVacationEntryAsync(
         [Required][FromRoute] long vacationEntryId,
-        [Required][FromBody] UpdateVacationEntryRequest updateVacationEntryRequest
+        [Required][FromBody] UpdateVacationEntryRequest updateVacationEntryRequest,
+        [FromServices] UpdateVacationEntryHandler updateVacationEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return updateVacationEntryHandler.HandleAsync(vacationEntryId, updateVacationEntryRequest);
     }
 
     [EndpointSummary("Get employee projects by period")]

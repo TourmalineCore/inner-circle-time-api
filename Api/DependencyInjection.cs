@@ -23,6 +23,7 @@ using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.UpdateSickLeaveEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
+using Application.Features.Tracking.UpdateVacationEntry;
 using Application.SharedCommands;
 using Application.SharedQueries;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +76,8 @@ public static class DependencyInjection
         services.AddTransient<UpdateAwayWithMakeUpTimeEntryCommand>();
         services.AddTransient<UpdateSickLeaveEntryHandler>();
         services.AddTransient<UpdateSickLeaveEntryCommand>();
+        services.AddTransient<UpdateVacationEntryHandler>();
+        services.AddTransient<UpdateVacationEntryCommand>();
         services.AddTransient<HardDeleteEntityCommand>();
         services.AddTransient<HardDeleteEntryHandler>();
         services.AddTransient<SoftDeleteEntryHandler>();
