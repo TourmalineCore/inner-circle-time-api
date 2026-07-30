@@ -13,6 +13,8 @@ public class GetEntriesByPeriodResponse
     public required List<MakeUpTimeEntryWithRelatedEntryDto> MakeUpTimeEntries { get; set; }
 
     public required List<SickLeaveEntryDto> SickLeaveEntries { get; set; }
+
+    public required List<VacationEntryDto> VacationEntries { get; set; }
 }
 
 public class TaskEntryDto
@@ -80,4 +82,15 @@ public class SickLeaveEntryDto
     public required EntryType EntryType { get; set; }
 
     public required PeriodDto Period { get; set; }
+}
+
+public class VacationEntryDto
+{
+    public required long Id { get; set; }
+
+    public required EntryType EntryType { get; set; }
+
+    public required PeriodDto Period { get; set; }
+
+    public required bool IsUnpaid { get; set; }
 }
