@@ -285,8 +285,6 @@ export interface UnwellEntryDto {
 }
 
 export interface UpdateAwayWithMakeUpTimeEntryRequest {
-  /** @format int64 */
-  id?: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -300,8 +298,6 @@ export interface UpdateSickLeaveEntryRequest {
 }
 
 export interface UpdateTaskEntryRequest {
-  /** @format int64 */
-  id?: number;
   title: string;
   /** @format date-time */
   startTime: string;
@@ -314,8 +310,6 @@ export interface UpdateTaskEntryRequest {
 }
 
 export interface UpdateUnwellEntryRequest {
-  /** @format int64 */
-  id?: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -512,7 +506,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title inner-circle-time-api
- * @version 1.10.0
+ * @version 1.10.1
  * @baseUrl http://localhost:6507/
  */
 export class Api<
