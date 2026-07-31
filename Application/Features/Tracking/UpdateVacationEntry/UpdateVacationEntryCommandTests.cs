@@ -40,6 +40,9 @@ public class UpdateVacationEntryCommandTests : IntegrationTestBase
 
         var vacationEntryFromDb = await context
             .VacationEntries
+            // before that request we already have this vacation entry in EF Core context, since we track its changes
+            // if we read it again without AsNoTracking it won't execute SQL but just return the cached instance of vacation entry from the context
+            // adding AsNoTracking we force EF Core to make SQL ignoring its internal cache
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.Id == existingVacationEntry.Id);
 
