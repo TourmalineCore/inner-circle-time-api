@@ -51,7 +51,24 @@ Feature: Vacation Entries
     When method POST
     Then status 200
 
-    * def newVacationEntryId = response.newVacationEntryId 
+    * def newVacationEntryId = response.newVacationEntryId
+    
+    # Verify created a vacation entry using endpoint with id
+    Given path 'tracking/vacation-entries', newVacationEntryId
+    When method GET
+    Then status 200
+    And match response contains
+    """
+    {
+        "id": "#(newVacationEntryId)",
+        "entryType": 6,
+        "period": {
+            "startDate": "#(vacationStartDate)",
+            "endDate": "#(vacationEndDate)"
+        },
+        "isUnpaid": "#(isUnpaid)"
+    }
+    """
 
     # Update a vacation entry
     * def rescheduledVacationStartDate = '2036-07-07'
