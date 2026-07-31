@@ -6,8 +6,12 @@ public abstract class DbValidationEntryCommandBase<TRequest>
     private const string CK_ENTRIES_END_TIME_IS_GREATER_THAN_START_TIME = "ck_entries_end_time_is_greater_than_start_time";
     private IReadOnlyList<string> _overlapConstraints { get; } = new List<string>
     {
+        // Task - 1, Unwell - 2, Away with make-up time - 3, Make-up time - 4, Sick leave - 5, Vacation - 6
+        // Task can overlap with Make-up time, Sick leave and Vacation, but it cannot overlap with all others
         "ck_entries_1_2_3_no_time_overlap",
+        // Make-up time can overlap with Vacation and Task, but it cannot overlap with all others
         "ck_entries_2_3_4_5_no_time_overlap",
+        // Unwell, Away with make-up time, Sick leave, Vacation cannot overlap
         "ck_entries_2_3_5_6_no_time_overlap"
     };
 
