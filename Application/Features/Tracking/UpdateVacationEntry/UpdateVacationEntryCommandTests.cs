@@ -31,7 +31,7 @@ public class UpdateVacationEntryCommandTests : IntegrationTestBase
             Period = new PeriodDto
             {
                 StartDate = new DateOnly(2026, 7, 13),
-                EndDate = new DateOnly(2026, 7, 16)
+                EndDate = new DateOnly(2026, 7, 16) // it's valid that it's one day before the date in EndTime
             },
             IsUnpaid = true
         };
