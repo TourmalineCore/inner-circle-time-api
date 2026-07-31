@@ -9,6 +9,8 @@ namespace Application.Features.Tracking.UpdateVacationEntry;
 public class UpdateVacationEntryCommandTests : IntegrationTestBase
 {
     [Fact]
+    // we decided to keep this check of IsUnpaid toggling as a separate test rather than checking it together with the period update in the related e2e test to keep an example and explanation of AsNoTracking trick
+    // this trick covers this case of C# tests: create, update, and read to verify using real db
     public async Task UpdateVacationEntryAsync_ShouldUpdateIsUnpaidFromFalseToTrue()
     {
         var context = CreateTenantDbContext();
