@@ -181,20 +181,22 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("vacation-entries/{vacationEntryId}")]
     public Task<GetVacationEntryResponse> GetVacationEntryAsync(
-        [Required][FromRoute] long vacationEntryId
+        [Required][FromRoute] long vacationEntryId,
+        [FromServices] GetVacationEntryHandler getVacationEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return getVacationEntryHandler.HandleAsync(vacationEntryId);
     }
 
     [EndpointSummary("Create a vacation entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("vacation-entries")]
-    public Task<CreateVacationEntryRequest> CreateVacationEntryAsync(
-        [Required][FromBody] CreateVacationEntryRequest createVacationEntryRequest
+    public Task<CreateVacationEntryResponse> CreateVacationEntryAsync(
+        [Required][FromBody] CreateVacationEntryRequest createVacationEntryRequest,
+        [FromServices] CreateVacationEntryHandler createVacationEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return createVacationEntryHandler.HandleAsync(createVacationEntryRequest);
     }
 
     [EndpointSummary("Update a vacation entry")]
@@ -202,10 +204,11 @@ public class TrackingController : ControllerBase
     [HttpPost("vacation-entries/{vacationEntryId}")]
     public Task UpdateVacationEntryAsync(
         [Required][FromRoute] long vacationEntryId,
-        [Required][FromBody] UpdateVacationEntryRequest updateVacationEntryRequest
+        [Required][FromBody] UpdateVacationEntryRequest updateVacationEntryRequest,
+        [FromServices] UpdateVacationEntryHandler updateVacationEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return updateVacationEntryHandler.HandleAsync(vacationEntryId, updateVacationEntryRequest);
     }
 
     [EndpointSummary("Get employee projects by period")]

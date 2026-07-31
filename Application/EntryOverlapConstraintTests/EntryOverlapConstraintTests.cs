@@ -13,6 +13,8 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
     {
         (EntryType.Task, EntryType.MakeUpTime),
         (EntryType.Task, EntryType.SickLeave),
+        (EntryType.Task, EntryType.Vacation),
+        (EntryType.MakeUpTime, EntryType.Vacation),
     };
 
     private static readonly IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);

@@ -86,6 +86,11 @@ export interface CreateVacationEntryRequest {
   isUnpaid: boolean;
 }
 
+export interface CreateVacationEntryResponse {
+  /** @format int64 */
+  newVacationEntryId: number;
+}
+
 export interface EmployeeDto {
   /** @format int64 */
   id: number;
@@ -826,7 +831,7 @@ export class Api<
       data: CreateVacationEntryRequest,
       params: RequestParams = {},
     ) =>
-      this.request<CreateVacationEntryRequest, any>({
+      this.request<CreateVacationEntryResponse, any>({
         path: `/api/tracking/vacation-entries`,
         method: "POST",
         body: data,

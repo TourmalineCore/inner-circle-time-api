@@ -100,6 +100,21 @@ public class GetEntriesByPeriodHandler
                 })
                 .ToList();
 
+        var vacationEntries = entriesByPeriod
+            .OfType<VacationEntry>()
+            .Select(
+                x => new VacationEntryDto
+                {
+                    Id = x.Id,
+                    Period = PeriodMapper.MapToPeriodDto(
+                        x.StartTime,
+                        x.EndTime
+                    ),
+                    EntryType = x.Type,
+                    IsUnpaid = x.IsUnpaid
+                })
+                .ToList();
+
         return new GetEntriesByPeriodResponse
         {
             TaskEntries = taskEntries,
@@ -107,7 +122,7 @@ public class GetEntriesByPeriodHandler
             AwayWithMakeUpTimeEntries = awayWithMakeUpTimeEntries,
             MakeUpTimeEntries = makeUpTimeEntries,
             SickLeaveEntries = sickLeaveEntries,
-            VacationEntries = []
+            VacationEntries = vacationEntries
         };
     }
 }
