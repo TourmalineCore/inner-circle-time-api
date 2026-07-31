@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 
 public class UpdateAwayWithMakeUpTimeEntryRequest
 {
+    [JsonIgnore]
     public long Id { get; set; }
 
     [Required]
