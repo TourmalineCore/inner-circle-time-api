@@ -15,7 +15,7 @@ public class GetToDosHandler(
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Status = Core.Entities.ToDoStatus.New,
+                    Status = Core.Entities.ToDoStatus.None,
                 })
                 .ToList(),
         };
