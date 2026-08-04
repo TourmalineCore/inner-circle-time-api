@@ -1,10 +1,12 @@
-﻿using Core.Entities;
+﻿using Core;
+using Core.Entities;
 
 namespace Application.Features.ToDos.Handlers.CreateToDo;
 
 public class CreateToDoCommand(
     TenantAppDbContext context,
-    IClaimsProvider claimsProvider
+    IClaimsProvider claimsProvider,
+    IDateTimeProvider dateTimeProvider
 )
 {
     public async Task<long> ExecuteAsync(CreateToDoRequest createToDoRequest)
@@ -13,6 +15,7 @@ public class CreateToDoCommand(
         {
             TenantId = claimsProvider.TenantId,
             Name = createToDoRequest.Name,
+            CreatedAtUtc = dateTimeProvider.UtcNow,
         };
 
         await context

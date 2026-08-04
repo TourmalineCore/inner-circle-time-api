@@ -9,7 +9,7 @@ public class ToDo : EntityBase, ICanBeDeleted
 
     public required string Name { get; set; }
 
-    public DateTime CreatedAtUtc { get; set; }
+    public required DateTime CreatedAtUtc { get; set; }
 
     public DateTime? DeletedAtUtc { get; set; }
 

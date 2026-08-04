@@ -18,18 +18,21 @@ public class GetToDosQueryTests
         {
             Name = "First",
             TenantId = TENANT_ID,
+            CreatedAtUtc = new DateTime(2026, 09, 01, 14, 30, 05, 356, DateTimeKind.Utc),
         });
 
         var secondToDo = await context.AddEntityAndSaveAsync(new ToDo
         {
             Name = "Second",
             TenantId = TENANT_ID,
+            CreatedAtUtc = new DateTime(2026, 09, 01, 15, 30, 05, 356, DateTimeKind.Utc),
         });
 
         var thirdToDo = await context.AddEntityAndSaveAsync(new ToDo
         {
             Name = "Third",
             TenantId = TENANT_ID,
+            CreatedAtUtc = new DateTime(2026, 09, 01, 16, 30, 05, 356, DateTimeKind.Utc),
         });
 
         var getToDosQuery = new GetToDosQuery(context);
