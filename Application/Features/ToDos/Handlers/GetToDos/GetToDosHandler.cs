@@ -1,7 +1,10 @@
+using Core;
+
 namespace Application.Features.ToDos.Handlers.GetToDos;
 
 public class GetToDosHandler(
-    GetToDosQuery getEntryByIdQuery
+    GetToDosQuery getEntryByIdQuery,
+    IDateTimeProvider dateTimeProvider
 )
 {
     public async Task<GetToDosResponse> HandleAsync()
@@ -15,7 +18,7 @@ public class GetToDosHandler(
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Status = Core.Entities.ToDoStatus.None,
+                    Status = x.GetStatus(dateTimeProvider),
                 })
                 .ToList(),
         };

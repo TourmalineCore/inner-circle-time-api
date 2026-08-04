@@ -27,6 +27,7 @@ using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
 using Application.SharedCommands;
 using Application.SharedQueries;
+using Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api;
@@ -93,5 +94,7 @@ public static class DependencyInjection
         services.AddTransient<GetToDosQuery>();
         services.AddTransient<HardDeleteToDoHandler>();
         services.AddTransient<HardDeleteToDoCommand>();
+
+        services.AddTransient<IDateTimeProvider, DateTimeProvider>();
     }
 }
