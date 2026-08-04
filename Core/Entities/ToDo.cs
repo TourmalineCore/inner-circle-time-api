@@ -9,5 +9,19 @@ public class ToDo : EntityBase, ICanBeDeleted
 
     public required string Name { get; set; }
 
+    public DateTime CreatedAtUtc { get; set; }
+
     public DateTime? DeletedAtUtc { get; set; }
+
+    public ToDoStatus GetStatus(IDateTimeProvider dateTimeProvider)
+    {
+        var utcNow = dateTimeProvider.UtcNow;
+
+        return this switch
+        {
+            ToDo t when t.CreatedAtUtc > utcNow.AddDays(-7) && t.CreatedAtUtc < utcNow => ToDoStatus.New,
+            ToDo t when t.CreatedAtUtc > utcNow.AddDays(-28) && t.CreatedAtUtc <= utcNow.AddDays(-7) => ToDoStatus.Old,
+            _ => throw new ArgumentOutOfRangeException($"Not expected path of ${nameof(GetStatus)}"),
+        };
+    }
 }

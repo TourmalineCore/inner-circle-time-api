@@ -30,4 +30,27 @@ public class ToDoTests
 
         Assert.Equal(ToDoStatus.New, status);
     }
+
+    [Fact]
+    public async Task GetStatus_EightDaysAgoIsTreatedAsOld()
+    {
+        var toDoCreatedAtUtc = new DateTime(2026, 09, 24, 14, 30, 05, 356, DateTimeKind.Utc);
+
+        var toDoThatWasCreatedFiveDaysAgo = new ToDo
+        {
+            Name = "First",
+            TenantId = TENANT_ID,
+            CreatedAtUtc = toDoCreatedAtUtc,
+        };
+
+        var dateTimeProviderMock = new Mock<IDateTimeProvider>();
+
+        dateTimeProviderMock
+            .Setup(x => x.UtcNow)
+            .Returns(toDoCreatedAtUtc.AddDays(8));
+
+        var status = toDoThatWasCreatedFiveDaysAgo.GetStatus(dateTimeProviderMock.Object);
+
+        Assert.Equal(ToDoStatus.Old, status);
+    }
 }
