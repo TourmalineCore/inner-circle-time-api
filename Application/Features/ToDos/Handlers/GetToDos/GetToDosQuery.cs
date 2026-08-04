@@ -11,7 +11,7 @@ public class GetToDosQuery(
     {
         return context
             .QueryableWithinTenantAsNoTracking<ToDo>()
-            .OrderByDescending(x => x.Id)
+            .OrderByDescending(x => x.CreatedAtUtc)
             .ToListAsync();
     }
 }
