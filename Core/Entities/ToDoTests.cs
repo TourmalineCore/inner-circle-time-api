@@ -8,10 +8,11 @@ public class ToDoTests
 {
     private const long TENANT_ID = 777;
 
-    [Fact]
-    public async Task GetStatus_FiveDaysAgoIsTreatedAsNew()
+    [Theory]
+    [MemberData(nameof(Data))]
+    public async Task GetStatus(DateTime utcNow, ToDoStatus expectedStatus)
     {
-        var toDoCreatedAtUtc = new DateTime(2026, 09, 24, 14, 30, 05, 356, DateTimeKind.Utc);
+        var toDoCreatedAtUtc = new DateTime(2026, 09, 01, 14, 30, 05, 356, DateTimeKind.Utc);
 
         var toDoThatWasCreatedFiveDaysAgo = new ToDo
         {
@@ -24,33 +25,18 @@ public class ToDoTests
 
         dateTimeProviderMock
             .Setup(x => x.UtcNow)
-            .Returns(toDoCreatedAtUtc.AddDays(5));
+            .Returns(utcNow);
 
         var status = toDoThatWasCreatedFiveDaysAgo.GetStatus(dateTimeProviderMock.Object);
 
-        Assert.Equal(ToDoStatus.New, status);
+        Assert.Equal(expectedStatus, status);
     }
 
-    [Fact]
-    public async Task GetStatus_EightDaysAgoIsTreatedAsOld()
-    {
-        var toDoCreatedAtUtc = new DateTime(2026, 09, 24, 14, 30, 05, 356, DateTimeKind.Utc);
-
-        var toDoThatWasCreatedFiveDaysAgo = new ToDo
+    public static IEnumerable<object[]> Data =>
+        new List<object[]>
         {
-            Name = "First",
-            TenantId = TENANT_ID,
-            CreatedAtUtc = toDoCreatedAtUtc,
+            new object[] { new DateTime(2026, 09, 06, 14, 30, 05, 356, DateTimeKind.Utc), ToDoStatus.New },
+            new object[] { new DateTime(2026, 09, 09, 14, 30, 05, 356, DateTimeKind.Utc), ToDoStatus.Old },
+            new object[] { new DateTime(2026, 09, 30, 14, 30, 05, 356, DateTimeKind.Utc), ToDoStatus.Forgotten },
         };
-
-        var dateTimeProviderMock = new Mock<IDateTimeProvider>();
-
-        dateTimeProviderMock
-            .Setup(x => x.UtcNow)
-            .Returns(toDoCreatedAtUtc.AddDays(8));
-
-        var status = toDoThatWasCreatedFiveDaysAgo.GetStatus(dateTimeProviderMock.Object);
-
-        Assert.Equal(ToDoStatus.Old, status);
-    }
 }
