@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Application;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +74,10 @@ public class Program
 
                     throw new ProblemDetailsException(problemDetails);
                 };
+            })
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
         var authenticationOptions = configuration.GetSection(nameof(AuthenticationOptions)).Get<AuthenticationOptions>();
