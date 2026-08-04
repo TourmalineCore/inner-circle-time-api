@@ -21,6 +21,7 @@ public class ToDo : EntityBase, ICanBeDeleted
         {
             ToDo t when t.CreatedAtUtc > utcNow.AddDays(-7) && t.CreatedAtUtc < utcNow => ToDoStatus.New,
             ToDo t when t.CreatedAtUtc > utcNow.AddDays(-28) && t.CreatedAtUtc <= utcNow.AddDays(-7) => ToDoStatus.Old,
+            ToDo t when t.CreatedAtUtc <= utcNow.AddDays(-28) => ToDoStatus.Forgotten,
             _ => throw new ArgumentOutOfRangeException($"Not expected path of ${nameof(GetStatus)}"),
         };
     }
