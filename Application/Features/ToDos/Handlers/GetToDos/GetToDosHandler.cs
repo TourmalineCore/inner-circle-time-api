@@ -1,19 +1,12 @@
 namespace Application.Features.ToDos.Handlers.GetToDos;
 
-public class GetToDosHandler
+public class GetToDosHandler(
+    GetToDosQuery getEntryByIdQuery
+)
 {
-    private readonly GetToDosQuery _getToDosQuery;
-
-    public GetToDosHandler(
-        GetToDosQuery getEntryByIdQuery
-    )
-    {
-        _getToDosQuery = getEntryByIdQuery;
-    }
-
     public async Task<GetToDosResponse> HandleAsync()
     {
-        var toDos = await _getToDosQuery.GetAsync();
+        var toDos = await getEntryByIdQuery.GetAsync();
 
         return new GetToDosResponse
         {

@@ -1,21 +1,14 @@
 namespace Application.Features.ToDos.Handlers.CreateToDo;
 
-public class CreateToDoHandler
+public class CreateToDoHandler(
+    CreateToDoCommand createToDoCommand
+)
 {
-    private readonly CreateToDoCommand _createToDoCommand;
-
-    public CreateToDoHandler(
-        CreateToDoCommand createToDoCommand
-    )
-    {
-        _createToDoCommand = createToDoCommand;
-    }
-
     public async Task<CreateToDoResponse> HandleAsync(
         CreateToDoRequest createToDoRequest
     )
     {
-        var newToDoId = await _createToDoCommand.ExecuteAsync(createToDoRequest);
+        var newToDoId = await createToDoCommand.ExecuteAsync(createToDoRequest);
 
         return new CreateToDoResponse
         {

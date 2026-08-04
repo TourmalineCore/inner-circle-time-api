@@ -3,31 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.ToDos.Handlers.HardDeleteToDo;
 
-public class HardDeleteToDoCommand
-{
-    private readonly TenantAppDbContext _context;
-    private readonly IClaimsProvider _claimsProvider;
-
-    public HardDeleteToDoCommand(
-        TenantAppDbContext context,
-        IClaimsProvider claimsProvider
+public class HardDeleteToDoCommand(
+    TenantAppDbContext context
     )
-    {
-        _context = context;
-        _claimsProvider = claimsProvider;
-    }
-
+{
     public async Task<bool> ExecuteAsync(long toDoId)
     {
-        var toDoToDelete = await _context
+        var toDoToDelete = await context
             .DeletedAndNotDeletedQueryableWithinTenant<ToDo>()
             .SingleAsync(x => x.Id == toDoId);
 
-        _context
+        context
             .Set<ToDo>()
             .Remove(toDoToDelete);
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
 
         return true;
     }
