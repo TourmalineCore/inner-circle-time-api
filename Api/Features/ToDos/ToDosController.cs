@@ -30,7 +30,7 @@ public class ToDosController : ControllerBase
     }
 
     [HttpDelete]
-    public Task<object> DeleteToDoAsync(
+    public Task<DeleteToDoResponse> DeleteToDoAsync(
         [Required][FromQuery] long toDoId,
         [FromServices] HardDeleteToDoHandler hardDeleteToDoHandler
     )

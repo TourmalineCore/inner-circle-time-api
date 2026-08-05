@@ -4,11 +4,13 @@ public class HardDeleteToDoHandler(
     HardDeleteToDoCommand hardDeleteToDoCommand
 )
 {
-    public async Task<object> HandleAsync(long toDoId)
+    public async Task<DeleteToDoResponse> HandleAsync(
+        long toDoId
+    )
     {
-        return new
+        return new DeleteToDoResponse
         {
-            isDeleted = await hardDeleteToDoCommand.ExecuteAsync(toDoId)
+            IsDeleted = await hardDeleteToDoCommand.ExecuteAsync(toDoId)
         };
     }
 }
