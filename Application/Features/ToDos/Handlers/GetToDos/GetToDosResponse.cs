@@ -14,5 +14,4 @@ public class ToDoDto
     public required string Name { get; set; }
 
     public required ToDoStatus Status { get; set; }
-
 }
