@@ -13,46 +13,56 @@ public class GetEntryByIdQueryTests
     [Fact]
     public async Task GetAnotherEmployeesEntryByIdAsync_ShouldNotGetAnotherEmployeesEntry()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(tenantId);
 
-        var taskEntry = new TaskEntry
+        await using (context)
+        await using (connection)
         {
-            Id = 2,
-            EmployeeId = employeeId,
-            TenantId = tenantId,
-        };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+            var taskEntry = new TaskEntry
+            {
+                Id = 2,
+                EmployeeId = employeeId,
+                TenantId = tenantId,
+            };
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, tenantId);
+            await context.AddEntityAndSaveAsync(taskEntry);
 
-        var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
+            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, tenantId);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(
-                async () => await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id)
-            );
+            var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
+
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                    async () => await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id)
+                );
+        }
     }
 
     [Fact]
     public async Task GetAnotherTenantsEntryByIdAsync_ShouldNotGetAnotherTenantsEntry()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(tenantId);
 
-        var taskEntry = new TaskEntry
+        await using (context)
+        await using (connection)
         {
-            Id = 3,
-            EmployeeId = employeeId,
-            TenantId = 3,
-        };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+            var taskEntry = new TaskEntry
+            {
+                Id = 3,
+                EmployeeId = employeeId,
+                TenantId = 3,
+            };
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
+            await context.AddEntityAndSaveAsync(taskEntry);
 
-        var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
+            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(
-                  async () => await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id)
-              );
+            var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
+
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                      async () => await getEntryByIdQuery.GetAsync<TaskEntry>(taskEntry.Id)
+                  );
+        }
     }
 }

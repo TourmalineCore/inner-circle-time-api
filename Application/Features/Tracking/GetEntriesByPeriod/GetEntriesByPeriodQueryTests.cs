@@ -15,108 +15,123 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetEntriesByPeriodAsync_ShouldReturnEntriesByPeriodFromDbSet()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
-
-        var taskEntry1 = new TaskEntry
+        await using (context)
+        await using (connection)
         {
-            Id = 11,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-        };
 
-        var taskEntry2 = new TaskEntry
-        {
-            Id = 12,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 11, 27, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
-        };
+            var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
-        var taskEntry3 = new TaskEntry
-        {
-            Id = 13,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 10, 27, 9, 0, 0),
-            EndTime = new DateTime(2025, 10, 27, 10, 0, 0),
-        };
+            var taskEntry1 = new TaskEntry
+            {
+                Id = 11,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+                EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            };
 
-        await context.AddEntityAndSaveAsync(taskEntry1);
-        await context.AddEntityAndSaveAsync(taskEntry2);
-        await context.AddEntityAndSaveAsync(taskEntry3);
+            var taskEntry2 = new TaskEntry
+            {
+                Id = 12,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 27, 9, 0, 0),
+                EndTime = new DateTime(2025, 11, 27, 10, 0, 0),
+            };
 
-        var result = await getEntriesByPeriodQuery
-            .GetByPeriodAsync<TaskEntry>(
-                new DateOnly(2025, 11, 24),
-                new DateOnly(2025, 11, 27)
-            );
+            var taskEntry3 = new TaskEntry
+            {
+                Id = 13,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 10, 27, 9, 0, 0),
+                EndTime = new DateTime(2025, 10, 27, 10, 0, 0),
+            };
 
-        Assert.NotNull(result);
-        Assert.Equal(2, result.Count);
-        Assert.Contains(result, x => x.Id == taskEntry1.Id);
-        Assert.Contains(result, x => x.Id == taskEntry2.Id);
-        Assert.DoesNotContain(result, x => x.Id == taskEntry3.Id);
+            await context.AddEntityAndSaveAsync(taskEntry1);
+            await context.AddEntityAndSaveAsync(taskEntry2);
+            await context.AddEntityAndSaveAsync(taskEntry3);
+
+            var result = await getEntriesByPeriodQuery
+                .GetByPeriodAsync<TaskEntry>(
+                    new DateOnly(2025, 11, 24),
+                    new DateOnly(2025, 11, 27)
+                );
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count);
+            Assert.Contains(result, x => x.Id == taskEntry1.Id);
+            Assert.Contains(result, x => x.Id == taskEntry2.Id);
+            Assert.DoesNotContain(result, x => x.Id == taskEntry3.Id);
+        }
     }
 
     [Fact]
     public async Task GetAnotherEmployeesEntriesByPeriodAsync_ShouldNotGetAnotherEmployeesEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        var taskEntry = new TaskEntry
+        await using (context)
+        await using (connection)
         {
-            Id = 11,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-        };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+            var taskEntry = new TaskEntry
+            {
+                Id = 11,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+                EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            };
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
+            await context.AddEntityAndSaveAsync(taskEntry);
 
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
+            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
 
-        var result = await getEntriesByPeriodQuery
-            .GetByPeriodAsync<TaskEntry>(
-                new DateOnly(2025, 11, 24),
-                new DateOnly(2025, 11, 27)
-            );
+            var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, mockClaimsProvider);
 
-        Assert.DoesNotContain(result, x => x.Id == taskEntry.Id);
+            var result = await getEntriesByPeriodQuery
+                .GetByPeriodAsync<TaskEntry>(
+                    new DateOnly(2025, 11, 24),
+                    new DateOnly(2025, 11, 27)
+                );
+
+            Assert.DoesNotContain(result, x => x.Id == taskEntry.Id);
+        }
     }
 
     [Fact]
     public async Task GetAnotherTenantsEntriesByPeriodAsync_ShouldNotGetAnotherTenantsEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        var taskEntry = new TaskEntry
+        await using (context)
+        await using (connection)
         {
-            Id = 11,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = 3,
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-        };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+            var taskEntry = new TaskEntry
+            {
+                Id = 11,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = 3,
+                StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+                EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+            };
 
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
+            await context.AddEntityAndSaveAsync(taskEntry);
 
-        var result = await getEntriesByPeriodQuery
-            .GetByPeriodAsync<TaskEntry>(
-                new DateOnly(2025, 11, 24),
-                new DateOnly(2025, 11, 27)
-            );
+            var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
-        Assert.DoesNotContain(result, x => x.Id == taskEntry.Id);
+            var result = await getEntriesByPeriodQuery
+                .GetByPeriodAsync<TaskEntry>(
+                    new DateOnly(2025, 11, 24),
+                    new DateOnly(2025, 11, 27)
+                );
+
+            Assert.DoesNotContain(result, x => x.Id == taskEntry.Id);
+        }
     }
 
 
@@ -185,27 +200,32 @@ public class GetEntriesByPeriodQueryTests
         bool shouldEntryBeReturned
     )
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        var sickLeaveEntry = new SickLeaveEntry
+        await using (context)
+        await using (connection)
         {
-            Id = 1,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = sickLeaveStartTime,
-            EndTime = sickLeaveEndTime,
-            Type = EntryType.SickLeave
-        };
 
-        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+            var sickLeaveEntry = new SickLeaveEntry
+            {
+                Id = 1,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = sickLeaveStartTime,
+                EndTime = sickLeaveEndTime,
+                Type = EntryType.SickLeave
+            };
 
-        var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
+            await context.AddEntityAndSaveAsync(sickLeaveEntry);
 
-        var startDate = periodStartDate;
-        var endDate = periodEndDate;
+            var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
-        var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
+            var startDate = periodStartDate;
+            var endDate = periodEndDate;
 
-        Assert.Equal(shouldEntryBeReturned, result.Any(x => x.Id == sickLeaveEntry.Id));
+            var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
+
+            Assert.Equal(shouldEntryBeReturned, result.Any(x => x.Id == sickLeaveEntry.Id));
+        }
     }
 }
