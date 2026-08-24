@@ -517,11 +517,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name EntriesList
+     * @name GetEntriesByPeriod
      * @summary Get entries by period
      * @request GET:/tracking/entries
      */
-    entriesList: (
+    getEntriesByPeriod: (
       query: {
         /** @format date */
         startDate: string;
@@ -542,11 +542,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name TaskEntriesDetail
+     * @name GetTaskEntry
      * @summary Get a task entry
      * @request GET:/tracking/task-entries/{taskEntryId}
      */
-    taskEntriesDetail: (taskEntryId: number, params: RequestParams = {}) =>
+    getTaskEntry: (taskEntryId: number, params: RequestParams = {}) =>
       this.request<GetTaskEntryResponse, any>({
         path: `/tracking/task-entries/${taskEntryId}`,
         method: "GET",
@@ -558,11 +558,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name TaskEntriesCreate
+     * @name UpdateTaskEntry
      * @summary Update a task entry
      * @request POST:/tracking/task-entries/{taskEntryId}
      */
-    taskEntriesCreate: (
+    updateTaskEntry: (
       taskEntryId: number,
       data: UpdateTaskEntryRequest,
       params: RequestParams = {},
@@ -579,13 +579,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name TaskEntriesCreate2
+     * @name CreateTaskEntry
      * @summary Create a task entry
      * @request POST:/tracking/task-entries
-     * @originalName taskEntriesCreate
-     * @duplicate
      */
-    taskEntriesCreate2: (
+    createTaskEntry: (
       data: CreateTaskEntryRequest,
       params: RequestParams = {},
     ) =>
@@ -602,11 +600,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name UnwellEntriesDetail
+     * @name GetUnwellEntry
      * @summary Get an unwell entry
      * @request GET:/tracking/unwell-entries/{unwellEntryId}
      */
-    unwellEntriesDetail: (unwellEntryId: number, params: RequestParams = {}) =>
+    getUnwellEntry: (unwellEntryId: number, params: RequestParams = {}) =>
       this.request<GetUnwellEntryResponse, any>({
         path: `/tracking/unwell-entries/${unwellEntryId}`,
         method: "GET",
@@ -618,11 +616,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name UnwellEntriesCreate
+     * @name UpdateUnwellEntry
      * @summary Update an unwell entry
      * @request POST:/tracking/unwell-entries/{unwellEntryId}
      */
-    unwellEntriesCreate: (
+    updateUnwellEntry: (
       unwellEntryId: number,
       data: UpdateUnwellEntryRequest,
       params: RequestParams = {},
@@ -639,13 +637,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name UnwellEntriesCreate2
+     * @name CreateUnwellEntry
      * @summary Create an unwell entry
      * @request POST:/tracking/unwell-entries
-     * @originalName unwellEntriesCreate
-     * @duplicate
      */
-    unwellEntriesCreate2: (
+    createUnwellEntry: (
       data: CreateUnwellEntryRequest,
       params: RequestParams = {},
     ) =>
@@ -662,11 +658,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name AwayWithMakeUpTimeEntriesDetail
+     * @name GetAwayWithMakeUpTimeEntry
      * @summary Get an away with make up time entry
      * @request GET:/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
      */
-    awayWithMakeUpTimeEntriesDetail: (
+    getAwayWithMakeUpTimeEntry: (
       awayWithMakeUpTimeEntryId: number,
       params: RequestParams = {},
     ) =>
@@ -681,11 +677,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name AwayWithMakeUpTimeEntriesCreate
+     * @name UpdateAwayWithMakeUpTimeEntry
      * @summary Update an away with make up time entry
      * @request POST:/tracking/away-with-make-up-time-entries/{awayWithMakeUpTimeEntryId}
      */
-    awayWithMakeUpTimeEntriesCreate: (
+    updateAwayWithMakeUpTimeEntry: (
       awayWithMakeUpTimeEntryId: number,
       data: UpdateAwayWithMakeUpTimeEntryRequest,
       params: RequestParams = {},
@@ -702,13 +698,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name AwayWithMakeUpTimeEntriesCreate2
+     * @name CreateAwayWithMakeUpTimeEntry
      * @summary Create an away with make up time entry
      * @request POST:/tracking/away-with-make-up-time-entries
-     * @originalName awayWithMakeUpTimeEntriesCreate
-     * @duplicate
      */
-    awayWithMakeUpTimeEntriesCreate2: (
+    createAwayWithMakeUpTimeEntry: (
       data: CreateAwayWithMakeUpTimeEntryRequest,
       params: RequestParams = {},
     ) =>
@@ -725,14 +719,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name SickLeaveEntriesDetail
+     * @name GetSickLeaveEntry
      * @summary Get a sick leave entry
      * @request GET:/tracking/sick-leave-entries/{sickLeaveEntryId}
      */
-    sickLeaveEntriesDetail: (
-      sickLeaveEntryId: number,
-      params: RequestParams = {},
-    ) =>
+    getSickLeaveEntry: (sickLeaveEntryId: number, params: RequestParams = {}) =>
       this.request<GetSickLeaveEntryResponse, any>({
         path: `/tracking/sick-leave-entries/${sickLeaveEntryId}`,
         method: "GET",
@@ -744,11 +735,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name SickLeaveEntriesCreate
+     * @name UpdateSickLeaveEntry
      * @summary Update a sick leave entry
      * @request POST:/tracking/sick-leave-entries/{sickLeaveEntryId}
      */
-    sickLeaveEntriesCreate: (
+    updateSickLeaveEntry: (
       sickLeaveEntryId: number,
       data: UpdateSickLeaveEntryRequest,
       params: RequestParams = {},
@@ -765,13 +756,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name SickLeaveEntriesCreate2
+     * @name CreateSickLeaveEntry
      * @summary Create a sick leave entry
      * @request POST:/tracking/sick-leave-entries
-     * @originalName sickLeaveEntriesCreate
-     * @duplicate
      */
-    sickLeaveEntriesCreate2: (
+    createSickLeaveEntry: (
       data: CreateSickLeaveEntryRequest,
       params: RequestParams = {},
     ) =>
@@ -788,14 +777,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name VacationEntriesDetail
+     * @name GetVacationEntry
      * @summary Get a vacation entry
      * @request GET:/tracking/vacation-entries/{vacationEntryId}
      */
-    vacationEntriesDetail: (
-      vacationEntryId: number,
-      params: RequestParams = {},
-    ) =>
+    getVacationEntry: (vacationEntryId: number, params: RequestParams = {}) =>
       this.request<GetVacationEntryResponse, any>({
         path: `/tracking/vacation-entries/${vacationEntryId}`,
         method: "GET",
@@ -807,11 +793,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name VacationEntriesCreate
+     * @name UpdateVacationEntry
      * @summary Update a vacation entry
      * @request POST:/tracking/vacation-entries/{vacationEntryId}
      */
-    vacationEntriesCreate: (
+    updateVacationEntry: (
       vacationEntryId: number,
       data: UpdateVacationEntryRequest,
       params: RequestParams = {},
@@ -828,13 +814,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name VacationEntriesCreate2
+     * @name CreateVacationEntry
      * @summary Create a vacation entry
      * @request POST:/tracking/vacation-entries
-     * @originalName vacationEntriesCreate
-     * @duplicate
      */
-    vacationEntriesCreate2: (
+    createVacationEntry: (
       data: CreateVacationEntryRequest,
       params: RequestParams = {},
     ) =>
@@ -851,11 +835,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name TaskEntriesProjectsList
+     * @name GetEmployeeProjectsByPeriod
      * @summary Get employee projects by period
      * @request GET:/tracking/task-entries/projects
      */
-    taskEntriesProjectsList: (
+    getEmployeeProjectsByPeriod: (
       query: {
         /** @format date */
         startDate: string;
@@ -876,11 +860,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name EntriesHardDeleteDelete
+     * @name HardDeleteEntry
      * @summary Deletes specific entry
      * @request DELETE:/tracking/entries/{entryId}/hard-delete
      */
-    entriesHardDeleteDelete: (entryId: number, params: RequestParams = {}) =>
+    hardDeleteEntry: (entryId: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/tracking/entries/${entryId}/hard-delete`,
         method: "DELETE",
@@ -891,11 +875,11 @@ export class Api<
      * No description
      *
      * @tags Tracking
-     * @name EntriesSoftDeleteDelete
+     * @name SoftDeleteEntry
      * @summary Soft deletes specific entry
      * @request DELETE:/tracking/entries/{entryId}/soft-delete
      */
-    entriesSoftDeleteDelete: (
+    softDeleteEntry: (
       entryId: number,
       data: SoftDeleteEntryRequest,
       params: RequestParams = {},
@@ -913,11 +897,11 @@ export class Api<
      * No description
      *
      * @tags Reporting
-     * @name EmployeesList
+     * @name GetAllEmployees
      * @summary Get all employees
      * @request GET:/reporting/employees
      */
-    employeesList: (params: RequestParams = {}) =>
+    getAllEmployees: (params: RequestParams = {}) =>
       this.request<GetAllEmployeesResponse, any>({
         path: `/reporting/employees`,
         method: "GET",
@@ -929,11 +913,11 @@ export class Api<
      * No description
      *
      * @tags Reporting
-     * @name PersonalReportList
+     * @name GetPersonalReport
      * @summary Get a personal employee report sorted by date in ascending order
      * @request GET:/reporting/personal-report
      */
-    personalReportList: (
+    getPersonalReport: (
       query: {
         /** @format int64 */
         employeeId: number;
@@ -957,11 +941,11 @@ export class Api<
      * No description
      *
      * @tags Internal
-     * @name ProjectsTrackedTaskHoursList
+     * @name GetEmployeesTrackedTaskHours
      * @summary Get employees tracked task hours
      * @request GET:/internal/projects/tracked-task-hours
      */
-    projectsTrackedTaskHoursList: (
+    getEmployeesTrackedTaskHours: (
       query: {
         /** @format int64 */
         projectId: number;
@@ -984,11 +968,11 @@ export class Api<
      * No description
      *
      * @tags Internal
-     * @name ProjectsList
+     * @name GetAllProjects
      * @summary Get all projects
      * @request GET:/internal/projects
      */
-    projectsList: (params: RequestParams = {}) =>
+    getAllProjects: (params: RequestParams = {}) =>
       this.request<GetAllProjectsResponse, any>({
         path: `/internal/projects`,
         method: "GET",
