@@ -20,6 +20,11 @@ internal static class TenantAppDbContextExtensionsTestsRelated
         // creates a database and tables based on our model
         await context.Database.EnsureCreatedAsync();
 
+        // off check constraints
+        await context.Database.ExecuteSqlRawAsync(@"
+            PRAGMA ignore_check_constraints = ON;
+        ");
+
         return (context, connection);
     }
 
