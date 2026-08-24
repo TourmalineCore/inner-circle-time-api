@@ -12,6 +12,9 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
     private static readonly HashSet<(EntryType, EntryType)> _allowedOverlaps = new HashSet<(EntryType, EntryType)>
     {
         (EntryType.Task, EntryType.MakeUpTime),
+        (EntryType.Task, EntryType.SickLeave),
+        (EntryType.Task, EntryType.Vacation),
+        (EntryType.MakeUpTime, EntryType.Vacation),
     };
 
     private static readonly IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);

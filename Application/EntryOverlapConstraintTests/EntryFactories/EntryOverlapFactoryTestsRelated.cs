@@ -24,6 +24,8 @@ public abstract class EntryOverlapFactoryTestsRelated
             EntryType.Unwell => new UnwellEntryFactoryTestsRelated(),
             EntryType.AwayWithMakeUpTime => new AwayWithMakeUpTimeEntryFactoryTestsRelated(),
             EntryType.MakeUpTime => new MakeUpTimeEntryFactoryTestsRelated(),
+            EntryType.SickLeave => new SickLeaveEntryFactoryTestsRelated(),
+            EntryType.Vacation => new VacationEntryFactoryTestsRelated(),
             _ => throw new Exception($"The test is not configured to work with {entryType}.")
         };
     }

@@ -1,3 +1,4 @@
+using Core.Entities;
 using Npgsql;
 
 public abstract class DbValidationEntryCommandBase<TRequest>
@@ -6,8 +7,12 @@ public abstract class DbValidationEntryCommandBase<TRequest>
     private const string CK_ENTRIES_END_TIME_IS_GREATER_THAN_START_TIME = "ck_entries_end_time_is_greater_than_start_time";
     private IReadOnlyList<string> _overlapConstraints { get; } = new List<string>
     {
-        "ck_entries_1_2_3_no_time_overlap",
-        "ck_entries_2_3_4_no_time_overlap"
+        // Task can overlap with Make-up time, Sick leave and Vacation, but it cannot overlap with all others
+        $"ck_entries_{(int)EntryType.Task}_{(int)EntryType.Unwell}_{(int)EntryType.AwayWithMakeUpTime}_no_time_overlap",
+        // Make-up time can overlap with Vacation and Task, but it cannot overlap with all others
+        $"ck_entries_{(int)EntryType.Unwell}_{(int)EntryType.AwayWithMakeUpTime}_{(int)EntryType.MakeUpTime}_{(int)EntryType.SickLeave}_no_time_overlap",
+        // Unwell, Away with make-up time, Sick leave, Vacation cannot overlap
+        $"ck_entries_{(int)EntryType.Unwell}_{(int)EntryType.AwayWithMakeUpTime}_{(int)EntryType.SickLeave}_{(int)EntryType.Vacation}_no_time_overlap"
     };
 
     public async Task<long> MakeChangesInDbAsync(TRequest request)

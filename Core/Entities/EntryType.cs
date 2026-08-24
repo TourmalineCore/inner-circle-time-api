@@ -6,5 +6,7 @@ public enum EntryType
     Task = 1,
     Unwell = 2,
     AwayWithMakeUpTime = 3,
-    MakeUpTime = 4
+    MakeUpTime = 4,
+    SickLeave = 5,
+    Vacation = 6,
 }

@@ -109,6 +109,20 @@ namespace Application.Migrations
                     b.HasDiscriminator().HasValue("AwayWithMakeUpTimeEntry");
                 });
 
+            modelBuilder.Entity("Core.Entities.SickLeaveEntry", b =>
+                {
+                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+
+                    b.ToTable(t =>
+                        {
+                            t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
+                        });
+
+                    b.HasDiscriminator().HasValue("SickLeaveEntry");
+                });
+
             modelBuilder.Entity("Core.Entities.TaskEntry", b =>
                 {
                     b.HasBaseType("Core.Entities.TrackedEntryBase");
@@ -154,6 +168,24 @@ namespace Application.Migrations
                         });
 
                     b.HasDiscriminator().HasValue("UnwellEntry");
+                });
+
+            modelBuilder.Entity("Core.Entities.VacationEntry", b =>
+                {
+                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+
+                    b.Property<bool>("IsUnpaid")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_unpaid");
+
+                    b.ToTable(t =>
+                        {
+                            t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
+                        });
+
+                    b.HasDiscriminator().HasValue("VacationEntry");
                 });
 
             modelBuilder.Entity("MakeUpTimeEntry", b =>

@@ -4,17 +4,20 @@ using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.CreateSickLeaveEntry;
 using Application.Features.Tracking.CreateTaskEntry;
 using Application.Features.Tracking.CreateUnwellEntry;
+using Application.Features.Tracking.CreateVacationEntry;
 using Application.Features.Tracking.GetAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.GetEntriesByPeriod;
 using Application.Features.Tracking.GetSickLeaveEntry;
 using Application.Features.Tracking.GetTaskEntry;
 using Application.Features.Tracking.GetUnwellEntry;
+using Application.Features.Tracking.GetVacationEntry;
 using Application.Features.Tracking.HardDeleteEntry;
 using Application.Features.Tracking.SoftDeleteEntry;
 using Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.UpdateSickLeaveEntry;
 using Application.Features.Tracking.UpdateTaskEntry;
 using Application.Features.Tracking.UpdateUnwellEntry;
+using Application.Features.Tracking.UpdateVacationEntry;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
@@ -144,20 +147,22 @@ public class TrackingController : ControllerBase
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("sick-leave-entries/{sickLeaveEntryId}")]
     public Task<GetSickLeaveEntryResponse> GetSickLeaveEntryAsync(
-        [Required][FromRoute] long sickLeaveEntryId
+        [Required][FromRoute] long sickLeaveEntryId,
+        [FromServices] GetSickLeaveEntryHandler getSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return getSickLeaveEntryHandler.HandleAsync(sickLeaveEntryId);
     }
 
     [EndpointSummary("Create a sick leave entry")]
     [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpPost("sick-leave-entries")]
     public Task<CreateSickLeaveEntryResponse> CreateSickLeaveEntryAsync(
-        [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest
+        [Required][FromBody] CreateSickLeaveEntryRequest createSickLeaveEntryRequest,
+        [FromServices] CreateSickLeaveEntryHandler createSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return createSickLeaveEntryHandler.HandleAsync(createSickLeaveEntryRequest);
     }
 
     [EndpointSummary("Update a sick leave entry")]
@@ -165,10 +170,45 @@ public class TrackingController : ControllerBase
     [HttpPost("sick-leave-entries/{sickLeaveEntryId}")]
     public Task UpdateSickLeaveEntryAsync(
         [Required][FromRoute] long sickLeaveEntryId,
-        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest
+        [Required][FromBody] UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest,
+        [FromServices] UpdateSickLeaveEntryHandler updateSickLeaveEntryHandler
     )
     {
-        throw new NotImplementedException();
+        return updateSickLeaveEntryHandler.HandleAsync(sickLeaveEntryId, updateSickLeaveEntryRequest);
+    }
+
+    [EndpointSummary("Get a vacation entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("vacation-entries/{vacationEntryId}")]
+    public Task<GetVacationEntryResponse> GetVacationEntryAsync(
+        [Required][FromRoute] long vacationEntryId,
+        [FromServices] GetVacationEntryHandler getVacationEntryHandler
+    )
+    {
+        return getVacationEntryHandler.HandleAsync(vacationEntryId);
+    }
+
+    [EndpointSummary("Create a vacation entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("vacation-entries")]
+    public Task<CreateVacationEntryResponse> CreateVacationEntryAsync(
+        [Required][FromBody] CreateVacationEntryRequest createVacationEntryRequest,
+        [FromServices] CreateVacationEntryHandler createVacationEntryHandler
+    )
+    {
+        return createVacationEntryHandler.HandleAsync(createVacationEntryRequest);
+    }
+
+    [EndpointSummary("Update a vacation entry")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpPost("vacation-entries/{vacationEntryId}")]
+    public Task UpdateVacationEntryAsync(
+        [Required][FromRoute] long vacationEntryId,
+        [Required][FromBody] UpdateVacationEntryRequest updateVacationEntryRequest,
+        [FromServices] UpdateVacationEntryHandler updateVacationEntryHandler
+    )
+    {
+        return updateVacationEntryHandler.HandleAsync(vacationEntryId, updateVacationEntryRequest);
     }
 
     [EndpointSummary("Get employee projects by period")]

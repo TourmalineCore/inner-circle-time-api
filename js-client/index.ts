@@ -81,6 +81,16 @@ export interface CreateUnwellResponse {
   newUnwellEntryId: number;
 }
 
+export interface CreateVacationEntryRequest {
+  period: PeriodDto;
+  isUnpaid: boolean;
+}
+
+export interface CreateVacationEntryResponse {
+  /** @format int64 */
+  newVacationEntryId: number;
+}
+
 export interface EmployeeDto {
   /** @format int64 */
   id: number;
@@ -126,6 +136,7 @@ export interface GetEntriesByPeriodResponse {
   awayWithMakeUpTimeEntries: AwayWithMakeUpTimeEntryDto[];
   makeUpTimeEntries: MakeUpTimeEntryWithRelatedEntryDto[];
   sickLeaveEntries: SickLeaveEntryDto[];
+  vacationEntries: VacationEntryDto[];
 }
 
 export interface GetPersonalReportResponse {
@@ -166,6 +177,14 @@ export interface GetUnwellEntryResponse {
   /** @format date-time */
   endTime: string;
   type: EntryType;
+}
+
+export interface GetVacationEntryResponse {
+  /** @format int64 */
+  id: number;
+  entryType: EntryType;
+  period: PeriodDto;
+  isUnpaid: boolean;
 }
 
 export interface MakeUpTimeEntryDto {
@@ -266,8 +285,6 @@ export interface UnwellEntryDto {
 }
 
 export interface UpdateAwayWithMakeUpTimeEntryRequest {
-  /** @format int64 */
-  id?: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
@@ -281,8 +298,6 @@ export interface UpdateSickLeaveEntryRequest {
 }
 
 export interface UpdateTaskEntryRequest {
-  /** @format int64 */
-  id?: number;
   title: string;
   /** @format date-time */
   startTime: string;
@@ -295,12 +310,23 @@ export interface UpdateTaskEntryRequest {
 }
 
 export interface UpdateUnwellEntryRequest {
-  /** @format int64 */
-  id?: number;
   /** @format date-time */
   startTime: string;
   /** @format date-time */
   endTime: string;
+}
+
+export interface UpdateVacationEntryRequest {
+  period: PeriodDto;
+  isUnpaid: boolean;
+}
+
+export interface VacationEntryDto {
+  /** @format int64 */
+  id: number;
+  entryType: EntryType;
+  period: PeriodDto;
+  isUnpaid: boolean;
 }
 
 import type {
@@ -480,7 +506,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title inner-circle-time-api
- * @version 1.8.0
+ * @version 1.11.0
  * @baseUrl http://localhost:6507/
  */
 export class Api<
@@ -746,6 +772,67 @@ export class Api<
     ) =>
       this.request<CreateSickLeaveEntryResponse, any>({
         path: `/tracking/sick-leave-entries`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingGetVacationEntry
+     * @summary Get a vacation entry
+     * @request GET:/api/tracking/vacation-entries/{vacationEntryId}
+     */
+    trackingGetVacationEntry: (
+      vacationEntryId: number,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetVacationEntryResponse, any>({
+        path: `/api/tracking/vacation-entries/${vacationEntryId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingUpdateVacationEntry
+     * @summary Update a vacation entry
+     * @request POST:/api/tracking/vacation-entries/{vacationEntryId}
+     */
+    trackingUpdateVacationEntry: (
+      vacationEntryId: number,
+      data: UpdateVacationEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/tracking/vacation-entries/${vacationEntryId}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tracking
+     * @name TrackingCreateVacationEntry
+     * @summary Create a vacation entry
+     * @request POST:/api/tracking/vacation-entries
+     */
+    trackingCreateVacationEntry: (
+      data: CreateVacationEntryRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateVacationEntryResponse, any>({
+        path: `/api/tracking/vacation-entries`,
         method: "POST",
         body: data,
         type: ContentType.Json,
