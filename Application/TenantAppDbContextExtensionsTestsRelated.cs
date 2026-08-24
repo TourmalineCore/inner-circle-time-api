@@ -1,4 +1,5 @@
 ﻿using Core;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application;
@@ -24,6 +25,28 @@ internal static class TenantAppDbContextExtensionsTestsRelated
             options,
             tenantId
         );
+    }
+
+    public async static Task<(TenantAppDbContext Context, SqliteConnection Connection)> CreateSqlInMemoryTenantContextForTestsAsync(long tenantId)
+    {
+        var connection = new SqliteConnection("DataSource=:memory:");
+        connection.Open();
+
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        var context = new TenantAppDbContext(options, tenantId);
+
+        // creates a database and tables based on our model
+        await context.Database.EnsureCreatedAsync();
+
+        // if we try to apply all migrations, we will see an error: Microsoft.Data.Sqlite.SqliteException : SQLite Error 1: 'near "LOCK": syntax error'
+        // this error means that our migrations contain PostgreSQL syntax, which is not supported by SQLite
+        // this limitation will prevent us from testing constraints in the database
+        // await context.Database.MigrateAsync();
+
+        return (context, connection);
     }
 
     public async static Task<TEntity> AddEntityAndSaveAsync<TEntity>(
