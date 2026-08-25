@@ -10,7 +10,7 @@ namespace Api.Features.Internal;
 
 [Authorize]
 [ApiController]
-[Route("api/internal")]
+[Route("internal")]
 public class InternalController : ControllerBase
 {
     [EndpointSummary("Get employees tracked task hours")]

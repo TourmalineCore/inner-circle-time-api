@@ -24,9 +24,9 @@ public static class OpenApiConfiguration
                 // Try to get the ControllerActionDescriptor to access method information
                 if (context.Description.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
                 {
-                    // Set the operationId to the ControllerName and ActionName (which is typically the method name)
+                    // Set the operationId to the ActionName (which is typically the method name)
                     // This allows to have unique operationId even if there is the same method name across multiple controllers
-                    operation.OperationId = $"{controllerActionDescriptor.ControllerName}{controllerActionDescriptor.ActionName}";
+                    operation.OperationId = $"{controllerActionDescriptor.ActionName}";
                 }
 
                 return Task.CompletedTask;
@@ -47,12 +47,12 @@ public static class OpenApiConfiguration
 
     public static void AddOpenApiSchemaAndUI(this WebApplication app)
     {
-        app.MapOpenApi("api/swagger/openapi.json");
+        app.MapOpenApi("swagger/openapi.json");
 
         app.UseSwaggerUI(options =>
         {
             options.SwaggerEndpoint("openapi.json", "API");
-            options.RoutePrefix = "api/swagger";
+            options.RoutePrefix = "swagger";
         });
     }
 }
