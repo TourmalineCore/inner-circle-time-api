@@ -71,6 +71,5 @@ public class GetTaskEntriesQueryTests
             );
 
         Assert.Empty(result);
-
     }
 }

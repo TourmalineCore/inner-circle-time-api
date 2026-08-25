@@ -30,10 +30,10 @@ public class CreateAwayWithMakeUpTimeEntryHandlerTests
             Description = "Description",
             MakeUpTimeList = [
                 new CreateOrUpdateMakeUpTimeEntryDto
-                        {
-                            StartTime = new DateTime(2026, 11, 24, 17, 0, 0),
-                            EndTime = new DateTime(2026, 11, 24, 18, 0, 0),
-                        }
+                    {
+                        StartTime = new DateTime(2026, 11, 24, 17, 0, 0),
+                        EndTime = new DateTime(2026, 11, 24, 18, 0, 0),
+                    }
                 ]
         };
 

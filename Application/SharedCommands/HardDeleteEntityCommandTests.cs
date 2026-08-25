@@ -25,6 +25,7 @@ public class HardDeleteEntityCommandTests
 
         await using var context = ctx;
         await using var connection = conn;
+
         var deleteEntityCommand = new HardDeleteEntityCommand(context, _mockClaimsProvider);
 
         var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
@@ -47,7 +48,6 @@ public class HardDeleteEntityCommandTests
         // try to delete again
         Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await deleteEntityCommand.ExecuteAsync<TaskEntry>(taskEntry.Id)));
         Assert.False(wasDeletedAgain);
-
     }
 
     [Fact]
@@ -134,6 +134,7 @@ public class HardDeleteEntityCommandTests
 
         await using var context = ctx;
         await using var connection = conn;
+
         var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,

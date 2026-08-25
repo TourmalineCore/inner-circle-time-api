@@ -64,7 +64,6 @@ public class GetEntriesByPeriodQueryTests
         Assert.Contains(result, x => x.Id == taskEntry1.Id);
         Assert.Contains(result, x => x.Id == taskEntry2.Id);
         Assert.DoesNotContain(result, x => x.Id == taskEntry3.Id);
-
     }
 
     [Fact]
@@ -220,6 +219,5 @@ public class GetEntriesByPeriodQueryTests
         var result = await getEntriesByPeriodQuery.GetByPeriodAsync<TrackedEntryBase>(startDate, endDate);
 
         Assert.Equal(shouldEntryBeReturned, result.Any(x => x.Id == sickLeaveEntry.Id));
-
     }
 }
