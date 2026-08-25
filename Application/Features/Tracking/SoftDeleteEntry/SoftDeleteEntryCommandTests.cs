@@ -40,8 +40,6 @@ public class SoftDeleteEntryCommandTests
             {
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
-                StartTime = new DateTime(2025, 11, 24, 10, 0, 0),
-                EndTime = new DateTime(2025, 11, 24, 12, 0, 0),
             });
 
             var wasDeleted = await softDeleteEntryСommand.ExecuteAsync(_softDeleteEntryRequest);
