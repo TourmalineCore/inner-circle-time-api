@@ -12,37 +12,36 @@ public class UpdateAwayWithMakeUpTimeEntryHandlerTests
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(tenantId);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(tenantId);
 
-        await using (context)
-        await using (connection)
+        await using var context = ctx;
+        await using var connection = conn;
+
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
+
+        var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
+
+        var updateAwayWithMakeUpTimeEntryHandler = new UpdateAwayWithMakeUpTimeEntryHandler(updateAwayWithMakeUpTimeEntryCommand);
+
+        var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
-            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
-
-            var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
-
-            var updateAwayWithMakeUpTimeEntryHandler = new UpdateAwayWithMakeUpTimeEntryHandler(updateAwayWithMakeUpTimeEntryCommand);
-
-            var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
-            {
-                StartTime = new DateTime(2026, 11, 24, 10, 0, 0),
-                EndTime = new DateTime(2026, 11, 24, 12, 0, 0),
-                Description = "Description",
-                MakeUpTimeList = [
-                    new CreateOrUpdateMakeUpTimeEntryDto
+            StartTime = new DateTime(2026, 11, 24, 10, 0, 0),
+            EndTime = new DateTime(2026, 11, 24, 12, 0, 0),
+            Description = "Description",
+            MakeUpTimeList = [
+                new CreateOrUpdateMakeUpTimeEntryDto
                         {
                             StartTime = new DateTime(2026, 11, 24, 17, 0, 0),
                             EndTime = new DateTime(2026, 11, 24, 18, 0, 0),
                         }
-                    ]
-            };
+                ]
+        };
 
 
-            var exception = await Assert.ThrowsAsync<TimeDoesNotMatchException>(
-                    async () => await updateAwayWithMakeUpTimeEntryHandler.HandleAsync(999, updateAwayWithMakeUpTimeEntryRequest)
-                );
+        var exception = await Assert.ThrowsAsync<TimeDoesNotMatchException>(
+                async () => await updateAwayWithMakeUpTimeEntryHandler.HandleAsync(999, updateAwayWithMakeUpTimeEntryRequest)
+            );
 
-            Assert.Equal("Total make-up time must equal your away time. Please check and adjust your entries.", exception.Message);
-        }
+        Assert.Equal("Total make-up time must equal your away time. Please check and adjust your entries.", exception.Message);
     }
 }
