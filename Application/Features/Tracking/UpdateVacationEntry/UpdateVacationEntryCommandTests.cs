@@ -14,7 +14,7 @@ public class UpdateVacationEntryCommandTests
     [Fact]
     public async Task UpdateVacationEntryAsync_ShouldUpdateIsUnpaidFromFalseToTrue()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)

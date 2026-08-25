@@ -13,7 +13,7 @@ public class GetEntryByIdQueryTests
     [Fact]
     public async Task GetAnotherEmployeesEntryByIdAsync_ShouldNotGetAnotherEmployeesEntry()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(tenantId);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(tenantId);
 
         await using (context)
         await using (connection)
@@ -41,7 +41,7 @@ public class GetEntryByIdQueryTests
     [Fact]
     public async Task GetAnotherTenantsEntryByIdAsync_ShouldNotGetAnotherTenantsEntry()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(tenantId);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(tenantId);
 
         await using (context)
         await using (connection)

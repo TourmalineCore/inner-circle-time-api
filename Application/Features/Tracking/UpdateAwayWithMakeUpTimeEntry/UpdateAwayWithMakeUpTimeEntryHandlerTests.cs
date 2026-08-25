@@ -12,7 +12,7 @@ public class UpdateAwayWithMakeUpTimeEntryHandlerTests
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(tenantId);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(tenantId);
 
         await using (context)
         await using (connection)

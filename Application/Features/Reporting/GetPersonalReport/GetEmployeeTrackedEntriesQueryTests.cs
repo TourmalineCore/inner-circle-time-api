@@ -12,7 +12,7 @@ public class GetEmployeeTrackedEntriesQueryTests
     [Fact]
     public async Task GetTrackedEntriesWithNonExistentEmployeeId__ShouldReturnEmptyTrackedEntriesList()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)
@@ -47,7 +47,7 @@ public class GetEmployeeTrackedEntriesQueryTests
     [Fact]
     public async Task GetTrackedEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTrackedEntriesList()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)

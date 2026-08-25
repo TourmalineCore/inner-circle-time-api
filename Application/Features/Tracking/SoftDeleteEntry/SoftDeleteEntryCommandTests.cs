@@ -29,7 +29,7 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteExistingEntryTwice_ShouldDeleteEntryFromDbSetAndDoNotThrowAtSecondTime()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)
@@ -65,7 +65,7 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteNonExistingEntry_ShouldNotThrowException()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)
@@ -93,7 +93,7 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteAnotherEmployeesEntry_ShouldNotDeleteAnotherEmployeesEntryFromDb()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)
@@ -124,7 +124,7 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteAnotherTenantsEntry_ShouldNotDeleteAnotherTenantsEntryFromDb()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)
@@ -159,7 +159,7 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteEntryWithMakeUpTimeList_ShouldDeleteEntryWithAllRelatedMakeUpTimeEntry()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateSqlInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
         await using (context)
         await using (connection)

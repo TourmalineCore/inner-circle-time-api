@@ -6,7 +6,7 @@ namespace Application;
 
 internal static class TenantAppDbContextExtensionsTestsRelated
 {
-    public async static Task<(TenantAppDbContext Context, SqliteConnection Connection)> CreateSqlInMemoryTenantContextForTestsAsync(long tenantId)
+    public async static Task<(TenantAppDbContext Context, SqliteConnection Connection)> CreateInMemoryTenantContextForTestsAsync(long tenantId)
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         connection.Open();
