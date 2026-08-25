@@ -20,7 +20,7 @@ internal static class TenantAppDbContextExtensionsTestsRelated
         // creates a database and tables based on our model
         context.Database.EnsureCreated();
 
-        // off check constraints
+        // we need to turn off PostgreSQL related check constraints in this mode since SQLite doesn't support them
         context.Database.ExecuteSqlRaw(@"
             PRAGMA ignore_check_constraints = ON;
         ");
