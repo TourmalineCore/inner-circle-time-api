@@ -5,25 +5,28 @@ using Xunit;
 
 namespace Application.Features.Tracking.UpdateVacationEntry;
 
-[IntegrationTest]
-public class UpdateVacationEntryCommandTests : IntegrationTestBase
+[UnitTest]
+public class UpdateVacationEntryCommandTests
 {
+    protected const long EMPLOYEE_ID = 1;
+    protected const long TENANT_ID = 777;
+
     [Fact]
-    // we decided to keep this check of IsUnpaid toggling as a separate test rather than checking it together with the period update in the related e2e test to keep an example and explanation of AsNoTracking trick
-    // this trick covers this case of C# tests: create, update, and read to verify using real db
     public async Task UpdateVacationEntryAsync_ShouldUpdateIsUnpaidFromFalseToTrue()
     {
-        var context = CreateTenantDbContext();
+        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var existingVacationEntry = await SaveEntityAsync(context, new VacationEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
-            EndTime = new DateTime(2026, 7, 17, 0, 0, 0),
-            IsUnpaid = false
-        });
+        var existingVacationEntry = await context.AddEntityAndSaveAsync(
+            new VacationEntry
+            {
+                TenantId = TENANT_ID,
+                EmployeeId = EMPLOYEE_ID,
+                StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
+                EndTime = new DateTime(2026, 7, 17, 0, 0, 0),
+                IsUnpaid = false
+            });
 
         var updateVacationEntryCommand = new UpdateVacationEntryCommand(context, mockClaimsProvider);
 
