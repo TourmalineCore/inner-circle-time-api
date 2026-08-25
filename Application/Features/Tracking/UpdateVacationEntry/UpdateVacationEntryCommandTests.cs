@@ -14,48 +14,47 @@ public class UpdateVacationEntryCommandTests
     [Fact]
     public async Task UpdateVacationEntryAsync_ShouldUpdateIsUnpaidFromFalseToTrue()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        await using (context)
-        await using (connection)
-        {
-            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+        await using var context = ctx;
+        await using var connection = conn;
 
-            var existingVacationEntry = await context.AddEntityAndSaveAsync(
-                new VacationEntry
-                {
-                    TenantId = TENANT_ID,
-                    EmployeeId = EMPLOYEE_ID,
-                    StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
-                    EndTime = new DateTime(2026, 7, 17, 0, 0, 0),
-                    IsUnpaid = false
-                });
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-            var updateVacationEntryCommand = new UpdateVacationEntryCommand(context, mockClaimsProvider);
-
-            var updateVacationEntryRequest = new UpdateVacationEntryRequest
+        var existingVacationEntry = await context.AddEntityAndSaveAsync(
+            new VacationEntry
             {
-                Id = existingVacationEntry.Id,
-                Period = new PeriodDto
-                {
-                    StartDate = new DateOnly(2026, 7, 13),
-                    EndDate = new DateOnly(2026, 7, 16) // it's valid that it's one day before the date in EndTime
-                },
-                IsUnpaid = true
-            };
+                TenantId = TENANT_ID,
+                EmployeeId = EMPLOYEE_ID,
+                StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
+                EndTime = new DateTime(2026, 7, 17, 0, 0, 0),
+                IsUnpaid = false
+            });
 
-            await updateVacationEntryCommand.ExecuteAsync(updateVacationEntryRequest);
+        var updateVacationEntryCommand = new UpdateVacationEntryCommand(context, mockClaimsProvider);
 
-            var vacationEntryFromDb = await context
-                .VacationEntries
-                // before that request we already have this vacation entry in EF Core context, since we track its changes
-                // if we read it again without AsNoTracking it won't execute SQL but just return the cached instance of vacation entry from the context
-                // adding AsNoTracking we force EF Core to make SQL ignoring its internal cache
-                .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Id == existingVacationEntry.Id);
+        var updateVacationEntryRequest = new UpdateVacationEntryRequest
+        {
+            Id = existingVacationEntry.Id,
+            Period = new PeriodDto
+            {
+                StartDate = new DateOnly(2026, 7, 13),
+                EndDate = new DateOnly(2026, 7, 16) // it's valid that it's one day before the date in EndTime
+            },
+            IsUnpaid = true
+        };
 
-            Assert.NotNull(vacationEntryFromDb);
-            Assert.True(vacationEntryFromDb.IsUnpaid);
-        }
+        await updateVacationEntryCommand.ExecuteAsync(updateVacationEntryRequest);
+
+        var vacationEntryFromDb = await context
+            .VacationEntries
+            // before that request we already have this vacation entry in EF Core context, since we track its changes
+            // if we read it again without AsNoTracking it won't execute SQL but just return the cached instance of vacation entry from the context
+            // adding AsNoTracking we force EF Core to make SQL ignoring its internal cache
+            .AsNoTracking()
+            .SingleOrDefaultAsync(x => x.Id == existingVacationEntry.Id);
+
+        Assert.NotNull(vacationEntryFromDb);
+        Assert.True(vacationEntryFromDb.IsUnpaid);
     }
 }

@@ -21,145 +21,137 @@ public class HardDeleteEntityCommandTests
     [Fact]
     public async Task DeleteExistingEntityTwice_ShouldDeleteEntityFromDbSetAndDoNotThrowAtSecondTime()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        await using (context)
-        await using (connection)
+        await using var context = ctx;
+        await using var connection = conn;
+        var deleteEntityCommand = new HardDeleteEntityCommand(context, _mockClaimsProvider);
+
+        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
         {
-            var deleteEntityCommand = new HardDeleteEntityCommand(context, _mockClaimsProvider);
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID
+        });
 
-            var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                TenantId = TENANT_ID
-            });
+        var wasDeleted = await deleteEntityCommand.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-            var wasDeleted = await deleteEntityCommand.ExecuteAsync<TaskEntry>(taskEntry.Id);
+        var deletedTaskEntry = await context
+            .TaskEntries
+            .SingleOrDefaultAsync(x => x.Id != taskEntry.Id);
 
-            var deletedTaskEntry = await context
-                .TaskEntries
-                .SingleOrDefaultAsync(x => x.Id != taskEntry.Id);
+        Assert.True(wasDeleted);
+        Assert.Null(deletedTaskEntry);
 
-            Assert.True(wasDeleted);
-            Assert.Null(deletedTaskEntry);
+        var wasDeletedAgain = true;
 
-            var wasDeletedAgain = true;
+        // try to delete again
+        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await deleteEntityCommand.ExecuteAsync<TaskEntry>(taskEntry.Id)));
+        Assert.False(wasDeletedAgain);
 
-            // try to delete again
-            Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await deleteEntityCommand.ExecuteAsync<TaskEntry>(taskEntry.Id)));
-            Assert.False(wasDeletedAgain);
-        }
     }
 
     [Fact]
     public async Task DeleteNonExistingEntity_ShouldNotThrowException()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        await using (context)
-        await using (connection)
-        {
-            var deleteEntityCommand = new HardDeleteEntityCommand(context, _mockClaimsProvider);
+        await using var context = ctx;
+        await using var connection = conn;
 
-            var wasNonExistedDeleted = true;
+        var deleteEntityCommand = new HardDeleteEntityCommand(context, _mockClaimsProvider);
 
-            const long NON_EXISTING_ID = -1;
+        var wasNonExistedDeleted = true;
 
-            // try to delete a non-existing entry
-            Assert.Null(await Record.ExceptionAsync(async () => wasNonExistedDeleted = await deleteEntityCommand.ExecuteAsync<TaskEntry>(NON_EXISTING_ID)));
-            Assert.False(wasNonExistedDeleted);
-        }
+        const long NON_EXISTING_ID = -1;
+
+        // try to delete a non-existing entry
+        Assert.Null(await Record.ExceptionAsync(async () => wasNonExistedDeleted = await deleteEntityCommand.ExecuteAsync<TaskEntry>(NON_EXISTING_ID)));
+        Assert.False(wasNonExistedDeleted);
     }
 
     [Fact]
     public async Task DeleteAnotherEmployeesEntity_ShouldNotDeleteAnotherEmployeesEntityFromDb()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        await using (context)
-        await using (connection)
+        await using var context = ctx;
+        await using var connection = conn;
+
+        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
         {
-            var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                TenantId = TENANT_ID
-            });
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID
+        });
 
-            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(2, TENANT_ID);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(2, TENANT_ID);
 
-            var command = new HardDeleteEntityCommand(context, mockClaimsProvider);
+        var command = new HardDeleteEntityCommand(context, mockClaimsProvider);
 
-            var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
+        var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-            var taskEntryFromDb = await context
-                .TaskEntries
-                .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
+        var taskEntryFromDb = await context
+            .TaskEntries
+            .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
-            Assert.False(wasDeleted);
-            Assert.NotNull(taskEntryFromDb);
-        }
+        Assert.False(wasDeleted);
+        Assert.NotNull(taskEntryFromDb);
     }
 
     [Fact]
     public async Task DeleteAnotherTenantsEntity_ShouldNotDeleteAnotherTenantsEntityFromDb()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        await using (context)
-        await using (connection)
+        await using var context = ctx;
+        await using var connection = conn;
+        // To check the tenant isolation, you must specify a TenantId other than 777,
+        // since in the implementation of TenantAppDbContextExtensionsTestsRelated,
+        // the QueryableWithinTenant method returns TenantId = 777
+        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
         {
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = 2
+        });
 
-            // To check the tenant isolation, you must specify a TenantId other than 777,
-            // since in the implementation of TenantAppDbContextExtensionsTestsRelated,
-            // the QueryableWithinTenant method returns TenantId = 777
-            var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                TenantId = 2
-            });
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+        var command = new HardDeleteEntityCommand(context, mockClaimsProvider);
 
-            var command = new HardDeleteEntityCommand(context, mockClaimsProvider);
+        var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-            var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
+        var taskEntryFromDb = await context
+            .TaskEntries
+            .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
-            var taskEntryFromDb = await context
-                .TaskEntries
-                .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
-
-            Assert.False(wasDeleted);
-            Assert.NotNull(taskEntryFromDb);
-        }
+        Assert.False(wasDeleted);
+        Assert.NotNull(taskEntryFromDb);
     }
 
     [Fact]
     public async Task DeleteEntryThatWasPreviouslyDeletedUsingTheSoftMethod_ShouldDeleteEntityFromDb()
     {
-        var (context, connection) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
+        var (ctx, conn) = await TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTestsAsync(TENANT_ID);
 
-        await using (context)
-        await using (connection)
+        await using var context = ctx;
+        await using var connection = conn;
+        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
         {
-            var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-            {
-                EmployeeId = EMPLOYEE_ID,
-                TenantId = TENANT_ID,
-                DeletedAtUtc = DateTime.UtcNow
-            });
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            DeletedAtUtc = DateTime.UtcNow
+        });
 
-            var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-            var command = new HardDeleteEntityCommand(context, mockClaimsProvider);
+        var command = new HardDeleteEntityCommand(context, mockClaimsProvider);
 
-            var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
+        var wasDeleted = await command.ExecuteAsync<TaskEntry>(taskEntry.Id);
 
-            var deletedTaskEntry = await context
-                .TaskEntries
-                .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
+        var deletedTaskEntry = await context
+            .TaskEntries
+            .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
-            Assert.True(wasDeleted);
-            Assert.Null(deletedTaskEntry);
-        }
+        Assert.True(wasDeleted);
+        Assert.Null(deletedTaskEntry);
     }
 }
