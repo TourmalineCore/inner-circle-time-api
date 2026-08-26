@@ -31,3 +31,6 @@ jobs:
           imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
           cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
           runCmd: dotnet test --filter "Type=Integration"
+        env:
+          TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
+

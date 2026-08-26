@@ -1,9 +1,8 @@
 using Application;
 using Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Moq;
 using Npgsql;
+using Testcontainers.PostgreSql;
 using Xunit;
 
 public class IntegrationTestBase : IAsyncLifetime
@@ -11,7 +10,11 @@ public class IntegrationTestBase : IAsyncLifetime
     protected const long EMPLOYEE_ID = 1;
     protected const long TENANT_ID = 777;
 
-    private NpgsqlConnection _dbConnection = null!;
+    protected TenantAppDbContext _context = null!;
+
+    private PostgreSqlContainer _postgreSqlContainer = null!;
+
+    // private NpgsqlConnection _dbConnection = null!;
 
     private DbContextOptions<AppDbContext> _dbContextOptions = null!;
 
@@ -19,57 +22,75 @@ public class IntegrationTestBase : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../../../Api"))
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
-            .AddEnvironmentVariables()
+        // var configuration = new ConfigurationBuilder()
+        //     .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../../../Api"))
+        //     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+        //     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
+        //     .AddEnvironmentVariables()
+        //     .Build();
+
+        _postgreSqlContainer = new PostgreSqlBuilder()
+            .WithCleanUp(true)
             .Build();
 
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        _dbConnection = new NpgsqlConnection(connectionString);
+        await _postgreSqlContainer.StartAsync();
 
-        await _dbConnection.OpenAsync();
 
-        await ApplyMigrationsAsync();
+        _dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
+            .UseNpgsql(_postgreSqlContainer.GetConnectionString())
+            .Options;
+
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
+        _context = new TenantAppDbContext(_dbContextOptions, mockClaimsProvider);
+
+        await _context.Database.EnsureCreatedAsync();
+        await _context.Database.MigrateAsync();
+
+        // var connectionString = configuration.GetConnectionString("DefaultConnection");
+        // _dbConnection = new NpgsqlConnection(connectionString);
+
+        // await _dbConnection.OpenAsync();
+
+        // await ApplyMigrationsAsync();
 
         // Begin Transaction
-        _dbTransaction = await _dbConnection.BeginTransactionAsync();
+        // _dbTransaction = await _dbConnection.BeginTransactionAsync();
 
-        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+        // var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-        optionsBuilder.UseNpgsql(_dbConnection);
-
-        _dbContextOptions = optionsBuilder.Options;
+        // optionsBuilder.UseNpgsql(_dbConnection);
     }
 
 
     // Rollback Transaction And Close Db Connection
     public async Task DisposeAsync()
     {
-        if (_dbTransaction != null)
-        {
-            await _dbTransaction.RollbackAsync();
-            await _dbTransaction.DisposeAsync();
-        }
+        await _postgreSqlContainer.DisposeAsync();
+        await _context.DisposeAsync();
+        // if (_dbTransaction != null)
+        // {
+        //     await _dbTransaction.RollbackAsync();
+        //     await _dbTransaction.DisposeAsync();
+        // }
 
-        if (_dbConnection != null)
-            await _dbConnection.CloseAsync();
+        // if (_dbConnection != null)
+        //     await _dbConnection.CloseAsync();
     }
 
-    private async Task ApplyMigrationsAsync()
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseNpgsql(_dbConnection);
+    // private async Task ApplyMigrationsAsync()
+    // {
+    //     var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+    //     optionsBuilder.UseNpgsql(_dbConnection);
 
-        using var context = new AppDbContext(optionsBuilder.Options);
+    //     using var context = new AppDbContext(optionsBuilder.Options);
 
-        var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
-        if (pendingMigrations.Any())
-        {
-            await context.Database.MigrateAsync();
-        }
-    }
+    //     var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+    //     if (pendingMigrations.Any())
+    //     {
+    //         await context.Database.MigrateAsync();
+    //     }
+    // }
 
     protected TenantAppDbContext CreateTenantDbContext()
     {

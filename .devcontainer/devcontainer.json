@@ -64,7 +64,10 @@
 		"API_ROOT_URL": "http://localhost:4507",
 		"CORS_ALLOWED_ORIGINS": "*",
 		"SHOULD_USE_FAKE_EXTERNAL_DEPENDENCIES": "true",
-		"ENABLE_EXCEPTION_DETAILS": "true"
+		"ENABLE_EXCEPTION_DETAILS": "true",
+		// https://github.com/testcontainers/testcontainers-dotnet/issues/1638
+		// it is necessary that tests with testContainer can be performed when working in dev container
+		"TESTCONTAINERS_HOST_OVERRIDE": "host.docker.internal"
 	},
 	// this root is needed e.g. in case when you edit files not inly in VSCode in Dev Container but also directly
 	// it might not have enough rights to write to files that are open in another editor with Admin rights

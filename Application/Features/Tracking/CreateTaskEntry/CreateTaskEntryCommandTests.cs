@@ -1,4 +1,6 @@
 using Core;
+using Microsoft.EntityFrameworkCore;
+using Testcontainers.PostgreSql;
 using Xunit;
 
 namespace Application.Features.Tracking.CreateTaskEntry;
@@ -14,11 +16,11 @@ public class CreateTaskEntryCommandTests : IntegrationTestBase
     [Fact]
     public async Task CreateTaskEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
     {
-        var context = CreateTenantDbContext();
+        // var context = CreateTenantDbContext();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
+        var createTaskEntryCommand = new CreateTaskEntryCommand(_context, mockClaimsProvider);
 
         var сreateTaskEntryRequest = new CreateTaskEntryRequest
         {

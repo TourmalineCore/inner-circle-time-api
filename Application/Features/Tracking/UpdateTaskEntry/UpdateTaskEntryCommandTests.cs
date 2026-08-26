@@ -15,13 +15,13 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
     [Fact]
     public async Task UpdateTaskEntryAsync_ShouldThrowInvalidTimeRangeExceptionIfStartTimeIsGreaterEndTime()
     {
-        var context = CreateTenantDbContext();
+        // var _context = CreateTenantDb_context();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
+        var updateTaskEntryCommand = new UpdateTaskEntryCommand(_context, mockClaimsProvider);
 
-        var taskEntry = await SaveEntityAsync(context, new TaskEntry
+        var taskEntry = await SaveEntityAsync(_context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -54,11 +54,11 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
     [Fact]
     public async Task UpdateTaskEntryAsync_ShouldNotUpdateDeletedTaskEntry()
     {
-        var context = CreateTenantDbContext();
+        // var _context = CreateTenantDb_context();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var taskEntry = await SaveEntityAsync(context, new TaskEntry
+        var taskEntry = await SaveEntityAsync(_context, new TaskEntry
         {
             EmployeeId = EMPLOYEE_ID,
             Title = "Task 1",
@@ -70,7 +70,7 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
             DeletedAtUtc = DateTime.UtcNow
         });
 
-        var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
+        var updateTaskEntryCommand = new UpdateTaskEntryCommand(_context, mockClaimsProvider);
 
         var updateTaskEntryRequest = new UpdateTaskEntryRequest
         {
@@ -85,7 +85,7 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
 
         await updateTaskEntryCommand.ExecuteAsync(updateTaskEntryRequest);
 
-        var updatedEntry = await context
+        var updatedEntry = await _context
             .TaskEntries
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == taskEntry.Id);
