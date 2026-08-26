@@ -10,7 +10,7 @@ public class IntegrationTestBase : IAsyncLifetime
     protected const long EMPLOYEE_ID = 1;
     protected const long TENANT_ID = 777;
 
-    protected TenantAppDbContext _context;
+    protected TenantAppDbContext _context = null!;
 
     private PostgreSqlContainer _postgreSqlContainer = null!;
 
