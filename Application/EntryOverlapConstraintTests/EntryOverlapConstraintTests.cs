@@ -51,14 +51,14 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         bool canOverlap
     )
     {
-        var context = CreateTenantDbContext();
+        // var context = CreateTenantDbContext();
 
-        await SaveEntityAsync(context, entryToSaveInDb);
+        await SaveEntityAsync(_context, entryToSaveInDb);
 
         if (!canOverlap)
         {
             var exception = await Assert.ThrowsAsync<ConflictingTimeRangeException>(
-                async () => await createCommand(context, _mockClaimsProvider)
+                async () => await createCommand(_context, _mockClaimsProvider)
             );
 
             Assert.Equal("Another task is scheduled for this time", exception.Message);
@@ -66,7 +66,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
         else
         {
             var exception = await Record.ExceptionAsync(
-                async () => await createCommand(context, _mockClaimsProvider)
+                async () => await createCommand(_context, _mockClaimsProvider)
             );
 
             Assert.Null(exception);
