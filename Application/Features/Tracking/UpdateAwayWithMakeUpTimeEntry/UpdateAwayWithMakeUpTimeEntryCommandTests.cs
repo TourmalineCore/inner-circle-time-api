@@ -171,7 +171,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
 
         Assert.NotEmpty(makeUpTimeEntries);
         Assert.Equal(2, makeUpTimeEntries.Count);
-        // Assert.Contains(makeUpTimeEntries, x => x.Id == 2);
-        // Assert.Contains(makeUpTimeEntries, x => x.Id == 4);
+        Assert.Contains(makeUpTimeEntries, x => x.Id == 2);
+        Assert.DoesNotContain(makeUpTimeEntries, x => x.Id == 3);
     }
 }
