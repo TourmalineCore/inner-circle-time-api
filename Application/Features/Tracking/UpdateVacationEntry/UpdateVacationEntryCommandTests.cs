@@ -5,16 +5,13 @@ using Xunit;
 
 namespace Application.Features.Tracking.UpdateVacationEntry;
 
-[UnitTest]
-public class UpdateVacationEntryCommandTests
+[IntegrationTest]
+public class UpdateVacationEntryCommandTests : IntegrationTestBase
 {
-    protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 777;
-
     [Fact]
     public async Task UpdateVacationEntryAsync_ShouldUpdateIsUnpaidFromFalseToTrue()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 

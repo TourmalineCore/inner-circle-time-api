@@ -4,18 +4,15 @@ using Xunit;
 
 namespace Application.Features.Tracking.GetEntriesByPeriod;
 
-[UnitTest]
-public class GetEntriesByPeriodQueryTests
+[IntegrationTest]
+public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 {
-    private const long EMPLOYEE_ID = 1;
-    private const long TENANT_ID = 777;
-
     private IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
     [Fact]
     public async Task GetEntriesByPeriodAsync_ShouldReturnEntriesByPeriodFromDbSet()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
@@ -66,7 +63,7 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetAnotherEmployeesEntriesByPeriodAsync_ShouldNotGetAnotherEmployeesEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var taskEntry = new TaskEntry
         {
@@ -95,7 +92,7 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetAnotherTenantsEntriesByPeriodAsync_ShouldNotGetAnotherTenantsEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var taskEntry = new TaskEntry
         {
@@ -185,7 +182,7 @@ public class GetEntriesByPeriodQueryTests
         bool shouldEntryBeReturned
     )
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var sickLeaveEntry = new SickLeaveEntry
         {

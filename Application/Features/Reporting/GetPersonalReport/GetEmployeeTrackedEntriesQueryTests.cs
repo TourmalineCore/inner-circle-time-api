@@ -4,15 +4,13 @@ using Xunit;
 
 namespace Application.Features.Reporting.GetPersonalReport;
 
-[UnitTest]
-public class GetEmployeeTrackedEntriesQueryTests
+[IntegrationTest]
+public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
 {
-    private const long TENANT_ID = 777;
-
     [Fact]
     public async Task GetTrackedEntriesWithNonExistentEmployeeId__ShouldReturnEmptyTrackedEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
 
@@ -42,7 +40,7 @@ public class GetEmployeeTrackedEntriesQueryTests
     [Fact]
     public async Task GetTrackedEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTrackedEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
 

@@ -4,27 +4,26 @@ using Xunit;
 
 namespace Application.SharedQueries;
 
-[UnitTest]
-public class GetEntryByIdQueryTests
+[IntegrationTest]
+public class GetEntryByIdQueryTests : IntegrationTestBase
 {
-    private const long employeeId = 1;
-    private const long tenantId = 777;
-
     [Fact]
     public async Task GetAnotherEmployeesEntryByIdAsync_ShouldNotGetAnotherEmployeesEntry()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var context = CreateTenantDbContext();
 
         var taskEntry = new TaskEntry
         {
             Id = 2,
-            EmployeeId = employeeId,
-            TenantId = tenantId,
+            EmployeeId = EMPLOYEE_ID,
+            TenantId = TENANT_ID,
+            StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
         };
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, tenantId);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
 
         var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
 
@@ -36,18 +35,20 @@ public class GetEntryByIdQueryTests
     [Fact]
     public async Task GetAnotherTenantsEntryByIdAsync_ShouldNotGetAnotherTenantsEntry()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var context = CreateTenantDbContext();
 
         var taskEntry = new TaskEntry
         {
             Id = 3,
-            EmployeeId = employeeId,
+            EmployeeId = EMPLOYEE_ID,
             TenantId = 3,
+            StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
         };
 
         await context.AddEntityAndSaveAsync(taskEntry);
 
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var getEntryByIdQuery = new GetEntryByIdQuery(context, mockClaimsProvider);
 

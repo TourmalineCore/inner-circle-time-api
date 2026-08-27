@@ -4,15 +4,13 @@ using Xunit;
 
 namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
-[UnitTest]
-public class GetTaskEntriesQueryTests
+[IntegrationTest]
+public class GetTaskEntriesQueryTests : IntegrationTestBase
 {
-    private const long TENANT_ID = 777;
-
     [Fact]
     public async Task GetTaskEntriesWithNonExistentProjectId__ShouldReturnEmptyTaskEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getTaskEntriesQuery = new GetTaskEntriesQuery(context);
 
@@ -42,7 +40,7 @@ public class GetTaskEntriesQueryTests
     [Fact]
     public async Task GetTaskEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTaskEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getTaskEntriesQuery = new GetTaskEntriesQuery(context);
 
