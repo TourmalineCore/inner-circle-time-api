@@ -22,8 +22,8 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
                 Id = 1,
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
-                StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
-                EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
+                StartTime = new DateTime(2025, 11, 23, 10, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 11, 0, 0),
             });
 
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
