@@ -125,11 +125,13 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
             new TaskEntry
             {
                 EmployeeId = EMPLOYEE_ID,
+                // To check the tenant isolation, you must specify a TenantId other than 777,
+                // since in the implementation of CreateTenantDbContext filters by TenantId = 777
                 TenantId = 2,
                 StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
                 EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
             }
-            );
+        );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
