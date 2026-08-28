@@ -102,6 +102,8 @@ public class HardDeleteEntityCommandTests : IntegrationTestBase
             new TaskEntry
             {
                 EmployeeId = EMPLOYEE_ID,
+                // To check the tenant isolation, you must specify a TenantId other than 777,
+                // since in the implementation of CreateTenantDbContext filters by TenantId = 777
                 TenantId = 2,
                 StartTime = new DateTime(2025, 11, 24, 11, 0, 0),
                 EndTime = new DateTime(2025, 11, 24, 12, 0, 0),
