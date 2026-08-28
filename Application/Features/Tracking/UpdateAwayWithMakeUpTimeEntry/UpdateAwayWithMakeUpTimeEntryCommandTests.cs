@@ -93,6 +93,10 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
             ]
         };
 
+        // saving the make-up time entry ID before executing the command, since the awayWithMakeUpTimeEntry object may mutate after the update
+        // therefore, we cannot simply refer to awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id in the verification
+        var firstMakeUpTimeEntryId = awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id;
+
         await updateAwayWithMakeUpTimeEntryCommand.ExecuteAsync(updateAwayWithMakeUpTimeEntryRequest);
 
         var makeUpTimeEntry = await context
@@ -100,7 +104,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
             .SingleOrDefaultAsync(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id);
 
         Assert.NotNull(makeUpTimeEntry);
-        Assert.Equal(awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id, makeUpTimeEntry.Id);
+        Assert.Equal(firstMakeUpTimeEntryId, makeUpTimeEntry.Id);
     }
 
     [Fact]
