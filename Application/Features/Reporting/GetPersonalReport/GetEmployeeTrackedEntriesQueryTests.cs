@@ -16,7 +16,6 @@ public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             EmployeeId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -25,7 +24,7 @@ public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
 
         await AddEntityAndSaveAsync(context, taskEntry);
 
-        var nonExistentEmployeeId = 999;
+        var nonExistentEmployeeId = -1;
 
         var result = await getEmployeeTrackedEntriesQuery
             .GetAsync(
@@ -46,7 +45,6 @@ public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             EmployeeId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),

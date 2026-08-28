@@ -20,7 +20,6 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
             context,
             new AwayWithMakeUpTimeEntry
             {
-                Id = 1,
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
                 StartTime = new DateTime(2025, 11, 23, 10, 0, 0),
@@ -30,7 +29,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
 
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
-            Id = 999,
+            Id = -1,
             StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
             EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
             Description = "Description",

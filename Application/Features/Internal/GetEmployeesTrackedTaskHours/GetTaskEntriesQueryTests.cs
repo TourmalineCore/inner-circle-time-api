@@ -16,7 +16,6 @@ public class GetTaskEntriesQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             ProjectId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -25,7 +24,7 @@ public class GetTaskEntriesQueryTests : IntegrationTestBase
 
         await AddEntityAndSaveAsync(context, taskEntry);
 
-        var nonExistentProjectId = 999;
+        var nonExistentProjectId = -1;
 
         var result = await getTaskEntriesQuery
             .GetAsync(
@@ -46,7 +45,6 @@ public class GetTaskEntriesQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             ProjectId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),

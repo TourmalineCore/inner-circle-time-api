@@ -14,7 +14,6 @@ public class GetEntryByIdQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 2,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
@@ -39,7 +38,6 @@ public class GetEntryByIdQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 3,
             EmployeeId = EMPLOYEE_ID,
             TenantId = 3,
             StartTime = new DateTime(2025, 11, 23, 11, 0, 0),

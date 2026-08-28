@@ -18,7 +18,6 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 
         var taskEntry1 = new TaskEntry
         {
-            Id = 11,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -27,7 +26,6 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 
         var taskEntry2 = new TaskEntry
         {
-            Id = 12,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 27, 9, 0, 0),
@@ -36,7 +34,6 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 
         var taskEntry3 = new TaskEntry
         {
-            Id = 13,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 10, 27, 9, 0, 0),
@@ -67,7 +64,6 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -96,7 +92,6 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             EmployeeId = EMPLOYEE_ID,
             TenantId = 3,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -186,7 +181,6 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 
         var sickLeaveEntry = new SickLeaveEntry
         {
-            Id = 1,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = sickLeaveStartTime,

@@ -164,7 +164,6 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
             context,
             new AwayWithMakeUpTimeEntry
             {
-                Id = 1,
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
                 StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
@@ -173,15 +172,11 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
                 [
                     new MakeUpTimeEntry
                     {
-                        Id = 2,
-                        RelatedEntryId = 1,
                         StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
                         EndTime = new DateTime(2025, 11, 24, 18, 0, 0),
                     },
                     new MakeUpTimeEntry
                     {
-                        Id = 3,
-                        RelatedEntryId = 1,
                         StartTime = new DateTime(2025, 11, 25, 17, 0, 0),
                         EndTime = new DateTime(2025, 11, 25, 18, 0, 0),
                     }
