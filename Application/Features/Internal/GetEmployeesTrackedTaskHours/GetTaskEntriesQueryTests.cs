@@ -23,7 +23,7 @@ public class GetTaskEntriesQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var nonExistentProjectId = 999;
 
@@ -53,7 +53,7 @@ public class GetTaskEntriesQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var result = await getTaskEntriesQuery
             .GetAsync(

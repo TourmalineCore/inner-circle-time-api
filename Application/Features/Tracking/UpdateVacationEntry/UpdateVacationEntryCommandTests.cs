@@ -15,7 +15,8 @@ public class UpdateVacationEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var existingVacationEntry = await context.AddEntityAndSaveAsync(
+        var existingVacationEntry = await AddEntityAndSaveAsync(
+            context,
             new VacationEntry
             {
                 TenantId = TENANT_ID,
@@ -23,7 +24,8 @@ public class UpdateVacationEntryCommandTests : IntegrationTestBase
                 StartTime = new DateTime(2026, 7, 13, 0, 0, 0),
                 EndTime = new DateTime(2026, 7, 17, 0, 0, 0),
                 IsUnpaid = false
-            });
+            }
+        );
 
         var updateVacationEntryCommand = new UpdateVacationEntryCommand(context, mockClaimsProvider);
 

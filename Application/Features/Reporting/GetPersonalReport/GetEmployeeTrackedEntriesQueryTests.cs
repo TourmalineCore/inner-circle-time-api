@@ -23,7 +23,7 @@ public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var nonExistentEmployeeId = 999;
 
@@ -53,7 +53,7 @@ public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var result = await getEmployeeTrackedEntriesQuery
             .GetAsync(

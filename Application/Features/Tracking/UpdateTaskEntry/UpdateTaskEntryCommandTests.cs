@@ -21,16 +21,20 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
 
         var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
 
-        var taskEntry = await SaveEntityAsync(context, new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            Title = "Task 1",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-            TaskId = "#2231",
-            ProjectId = 1,
-            Description = "Task description",
-        });
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                TenantId = TENANT_ID,
+                EmployeeId = EMPLOYEE_ID,
+                Title = "Task 1",
+                StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+                EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+                TaskId = "#2231",
+                ProjectId = 1,
+                Description = "Task description",
+            }
+        );
 
         var updateTaskEntryRequest = new UpdateTaskEntryRequest
         {
@@ -58,17 +62,21 @@ public class UpdateTaskEntryCommandTests : IntegrationTestBase
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var taskEntry = await SaveEntityAsync(context, new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            Title = "Task 1",
-            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
-            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
-            TaskId = "#2231",
-            ProjectId = 1,
-            Description = "Task description",
-            DeletedAtUtc = DateTime.UtcNow
-        });
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                TenantId = TENANT_ID,
+                EmployeeId = EMPLOYEE_ID,
+                Title = "Task 1",
+                StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+                EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+                TaskId = "#2231",
+                ProjectId = 1,
+                Description = "Task description",
+                DeletedAtUtc = DateTime.UtcNow
+            }
+        );
 
         var updateTaskEntryCommand = new UpdateTaskEntryCommand(context, mockClaimsProvider);
 

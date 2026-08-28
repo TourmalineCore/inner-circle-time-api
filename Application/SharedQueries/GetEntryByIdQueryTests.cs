@@ -21,7 +21,7 @@ public class GetEntryByIdQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
 
@@ -46,7 +46,7 @@ public class GetEntryByIdQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 

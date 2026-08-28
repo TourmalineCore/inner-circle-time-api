@@ -16,13 +16,16 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
 
         var softDeleteEntryCommand = new SoftDeleteEntryCommand(context, mockClaimsProvider);
 
-        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
-            EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
-        });
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+            }
+        );
 
         var softDeleteEntryRequest = new SoftDeleteEntryRequest
         {
@@ -79,13 +82,16 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
-            EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
-        });
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+            }
+        );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(2, TENANT_ID);
 
@@ -114,16 +120,16 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        // To check the tenant isolation, you must specify a TenantId other than 777,
-        // since in the implementation of TenantAppDbContextExtensionsTestsRelated,
-        // the QueryableWithinTenant method returns TenantId = 777
-        var taskEntry = await context.AddEntityAndSaveAsync(new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = 2,
-            StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
-            EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
-        });
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = 2,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+            }
+            );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
@@ -152,31 +158,34 @@ public class SoftDeleteEntryCommandTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        var awayWithMakeUpTimeEntry = await context.AddEntityAndSaveAsync(new AwayWithMakeUpTimeEntry
-        {
-            Id = 1,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
-            EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
-            MakeUpTimeList =
-            [
-                new MakeUpTimeEntry
-                {
-                    Id = 2,
-                    RelatedEntryId = 1,
-                    StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
-                    EndTime = new DateTime(2025, 11, 24, 18, 0, 0),
-                },
-                new MakeUpTimeEntry
-                {
-                    Id = 3,
-                    RelatedEntryId = 1,
-                     StartTime = new DateTime(2025, 11, 25, 17, 0, 0),
-                    EndTime = new DateTime(2025, 11, 25, 18, 0, 0),
-                }
-            ]
-        });
+        var awayWithMakeUpTimeEntry = await AddEntityAndSaveAsync(
+            context,
+            new AwayWithMakeUpTimeEntry
+            {
+                Id = 1,
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+                MakeUpTimeList =
+                [
+                    new MakeUpTimeEntry
+                    {
+                        Id = 2,
+                        RelatedEntryId = 1,
+                        StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 24, 18, 0, 0),
+                    },
+                    new MakeUpTimeEntry
+                    {
+                        Id = 3,
+                        RelatedEntryId = 1,
+                        StartTime = new DateTime(2025, 11, 25, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 25, 18, 0, 0),
+                    }
+                ]
+            }
+        );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 

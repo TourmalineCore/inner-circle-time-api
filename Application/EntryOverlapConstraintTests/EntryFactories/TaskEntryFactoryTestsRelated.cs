@@ -10,6 +10,7 @@ public class TaskEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
     {
         return new TaskEntry
         {
+            TenantId = tenantId,
             EmployeeId = employeeId,
             Title = "Existing Task",
             StartTime = startTime,

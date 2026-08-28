@@ -53,7 +53,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        await SaveEntityAsync(context, entryToSaveInDb);
+        await AddEntityAndSaveAsync(context, entryToSaveInDb);
 
         if (!canOverlap)
         {
@@ -105,9 +105,9 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
     {
         var context = CreateTenantDbContext();
 
-        await SaveEntityAsync(context, entryToSaveInDb);
+        await AddEntityAndSaveAsync(context, entryToSaveInDb);
 
-        var entryIdToUpdate = (await SaveEntityAsync(context, entryToUpdate)).Id;
+        var entryIdToUpdate = (await AddEntityAndSaveAsync(context, entryToUpdate)).Id;
 
         if (!canOverlap)
         {

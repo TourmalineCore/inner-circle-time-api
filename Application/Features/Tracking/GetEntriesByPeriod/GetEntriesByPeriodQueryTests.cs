@@ -43,9 +43,9 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 10, 27, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry1);
-        await context.AddEntityAndSaveAsync(taskEntry2);
-        await context.AddEntityAndSaveAsync(taskEntry3);
+        await AddEntityAndSaveAsync(context, taskEntry1);
+        await AddEntityAndSaveAsync(context, taskEntry2);
+        await AddEntityAndSaveAsync(context, taskEntry3);
 
         var result = await getEntriesByPeriodQuery
             .GetByPeriodAsync<TaskEntry>(
@@ -74,7 +74,7 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
 
@@ -103,7 +103,7 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
@@ -194,7 +194,7 @@ public class GetEntriesByPeriodQueryTests : IntegrationTestBase
             Type = EntryType.SickLeave
         };
 
-        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+        await AddEntityAndSaveAsync(context, sickLeaveEntry);
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 

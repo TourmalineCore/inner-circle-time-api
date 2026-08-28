@@ -10,6 +10,7 @@ public class SickLeaveEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
     {
         return new SickLeaveEntry
         {
+            TenantId = tenantId,
             EmployeeId = employeeId,
             StartTime = startTime,
             EndTime = endTime,
