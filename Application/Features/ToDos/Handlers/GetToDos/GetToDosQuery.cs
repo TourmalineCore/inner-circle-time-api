@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Features.ToDos.Handlers.GetToDos;
 
 public class GetToDosQuery(
-    TenantAppDbContext context
+    AppDbContext context
 )
 {
     public Task<List<ToDo>> GetAsync()
     {
         return context
-            .QueryableWithinTenantAsNoTracking<ToDo>()
+            .QueryableAsNoTracking<ToDo>()
             .OrderByDescending(x => x.CreatedAtUtc)
             .ToListAsync();
     }

@@ -74,4 +74,14 @@ public class AppDbContext : DbContext
                 .HasColumnName("ProductVersion");
         }
     }
+
+    public IQueryable<Core.Entities.ToDo> Queryable<ToDo>()
+    {
+        return this.ToDos.AsQueryable();
+    }
+
+    public IQueryable<Core.Entities.ToDo> QueryableAsNoTracking<ToDo>()
+    {
+        return this.ToDos.AsQueryable().AsNoTracking();
+    }
 }

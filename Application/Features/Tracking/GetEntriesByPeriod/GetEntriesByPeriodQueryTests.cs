@@ -15,7 +15,7 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetEntriesByPeriodAsync_ShouldReturnEntriesByPeriodFromDbSet()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
@@ -66,7 +66,7 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetAnotherEmployeesEntriesByPeriodAsync_ShouldNotGetAnotherEmployeesEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var taskEntry = new TaskEntry
         {
@@ -95,7 +95,7 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetAnotherTenantsEntriesByPeriodAsync_ShouldNotGetAnotherTenantsEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var taskEntry = new TaskEntry
         {
@@ -186,7 +186,7 @@ public class GetEntriesByPeriodQueryTests
         bool shouldEntryBeReturned
     )
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var sickLeaveEntry = new SickLeaveEntry
         {

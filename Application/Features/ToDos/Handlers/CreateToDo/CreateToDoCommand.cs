@@ -4,16 +4,16 @@ using Core.Entities;
 namespace Application.Features.ToDos.Handlers.CreateToDo;
 
 public class CreateToDoCommand(
-    TenantAppDbContext context,
-    IClaimsProvider claimsProvider,
+    AppDbContext context,
     IDateTimeProvider dateTimeProvider
 )
 {
-    public async Task<long> ExecuteAsync(CreateToDoRequest createToDoRequest)
+    public async Task<long> ExecuteAsync(
+        CreateToDoRequest createToDoRequest
+    )
     {
         var newToDo = new ToDo
         {
-            TenantId = claimsProvider.TenantId,
             Name = createToDoRequest.Name,
             CreatedAtUtc = dateTimeProvider.UtcNow,
         };

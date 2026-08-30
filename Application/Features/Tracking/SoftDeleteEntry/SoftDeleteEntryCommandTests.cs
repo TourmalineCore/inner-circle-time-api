@@ -18,7 +18,7 @@ public class SoftDeleteEntryCommandTests
 
     public SoftDeleteEntryCommandTests()
     {
-        _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        _context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         _command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);

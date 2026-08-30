@@ -12,7 +12,7 @@ public class GetTaskEntriesQueryTests
     [Fact]
     public async Task GetTaskEntriesWithNonExistentProjectId__ShouldReturnEmptyTaskEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var getTaskEntriesQuery = new GetTaskEntriesQuery(context);
 
@@ -42,7 +42,7 @@ public class GetTaskEntriesQueryTests
     [Fact]
     public async Task GetTaskEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTaskEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var getTaskEntriesQuery = new GetTaskEntriesQuery(context);
 

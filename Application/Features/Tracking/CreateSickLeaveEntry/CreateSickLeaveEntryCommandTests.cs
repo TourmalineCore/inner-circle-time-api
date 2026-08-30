@@ -12,7 +12,7 @@ public class CreateSickLeaveEntryCommandTests
     [Fact]
     public async Task CreateSickLeaveEntryAsync_ShouldSaveInDbWithCorrectStartTimeAndEndTime()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(1, TENANT_ID);
 
         var createSickLeaveEntryCommand = new CreateSickLeaveEntryCommand(context, mockClaimsProvider);

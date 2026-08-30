@@ -26,7 +26,7 @@ public class CreateAwayWithMakeUpTimeEntryHandlerTests
                 ]
         };
 
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var createAwayWithMakeUpTimeEntryCommand = new CreateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);

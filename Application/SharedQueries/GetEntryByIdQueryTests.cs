@@ -13,7 +13,7 @@ public class GetEntryByIdQueryTests
     [Fact]
     public async Task GetAnotherEmployeesEntryByIdAsync_ShouldNotGetAnotherEmployeesEntry()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(tenantId);
 
         var taskEntry = new TaskEntry
         {
@@ -36,7 +36,7 @@ public class GetEntryByIdQueryTests
     [Fact]
     public async Task GetAnotherTenantsEntryByIdAsync_ShouldNotGetAnotherTenantsEntry()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(tenantId);
 
         var taskEntry = new TaskEntry
         {

@@ -32,9 +32,9 @@ public class ToDosController : ControllerBase
     [HttpDelete]
     public Task<DeleteToDoResponse> DeleteToDoAsync(
         [Required][FromQuery] long toDoId,
-        [FromServices] HardDeleteToDoHandler hardDeleteToDoHandler
+        [FromServices] DeleteToDoHandler deleteToDoHandler
     )
     {
-        return hardDeleteToDoHandler.HandleAsync(toDoId);
+        return deleteToDoHandler.HandleAsync(toDoId);
     }
 }

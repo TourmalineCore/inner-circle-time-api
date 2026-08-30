@@ -13,7 +13,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryAsync_ShouldThrowExceptionIfAwayWithMakeUpTimeNotExistInDb()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
@@ -50,7 +50,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryAsync_ShouldNotUpdateMakeUpTimeEntryIfItsTimeHasNotBeenUpdated()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
@@ -104,7 +104,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryAsync_ShouldUpdateOnlyThoseMakeUpTimeEntriesWhoseTimeHasBeenUpdated()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 

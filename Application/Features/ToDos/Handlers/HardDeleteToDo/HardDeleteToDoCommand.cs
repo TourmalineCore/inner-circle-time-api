@@ -3,14 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.ToDos.Handlers.HardDeleteToDo;
 
-public class HardDeleteToDoCommand(
-    TenantAppDbContext context
-    )
+public class DeleteToDoCommand(
+    AppDbContext context
+)
 {
-    public async Task<bool> ExecuteAsync(long toDoId)
+    public async Task<bool> ExecuteAsync(
+        long toDoId
+    )
     {
         var toDoToDelete = await context
-            .DeletedAndNotDeletedQueryableWithinTenant<ToDo>()
+            .Queryable<ToDo>()
             .SingleAsync(x => x.Id == toDoId);
 
         context

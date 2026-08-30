@@ -1,7 +1,7 @@
 namespace Application.Features.ToDos.Handlers.HardDeleteToDo;
 
-public class HardDeleteToDoHandler(
-    HardDeleteToDoCommand hardDeleteToDoCommand
+public class DeleteToDoHandler(
+    DeleteToDoCommand deleteToDoCommand
 )
 {
     public async Task<DeleteToDoResponse> HandleAsync(
@@ -10,7 +10,7 @@ public class HardDeleteToDoHandler(
     {
         return new DeleteToDoResponse
         {
-            IsDeleted = await hardDeleteToDoCommand.ExecuteAsync(toDoId)
+            IsDeleted = await deleteToDoCommand.ExecuteAsync(toDoId),
         };
     }
 }

@@ -16,7 +16,7 @@ public class HardDeleteEntityCommandTests
 
     public HardDeleteEntityCommandTests()
     {
-        _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        _context = AppDbContextExtensionsTestsRelated.CreateInMemoryContextForTests(TENANT_ID);
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         _command = new HardDeleteEntityCommand(_context, mockClaimsProvider);

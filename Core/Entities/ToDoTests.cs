@@ -6,18 +6,15 @@ namespace Core.Entities;
 [UnitTest]
 public class ToDoTests
 {
-    private const long TENANT_ID = 777;
-
     [Theory]
     [MemberData(nameof(Data))]
     public async Task GetStatus(DateTime utcNow, ToDoStatus expectedStatus)
     {
         var toDoCreatedAtUtc = new DateTime(2026, 09, 01, 14, 30, 05, 356, DateTimeKind.Utc);
 
-        var toDoThatWasCreatedFiveDaysAgo = new ToDo
+        var toDo = new ToDo
         {
             Name = "First",
-            TenantId = TENANT_ID,
             CreatedAtUtc = toDoCreatedAtUtc,
         };
 
@@ -27,7 +24,7 @@ public class ToDoTests
             .Setup(x => x.UtcNow)
             .Returns(utcNow);
 
-        var status = toDoThatWasCreatedFiveDaysAgo.GetStatus(dateTimeProviderMock.Object);
+        var status = toDo.GetStatus(dateTimeProviderMock.Object);
 
         Assert.Equal(expectedStatus, status);
     }
