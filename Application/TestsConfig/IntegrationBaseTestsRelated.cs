@@ -33,7 +33,7 @@ public class IntegrationTestBase : IAsyncLifetime
         await ApplyMigrationsAsync();
 
         // Begin Transaction
-        _dbTransaction = await _dbConnection.BeginTransactionAsync();
+        _dbTransaction = await _dbConnection.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
 
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
