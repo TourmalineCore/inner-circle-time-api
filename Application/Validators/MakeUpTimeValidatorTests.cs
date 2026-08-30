@@ -42,7 +42,7 @@ public class MakeUpTimeValidatorTests
 
     [Theory]
     [MemberData(nameof(MakeUpTotalTimeDoesMatchTestData))]
-    public async Task MakeUpTimeValidator_ShouldReturnTrueIfMakeUpTotalTimeMatchesWithRelatedEntryPeriod(List<CreateOrUpdateMakeUpTimeEntryDto> makeUpTimeList)
+    public void MakeUpTimeValidator_ShouldReturnTrueIfMakeUpTotalTimeMatchesWithRelatedEntryPeriod(List<CreateOrUpdateMakeUpTimeEntryDto> makeUpTimeList)
     {
         var startTime = new DateTime(2025, 11, 24, 10, 0, 0);
         var endTime = new DateTime(2025, 11, 24, 11, 30, 0);
@@ -91,7 +91,7 @@ public class MakeUpTimeValidatorTests
 
     [Theory]
     [MemberData(nameof(MakeUpTotalTimeDoesNotMatchTestData))]
-    public async Task MakeUpTimeValidator_ShouldReturnFalseIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod(List<CreateOrUpdateMakeUpTimeEntryDto> makeUpTimeList)
+    public void MakeUpTimeValidator_ShouldReturnFalseIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod(List<CreateOrUpdateMakeUpTimeEntryDto> makeUpTimeList)
     {
         var startTime = new DateTime(2025, 11, 24, 10, 0, 0);
         var endTime = new DateTime(2025, 11, 24, 11, 30, 0);
