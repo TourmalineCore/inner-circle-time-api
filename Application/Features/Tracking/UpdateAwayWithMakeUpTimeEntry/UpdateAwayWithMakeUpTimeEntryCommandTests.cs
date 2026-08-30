@@ -4,34 +4,34 @@ using Xunit;
 
 namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 
-[UnitTest]
-public class UpdateAwayWithMakeUpTimeEntryCommandTests
+[IntegrationTest]
+public class UpdateAwayWithMakeUpTimeEntryCommandTests : IntegrationTestBase
 {
-    protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 777;
-
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryAsync_ShouldThrowExceptionIfAwayWithMakeUpTimeNotExistInDb()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
 
-        var awayWithMakeUpTimeEntry = await context.AddEntityAndSaveAsync(
+        var awayWithMakeUpTimeEntry = await AddEntityAndSaveAsync(
+            context,
             new AwayWithMakeUpTimeEntry
             {
-                Id = 1,
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
-            });
+                StartTime = new DateTime(2025, 11, 23, 10, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 11, 0, 0),
+            }
+        );
 
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
-            Id = 999,
-            StartTime = new DateTime(2025, 11, 25, 12, 0, 0),
-            EndTime = new DateTime(2025, 11, 25, 11, 0, 0),
+            Id = -1,
+            StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
+            EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
             Description = "Description",
             MakeUpTimeList = [
                 new CreateOrUpdateMakeUpTimeEntryDto
@@ -50,31 +50,32 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryAsync_ShouldNotUpdateMakeUpTimeEntryIfItsTimeHasNotBeenUpdated()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
 
-        var awayWithMakeUpTimeEntry = await context.AddEntityAndSaveAsync(
+        var awayWithMakeUpTimeEntry = await AddEntityAndSaveAsync(
+            context,
             new AwayWithMakeUpTimeEntry
             {
-                Id = 1,
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
                 MakeUpTimeList =
                 [
                     new MakeUpTimeEntry
                     {
-                        Id = 2,
                         EmployeeId = EMPLOYEE_ID,
                         TenantId = TENANT_ID,
-                        RelatedEntryId = 1,
                         StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
                         EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                     }
                 ]
-            });
+            }
+        );
 
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
@@ -91,6 +92,10 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
             ]
         };
 
+        // saving the make-up time entry ID before executing the command, since the awayWithMakeUpTimeEntry object may mutate after the update
+        // therefore, we cannot simply refer to awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id in the verification
+        var firstMakeUpTimeEntryId = awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id;
+
         await updateAwayWithMakeUpTimeEntryCommand.ExecuteAsync(updateAwayWithMakeUpTimeEntryRequest);
 
         var makeUpTimeEntry = await context
@@ -98,46 +103,45 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
             .SingleOrDefaultAsync(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id);
 
         Assert.NotNull(makeUpTimeEntry);
-        Assert.Equal(2, makeUpTimeEntry.Id);
+        Assert.Equal(firstMakeUpTimeEntryId, makeUpTimeEntry.Id);
     }
 
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryAsync_ShouldUpdateOnlyThoseMakeUpTimeEntriesWhoseTimeHasBeenUpdated()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
 
-        var awayWithMakeUpTimeEntry = await context.AddEntityAndSaveAsync(
+        var awayWithMakeUpTimeEntry = await AddEntityAndSaveAsync(
+            context,
             new AwayWithMakeUpTimeEntry
             {
-                Id = 1,
                 EmployeeId = EMPLOYEE_ID,
                 TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 11, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 12, 0, 0),
                 MakeUpTimeList =
                 [
                     new MakeUpTimeEntry
                     {
-                        Id = 2,
                         EmployeeId = EMPLOYEE_ID,
                         TenantId = TENANT_ID,
-                        RelatedEntryId = 1,
                         StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
                         EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                     },
                     new MakeUpTimeEntry
                     {
-                        Id = 3,
                         EmployeeId = EMPLOYEE_ID,
                         TenantId = TENANT_ID,
-                        RelatedEntryId = 1,
                         StartTime = new DateTime(2025, 11, 25, 17, 0, 0),
                         EndTime = new DateTime(2025, 11, 25, 18, 0, 0)
                     }
                 ]
-            });
+            }
+        );
 
         var updateAwayWithMakeUpTimeEntryRequest = new UpdateAwayWithMakeUpTimeEntryRequest
         {
@@ -151,13 +155,18 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
                     StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
                     EndTime = new DateTime(2025, 11, 24, 18, 0, 0)
                 },
-                    new CreateOrUpdateMakeUpTimeEntryDto
+                new CreateOrUpdateMakeUpTimeEntryDto
                 {
                     StartTime = new DateTime(2025, 11, 26, 17, 0, 0),
                     EndTime = new DateTime(2025, 11, 26, 18, 0, 0)
                 }
             ]
         };
+
+        // saving the make-up time entry ID before executing the command, since the awayWithMakeUpTimeEntry object may mutate after the update
+        // therefore, we cannot simply refer to awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id in the verification
+        var firstMakeUpTimeEntryId = awayWithMakeUpTimeEntry.MakeUpTimeList[0].Id;
+        var secondMakeUpTimeEntryId = awayWithMakeUpTimeEntry.MakeUpTimeList[1].Id;
 
         await updateAwayWithMakeUpTimeEntryCommand.ExecuteAsync(updateAwayWithMakeUpTimeEntryRequest);
 
@@ -168,7 +177,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommandTests
 
         Assert.NotEmpty(makeUpTimeEntries);
         Assert.Equal(2, makeUpTimeEntries.Count);
-        Assert.Contains(makeUpTimeEntries, x => x.Id == 2);
-        Assert.Contains(makeUpTimeEntries, x => x.Id == 4);
+        Assert.Contains(makeUpTimeEntries, x => x.Id == firstMakeUpTimeEntryId);
+        Assert.DoesNotContain(makeUpTimeEntries, x => x.Id == secondMakeUpTimeEntryId);
     }
 }

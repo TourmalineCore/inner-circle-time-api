@@ -4,30 +4,27 @@ using Xunit;
 
 namespace Application.Features.Reporting.GetPersonalReport;
 
-[UnitTest]
-public class GetEmployeeTrackedEntriesQueryTests
+[IntegrationTest]
+public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
 {
-    private const long TENANT_ID = 777;
-
     [Fact]
     public async Task GetTrackedEntriesWithNonExistentEmployeeId__ShouldReturnEmptyTrackedEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             EmployeeId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
-        var nonExistentEmployeeId = 999;
+        var nonExistentEmployeeId = -1;
 
         var result = await getEmployeeTrackedEntriesQuery
             .GetAsync(
@@ -42,20 +39,19 @@ public class GetEmployeeTrackedEntriesQueryTests
     [Fact]
     public async Task GetTrackedEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTrackedEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             EmployeeId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var result = await getEmployeeTrackedEntriesQuery
             .GetAsync(

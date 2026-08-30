@@ -4,24 +4,20 @@ using Xunit;
 
 namespace Application.Features.Tracking.GetEntriesByPeriod;
 
-[UnitTest]
-public class GetEntriesByPeriodQueryTests
+[IntegrationTest]
+public class GetEntriesByPeriodQueryTests : IntegrationTestBase
 {
-    private const long EMPLOYEE_ID = 1;
-    private const long TENANT_ID = 777;
-
     private IClaimsProvider _mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
     [Fact]
     public async Task GetEntriesByPeriodAsync_ShouldReturnEntriesByPeriodFromDbSet()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
         var taskEntry1 = new TaskEntry
         {
-            Id = 11,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
@@ -30,7 +26,6 @@ public class GetEntriesByPeriodQueryTests
 
         var taskEntry2 = new TaskEntry
         {
-            Id = 12,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 27, 9, 0, 0),
@@ -39,16 +34,15 @@ public class GetEntriesByPeriodQueryTests
 
         var taskEntry3 = new TaskEntry
         {
-            Id = 13,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 10, 27, 9, 0, 0),
             EndTime = new DateTime(2025, 10, 27, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry1);
-        await context.AddEntityAndSaveAsync(taskEntry2);
-        await context.AddEntityAndSaveAsync(taskEntry3);
+        await AddEntityAndSaveAsync(context, taskEntry1);
+        await AddEntityAndSaveAsync(context, taskEntry2);
+        await AddEntityAndSaveAsync(context, taskEntry3);
 
         var result = await getEntriesByPeriodQuery
             .GetByPeriodAsync<TaskEntry>(
@@ -66,18 +60,17 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetAnotherEmployeesEntriesByPeriodAsync_ShouldNotGetAnotherEmployeesEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(3, TENANT_ID);
 
@@ -95,18 +88,17 @@ public class GetEntriesByPeriodQueryTests
     [Fact]
     public async Task GetAnotherTenantsEntriesByPeriodAsync_ShouldNotGetAnotherTenantsEntries()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             EmployeeId = EMPLOYEE_ID,
             TenantId = 3,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 
@@ -185,11 +177,10 @@ public class GetEntriesByPeriodQueryTests
         bool shouldEntryBeReturned
     )
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var sickLeaveEntry = new SickLeaveEntry
         {
-            Id = 1,
             EmployeeId = EMPLOYEE_ID,
             TenantId = TENANT_ID,
             StartTime = sickLeaveStartTime,
@@ -197,7 +188,7 @@ public class GetEntriesByPeriodQueryTests
             Type = EntryType.SickLeave
         };
 
-        await context.AddEntityAndSaveAsync(sickLeaveEntry);
+        await AddEntityAndSaveAsync(context, sickLeaveEntry);
 
         var getEntriesByPeriodQuery = new GetEntriesByPeriodQuery(context, _mockClaimsProvider);
 

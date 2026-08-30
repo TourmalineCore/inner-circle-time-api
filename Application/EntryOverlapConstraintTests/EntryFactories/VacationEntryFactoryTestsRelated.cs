@@ -10,6 +10,7 @@ public class VacationEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
     {
         return new VacationEntry
         {
+            TenantId = tenantId,
             EmployeeId = employeeId,
             StartTime = startTime,
             EndTime = endTime,

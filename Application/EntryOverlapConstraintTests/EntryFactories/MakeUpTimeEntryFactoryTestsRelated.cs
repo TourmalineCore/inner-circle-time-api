@@ -12,6 +12,7 @@ public class MakeUpTimeEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelate
         // Create it together with the "Away With Make Up Time Entry".
         return new AwayWithMakeUpTimeEntry
         {
+            TenantId = tenantId,
             EmployeeId = employeeId,
             // Add two days to avoid any overlaps.
             StartTime = startTime.AddDays(+2),

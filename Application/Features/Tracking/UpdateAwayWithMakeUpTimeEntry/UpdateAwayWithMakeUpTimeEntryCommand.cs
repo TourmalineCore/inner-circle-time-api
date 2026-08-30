@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 

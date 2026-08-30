@@ -10,6 +10,7 @@ public class UnwellEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
     {
         return new UnwellEntry
         {
+            TenantId = tenantId,
             EmployeeId = employeeId,
             StartTime = startTime,
             EndTime = endTime,

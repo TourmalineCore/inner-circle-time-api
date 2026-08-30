@@ -9,7 +9,7 @@ public class AssignmentsApiTests
     [Fact]
     public async Task GetEmployeeProjectAsync_ShouldThrowErrorIfProjectDoesNotExist()
     {
-        var nonExistingProjectId = 999;
+        var nonExistingProjectId = -1;
         var assignmentsApi = new AssignmentsApi();
 
         var exception = await Assert.ThrowsAsync<ArgumentException>(

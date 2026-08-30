@@ -3,12 +3,9 @@ using Xunit;
 
 namespace Application.Features.Tracking.UpdateAwayWithMakeUpTimeEntry;
 
-[UnitTest]
-public class UpdateAwayWithMakeUpTimeEntryHandlerTests
+[IntegrationTest]
+public class UpdateAwayWithMakeUpTimeEntryHandlerTests : IntegrationTestBase
 {
-    protected const long employeeId = 1;
-    protected const long tenantId = 777;
-
     [Fact]
     public async Task UpdateAwayWithMakeUpTimeEntryHandler_ShouldThrowExceptionIfMakeUpTotalTimeDoesNotMatchWithRelatedEntryPeriod()
     {
@@ -26,8 +23,8 @@ public class UpdateAwayWithMakeUpTimeEntryHandlerTests
                 ]
         };
 
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(tenantId);
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(employeeId, tenantId);
+        var context = CreateTenantDbContext();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
         var updateAwayWithMakeUpTimeEntryCommand = new UpdateAwayWithMakeUpTimeEntryCommand(context, mockClaimsProvider);
 

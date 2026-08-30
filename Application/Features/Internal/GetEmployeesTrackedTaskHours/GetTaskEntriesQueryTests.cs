@@ -4,30 +4,27 @@ using Xunit;
 
 namespace Application.Features.Internal.GetEmployeesTrackedTaskHours;
 
-[UnitTest]
-public class GetTaskEntriesQueryTests
+[IntegrationTest]
+public class GetTaskEntriesQueryTests : IntegrationTestBase
 {
-    private const long TENANT_ID = 777;
-
     [Fact]
     public async Task GetTaskEntriesWithNonExistentProjectId__ShouldReturnEmptyTaskEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getTaskEntriesQuery = new GetTaskEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             ProjectId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
-        var nonExistentProjectId = 999;
+        var nonExistentProjectId = -1;
 
         var result = await getTaskEntriesQuery
             .GetAsync(
@@ -42,20 +39,19 @@ public class GetTaskEntriesQueryTests
     [Fact]
     public async Task GetTaskEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTaskEntriesList()
     {
-        var context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
+        var context = CreateTenantDbContext();
 
         var getTaskEntriesQuery = new GetTaskEntriesQuery(context);
 
         var taskEntry = new TaskEntry
         {
-            Id = 11,
             TenantId = TENANT_ID,
             ProjectId = 1,
             StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
             EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
         };
 
-        await context.AddEntityAndSaveAsync(taskEntry);
+        await AddEntityAndSaveAsync(context, taskEntry);
 
         var result = await getTaskEntriesQuery
             .GetAsync(

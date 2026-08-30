@@ -10,6 +10,7 @@ public class AwayWithMakeUpTimeEntryFactoryTestsRelated : EntryOverlapFactoryTes
     {
         return new AwayWithMakeUpTimeEntry
         {
+            TenantId = tenantId,
             EmployeeId = employeeId,
             StartTime = startTime,
             EndTime = endTime,

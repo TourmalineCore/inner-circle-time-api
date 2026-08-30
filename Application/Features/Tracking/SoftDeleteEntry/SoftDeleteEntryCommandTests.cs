@@ -5,62 +5,61 @@ using Xunit;
 
 namespace Application.Features.Tracking.SoftDeleteEntry;
 
-[UnitTest]
-public class SoftDeleteEntryCommandTests
+[IntegrationTest]
+public class SoftDeleteEntryCommandTests : IntegrationTestBase
 {
-    protected const long EMPLOYEE_ID = 1;
-    protected const long TENANT_ID = 777;
-
-    private readonly SoftDeleteEntryCommand _command;
-    private readonly TenantAppDbContext _context;
-
-    private readonly SoftDeleteEntryRequest _softDeleteEntryRequest;
-
-    public SoftDeleteEntryCommandTests()
-    {
-        _context = TenantAppDbContextExtensionsTestsRelated.CreateInMemoryTenantContextForTests(TENANT_ID);
-        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
-
-        _command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
-
-        _softDeleteEntryRequest = new SoftDeleteEntryRequest
-        {
-            Id = 1,
-            DeletionReason = "Deletion reason",
-        };
-    }
-
     [Fact]
     public async Task SoftDeleteExistingEntryTwice_ShouldDeleteEntryFromDbSetAndDoNotThrowAtSecondTime()
     {
-        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID
-        });
+        var context = CreateTenantDbContext();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var wasDeleted = await _command.ExecuteAsync(_softDeleteEntryRequest);
+        var softDeleteEntryCommand = new SoftDeleteEntryCommand(context, mockClaimsProvider);
+
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+            }
+        );
+
+        var softDeleteEntryRequest = new SoftDeleteEntryRequest
+        {
+            Id = taskEntry.Id,
+            DeletionReason = "Deletion reason",
+        };
+
+        var wasDeleted = await softDeleteEntryCommand.ExecuteAsync(softDeleteEntryRequest);
 
         Assert.True(wasDeleted);
 
-        var deletedTaskEntry = await _context
+        var deletedTaskEntry = await context
             .TaskEntries
             .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
         Assert.NotNull(deletedTaskEntry);
         Assert.NotNull(deletedTaskEntry.DeletedAtUtc);
-        Assert.Equal(_softDeleteEntryRequest.DeletionReason, deletedTaskEntry.DeletionReason);
+        Assert.Equal(softDeleteEntryRequest.DeletionReason, deletedTaskEntry.DeletionReason);
 
         var wasDeletedAgain = true;
 
         // try to delete again
-        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await _command.ExecuteAsync(_softDeleteEntryRequest)));
+        Assert.Null(await Record.ExceptionAsync(async () => wasDeletedAgain = await softDeleteEntryCommand.ExecuteAsync(softDeleteEntryRequest)));
         Assert.False(wasDeletedAgain);
     }
 
     [Fact]
     public async Task SoftDeleteNonExistingEntry_ShouldNotThrowException()
     {
+        var context = CreateTenantDbContext();
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
+        var softDeleteEntryCommand = new SoftDeleteEntryCommand(context, mockClaimsProvider);
+
         var wasNonExistedDeleted = true;
 
         const long NON_EXISTING_ID = -1;
@@ -73,7 +72,7 @@ public class SoftDeleteEntryCommandTests
 
         // try to delete a non-existing entry
         Assert.Null(await Record.ExceptionAsync(
-            async () => wasNonExistedDeleted = await _command.ExecuteAsync(softDeleteEntryRequest)
+            async () => wasNonExistedDeleted = await softDeleteEntryCommand.ExecuteAsync(softDeleteEntryRequest)
         ));
         Assert.False(wasNonExistedDeleted);
     }
@@ -81,19 +80,32 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteAnotherEmployeesEntry_ShouldNotDeleteAnotherEmployeesEntryFromDb()
     {
-        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID
-        });
+        var context = CreateTenantDbContext();
+
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+            }
+        );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(2, TENANT_ID);
 
-        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
+        var softDeleteEntryCommand = new SoftDeleteEntryCommand(context, mockClaimsProvider);
 
-        var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
+        var softDeleteEntryRequest = new SoftDeleteEntryRequest
+        {
+            Id = taskEntry.Id,
+            DeletionReason = "Deletion reason",
+        };
 
-        var taskEntryFromDb = await _context
+        var wasDeleted = await softDeleteEntryCommand.ExecuteAsync(softDeleteEntryRequest);
+
+        var taskEntryFromDb = await context
             .TaskEntries
             .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
@@ -106,22 +118,34 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteAnotherTenantsEntry_ShouldNotDeleteAnotherTenantsEntryFromDb()
     {
-        // To check the tenant isolation, you must specify a TenantId other than 777,
-        // since in the implementation of TenantAppDbContextExtensionsTestsRelated,
-        // the QueryableWithinTenant method returns TenantId = 777
-        var taskEntry = await _context.AddEntityAndSaveAsync(new TaskEntry
-        {
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = 2
-        });
+        var context = CreateTenantDbContext();
+
+        var taskEntry = await AddEntityAndSaveAsync(
+            context,
+            new TaskEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                // To check the tenant isolation, you must specify a TenantId other than 777,
+                // since in the implementation of CreateTenantDbContext filters by TenantId = 777
+                TenantId = 2,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+            }
+        );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
+        var command = new SoftDeleteEntryCommand(context, mockClaimsProvider);
 
-        var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
+        var softDeleteEntryRequest = new SoftDeleteEntryRequest
+        {
+            Id = taskEntry.Id,
+            DeletionReason = "Deletion reason",
+        };
 
-        var taskEntryFromDb = await _context
+        var wasDeleted = await command.ExecuteAsync(softDeleteEntryRequest);
+
+        var taskEntryFromDb = await context
             .TaskEntries
             .SingleOrDefaultAsync(x => x.Id == taskEntry.Id);
 
@@ -134,37 +158,49 @@ public class SoftDeleteEntryCommandTests
     [Fact]
     public async Task SoftDeleteEntryWithMakeUpTimeList_ShouldDeleteEntryWithAllRelatedMakeUpTimeEntry()
     {
-        var awayWithMakeUpTimeEntry = await _context.AddEntityAndSaveAsync(new AwayWithMakeUpTimeEntry
-        {
-            Id = 1,
-            EmployeeId = EMPLOYEE_ID,
-            TenantId = TENANT_ID,
-            MakeUpTimeList =
-            [
-                new MakeUpTimeEntry
-                {
-                    Id = 2,
-                    RelatedEntryId = 1,
-                },
-                new MakeUpTimeEntry
-                {
-                    Id = 3,
-                    RelatedEntryId = 1,
-                }
-            ]
-        });
+        var context = CreateTenantDbContext();
+
+        var awayWithMakeUpTimeEntry = await AddEntityAndSaveAsync(
+            context,
+            new AwayWithMakeUpTimeEntry
+            {
+                EmployeeId = EMPLOYEE_ID,
+                TenantId = TENANT_ID,
+                StartTime = new DateTime(2025, 11, 23, 13, 0, 0),
+                EndTime = new DateTime(2025, 11, 23, 14, 0, 0),
+                MakeUpTimeList =
+                [
+                    new MakeUpTimeEntry
+                    {
+                        StartTime = new DateTime(2025, 11, 24, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 24, 18, 0, 0),
+                    },
+                    new MakeUpTimeEntry
+                    {
+                        StartTime = new DateTime(2025, 11, 25, 17, 0, 0),
+                        EndTime = new DateTime(2025, 11, 25, 18, 0, 0),
+                    }
+                ]
+            }
+        );
 
         var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
-        var command = new SoftDeleteEntryCommand(_context, mockClaimsProvider);
+        var command = new SoftDeleteEntryCommand(context, mockClaimsProvider);
 
-        var wasDeleted = await command.ExecuteAsync(_softDeleteEntryRequest);
+        var softDeleteEntryRequest = new SoftDeleteEntryRequest
+        {
+            Id = awayWithMakeUpTimeEntry.Id,
+            DeletionReason = "Deletion reason",
+        };
 
-        var awayWithMakeUpTimeEntryFromDb = await _context
+        var wasDeleted = await command.ExecuteAsync(softDeleteEntryRequest);
+
+        var awayWithMakeUpTimeEntryFromDb = await context
             .AwayWithMakeUpTimeEntries
             .SingleOrDefaultAsync(x => x.Id == awayWithMakeUpTimeEntry.Id);
 
-        var makeUpTimeEntriesByRelateIdFromDb = await _context
+        var makeUpTimeEntriesByRelateIdFromDb = await context
             .MakeUpTimeEntries
             .Where(x => x.RelatedEntryId == awayWithMakeUpTimeEntry.Id)
             .ToListAsync();

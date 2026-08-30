@@ -59,7 +59,7 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
         }
 
         HttpClient.Dispose();
-        _factory.Dispose();
+        await _factory.DisposeAsync();
     }
 }
 

@@ -2,7 +2,6 @@ using Application;
 using Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Moq;
 using Npgsql;
 using Xunit;
 
@@ -34,7 +33,7 @@ public class IntegrationTestBase : IAsyncLifetime
         await ApplyMigrationsAsync();
 
         // Begin Transaction
-        _dbTransaction = await _dbConnection.BeginTransactionAsync();
+        _dbTransaction = await _dbConnection.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
 
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
@@ -49,12 +48,20 @@ public class IntegrationTestBase : IAsyncLifetime
     {
         if (_dbTransaction != null)
         {
-            await _dbTransaction.RollbackAsync();
-            await _dbTransaction.DisposeAsync();
+            try
+            {
+                await _dbTransaction.RollbackAsync();
+            }
+            finally
+            {
+                await _dbTransaction.DisposeAsync();
+            }
         }
 
         if (_dbConnection != null)
+        {
             await _dbConnection.CloseAsync();
+        }
     }
 
     private async Task ApplyMigrationsAsync()
@@ -85,14 +92,12 @@ public class IntegrationTestBase : IAsyncLifetime
         return context;
     }
 
-    protected async Task<TEntity> SaveEntityAsync<TEntity>(
+    protected async Task<TEntity> AddEntityAndSaveAsync<TEntity>(
         TenantAppDbContext context,
         TEntity newEntity
     )
         where TEntity : EntityBase
     {
-        newEntity.TenantId = TENANT_ID;
-
         await context
             .Set<TEntity>()
             .AddAsync(newEntity);
@@ -100,17 +105,5 @@ public class IntegrationTestBase : IAsyncLifetime
         await context.SaveChangesAsync();
 
         return newEntity;
-    }
-
-    protected Task<TEntity?> FindEntityAsync<TEntity>(
-        TenantAppDbContext context,
-        long id
-    )
-        where TEntity : EntityBase
-    {
-        return context
-            .Set<TEntity>()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
     }
 }
