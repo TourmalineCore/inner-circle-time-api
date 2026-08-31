@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout 
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         
       - name: Trigger sync-js-client-with-api workflow in ui
         # NOTE: quotes for commit_message not needed because toJson writes quotes automatically 

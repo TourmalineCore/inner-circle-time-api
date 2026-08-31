@@ -18,7 +18,7 @@ jobs:
       new-js-client-version: ${{ steps.set-new-js-client-version-to-output.outputs.new-js-client-version }}
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # from AI: Without this ref in PRs, you're on a merge commit, and pushing back is ambiguous.
           ref: ${{ github.head_ref }}
@@ -37,7 +37,7 @@ jobs:
           docker compose -f ./js-client/generation/docker-compose.yml up --exit-code-from ts_generator
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24.12.0
           # it was decided to use npm intead of GitHub Packages
