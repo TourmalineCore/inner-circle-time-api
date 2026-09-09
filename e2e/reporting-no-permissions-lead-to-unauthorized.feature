@@ -38,3 +38,7 @@ Feature: Reporting
     Given path 'reporting/personal-report'
     When method GET
     Then status 403
+
+    Given path 'reporting/metrics'
+    When method GET
+    Then status 403
