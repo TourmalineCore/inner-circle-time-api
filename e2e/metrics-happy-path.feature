@@ -56,7 +56,7 @@ Feature: Metrics
 
     # Get employee's projects
     Given path 'tracking/task-entries/projects'
-    And params { startDate: "2028-09-04", endDate: "2028-09-04" }
+    And params { startDate: "2028-09-04", endDate: "2028-09-05" }
     When method GET
     Then status 200
 
@@ -111,7 +111,6 @@ Feature: Metrics
     * def tuesdayNewTaskEntryId = response.newTaskEntryId
 
     # Get metrics
-    # Cleanup Verification: Verify that all entries was deleted
     Given path 'reporting/metrics'
     And params { startDate: "2028-09-04", endDate: "2028-09-10" }
     When method GET
@@ -121,19 +120,19 @@ Feature: Metrics
     # So we check that the value is between 8.333333 and 8.333334.
     And match response.unwellHours == '#? _ > 8.333333 && _ < 8.333334'
     
-    # Cleanup: Delete the unwell entry (hard delete)
+    # Cleanup: Delete the unwell entry on Monday (hard delete)
     Given path 'tracking/entries', newUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
     
-    # Cleanup: Delete the task entry on monday (hard delete)
+    # Cleanup: Delete the task entry on Monday (hard delete)
     Given path 'tracking/entries', mondayNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
 
-    # Cleanup: Delete the task entry on tuesday (hard delete)
+    # Cleanup: Delete the task entry on Tuesday (hard delete)
     Given path 'tracking/entries', tuesdayNewTaskEntryId, 'hard-delete'
     When method DELETE
     Then status 200
