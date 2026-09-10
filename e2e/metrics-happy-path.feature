@@ -118,7 +118,7 @@ Feature: Metrics
     # We expect 8 hours 20 minutes = 8.3(3) hours.
     # The backend may round it differently because the fraction is infinite.
     # So we check that the value is between 8.333333 and 8.333334.
-    And match response.unwellHours == '#? _ > 8.333333 && _ < 8.333334'
+    And match response.trackedHours == '#? _ > 8.333333 && _ < 8.333334'
     
     # Cleanup: Delete the unwell entry on Monday (hard delete)
     Given path 'tracking/entries', mondayNewUnwellEntryId, 'hard-delete'
