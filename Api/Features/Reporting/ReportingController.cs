@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Application.Features.Reporting.GetAllEmployees;
+using Application.Features.Reporting.GetMetrics;
 using Application.Features.Reporting.GetPersonalReport;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,5 +34,16 @@ public class ReportingController : ControllerBase
     )
     {
         return getPersonalReportHandler.HandleAsync(employeeId, year, month);
+    }
+
+    [EndpointSummary("Get metrics")]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
+    [HttpGet("metrics")]
+    public Task<GetMetricsResponse> GetMetricsAsync(
+        [Required][FromQuery] DateOnly startDate,
+        [Required][FromQuery] DateOnly endDate
+    )
+    {
+        throw new NotImplementedException();
     }
 }
