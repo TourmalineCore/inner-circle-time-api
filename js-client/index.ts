@@ -139,6 +139,11 @@ export interface GetEntriesByPeriodResponse {
   vacationEntries: VacationEntryDto[];
 }
 
+export interface GetMetricsResponse {
+  /** @format double */
+  trackedHours: number;
+}
+
 export interface GetPersonalReportResponse {
   trackedEntries: TrackedEntryDto[];
   /** @format double */
@@ -930,6 +935,31 @@ export class Api<
     ) =>
       this.request<GetPersonalReportResponse, any>({
         path: `/reporting/personal-report`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Reporting
+     * @name GetMetrics
+     * @summary Get metrics
+     * @request GET:/reporting/metrics
+     */
+    getMetrics: (
+      query: {
+        /** @format date */
+        startDate: string;
+        /** @format date */
+        endDate: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetMetricsResponse, any>({
+        path: `/reporting/metrics`,
         method: "GET",
         query: query,
         format: "json",
