@@ -37,22 +37,22 @@ Feature: Metrics
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
     # Create a new unwell entry on Monday
-    * def unwellStartTime = '2028-09-04T08:00:00'
-    * def unwellEndTime = '2028-09-04T12:00:00'
+    * def mondayUnwellStartTime = '2028-09-04T08:00:00'
+    * def mondayUnwellEndTime = '2028-09-04T12:00:00'
     
     Given url apiRootUrl
     Given path 'tracking/unwell-entries'
     And request
     """
     {
-        "startTime": "#(unwellStartTime)",
-        "endTime": "#(unwellEndTime)"
+        "startTime": "#(mondayUnwellStartTime)",
+        "endTime": "#(mondayUnwellEndTime)"
     }
     """
     When method POST
     Then status 200
 
-    * def newUnwellEntryId = response.newUnwellEntryId
+    * def mondayNewUnwellEntryId = response.newUnwellEntryId
 
     # Get employee's projects
     Given path 'tracking/task-entries/projects'
@@ -121,7 +121,7 @@ Feature: Metrics
     And match response.unwellHours == '#? _ > 8.333333 && _ < 8.333334'
     
     # Cleanup: Delete the unwell entry on Monday (hard delete)
-    Given path 'tracking/entries', newUnwellEntryId, 'hard-delete'
+    Given path 'tracking/entries', mondayNewUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
@@ -145,4 +145,4 @@ Feature: Metrics
     Then status 200
     And assert response.taskEntries.filter(x => x.id == mondayNewTaskEntryId).length == 0
     And assert response.taskEntries.filter(x => x.id == tuesdayNewTaskEntryId).length == 0
-    And assert response.unwellEntries.filter(x => x.id == newUnwellEntryId).length == 0
+    And assert response.unwellEntries.filter(x => x.id == mondayNewUnwellEntryId).length == 0
