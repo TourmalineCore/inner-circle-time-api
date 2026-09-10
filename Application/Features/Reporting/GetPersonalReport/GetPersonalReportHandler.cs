@@ -1,4 +1,5 @@
 using Application.ExternalDeps.AssignmentsApi;
+using Application.SharedQueries;
 using Core;
 using Core.Entities;
 
