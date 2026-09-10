@@ -37,7 +37,7 @@ public class ReportingController : ControllerBase
     }
 
     [EndpointSummary("Get metrics")]
-    [RequiresPermission(UserClaimsProvider.CanViewPersonalReport)]
+    [RequiresPermission(UserClaimsProvider.CanManagePersonalTimeTracker)]
     [HttpGet("metrics")]
     public Task<GetMetricsResponse> GetMetricsAsync(
         [Required][FromQuery] DateOnly startDate,
