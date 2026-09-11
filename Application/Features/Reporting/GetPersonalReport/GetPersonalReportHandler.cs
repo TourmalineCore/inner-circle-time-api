@@ -7,9 +7,9 @@ namespace Application.Features.Reporting.GetPersonalReport;
 
 public class GetPersonalReportHandler
 {
-    private GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
+    private readonly GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
 
-    private IAssignmentsApi _assignmentsApi;
+    private readonly IAssignmentsApi _assignmentsApi;
 
     public GetPersonalReportHandler(
         GetEmployeeTrackedEntriesQuery getEmployeeTrackedEntriesQuery,

@@ -5,7 +5,7 @@ namespace Application.Features.Reporting.GetMetrics;
 
 public class GetMetricsHandler
 {
-    private GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
+    private readonly GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
 
     private readonly IClaimsProvider _claimsProvider;
 
