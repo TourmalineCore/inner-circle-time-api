@@ -11,11 +11,11 @@ public class GetMetricsHandler
 
     public GetMetricsHandler(
         GetEmployeeTrackedEntriesQuery getEmployeeTrackedEntriesQuery,
-        IClaimsProvider claimsProvide
+        IClaimsProvider claimsProvider
     )
     {
         _getEmployeeTrackedEntriesQuery = getEmployeeTrackedEntriesQuery;
-        _claimsProvider = claimsProvide;
+        _claimsProvider = claimsProvider;
     }
 
     public async Task<GetMetricsResponse> HandleAsync(
