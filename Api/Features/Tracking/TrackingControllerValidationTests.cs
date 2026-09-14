@@ -8,7 +8,7 @@ using Xunit;
 namespace Api.Features.Tracking;
 
 [IntegrationTest]
-public class TrackingControllerTests : HttpClientTestBase
+public class TrackingControllerTests : ControllerValidationTestsBase
 {
     public TrackingControllerTests(WebApplicationFactory<Program> factory) : base(factory)
     {
@@ -27,7 +27,7 @@ public class TrackingControllerTests : HttpClientTestBase
             Description = "Task description",
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/tracking/task-entries", createTaskEntryRequest);
+        var response = await _httpClient.PostAsJsonAsync("/tracking/task-entries", createTaskEntryRequest);
 
         Assert.NotNull(response);
         Assert.Equal(StatusCodes.Status400BadRequest, (int)response.StatusCode);
@@ -56,7 +56,7 @@ public class TrackingControllerTests : HttpClientTestBase
                 ]
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/tracking/away-with-make-up-time-entries", createAwayWithMakeUpTimeEntryRequest);
+        var response = await _httpClient.PostAsJsonAsync("/tracking/away-with-make-up-time-entries", createAwayWithMakeUpTimeEntryRequest);
 
         Assert.NotNull(response);
         Assert.Equal(StatusCodes.Status400BadRequest, (int)response.StatusCode);

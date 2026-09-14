@@ -105,7 +105,12 @@ public class Program
     {
         using var serviceScope = serviceProvider.CreateScope();
 
-        var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-        context.Database.Migrate();
+        using var context =
+          serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        if (!context.Database.IsInMemory())
+        {
+            context.Database.Migrate();
+        }
     }
 }
