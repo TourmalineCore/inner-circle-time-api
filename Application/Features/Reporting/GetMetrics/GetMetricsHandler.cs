@@ -1,4 +1,5 @@
 using Application.SharedQueries;
+using Core;
 using Core.Entities;
 
 namespace Application.Features.Reporting.GetMetrics;
@@ -29,19 +30,11 @@ public class GetMetricsHandler
             endDate
         );
 
-        var taskTotalMinutes = employeeTrackedEntries
-            .OfType<TaskEntry>()
-            .Sum(x => x.GetDurationInMinutes());
-
-        var unwellTotalMinutes = employeeTrackedEntries
-            .OfType<UnwellEntry>()
-            .Sum(x => x.GetDurationInMinutes());
-
-        var trackedHours = (taskTotalMinutes + unwellTotalMinutes).ToHoursWithoutRounding();
+        var metrics = MetricsCalculator.Calculate(employeeTrackedEntries);
 
         return new GetMetricsResponse
         {
-            TrackedHours = trackedHours,
+            TrackedHours = metrics.TrackedHours,
         };
     }
 }
