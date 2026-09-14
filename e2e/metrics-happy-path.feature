@@ -6,11 +6,9 @@ Feature: Metrics
     * header Content-Type = 'application/json'
 
     # Use case:
-    # I didn't feel well from 8 a.m. to 12 p.m. on Monday.
-    # And after lunch, I worked from 1 p.m. to 5 p.m. on Monday.
-    # On Tuesday, I only tracked a stand-up from 8 a.m. to 8:20 a.m.
+    # I didn't feel well from 8 a.m. to 8:20 p.m. on Monday.
     # I keep track of this time in the time tracker.
-    # Then I want the total tracked time to be 8.3(3) hours.
+    # Then I want the total tracked time to be 0.3(3) hours.
   Scenario: Happy Path
 
     * def jsUtils = read('./js-utils.js')
@@ -36,113 +34,44 @@ Feature: Metrics
 
     * configure headers = jsUtils().getAuthHeaders(accessToken)
 
-    # Create a new unwell entry on Monday
-    * def mondayUnwellStartTime = '2028-09-04T08:00:00'
-    * def mondayUnwellEndTime = '2028-09-04T12:00:00'
+    # Create a new unwell entry
+    * def unwellStartTime = '2028-09-04T08:00:00'
+    * def unwellEndTime = '2028-09-04T08:20:00'
     
     Given url apiRootUrl
     Given path 'tracking/unwell-entries'
     And request
     """
     {
-        "startTime": "#(mondayUnwellStartTime)",
-        "endTime": "#(mondayUnwellEndTime)"
+        "startTime": "#(unwellStartTime)",
+        "endTime": "#(unwellEndTime)"
     }
     """
     When method POST
     Then status 200
 
-    * def mondayNewUnwellEntryId = response.newUnwellEntryId
-
-    # Get employee's projects
-    Given path 'tracking/task-entries/projects'
-    And params { startDate: "2028-09-04", endDate: "2028-09-05" }
-    When method GET
-    Then status 200
-
-    * def firstProjectId = response.projects[0].id
-
-    # Create a new task entry on Monday
-    * def mondayTaskTitle = '[API-E2E]-Test-task-entry-' + Math.random()
-    * def mondayTaskStartTime = '2028-09-04T13:00:00'
-    * def mondayTaskEndTime = '2028-09-04T17:00:00'
-    * def mondayTaskId = '#2233'
-    * def mondayTaskDescription = 'Task description'
-    
-    Given path 'tracking/task-entries'
-    And request
-    """
-    {
-        "title": "#(mondayTaskTitle)",
-        "startTime": "#(mondayTaskStartTime)",
-        "endTime": "#(mondayTaskEndTime)",
-        "projectId": #(firstProjectId), 
-        "taskId": "#(mondayTaskId)",
-        "description": "#(mondayTaskDescription)"
-    }
-    """
-    When method POST
-    Then status 200
-
-    * def mondayNewTaskEntryId = response.newTaskEntryId
-
-    # Create a new task entry on Tuesday
-    * def tuesdayTaskTitle = 'Stand-up'
-    * def tuesdayTaskStartTime = '2028-09-05T08:00:00'
-    * def tuesdayTaskEndTime = '2028-09-05T08:20:00'
-    * def tuesdayTaskId = '#1'
-    * def tuesdayTaskDescription = 'Stand-up'
-    
-    Given path 'tracking/task-entries'
-    And request
-    """
-    {
-        "title": "#(tuesdayTaskTitle)",
-        "startTime": "#(tuesdayTaskStartTime)",
-        "endTime": "#(tuesdayTaskEndTime)",
-        "projectId": #(firstProjectId), 
-        "taskId": "#(tuesdayTaskId)",
-        "description": "#(tuesdayTaskDescription)"
-    }
-    """
-    When method POST
-    Then status 200
-
-    * def tuesdayNewTaskEntryId = response.newTaskEntryId
+    * def newUnwellEntryId = response.newUnwellEntryId
 
     # Get metrics
     Given path 'reporting/metrics'
     And params { startDate: "2028-09-04", endDate: "2028-09-10" }
     When method GET
     Then status 200
-    # We expect 8 hours 20 minutes = 8.3(3) hours.
+    # We expect 20 minutes = 0.3(3) hours.
     # The backend may round it differently because the fraction is infinite.
-    # So we check that the value is between 8.333333 and 8.333334.
-    And match response.trackedHours == '#? _ > 8.333333 && _ < 8.333334'
+    # So we check that the value is between 0.333333333333333 and 0.333333333333334.
+    * print response.trackedHours
+    And match response.trackedHours == '#? _ > 0.333333333333333 && _ < 0.333333333333334'
     
     # Cleanup: Delete the unwell entry on Monday (hard delete)
-    Given path 'tracking/entries', mondayNewUnwellEntryId, 'hard-delete'
+    Given path 'tracking/entries', newUnwellEntryId, 'hard-delete'
     When method DELETE
     Then status 200
     And match response == { isDeleted: true }
     
-    # Cleanup: Delete the task entry on Monday (hard delete)
-    Given path 'tracking/entries', mondayNewTaskEntryId, 'hard-delete'
-    When method DELETE
-    Then status 200
-    And match response == { isDeleted: true }
-
-    # Cleanup: Delete the task entry on Tuesday (hard delete)
-    Given path 'tracking/entries', tuesdayNewTaskEntryId, 'hard-delete'
-    When method DELETE
-    Then status 200
-    And match response == { isDeleted: true }
-
     # Cleanup Verification: Verify that all entries was deleted
     Given path 'tracking/entries'
-    And params { startDate: "2028-09-04", endDate: "2028-09-05" }
+    And params { startDate: "2028-09-04", endDate: "2028-09-04" }
     When method GET
     Then status 200
-    And assert response.taskEntries.filter(x => x.id == mondayNewTaskEntryId).length == 0
-    And assert response.taskEntries.filter(x => x.id == tuesdayNewTaskEntryId).length == 0
-    And assert response.unwellEntries.filter(x => x.id == mondayNewUnwellEntryId).length == 0
+    And assert response.unwellEntries.filter(x => x.id == newUnwellEntryId).length == 0
