@@ -25,7 +25,8 @@ internal class AssignmentsApi : IAssignmentsApi
             new ProjectDto { Id = 17, Name = "Flamingo" },
             new ProjectDto { Id = 18, Name = "To-Dos" },
             new ProjectDto { Id = 19, Name = "Aikedo" },
-            new ProjectDto { Id = 20, Name = "Sales" }
+            new ProjectDto { Id = 20, Name = "Sales" },
+            new ProjectDto { Id = 21, Name = "L4" }
         };
 
     // for now it is implemented as a mock but later it will be an internal request to assignments-api
