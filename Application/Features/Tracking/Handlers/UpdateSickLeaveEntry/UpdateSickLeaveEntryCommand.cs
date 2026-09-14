@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Entities;
+using Core.Features.Tracking;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Tracking.Handlers.UpdateSickLeaveEntry;

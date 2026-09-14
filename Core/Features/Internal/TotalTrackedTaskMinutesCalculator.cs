@@ -1,6 +1,6 @@
 ﻿using Core.Entities;
 
-namespace Core;
+namespace Core.Features.Internal;
 
 public class EmployeeTrackedTaskMinutes
 {

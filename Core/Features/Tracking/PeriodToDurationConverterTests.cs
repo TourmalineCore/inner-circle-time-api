@@ -1,6 +1,6 @@
-using Core;
 using Xunit;
 
+namespace Core.Features.Tracking;
 
 [UnitTest]
 public class PeriodToDurationConverterTests

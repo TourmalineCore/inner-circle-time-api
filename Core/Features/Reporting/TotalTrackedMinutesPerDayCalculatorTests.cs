@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Xunit;
 
-namespace Core;
+namespace Core.Features.Reporting;
 
 [UnitTest]
 public class TotalTrackedMinutesPerDayCalculatorTests

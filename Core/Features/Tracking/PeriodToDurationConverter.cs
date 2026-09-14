@@ -1,4 +1,4 @@
-using Core;
+namespace Core.Features.Tracking;
 
 public static class PeriodToDurationConverter
 {

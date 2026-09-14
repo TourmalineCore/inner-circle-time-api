@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Entities;
+using Core.Features.Tracking;
 
 namespace Application.Features.Tracking.Handlers.CreateVacationEntry;
 
