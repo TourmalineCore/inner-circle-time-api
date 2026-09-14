@@ -1,7 +1,7 @@
 using Application;
 using Application.EntryOverlapConstraintTests.EntryFactories;
-using Application.Features.Tracking.CreateVacationEntry;
-using Application.Features.Tracking.UpdateVacationEntry;
+using Application.Features.Tracking.Handlers.CreateVacationEntry;
+using Application.Features.Tracking.Handlers.UpdateVacationEntry;
 using Core.Entities;
 
 public class VacationEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated

@@ -1,4 +1,3 @@
-using Application.Features.Tracking.GetEntriesByPeriod;
 using Core.Entities;
 
 namespace Application.Features.Tracking.Handlers.GetAwayWithMakeUpTimeEntry;
