@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Xunit;
 
-namespace Core;
+namespace Core.Features.Internal;
 
 [UnitTest]
 public class TotalTrackedTaskMinutesCalculatorTests
