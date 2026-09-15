@@ -108,7 +108,11 @@ public class Program
         using var context =
           serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        if (!context.Database.IsInMemory())
+        // Migrations only work with relational providers (PostgreSQL, etc.).
+        // InMemory does not need migrations, so we skip this step.
+        // We check ProviderName instead of Database.IsInMemory() to avoid pulling
+        // the Microsoft.EntityFrameworkCore.InMemory package into the main Api project.
+        if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
         {
             context.Database.Migrate();
         }
