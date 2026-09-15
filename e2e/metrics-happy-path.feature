@@ -59,6 +59,7 @@ Feature: Metrics
     Then status 200
     # We expect 20 minutes = 0.3(3) hours.
     # The backend may round it differently because the fraction is infinite.
+    # Karate does not support decimal and uses double, which has only ~15-17 significant digits
     # So we check that the value is between 0.333333333333333 and 0.333333333333334.
     * print response.trackedHours
     And match response.trackedHours == '#? _ > 0.333333333333333 && _ < 0.333333333333334'
