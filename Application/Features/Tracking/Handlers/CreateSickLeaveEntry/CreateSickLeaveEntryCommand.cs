@@ -1,6 +1,6 @@
 ﻿using Core;
-using Core.Features.Tracking.Entities;
 using Core.Features.Tracking;
+using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.CreateSickLeaveEntry;
 
