@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Application.ExternalDeps.AssignmentsApi;
-using Application.Features.Internal.GetAllProjects;
-using Application.Features.Internal.GetEmployeesTrackedTaskHours;
+using Application.Features.Internal.Handlers.GetAllProjects;
+using Application.Features.Internal.Handlers.GetEmployeesTrackedTaskHours;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
