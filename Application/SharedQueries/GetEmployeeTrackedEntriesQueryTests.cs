@@ -2,7 +2,7 @@ using Core;
 using Core.Entities;
 using Xunit;
 
-namespace Application.Features.Reporting.GetPersonalReport;
+namespace Application.SharedQueries;
 
 [IntegrationTest]
 public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase

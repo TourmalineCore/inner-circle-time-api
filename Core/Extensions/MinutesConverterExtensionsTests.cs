@@ -5,6 +5,16 @@ using Xunit;
 public class MinutesConverterExtensionsTests
 {
     [Fact]
+    public void ToHoursWithoutRounding_ShouldReturnCorrectValueFor20Minutes()
+    {
+        int minutes = 20;
+
+        decimal hours = minutes.ToHoursWithoutRounding();
+
+        Assert.Equal(0.3333333333333333333333333333m, hours);
+    }
+
+    [Fact]
     public void ToHoursWithoutRounding_ShouldReturnCorrectValueFor60Minutes()
     {
         int minutes = 60;

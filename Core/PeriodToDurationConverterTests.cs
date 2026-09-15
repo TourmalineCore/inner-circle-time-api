@@ -1,6 +1,6 @@
-using Core;
 using Xunit;
 
+namespace Core;
 
 [UnitTest]
 public class PeriodToDurationConverterTests
