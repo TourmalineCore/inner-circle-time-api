@@ -1,6 +1,6 @@
 using Application.ExternalDeps.AssignmentsApi;
-using Core.Entities;
 using Core.Features.Reporting;
+using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Reporting.Handlers.GetPersonalReport;
 

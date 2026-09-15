@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Core.Entities;
+
+namespace Core.Features.Tracking.Entities;
 
 public class MakeUpTimeEntry : TrackedEntryBase
 {

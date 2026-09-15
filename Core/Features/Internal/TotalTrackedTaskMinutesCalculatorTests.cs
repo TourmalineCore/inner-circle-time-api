@@ -1,4 +1,4 @@
-﻿using Core.Entities;
+﻿using Core.Features.Tracking.Entities;
 using Xunit;
 
 namespace Core.Features.Internal;

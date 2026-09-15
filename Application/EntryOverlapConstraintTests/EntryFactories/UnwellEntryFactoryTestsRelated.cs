@@ -2,7 +2,7 @@ using Application;
 using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.Handlers.CreateUnwellEntry;
 using Application.Features.Tracking.Handlers.UpdateUnwellEntry;
-using Core.Entities;
+using Core.Features.Tracking.Entities;
 
 public class UnwellEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {

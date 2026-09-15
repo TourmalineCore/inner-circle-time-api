@@ -2,7 +2,7 @@ using Application;
 using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.Handlers.CreateSickLeaveEntry;
 using Application.Features.Tracking.Handlers.UpdateSickLeaveEntry;
-using Core.Entities;
+using Core.Features.Tracking.Entities;
 
 public class SickLeaveEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {

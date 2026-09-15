@@ -1,4 +1,4 @@
-namespace Core.Entities;
+namespace Core.Features.Tracking.Entities;
 
 public class UnwellEntry : TrackedEntryBase
 {

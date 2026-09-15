@@ -1,5 +1,5 @@
 using Core;
-using Core.Entities;
+using Core.Features.Tracking.Entities;
 using Xunit;
 
 namespace Application.Features.Reporting.Handlers.GetPersonalReport;

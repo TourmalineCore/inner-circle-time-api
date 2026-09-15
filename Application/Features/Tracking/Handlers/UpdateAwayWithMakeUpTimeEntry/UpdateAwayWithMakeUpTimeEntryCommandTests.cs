@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 

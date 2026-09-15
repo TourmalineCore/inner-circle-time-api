@@ -1,4 +1,4 @@
-using Core.Entities;
+using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.GetUnwellEntry;
 

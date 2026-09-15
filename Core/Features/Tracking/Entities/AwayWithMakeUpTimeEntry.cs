@@ -1,14 +1,14 @@
-namespace Core.Entities;
+namespace Core.Features.Tracking.Entities;
 
-public class VacationEntry : TrackedEntryBase
+public class AwayWithMakeUpTimeEntry : TrackedEntryBase
 {
     // EntityFrameworkCore related empty default constructor
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-    public VacationEntry()
+    public AwayWithMakeUpTimeEntry()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     {
-        Type = EntryType.Vacation;
+        Type = EntryType.AwayWithMakeUpTime;
     }
 
-    public bool IsUnpaid { get; set; }
+    public string Description { get; set; }
 }

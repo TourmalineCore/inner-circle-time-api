@@ -1,4 +1,5 @@
 using Application.SharedQueries;
+using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.GetAwayWithMakeUpTimeEntry;
 

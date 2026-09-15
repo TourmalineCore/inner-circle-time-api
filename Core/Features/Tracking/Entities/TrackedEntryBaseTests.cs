@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Core.Entities;
+namespace Core.Features.Tracking.Entities;
 
 [UnitTest]
 public class TrackedEntryBaseTests
