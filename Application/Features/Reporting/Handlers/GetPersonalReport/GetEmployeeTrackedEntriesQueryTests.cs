@@ -1,0 +1,65 @@
+using Core;
+using Core.Features.Tracking.Entities;
+using Xunit;
+
+namespace Application.Features.Reporting.Handlers.GetPersonalReport;
+
+[IntegrationTest]
+public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase
+{
+    [Fact]
+    public async Task GetTrackedEntriesWithNonExistentEmployeeId__ShouldReturnEmptyTrackedEntriesList()
+    {
+        var context = CreateTenantDbContext();
+
+        var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
+
+        var taskEntry = new TaskEntry
+        {
+            TenantId = TENANT_ID,
+            EmployeeId = 1,
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+        };
+
+        await AddEntityAndSaveAsync(context, taskEntry);
+
+        var nonExistentEmployeeId = -1;
+
+        var result = await getEmployeeTrackedEntriesQuery
+            .GetAsync(
+                nonExistentEmployeeId,
+                new DateOnly(2025, 11, 01),
+                new DateOnly(2025, 11, 30)
+            );
+
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public async Task GetTrackedEntriesForThePeriodWithoutEntries__ShouldReturnEmptyTrackedEntriesList()
+    {
+        var context = CreateTenantDbContext();
+
+        var getEmployeeTrackedEntriesQuery = new GetEmployeeTrackedEntriesQuery(context);
+
+        var taskEntry = new TaskEntry
+        {
+            TenantId = TENANT_ID,
+            EmployeeId = 1,
+            StartTime = new DateTime(2025, 11, 24, 9, 0, 0),
+            EndTime = new DateTime(2025, 11, 24, 10, 0, 0),
+        };
+
+        await AddEntityAndSaveAsync(context, taskEntry);
+
+        var result = await getEmployeeTrackedEntriesQuery
+            .GetAsync(
+                taskEntry.EmployeeId,
+                new DateOnly(2025, 11, 20),
+                new DateOnly(2025, 11, 21)
+            );
+
+        Assert.Empty(result);
+    }
+}

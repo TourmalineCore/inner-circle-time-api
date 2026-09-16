@@ -1,0 +1,14 @@
+using Core.Features.Tracking.Entities;
+
+namespace Application.Features.Tracking.Handlers.GetVacationEntry;
+
+public class GetVacationEntryResponse
+{
+    public required long Id { get; set; }
+
+    public required EntryType EntryType { get; set; }
+
+    public required PeriodDto Period { get; set; }
+
+    public required bool IsUnpaid { get; set; }
+}
