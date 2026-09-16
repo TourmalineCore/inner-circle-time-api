@@ -7,6 +7,7 @@
 [![coverage](https://img.shields.io/badge/full_coverage-95.36%25-forestgreen)](https://github.com/TourmalineCore/inner-circle-time-api/actions/workflows/calculate-tests-coverage-on-pull-request.yml)
 <!-- auto-generated -->
 
+
 This repo contains Inner Circle Time API.
 
 This repo and its infrastructure tailored for VSCode/GitHub Codespaces Dev Container centric development experience in Docker to achieve better isolation of the environment as well as its cross-platform support out of the box. 
