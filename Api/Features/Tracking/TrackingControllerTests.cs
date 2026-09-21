@@ -1,5 +1,5 @@
-using Application.Features.Tracking.CreateAwayWithMakeUpTimeEntry;
-using Application.Features.Tracking.CreateTaskEntry;
+using Application.Features.Tracking.Handlers.CreateAwayWithMakeUpTimeEntry;
+using Application.Features.Tracking.Handlers.CreateTaskEntry;
 using Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;

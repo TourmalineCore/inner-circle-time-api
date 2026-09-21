@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Application.Features.Reporting.GetAllEmployees;
-using Application.Features.Reporting.GetMetrics;
-using Application.Features.Reporting.GetPersonalReport;
+using Application.Features.Reporting.Handlers.GetAllEmployees;
+using Application.Features.Reporting.Handlers.GetMetrics;
+using Application.Features.Reporting.Handlers.GetPersonalReport;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Filters;
