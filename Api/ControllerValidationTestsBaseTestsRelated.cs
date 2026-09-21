@@ -1,23 +1,26 @@
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Api;
+using Application;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
+public class ControllerValidationTestsBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
 {
     protected const long EMPLOYEE_ID = 1;
     protected const long TENANT_ID = 777;
 
-    protected HttpClient HttpClient = null!;
+    protected HttpClient _httpClient = null!;
     private WebApplicationFactory<Program> _factory = null!;
 
     private const string versionFile = "__version";
 
-    public HttpClientTestBase(WebApplicationFactory<Program> factory)
+    public ControllerValidationTestsBase(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
@@ -35,6 +38,19 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
         {
             builder.ConfigureTestServices(services =>
             {
+                services.Remove(
+                    services.Single(x =>
+                        x.ServiceType
+                        == typeof(IDbContextOptionsConfiguration<AppDbContext>)
+                    )
+                );
+
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseInMemoryDatabase(
+                        databaseName: new Random().Next().ToString()
+                    )
+                );
+
                 // Replacing the authentication service with a fake
                 services
                     .AddAuthentication("Test")
@@ -47,7 +63,7 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
             });
         });
 
-        HttpClient = _factory.CreateClient();
+        _httpClient = _factory.CreateClient();
     }
 
     public async Task DisposeAsync()
@@ -58,7 +74,7 @@ public class HttpClientTestBase : IClassFixture<WebApplicationFactory<Program>>,
             File.Delete(versionFile);
         }
 
-        HttpClient.Dispose();
+        _httpClient.Dispose();
         await _factory.DisposeAsync();
     }
 }
