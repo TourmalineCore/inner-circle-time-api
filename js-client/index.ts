@@ -511,7 +511,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title inner-circle-time-api
- * @version 1.13.1
+ * @version 1.13.2
  * @baseUrl http://localhost:6507/
  */
 export class Api<
