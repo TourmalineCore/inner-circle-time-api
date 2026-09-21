@@ -12,6 +12,9 @@ using Xunit;
 
 public class ControllerValidationTestsBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
 {
+    protected const long EMPLOYEE_ID = 1;
+    protected const long TENANT_ID = 777;
+
     protected HttpClient _httpClient = null!;
     private WebApplicationFactory<Program> _factory = null!;
 
@@ -54,7 +57,7 @@ public class ControllerValidationTestsBase : IClassFixture<WebApplicationFactory
                     .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>("Test", options => { });
 
                 // Add fake mockClaimsProvider
-                var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(1, 777);
+                var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
 
                 services.AddScoped(_ => mockClaimsProvider);
             });
