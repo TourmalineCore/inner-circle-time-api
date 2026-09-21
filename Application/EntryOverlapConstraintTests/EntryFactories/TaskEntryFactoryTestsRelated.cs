@@ -1,8 +1,8 @@
 using Application;
 using Application.EntryOverlapConstraintTests.EntryFactories;
-using Application.Features.Tracking.CreateTaskEntry;
-using Application.Features.Tracking.UpdateTaskEntry;
-using Core.Entities;
+using Application.Features.Tracking.Handlers.CreateTaskEntry;
+using Application.Features.Tracking.Handlers.UpdateTaskEntry;
+using Core.Features.Tracking.Entities;
 
 public class TaskEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {
