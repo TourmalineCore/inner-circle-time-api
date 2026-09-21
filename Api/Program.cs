@@ -111,7 +111,7 @@ public class Program
         // Migrations only work with relational providers (PostgreSQL, etc.).
         // InMemory does not need migrations, so we skip this step.
         // We check ProviderName instead of Database.IsInMemory() to avoid pulling
-        // the Microsoft.EntityFrameworkCore.InMemory package into the main Api project.
+        // the Microsoft.EntityFrameworkCore.InMemory package into the main Api project's packages list ( InMemory package is not part of the release build)
         if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
         {
             context.Database.Migrate();
