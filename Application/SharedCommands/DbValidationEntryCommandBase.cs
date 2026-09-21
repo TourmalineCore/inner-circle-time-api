@@ -1,4 +1,4 @@
-using Core.Entities;
+using Core.Features.Tracking.Entities;
 using Npgsql;
 
 public abstract class DbValidationEntryCommandBase<TRequest>

@@ -1,0 +1,32 @@
+using Application.SharedMappers;
+using Application.SharedQueries;
+using Core.Features.Tracking.Entities;
+
+namespace Application.Features.Tracking.Handlers.GetSickLeaveEntry;
+
+public class GetSickLeaveEntryHandler
+{
+    private readonly IGetEntryByIdQuery _getEntryByIdQuery;
+
+    public GetSickLeaveEntryHandler(
+        IGetEntryByIdQuery getEntryByIdQuery
+    )
+    {
+        _getEntryByIdQuery = getEntryByIdQuery;
+    }
+
+    public async Task<GetSickLeaveEntryResponse> HandleAsync(long sickLeaveEntryId)
+    {
+        var sickLeaveEntry = await _getEntryByIdQuery.GetAsync<SickLeaveEntry>(sickLeaveEntryId);
+
+        return new GetSickLeaveEntryResponse
+        {
+            Id = sickLeaveEntry.Id,
+            Period = PeriodMapper.MapToPeriodDto(
+                sickLeaveEntry.StartTime,
+                sickLeaveEntry.EndTime
+            ),
+            EntryType = sickLeaveEntry.Type,
+        };
+    }
+}

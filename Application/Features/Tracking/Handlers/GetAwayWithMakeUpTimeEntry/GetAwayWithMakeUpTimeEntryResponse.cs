@@ -1,0 +1,18 @@
+using Core.Features.Tracking.Entities;
+
+namespace Application.Features.Tracking.Handlers.GetAwayWithMakeUpTimeEntry;
+
+public class GetAwayWithMakeUpTimeEntryResponse
+{
+    public required long Id { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
+
+    public required EntryType Type { get; set; }
+
+    public required string Description { get; set; }
+
+    public required List<MakeUpTimeEntryDto> MakeUpTimeList { get; set; }
+}
