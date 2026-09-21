@@ -41,9 +41,10 @@ public class ReportingController : ControllerBase
     [HttpGet("metrics")]
     public Task<GetMetricsResponse> GetMetricsAsync(
         [Required][FromQuery] DateOnly startDate,
-        [Required][FromQuery] DateOnly endDate
+        [Required][FromQuery] DateOnly endDate,
+        [FromServices] GetMetricsHandler getMetricsHandler
     )
     {
-        throw new NotImplementedException();
+        return getMetricsHandler.HandleAsync(startDate, endDate);
     }
 }

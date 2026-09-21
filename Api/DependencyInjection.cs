@@ -6,6 +6,7 @@ using Application.ExternalDeps.EmployeesApi;
 using Application.Features.Internal.Handlers.GetAllProjects;
 using Application.Features.Internal.Handlers.GetEmployeesTrackedTaskHours;
 using Application.Features.Reporting.Handlers.GetAllEmployees;
+using Application.Features.Reporting.Handlers.GetMetrics;
 using Application.Features.Reporting.Handlers.GetPersonalReport;
 using Application.Features.Tracking.Handlers.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.Handlers.CreateSickLeaveEntry;
@@ -89,6 +90,7 @@ public static class DependencyInjection
         services.AddTransient<GetAllProjectsHandler>();
         services.AddTransient<GetAllEmployeesHandler>();
         services.AddTransient<GetPersonalReportHandler>();
+        services.AddTransient<GetMetricsHandler>();
         services.AddTransient<IGetEntryByIdQuery, GetEntryByIdQuery>();
         services.AddTransient<GetEmployeeTrackedEntriesQuery>();
     }

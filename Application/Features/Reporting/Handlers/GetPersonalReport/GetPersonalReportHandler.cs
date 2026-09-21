@@ -1,4 +1,5 @@
 using Application.ExternalDeps.AssignmentsApi;
+using Application.SharedQueries;
 using Core.Features.Reporting;
 using Core.Features.Tracking.Entities;
 
@@ -6,9 +7,9 @@ namespace Application.Features.Reporting.Handlers.GetPersonalReport;
 
 public class GetPersonalReportHandler
 {
-    private GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
+    private readonly GetEmployeeTrackedEntriesQuery _getEmployeeTrackedEntriesQuery;
 
-    private IAssignmentsApi _assignmentsApi;
+    private readonly IAssignmentsApi _assignmentsApi;
 
     public GetPersonalReportHandler(
         GetEmployeeTrackedEntriesQuery getEmployeeTrackedEntriesQuery,
