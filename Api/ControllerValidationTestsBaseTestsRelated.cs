@@ -44,8 +44,7 @@ public class ControllerValidationTestsBase : IClassFixture<WebApplicationFactory
 
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseInMemoryDatabase(
-                        databaseName: new Random().Next().ToString(),
-                        x => x.EnableNullChecks(false)
+                        databaseName: new Random().Next().ToString()
                     )
                 );
 
