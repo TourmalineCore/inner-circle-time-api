@@ -1,6 +1,5 @@
 using Application.SharedQueries;
-using Core;
-using Core.Entities;
+using Core.Features.Reporting;
 
 namespace Application.Features.Reporting.GetMetrics;
 
