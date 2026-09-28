@@ -1,3 +1,5 @@
+namespace Application.Features.Tracking.SharedDtos;
+
 public class MakeUpTimeEntryDto
 {
     public required long Id { get; set; }
