@@ -1,4 +1,5 @@
-﻿using Core.Features.Tracking.Entities;
+﻿using Application.Features.Tracking.SharedCommands;
+using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.CreateUnwellEntry;
 

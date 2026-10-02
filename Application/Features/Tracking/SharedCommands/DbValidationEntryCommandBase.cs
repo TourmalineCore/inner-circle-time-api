@@ -1,6 +1,8 @@
 using Core.Features.Tracking.Entities;
 using Npgsql;
 
+namespace Application.Features.Tracking.SharedCommands;
+
 public abstract class DbValidationEntryCommandBase<TRequest>
     where TRequest : class
 {
