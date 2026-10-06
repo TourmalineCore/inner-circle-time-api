@@ -50,8 +50,8 @@ public abstract class DbValidationEntryCommandBase<TRequest>
             (e as PostgresException)?.ConstraintName == CK_ENTRIES_TIME_NO_SECONDS
         )
         {
-            throw new ConflictingTimeRangeException(
-                "Another task is scheduled for this time",
+            throw new TimeNoSecondsException(
+                "Time should not have seconds",
                 e
             );
         }
