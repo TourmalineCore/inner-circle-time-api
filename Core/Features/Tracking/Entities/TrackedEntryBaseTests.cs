@@ -54,7 +54,7 @@ public class TrackedEntryBaseTests
     }
 
     [Fact]
-    public void StartTimeAndEndTimeSetters_ShouldTrimSecondsToZero()
+    public void StartTimeAndEndTimeSetters_ShouldResetSecondsToZero()
     {
         var entry = new TrackedEntryBase
         {
