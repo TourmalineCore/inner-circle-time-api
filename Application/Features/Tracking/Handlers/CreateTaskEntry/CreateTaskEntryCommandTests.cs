@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Core;
 using Xunit;
 
@@ -36,5 +37,59 @@ public class CreateTaskEntryCommandTests : IntegrationTestBase
 
         Assert.Contains("ck_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
         Assert.Equal("End time must be greater than start time", exception.Message);
+    }
+
+    [Fact]
+    public async Task CreateTaskEntryAsync_ShouldThrowTimeNoSecondsExceptionIfStartTimeHasSeconds()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
+        var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
+
+        var сreateTaskEntryRequest = new CreateTaskEntryRequest
+        {
+            Title = "Task",
+            StartTime = new DateTime(2025, 10, 06, 10, 0, 10),
+            EndTime = new DateTime(2025, 10, 06, 11, 0, 0),
+            TaskId = "#22",
+            ProjectId = 2,
+            Description = "Description",
+        };
+
+        var exception = await Assert.ThrowsAsync<TimeNoSecondsException>(
+            async () => await createTaskEntryCommand.ExecuteAsync(сreateTaskEntryRequest)
+        );
+
+        Assert.Contains("ck_entries_time_no_seconds", exception.InnerException!.InnerException!.Message);
+        Assert.Equal("Time should not have seconds", exception.Message);
+    }
+
+    [Fact]
+    public async Task CreateTaskEntryAsync_ShouldThrowTimeNoSecondsExceptionIfEndTimeHasSeconds()
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
+        var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
+
+        var сreateTaskEntryRequest = new CreateTaskEntryRequest
+        {
+            Title = "Task",
+            StartTime = new DateTime(2025, 10, 07, 10, 0, 0),
+            EndTime = new DateTime(2025, 10, 07, 11, 0, 30),
+            TaskId = "#2",
+            ProjectId = 2,
+            Description = "Description",
+        };
+
+        var exception = await Assert.ThrowsAsync<TimeNoSecondsException>(
+            async () => await createTaskEntryCommand.ExecuteAsync(сreateTaskEntryRequest)
+        );
+
+        Assert.Contains("ck_entries_time_no_seconds", exception.InnerException!.InnerException!.Message);
+        Assert.Equal("Time should not have seconds", exception.Message);
     }
 }
