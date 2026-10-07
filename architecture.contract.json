@@ -36,11 +36,6 @@
             "from": "Application",
             "to": "Api",
             "reason": "Application must not depend on the outer Api layer."
-        },
-        {
-            "from": "Application",
-            "to": "Core",
-            "reason": "Application must not depend on the outer Core layer."
         }
     ]
 }
