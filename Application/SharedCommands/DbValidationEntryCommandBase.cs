@@ -51,7 +51,7 @@ public abstract class DbValidationEntryCommandBase<TRequest>
         )
         {
             throw new TimeNoSecondsException(
-                "Time should not have seconds",
+                "An unexpected error has occurred with the time format, try to tracked the record in the system",
                 e
             );
         }
