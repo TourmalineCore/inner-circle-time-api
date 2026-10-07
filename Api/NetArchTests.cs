@@ -1,9 +1,11 @@
 using System.Reflection;
+using Core;
 using NetArchTest.Rules;
 using Xunit;
 
 namespace Api;
 
+[UnitTest]
 public class NetArchTests
 {
     [Theory]
@@ -46,7 +48,7 @@ public class NetArchTests
 
             if (method == null)
             {
-                violations.Add(type.FullName);
+                violations.Add(type.FullName!);
             }
         }
 
