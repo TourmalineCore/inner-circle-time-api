@@ -79,6 +79,6 @@ public class CreateTaskEntryCommandTests : IntegrationTestBase
         );
 
         Assert.Contains("ck_entries_time_no_seconds", exception.InnerException!.InnerException!.Message);
-        Assert.Equal("An unexpected error has occurred with the time format, try to tracked the record in the system", exception.Message);
+        Assert.Equal("An unexpected error has occurred with the time format, try to add the record in the system again", exception.Message);
     }
 }

@@ -51,7 +51,7 @@ public abstract class DbValidationEntryCommandBase<TRequest>
         )
         {
             throw new TimeNoSecondsException(
-                "An unexpected error has occurred with the time format, try to tracked the record in the system",
+                "An unexpected error has occurred with the time format, try to add the record in the system again",
                 e
             );
         }
