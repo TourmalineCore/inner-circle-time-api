@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using System.Text.Encodings.Web;
-using Api;
 using Application;
+using Application.TestsConfig;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Options;
 using Xunit;
+
+namespace Api;
 
 public class ControllerValidationTestsBase : IClassFixture<WebApplicationFactory<Program>>, IAsyncLifetime
 {

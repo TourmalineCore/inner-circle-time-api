@@ -1,3 +1,4 @@
+using Application.SharedDtos;
 using Application.SharedQueries;
 using Core.Features.Tracking.Entities;
 

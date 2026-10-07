@@ -1,3 +1,5 @@
+using Application.SharedDtos;
+
 namespace Application.Features.Reporting.Handlers.GetAllEmployees;
 
 public class GetAllEmployeesResponse

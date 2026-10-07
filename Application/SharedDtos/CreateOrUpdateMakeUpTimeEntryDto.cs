@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
+namespace Application.SharedDtos;
+
 public class CreateOrUpdateMakeUpTimeEntryDto
 {
     [Required]

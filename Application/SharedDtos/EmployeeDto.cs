@@ -1,3 +1,5 @@
+namespace Application.SharedDtos;
+
 public class EmployeeDto
 {
     public required long Id { get; set; }

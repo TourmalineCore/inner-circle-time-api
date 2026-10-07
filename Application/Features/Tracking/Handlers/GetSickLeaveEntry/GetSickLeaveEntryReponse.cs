@@ -1,3 +1,4 @@
+using Application.SharedDtos;
 using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.GetSickLeaveEntry;

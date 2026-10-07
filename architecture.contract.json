@@ -1,0 +1,46 @@
+{
+    "schemaVersion": 5,
+    "unclassifiedCode": "error",
+    "layers": [
+        {
+            "name": "Api",
+            "namespaceRoots": [
+                "Api"
+            ]
+        },
+        {
+            "name": "Application",
+            "namespaceRoots": [
+                "Application"
+            ]
+        },
+        {
+            "name": "Core",
+            "namespaceRoots": [
+                "Core"
+            ]
+        }
+    ],
+    "forbiddenDependencies": [
+        {
+            "from": "Core",
+            "to": "Application",
+            "reason": "Core must not depend on the outer Application layer."
+        },
+        {
+            "from": "Core",
+            "to": "Api",
+            "reason": "Core must not depend on the outer Api layer."
+        },
+        {
+            "from": "Application",
+            "to": "Api",
+            "reason": "Application must not depend on the outer Api layer."
+        },
+        {
+            "from": "Application",
+            "to": "Core",
+            "reason": "Application must not depend on the outer Core layer."
+        }
+    ]
+}
