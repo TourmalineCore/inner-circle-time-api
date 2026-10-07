@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Validators;
 
 namespace Application.Features.Tracking.Handlers.CreateAwayWithMakeUpTimeEntry;
