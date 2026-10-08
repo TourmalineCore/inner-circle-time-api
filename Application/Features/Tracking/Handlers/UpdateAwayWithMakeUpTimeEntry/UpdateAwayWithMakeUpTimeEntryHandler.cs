@@ -1,4 +1,4 @@
-using Application.Validators;
+using Application.Features.Tracking.Validators;
 
 namespace Application.Features.Tracking.Handlers.UpdateAwayWithMakeUpTimeEntry;
 

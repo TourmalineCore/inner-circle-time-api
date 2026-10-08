@@ -1,4 +1,5 @@
 using Application.ExternalDeps.AssignmentsApi;
+using Application.Features.Reporting.Queries;
 using Application.SharedQueries;
 using Core.Features.Reporting;
 using Core.Features.Tracking.Entities;
