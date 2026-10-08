@@ -80,7 +80,8 @@ public class ArchNetTests
         }
 
         Assert.True(violations.Count == 0,
-            $"These handlers do not have a HandleAsync method: {string.Join(", ", violations)}");
+            $"These handlers do not have a HandleAsync method: {string.Join(", ", violations)}"
+        );
     }
 
     [Fact]
@@ -116,14 +117,17 @@ public class ArchNetTests
                         call.Name == ".cctor";
 
                     if (isSystemCall)
+                    {
                         continue;
+                    }
 
                     if (!isHandler)
                     {
                         violations.Add(
                             $"  — {controller.Name}.{method.Name}() " +
                             $"calls {declaringType}::{call.Name}() " +
-                            $"— controllers may only call HandleAsync() methods");
+                            $"— controllers may only call HandleAsync() methods"
+                        );
                     }
                 }
             }
@@ -132,7 +136,8 @@ public class ArchNetTests
         Assert.True(violations.Count == 0,
             $"Controllers must only call HandleAsync() methods from the Application layer. {Environment.NewLine}" +
             $"Found {violations.Count} forbidden call(s):{Environment.NewLine}" +
-            $"{string.Join(Environment.NewLine, violations)}");
+            $"{string.Join(Environment.NewLine, violations)}"
+        );
     }
 
     private static IObjectProvider<IType> GetLayerByName(string name)
