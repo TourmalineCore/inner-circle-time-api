@@ -1,6 +1,7 @@
 using System.Reflection;
 using Application;
 using ArchUnitNET.Domain;
+using ArchUnitNET.Domain.Extensions;
 using ArchUnitNET.Fluent;
 using ArchUnitNET.Loader;
 using ArchUnitNET.xUnit;
@@ -28,12 +29,12 @@ public class ArchNetTests
 
     private static readonly IObjectProvider<IType> ApplicationLayer = Types()
         .That()
-        .ResideInNamespace("Application")
+        .ResideInAssembly(typeof(ApplicationAssemblyMarker).Assembly)
         .As("Application Layer");
 
     private static readonly IObjectProvider<IType> ApiLayer = Types()
         .That()
-        .ResideInNamespace("Api")
+        .ResideInAssembly(typeof(ApplicationAssemblyMarker).Assembly)
         .As("Api Layer");
 
     [Theory]
@@ -80,6 +81,58 @@ public class ArchNetTests
 
         Assert.True(violations.Count == 0,
             $"These handlers do not have a HandleAsync method: {string.Join(", ", violations)}");
+    }
+
+    [Fact]
+    public void Controllers_ShouldOnlyCallHandlerMethods()
+    {
+        var controllers = Classes()
+            .That()
+            .ResideInAssembly(typeof(ApiAssemblyMarker).Assembly)
+            .And()
+            .HaveNameEndingWith("Controller")
+            .GetObjects(Architecture);
+
+        var violations = new List<string>();
+
+        foreach (var controller in controllers)
+        {
+            foreach (var method in controller.GetMethodMembers())
+            {
+                foreach (var call in method.GetCalledMethods())
+                {
+                    var isHandler = call.Name.StartsWith(
+                        "HandleAsync",
+                        StringComparison.OrdinalIgnoreCase);
+
+                    // Skip system and framework calls
+                    var declaringType = call.DeclaringType?.FullName ?? string.Empty;
+
+                    var isSystemCall =
+                        declaringType.StartsWith("Microsoft.") ||
+                        declaringType.StartsWith("System.") ||
+                        declaringType.StartsWith("Api.") ||
+                        call.Name == ".ctor" ||
+                        call.Name == ".cctor";
+
+                    if (isSystemCall)
+                        continue;
+
+                    if (!isHandler)
+                    {
+                        violations.Add(
+                            $"  — {controller.Name}.{method.Name}() " +
+                            $"calls {declaringType}::{call.Name}() " +
+                            $"— controllers may only call HandleAsync() methods");
+                    }
+                }
+            }
+        }
+
+        Assert.True(violations.Count == 0,
+            $"Controllers must only call HandleAsync() methods from the Application layer. {Environment.NewLine}" +
+            $"Found {violations.Count} forbidden call(s):{Environment.NewLine}" +
+            $"{string.Join(Environment.NewLine, violations)}");
     }
 
     private static IObjectProvider<IType> GetLayerByName(string name)
