@@ -33,7 +33,7 @@ public class NetArchTests
     [Fact]
     public void AllHandlers_ShouldHaveHandleAsyncMethod()
     {
-        var handlerTypes = Types
+        var handlers = Types
             .InAssembly(Assembly.Load("Application"))
             .That()
             .HaveNameEndingWith("Handler")
@@ -41,18 +41,20 @@ public class NetArchTests
 
         var violations = new List<string>();
 
-        foreach (var type in handlerTypes)
+        foreach (var handler in handlers)
         {
-            var method = type.GetMethod("HandleAsync",
-                BindingFlags.Public | BindingFlags.Instance);
+            var method = handler.GetMethod("HandleAsync",
+                BindingFlags.Public | BindingFlags.Instance
+            );
 
             if (method == null)
             {
-                violations.Add(type.FullName!);
+                violations.Add(handler.FullName!);
             }
         }
 
         Assert.True(violations.Count == 0,
-            $"These handlers do not have a HandleAsync method: {string.Join(", ", violations)}");
+            $"These handlers do not have a HandleAsync method: {string.Join(", ", violations)}"
+        );
     }
 }
