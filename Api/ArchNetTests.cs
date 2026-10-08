@@ -45,36 +45,36 @@ public class ArchNetTests
         var fromLayer = GetLayerByName(from);
         var toLayer = GetLayerByName(to);
 
-        IArchRule exampleLayerShouldNotAccessForbiddenLayer = Types()
+        IArchRule rules = Types()
             .That()
             .Are(fromLayer)
             .Should()
             .NotDependOnAny(toLayer);
 
-        exampleLayerShouldNotAccessForbiddenLayer.Check(Architecture);
+        rules.Check(Architecture);
     }
 
     [Fact]
     public void AllHandlers_ShouldHaveHandleAsyncMethod()
     {
-        var handlerTypes = Types()
+        var handlers = Types()
             .That()
-            .ResideInAssembly(typeof(ApplicationAssemlyMarker).Assembly)
+            .ResideInAssembly(typeof(ApplicationAssemblyMarker).Assembly)
             .And()
             .HaveNameEndingWith("Handler")
             .GetObjects(Architecture);
 
         var violations = new List<string>();
 
-        foreach (var type in handlerTypes)
+        foreach (var handler in handlers)
         {
-            var hasMethod = type.Members
+            var hasMethod = handler.Members
                 .OfType<MethodMember>()
                 .Any(x => x.Name.StartsWith("HandleAsync", StringComparison.OrdinalIgnoreCase));
 
             if (!hasMethod)
             {
-                violations.Add(type.FullName);
+                violations.Add(handler.FullName);
             }
         }
 
