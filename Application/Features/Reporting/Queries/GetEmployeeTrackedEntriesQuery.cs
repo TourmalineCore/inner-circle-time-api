@@ -2,7 +2,7 @@
 using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Reporting.SharedQueries;
+namespace Application.Features.Reporting.Queries;
 
 public class GetEmployeeTrackedEntriesQuery
 {

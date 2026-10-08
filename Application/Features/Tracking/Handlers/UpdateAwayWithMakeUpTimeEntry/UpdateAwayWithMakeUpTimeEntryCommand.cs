@@ -1,4 +1,4 @@
-﻿using Application.Features.Tracking.SharedCommands;
+﻿using Application.Features.Tracking.Commands;
 using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-using Application.Features.Reporting.SharedQueries;
+using Application.Features.Reporting.Queries;
 using Core.Features.Reporting;
 
 namespace Application.Features.Reporting.Handlers.GetMetrics;

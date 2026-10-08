@@ -1,4 +1,4 @@
-using Application.Features.Tracking.SharedDtos;
+using Application.Features.Tracking.Dtos;
 using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.GetAwayWithMakeUpTimeEntry;

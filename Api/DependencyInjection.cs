@@ -8,7 +8,7 @@ using Application.Features.Internal.Handlers.GetEmployeesTrackedTaskHours;
 using Application.Features.Reporting.Handlers.GetAllEmployees;
 using Application.Features.Reporting.Handlers.GetMetrics;
 using Application.Features.Reporting.Handlers.GetPersonalReport;
-using Application.Features.Reporting.SharedQueries;
+using Application.Features.Reporting.Queries;
 using Application.Features.Tracking.Handlers.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.Handlers.CreateSickLeaveEntry;
 using Application.Features.Tracking.Handlers.CreateTaskEntry;
