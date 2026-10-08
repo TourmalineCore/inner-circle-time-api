@@ -46,13 +46,13 @@ public class ArchNetTests
         var fromLayer = GetLayerByName(from);
         var toLayer = GetLayerByName(to);
 
-        IArchRule rules = Types()
+        IArchRule rule = Types()
             .That()
             .Are(fromLayer)
             .Should()
             .NotDependOnAny(toLayer);
 
-        rules.Check(Architecture);
+        rule.Check(Architecture);
     }
 
     [Fact]
