@@ -14,6 +14,8 @@ For instance, Visual Studio for Mac support stops at .NET 8, thus, we needed som
 
 Full info about Inner Circle .NET related code conventions, patterns, decisions, and reasoning can be found [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/code-style/api-code-style.md).
 
+Details on available run configurations (e.g., `DbOnly`, `MockForDevelopment` or `MockForPullRequest`) can be found [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/code-style/api-configurations.md).
+
 More info about the Inner Circle project and its related repos can be found here: [inner-circle-documentation](https://github.com/TourmalineCore/inner-circle-documentation).
 
 ## Prerequisites
@@ -87,7 +89,7 @@ dotnet ef database update --startup-project ./Api/Api.csproj --project ./Applica
 | :------------------------- | :-----------------------------: | :--------: | :-------------------: | :-------------------: | :-------------------------: | :-------------------------: |
 | inner-circle-time-api      |               4507              |    5507    |          6507         |          7507         |             8507            |             9507            |
 
-Full docs about the allocated ports, reasoning, and the other services bindings in this infrastructre setup are available [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/code-style/api-code-style.md#ports).
+Full docs about the allocated ports, reasoning, and the other services bindings in this infrastructre setup are available [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/code-style/ports.md).
 
 You can go to `Ports` tab in the `Terminal` parent panel to find available services.
 
