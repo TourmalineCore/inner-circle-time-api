@@ -67,7 +67,7 @@ java -jar /karate.jar .
 
 ### Migrations
 
-Full docs and useful snippets about migrations in this infrastructre setup are available [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/code-style/api-code-style.md#migrations).
+Full docs and useful snippets about migrations in this infrastructre setup are available [here](https://github.com/TourmalineCore/inner-circle-documentation/blob/master/code-style/api-migrations.md).
 
 #### Add Migration
 
