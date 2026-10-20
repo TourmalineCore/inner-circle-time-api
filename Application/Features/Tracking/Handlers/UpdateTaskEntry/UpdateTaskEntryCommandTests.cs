@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Core;
 using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;

@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Core;
 using Xunit;
 
@@ -36,5 +37,48 @@ public class CreateTaskEntryCommandTests : IntegrationTestBase
 
         Assert.Contains("ck_entries_end_time_is_greater_than_start_time", exception.InnerException!.InnerException!.Message);
         Assert.Equal("End time must be greater than start time", exception.Message);
+    }
+
+    public static TheoryData<DateTime, DateTime> TimeWithSecondsCases => new()
+    {
+        {
+            new DateTime(2025, 10, 06, 10, 0, 10), // startTime
+            new DateTime(2025, 10, 06, 11, 0, 0) // endTime
+        },
+        {
+            new DateTime(2025, 10, 06, 10, 0, 0),
+            new DateTime(2025, 10, 06, 11, 0, 30)
+        },
+    };
+
+    [Theory]
+    [MemberData(nameof(TimeWithSecondsCases))]
+    public async Task CreateTaskEntryAsync_ShouldThrowTimeNoSecondsExceptionIfTimeHasSeconds(
+        DateTime startTime,
+        DateTime endTime
+    )
+    {
+        var context = CreateTenantDbContext();
+
+        var mockClaimsProvider = MockClaimsProviderFactory.CreateMock(EMPLOYEE_ID, TENANT_ID);
+
+        var createTaskEntryCommand = new CreateTaskEntryCommand(context, mockClaimsProvider);
+
+        var createTaskEntryRequest = new CreateTaskEntryRequest
+        {
+            Title = "Task",
+            StartTime = startTime,
+            EndTime = endTime,
+            TaskId = "#22",
+            ProjectId = 2,
+            Description = "Description",
+        };
+
+        var exception = await Assert.ThrowsAsync<TimeNoSecondsException>(
+            async () => await createTaskEntryCommand.ExecuteAsync(createTaskEntryRequest)
+        );
+
+        Assert.Contains("ck_entries_time_no_seconds", exception.InnerException!.InnerException!.Message);
+        Assert.Equal("An unexpected error has occurred with the time format, try to add the record in the system again", exception.Message);
     }
 }

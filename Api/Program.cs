@@ -1,4 +1,5 @@
 using Application;
+using Application.Exceptions;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,16 @@ public class Program
                 return new ProblemDetails
                 {
                     Title = "Time does not match",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
+
+            options.Map<TimeNoSecondsException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Time should not have seconds",
                     Status = StatusCodes.Status400BadRequest,
                     Detail = ex.Message,
                 };

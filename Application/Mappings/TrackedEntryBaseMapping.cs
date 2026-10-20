@@ -26,6 +26,13 @@ public class TrackedEntryBaseMapping : IEntityTypeConfiguration<TrackedEntryBase
         builder
             .ToTable(x => x.HasCheckConstraint(
                 "ck_entries_end_time_is_greater_than_start_time",
-                "\"end_time\" > \"start_time\""));
+                "\"end_time\" > \"start_time\""
+            ));
+
+        builder
+            .ToTable(x => x.HasCheckConstraint(
+                "ck_entries_time_no_seconds",
+                "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\""
+            ));
     }
 }

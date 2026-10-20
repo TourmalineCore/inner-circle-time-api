@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Core.Features.Tracking.Entities;
 using Npgsql;
 
@@ -5,6 +6,7 @@ public abstract class DbValidationEntryCommandBase<TRequest>
     where TRequest : class
 {
     private const string CK_ENTRIES_END_TIME_IS_GREATER_THAN_START_TIME = "ck_entries_end_time_is_greater_than_start_time";
+    private const string CK_ENTRIES_TIME_NO_SECONDS = "ck_entries_time_no_seconds";
     private IReadOnlyList<string> _overlapConstraints { get; } = new List<string>
     {
         // Task can overlap with Make-up time, Sick leave and Vacation, but it cannot overlap with all others
@@ -40,6 +42,16 @@ public abstract class DbValidationEntryCommandBase<TRequest>
         {
             throw new ConflictingTimeRangeException(
                 "Another task is scheduled for this time",
+                e
+            );
+        }
+        catch (Exception e) when (
+            (e.InnerException as PostgresException)?.ConstraintName == CK_ENTRIES_TIME_NO_SECONDS ||
+            (e as PostgresException)?.ConstraintName == CK_ENTRIES_TIME_NO_SECONDS
+        )
+        {
+            throw new TimeNoSecondsException(
+                "An unexpected error has occurred with the time format, try to add the record in the system again",
                 e
             );
         }

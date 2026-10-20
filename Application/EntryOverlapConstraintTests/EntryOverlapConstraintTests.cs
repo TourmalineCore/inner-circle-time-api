@@ -1,4 +1,5 @@
 using Application.EntryOverlapConstraintTests.EntryFactories;
+using Application.Exceptions;
 using Core;
 using Core.Features.Tracking.Entities;
 using Xunit;
