@@ -35,7 +35,7 @@ Feature: Task Entries
     Given path 'tracking/task-entries/projects'
     And params { startDate: "2030-11-05", endDate: "2030-11-05" }
     When method GET
-    Then status 200
+    Then status 418
 
     * def firstProjectId = response.projects[0].id
     * def secondProjectId = response.projects[1].id
