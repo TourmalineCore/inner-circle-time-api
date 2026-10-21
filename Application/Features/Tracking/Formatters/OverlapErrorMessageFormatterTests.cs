@@ -92,7 +92,7 @@ public class OverlapErrorMessageFormatterTest
 
         foreach (EntryType entryType in entryTypesWithoutUnspecified)
         {
-            var entry = new TaskEntry
+            var entry = new TrackedEntryBase
             {
                 Type = entryType,
                 StartTime = new DateTime(2026, 10, 21, 9, 0, 0),
