@@ -89,8 +89,6 @@ jobs:
       with:
         cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         runCmd: |
-          # stop on the first failed command, otherwise failed e2e tests are hidden by the successful coverage shutdown below
-          # and the pipeline passes with incorrect coverage
           set -e
 
           java -jar /karate.jar .
