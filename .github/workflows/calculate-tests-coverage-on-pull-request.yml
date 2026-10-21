@@ -30,6 +30,10 @@ jobs:
         imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         runCmd: |
+          # stop on the first failed command, otherwise the step result depends only on the last command
+          # and coverage will be calculated even if the build or the tests failed
+          set -e
+
           # first we build in Debug, then we re-use dlls using --no-build flag here and later
           dotnet build
 
@@ -49,6 +53,8 @@ jobs:
         imageName: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         runCmd: |
+          set -e
+
           # first we build in Debug, then we re-use dlls using --no-build flag here and later
           dotnet build
 
@@ -83,6 +89,10 @@ jobs:
       with:
         cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         runCmd: |
+          # stop on the first failed command, otherwise failed e2e tests are hidden by the successful coverage shutdown below
+          # and the pipeline passes with incorrect coverage
+          set -e
+
           java -jar /karate.jar .
 
           dotnet-coverage shutdown calculate-e2e-coverage-session
