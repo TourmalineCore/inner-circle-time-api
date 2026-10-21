@@ -73,6 +73,8 @@ jobs:
       with:
         cacheFrom: ghcr.io/${{ env.DEV_CONTAINER_IMAGE }}
         runCmd: |
+          set -e
+
           # we need to run our Api and proceed to the next step
           # that is why we forward its output and start it in background with & at the end
           dotnet-coverage collect \
