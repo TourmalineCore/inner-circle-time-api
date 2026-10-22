@@ -5,19 +5,6 @@ using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-public class EntryDurationToCheck
-{
-    public required long EmployeeId { get; set; }
-
-    public required DateTime StartTime { get; set; }
-
-    public required DateTime EndTime { get; set; }
-
-    public required EntryType EntryType { get; set; }
-
-    public IReadOnlyList<long> ExcludeEntryIds { get; set; } = [];
-}
-
 public abstract class DbValidationEntryCommandBase<TRequest>
     where TRequest : class
 {

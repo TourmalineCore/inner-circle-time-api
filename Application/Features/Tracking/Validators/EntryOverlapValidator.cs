@@ -4,6 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Tracking.Validators;
 
+public class EntryDurationToCheck
+{
+    public required long EmployeeId { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
+
+    public required EntryType EntryType { get; set; }
+
+    public IReadOnlyList<long> ExcludeEntryIds { get; set; } = [];
+}
+
 public class EntryOverlapValidator
 {
     private readonly TenantAppDbContext _context;
