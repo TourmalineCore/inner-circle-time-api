@@ -22,7 +22,7 @@ public abstract class DbValidationEntryCommandBase<TRequest>
 
     private readonly EntryOverlapValidator _entryOverlapValidator;
 
-    protected DbValidationEntryCommandBase(
+    public DbValidationEntryCommandBase(
         TenantAppDbContext context
     )
     {
