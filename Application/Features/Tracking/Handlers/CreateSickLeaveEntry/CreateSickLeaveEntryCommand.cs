@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Features.Tracking;
 using Core.Features.Tracking.Entities;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Features.Tracking.Handlers.CreateSickLeaveEntry;
 
@@ -13,6 +14,7 @@ public class CreateSickLeaveEntryCommand : DbValidationEntryCommandBase<CreateSi
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -46,5 +48,25 @@ public class CreateSickLeaveEntryCommand : DbValidationEntryCommandBase<CreateSi
         await _context.SaveChangesAsync();
 
         return sickLeaveEntry.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(CreateSickLeaveEntryRequest createSickLeaveEntryRequest)
+    {
+        var duration = PeriodToDurationConverter.ConvertToDuration(new Period
+        {
+            StartDate = createSickLeaveEntryRequest.Period.StartDate,
+            EndDate = createSickLeaveEntryRequest.Period.EndDate,
+        });
+
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = duration.StartTime,
+                EndTime = duration.EndTime,
+                EntryType = EntryType.SickLeave
+            }
+        };
     }
 }

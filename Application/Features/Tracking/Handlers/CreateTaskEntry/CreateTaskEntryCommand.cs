@@ -11,6 +11,7 @@ public class CreateTaskEntryCommand : DbValidationEntryCommandBase<CreateTaskEnt
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -42,5 +43,19 @@ public class CreateTaskEntryCommand : DbValidationEntryCommandBase<CreateTaskEnt
         await _context.SaveChangesAsync();
 
         return taskEntry.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(CreateTaskEntryRequest createTaskEntryRequest)
+    {
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = createTaskEntryRequest.StartTime,
+                EndTime = createTaskEntryRequest.EndTime,
+                EntryType = EntryType.Task
+            }
+        };
     }
 }

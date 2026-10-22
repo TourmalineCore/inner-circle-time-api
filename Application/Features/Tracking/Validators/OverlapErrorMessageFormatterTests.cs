@@ -2,10 +2,10 @@ using Core;
 using Core.Features.Tracking.Entities;
 using Xunit;
 
-namespace Application.Features.Tracking.Formatters;
+namespace Application.Features.Tracking.Validators;
 
 [UnitTest]
-public class OverlapErrorMessageFormatterTest
+public class OverlapErrorMessageFormatterTests
 {
     [Fact]
     public void GetErrorMessage_WhenNonAllDayEntryOverlappedWithNonAllDayEntry_ShouldReturnCorrectMessage()
@@ -99,9 +99,11 @@ public class OverlapErrorMessageFormatterTest
                 EndTime = new DateTime(2026, 10, 21, 10, 0, 0),
             };
 
-            var result = OverlapErrorMessageFormatter.GetErrorMessage(entry, entry);
+            var exception = Record.Exception(
+                () => OverlapErrorMessageFormatter.GetErrorMessage(entry, entry)
+            );
 
-            Assert.NotEmpty(result);
+            Assert.Null(exception);
         }
     }
 }

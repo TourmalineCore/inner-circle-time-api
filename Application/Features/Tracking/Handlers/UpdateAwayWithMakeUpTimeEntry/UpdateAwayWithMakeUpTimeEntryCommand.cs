@@ -12,6 +12,7 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -84,5 +85,44 @@ public class UpdateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
         await _context.SaveChangesAsync();
 
         return updateAwayWithMakeUpTimeEntryRequest.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(UpdateAwayWithMakeUpTimeEntryRequest updateAwayWithMakeUpTimeEntryRequest)
+    {
+        var makeUpEntryIds = await _context
+            .QueryableWithinTenant<MakeUpTimeEntry>()
+            .Where(x => x.RelatedEntryId == updateAwayWithMakeUpTimeEntryRequest.Id)
+            .Select(x => x.Id)
+            .ToListAsync();
+
+        var excludeEntryIds = makeUpEntryIds
+            .Append(updateAwayWithMakeUpTimeEntryRequest.Id)
+            .ToList();
+
+        var entryDurationsToCheck = new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = updateAwayWithMakeUpTimeEntryRequest.StartTime,
+                EndTime = updateAwayWithMakeUpTimeEntryRequest.EndTime,
+                EntryType = EntryType.AwayWithMakeUpTime,
+                ExcludeEntryIds = excludeEntryIds
+            }
+        };
+
+        foreach (var makeUpTime in updateAwayWithMakeUpTimeEntryRequest.MakeUpTimeList)
+        {
+            entryDurationsToCheck.Add(new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = makeUpTime.StartTime,
+                EndTime = makeUpTime.EndTime,
+                EntryType = EntryType.MakeUpTime,
+                ExcludeEntryIds = excludeEntryIds
+            });
+        }
+
+        return entryDurationsToCheck;
     }
 }

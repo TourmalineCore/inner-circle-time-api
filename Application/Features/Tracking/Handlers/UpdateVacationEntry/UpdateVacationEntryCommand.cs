@@ -2,6 +2,7 @@
 using Core.Features.Tracking;
 using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Features.Tracking.Handlers.UpdateVacationEntry;
 
@@ -14,6 +15,7 @@ public class UpdateVacationEntryCommand : DbValidationEntryCommandBase<UpdateVac
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -43,5 +45,26 @@ public class UpdateVacationEntryCommand : DbValidationEntryCommandBase<UpdateVac
             );
 
         return updateVacationEntryRequest.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(UpdateVacationEntryRequest updateVacationEntryRequest)
+    {
+        var duration = PeriodToDurationConverter.ConvertToDuration(new Period
+        {
+            StartDate = updateVacationEntryRequest.Period.StartDate,
+            EndDate = updateVacationEntryRequest.Period.EndDate,
+        });
+
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = duration.StartTime,
+                EndTime = duration.EndTime,
+                EntryType = EntryType.Vacation,
+                ExcludeEntryIds = [updateVacationEntryRequest.Id],
+            }
+        };
     }
 }

@@ -62,7 +62,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
                 async () => await createCommand(context, _mockClaimsProvider)
             );
 
-            Assert.Equal("Another task is scheduled for this time", exception.Message);
+            Assert.Contains("Adjust the time or edit the existing entry.", exception.Message);
         }
         else
         {
@@ -116,7 +116,7 @@ public class EntryOverlapConstraintTests : IntegrationTestBase
                 async () => await updateCommand(context, _mockClaimsProvider, entryIdToUpdate)
             );
 
-            Assert.Equal("Another task is scheduled for this time", exception.Message);
+            Assert.Contains("Adjust the time or edit the existing entry.", exception.Message);
         }
         else
         {

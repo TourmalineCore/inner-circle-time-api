@@ -1,6 +1,22 @@
+using Application;
 using Application.Exceptions;
+using Application.Features.Tracking.Validators;
 using Core.Features.Tracking.Entities;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
+
+public class EntryDurationToCheck
+{
+    public required long EmployeeId { get; set; }
+
+    public required DateTime StartTime { get; set; }
+
+    public required DateTime EndTime { get; set; }
+
+    public required EntryType EntryType { get; set; }
+
+    public IReadOnlyList<long> ExcludeEntryIds { get; set; } = [];
+}
 
 public abstract class DbValidationEntryCommandBase<TRequest>
     where TRequest : class
@@ -16,6 +32,15 @@ public abstract class DbValidationEntryCommandBase<TRequest>
         // Unwell, Away with make-up time, Sick leave, Vacation cannot overlap
         $"ck_entries_{(int)EntryType.Unwell}_{(int)EntryType.AwayWithMakeUpTime}_{(int)EntryType.SickLeave}_{(int)EntryType.Vacation}_no_time_overlap"
     };
+
+    private readonly EntryOverlapValidator _entryOverlapValidator;
+
+    protected DbValidationEntryCommandBase(
+        TenantAppDbContext context
+    )
+    {
+        _entryOverlapValidator = new EntryOverlapValidator(context);
+    }
 
     public async Task<long> MakeChangesInDbAsync(TRequest request)
     {
@@ -40,8 +65,12 @@ public abstract class DbValidationEntryCommandBase<TRequest>
             _overlapConstraints.Contains((e as PostgresException)?.ConstraintName)
         )
         {
+            var durationsToCheck = await GetEntryDurationsToCheckAsync(request);
+
+            await _entryOverlapValidator.ValidateOverlapsAsync(durationsToCheck);
+
             throw new ConflictingTimeRangeException(
-                "Another task is scheduled for this time",
+                "Another entry is already tracked for this time. Adjust the time or edit the existing entry.",
                 e
             );
         }
@@ -58,4 +87,6 @@ public abstract class DbValidationEntryCommandBase<TRequest>
     }
 
     protected abstract Task<long> MakeChangesToEntryAsync(TRequest request);
+
+    protected abstract Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(TRequest request);
 }

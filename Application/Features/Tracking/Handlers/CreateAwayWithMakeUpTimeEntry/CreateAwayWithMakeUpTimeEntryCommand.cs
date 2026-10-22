@@ -11,6 +11,7 @@ public class CreateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -50,5 +51,34 @@ public class CreateAwayWithMakeUpTimeEntryCommand : DbValidationEntryCommandBase
         await _context.SaveChangesAsync();
 
         return awayWithMakeUpTimeEntry.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(CreateAwayWithMakeUpTimeEntryRequest createAwayWithMakeUpTimeEntryRequest)
+    {
+        var contexts = new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = createAwayWithMakeUpTimeEntryRequest.StartTime,
+                EndTime = createAwayWithMakeUpTimeEntryRequest.EndTime,
+                EntryType = EntryType.AwayWithMakeUpTime
+            }
+        };
+
+        foreach (var makeUpTime in createAwayWithMakeUpTimeEntryRequest.MakeUpTimeList)
+        {
+            contexts.Add(new EntryDurationToCheck
+            {
+
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = makeUpTime.StartTime,
+                EndTime = makeUpTime.EndTime,
+                EntryType = EntryType.MakeUpTime
+            });
+        }
+
+        return contexts;
     }
 }

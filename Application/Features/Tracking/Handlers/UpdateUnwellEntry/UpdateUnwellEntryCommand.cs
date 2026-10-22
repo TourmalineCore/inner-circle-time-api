@@ -1,5 +1,6 @@
 ﻿using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.Features.Tracking.Handlers.UpdateUnwellEntry;
 
@@ -12,6 +13,7 @@ public class UpdateUnwellEntryCommand : DbValidationEntryCommandBase<UpdateUnwel
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -34,5 +36,20 @@ public class UpdateUnwellEntryCommand : DbValidationEntryCommandBase<UpdateUnwel
             );
 
         return updateUnwellEntryRequest.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(UpdateUnwellEntryRequest updateUnwellEntryRequest)
+    {
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = updateUnwellEntryRequest.StartTime,
+                EndTime = updateUnwellEntryRequest.EndTime,
+                EntryType = EntryType.Unwell,
+                ExcludeEntryIds = [updateUnwellEntryRequest.Id],
+            }
+        };
     }
 }
