@@ -1,4 +1,5 @@
-﻿using Core.Features.Tracking.Entities;
+﻿using Application.Features.Tracking.Validators;
+using Core.Features.Tracking.Entities;
 
 namespace Application.Features.Tracking.Handlers.CreateUnwellEntry;
 
@@ -11,6 +12,7 @@ public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwel
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -38,5 +40,19 @@ public class CreateUnwellEntryCommand : DbValidationEntryCommandBase<CreateUnwel
         await _context.SaveChangesAsync();
 
         return unwellEntry.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(CreateUnwellEntryRequest createUnwellEntryRequest)
+    {
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = createUnwellEntryRequest.StartTime,
+                EndTime = createUnwellEntryRequest.EndTime,
+                EntryType = EntryType.Unwell
+            }
+        };
     }
 }

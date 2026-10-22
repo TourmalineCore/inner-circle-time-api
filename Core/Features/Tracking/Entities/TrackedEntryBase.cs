@@ -28,6 +28,8 @@ public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted
 
     public List<MakeUpTimeEntry> MakeUpTimeList { get; set; }
 
+    public bool IsAllDay => StartTime.TimeOfDay == TimeSpan.Zero && EndTime.TimeOfDay == TimeSpan.Zero;
+
     public int GetDurationInMinutes()
     {
         return (int)(EndTime - StartTime).TotalMinutes;

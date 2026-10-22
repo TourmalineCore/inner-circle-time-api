@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Application.Features.Tracking.Validators;
+using Core;
 using Core.Features.Tracking;
 using Core.Features.Tracking.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public class UpdateSickLeaveEntryCommand : DbValidationEntryCommandBase<UpdateSi
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -42,5 +44,26 @@ public class UpdateSickLeaveEntryCommand : DbValidationEntryCommandBase<UpdateSi
             );
 
         return updateSickLeaveEntryRequest.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(UpdateSickLeaveEntryRequest updateSickLeaveEntryRequest)
+    {
+        var duration = PeriodToDurationConverter.ConvertToDuration(new Period
+        {
+            StartDate = updateSickLeaveEntryRequest.Period.StartDate,
+            EndDate = updateSickLeaveEntryRequest.Period.EndDate,
+        });
+
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = duration.StartTime,
+                EndTime = duration.EndTime,
+                EntryType = EntryType.SickLeave,
+                ExcludeEntryIds = [updateSickLeaveEntryRequest.Id],
+            }
+        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Application.Features.Tracking.Validators;
+using Core;
 using Core.Features.Tracking;
 using Core.Features.Tracking.Entities;
 
@@ -13,6 +14,7 @@ public class CreateVacationEntryCommand : DbValidationEntryCommandBase<CreateVac
         TenantAppDbContext context,
         IClaimsProvider claimsProvider
     )
+    : base(context)
     {
         _context = context;
         _claimsProvider = claimsProvider;
@@ -47,5 +49,25 @@ public class CreateVacationEntryCommand : DbValidationEntryCommandBase<CreateVac
         await _context.SaveChangesAsync();
 
         return vacationEntry.Id;
+    }
+
+    protected override async Task<IReadOnlyList<EntryDurationToCheck>> GetEntryDurationsToCheckAsync(CreateVacationEntryRequest createVacationEntryRequest)
+    {
+        var duration = PeriodToDurationConverter.ConvertToDuration(new Period
+        {
+            StartDate = createVacationEntryRequest.Period.StartDate,
+            EndDate = createVacationEntryRequest.Period.EndDate,
+        });
+
+        return new List<EntryDurationToCheck>
+        {
+            new EntryDurationToCheck
+            {
+                EmployeeId = _claimsProvider.EmployeeId,
+                StartTime = duration.StartTime,
+                EndTime = duration.EndTime,
+                EntryType = EntryType.Vacation
+            }
+        };
     }
 }
