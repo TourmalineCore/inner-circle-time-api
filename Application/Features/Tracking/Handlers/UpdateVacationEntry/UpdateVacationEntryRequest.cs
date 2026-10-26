@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Application.SharedDtos;
 
 namespace Application.Features.Tracking.Handlers.UpdateVacationEntry;
 

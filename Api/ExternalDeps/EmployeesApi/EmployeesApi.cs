@@ -1,4 +1,5 @@
 using Application.ExternalDeps.EmployeesApi;
+using Application.SharedDtos;
 using Microsoft.Extensions.Options;
 using TourmalineCore.AspNetCore.JwtAuthentication.Core.Options;
 

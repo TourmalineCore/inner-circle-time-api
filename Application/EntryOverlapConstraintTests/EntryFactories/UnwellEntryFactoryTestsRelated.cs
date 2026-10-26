@@ -1,8 +1,8 @@
-using Application;
-using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.Handlers.CreateUnwellEntry;
 using Application.Features.Tracking.Handlers.UpdateUnwellEntry;
 using Core.Features.Tracking.Entities;
+
+namespace Application.EntryOverlapConstraintTests.EntryFactories;
 
 public class UnwellEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {

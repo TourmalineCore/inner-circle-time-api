@@ -1,3 +1,4 @@
+using Core.Extensions;
 using Core.Features.Tracking.Entities;
 
 namespace Core.Features.Reporting;

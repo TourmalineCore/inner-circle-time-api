@@ -1,4 +1,6 @@
 using Application.Exceptions;
+using Application.SharedDtos;
+using Application.TestsConfig;
 using Core;
 using Xunit;
 

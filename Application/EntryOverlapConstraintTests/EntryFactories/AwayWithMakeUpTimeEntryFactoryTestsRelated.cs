@@ -1,8 +1,8 @@
-using Application;
-using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.Handlers.CreateAwayWithMakeUpTimeEntry;
 using Application.Features.Tracking.Handlers.UpdateAwayWithMakeUpTimeEntry;
 using Core.Features.Tracking.Entities;
+
+namespace Application.EntryOverlapConstraintTests.EntryFactories;
 
 public class AwayWithMakeUpTimeEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {

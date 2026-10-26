@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Application.TestsConfig;
+using Core;
 using Core.Features.Tracking.Entities;
 using Xunit;
 

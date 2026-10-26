@@ -1,3 +1,5 @@
+using Application.SharedDtos;
+
 namespace Application.ExternalDeps.EmployeesApi;
 
 public class EmployeesResponse

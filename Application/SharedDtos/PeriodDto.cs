@@ -1,3 +1,5 @@
+namespace Application.SharedDtos;
+
 public class PeriodDto
 {
     public required DateOnly StartDate { get; set; }
