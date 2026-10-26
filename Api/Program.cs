@@ -57,6 +57,16 @@ public class Program
                     Detail = ex.Message,
                 };
             });
+
+            options.Map<TimeNoSecondsException>(ex =>
+            {
+                return new ProblemDetails
+                {
+                    Title = "Time should not have seconds",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = ex.Message,
+                };
+            });
         });
 
         builder.Services.AddControllers()
