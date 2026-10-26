@@ -1,3 +1,5 @@
+namespace Application.SharedDtos;
+
 public class ProjectDto
 {
     public required long Id { get; set; }
