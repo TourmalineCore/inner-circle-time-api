@@ -1,9 +1,10 @@
-using Application;
 using Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using Xunit;
+
+namespace Application.TestsConfig;
 
 public class IntegrationTestBase : IAsyncLifetime
 {

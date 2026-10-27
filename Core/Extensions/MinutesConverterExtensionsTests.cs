@@ -1,5 +1,6 @@
-using Core;
 using Xunit;
+
+namespace Core.Extensions;
 
 [UnitTest]
 public class MinutesConverterExtensionsTests

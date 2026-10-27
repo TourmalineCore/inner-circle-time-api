@@ -22,7 +22,7 @@ namespace Application.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Core.Entities.TrackedEntryBase", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.TrackedEntryBase", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,6 +82,8 @@ namespace Application.Migrations
                         {
                             t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
 
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
+
                             t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
                         });
 
@@ -90,9 +92,9 @@ namespace Application.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("AwayWithMakeUpTimeEntry", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.AwayWithMakeUpTimeEntry", b =>
                 {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+                    b.HasBaseType("Core.Features.Tracking.Entities.TrackedEntryBase");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -103,19 +105,50 @@ namespace Application.Migrations
                         {
                             t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
 
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
+
                             t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
                         });
 
                     b.HasDiscriminator().HasValue("AwayWithMakeUpTimeEntry");
                 });
 
-            modelBuilder.Entity("Core.Entities.SickLeaveEntry", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.MakeUpTimeEntry", b =>
                 {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+                    b.HasBaseType("Core.Features.Tracking.Entities.TrackedEntryBase");
+
+                    b.Property<long>("RelatedEntryId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("related_entry_id");
+
+                    b.Property<int>("RelatedEntryType")
+                        .HasColumnType("integer")
+                        .HasColumnName("related_entry_type");
+
+                    b.HasIndex("RelatedEntryId")
+                        .HasDatabaseName("ix_tracked_entries_related_entry_id");
 
                     b.ToTable(t =>
                         {
                             t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
+
+                            t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
+                        });
+
+                    b.HasDiscriminator().HasValue("MakeUpTimeEntry");
+                });
+
+            modelBuilder.Entity("Core.Features.Tracking.Entities.SickLeaveEntry", b =>
+                {
+                    b.HasBaseType("Core.Features.Tracking.Entities.TrackedEntryBase");
+
+                    b.ToTable(t =>
+                        {
+                            t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
 
                             t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
                         });
@@ -123,9 +156,9 @@ namespace Application.Migrations
                     b.HasDiscriminator().HasValue("SickLeaveEntry");
                 });
 
-            modelBuilder.Entity("Core.Entities.TaskEntry", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.TaskEntry", b =>
                 {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+                    b.HasBaseType("Core.Features.Tracking.Entities.TrackedEntryBase");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -150,19 +183,23 @@ namespace Application.Migrations
                         {
                             t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
 
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
+
                             t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
                         });
 
                     b.HasDiscriminator().HasValue("TaskEntry");
                 });
 
-            modelBuilder.Entity("Core.Entities.UnwellEntry", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.UnwellEntry", b =>
                 {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+                    b.HasBaseType("Core.Features.Tracking.Entities.TrackedEntryBase");
 
                     b.ToTable(t =>
                         {
                             t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
+
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
 
                             t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
                         });
@@ -170,9 +207,9 @@ namespace Application.Migrations
                     b.HasDiscriminator().HasValue("UnwellEntry");
                 });
 
-            modelBuilder.Entity("Core.Entities.VacationEntry", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.VacationEntry", b =>
                 {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
+                    b.HasBaseType("Core.Features.Tracking.Entities.TrackedEntryBase");
 
                     b.Property<bool>("IsUnpaid")
                         .HasColumnType("boolean")
@@ -182,40 +219,17 @@ namespace Application.Migrations
                         {
                             t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
 
+                            t.HasCheckConstraint("ck_entries_time_no_seconds", "date_trunc('minute', \"start_time\") = \"start_time\" AND date_trunc('minute', \"end_time\") = \"end_time\"");
+
                             t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
                         });
 
                     b.HasDiscriminator().HasValue("VacationEntry");
                 });
 
-            modelBuilder.Entity("MakeUpTimeEntry", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.MakeUpTimeEntry", b =>
                 {
-                    b.HasBaseType("Core.Entities.TrackedEntryBase");
-
-                    b.Property<long>("RelatedEntryId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("related_entry_id");
-
-                    b.Property<int>("RelatedEntryType")
-                        .HasColumnType("integer")
-                        .HasColumnName("related_entry_type");
-
-                    b.HasIndex("RelatedEntryId")
-                        .HasDatabaseName("ix_tracked_entries_related_entry_id");
-
-                    b.ToTable(t =>
-                        {
-                            t.HasCheckConstraint("ck_entries_end_time_is_greater_than_start_time", "\"end_time\" > \"start_time\"");
-
-                            t.HasCheckConstraint("ck_entries_type_not_zero", "\"type\" <> 0");
-                        });
-
-                    b.HasDiscriminator().HasValue("MakeUpTimeEntry");
-                });
-
-            modelBuilder.Entity("MakeUpTimeEntry", b =>
-                {
-                    b.HasOne("Core.Entities.TrackedEntryBase", "RelatedEntry")
+                    b.HasOne("Core.Features.Tracking.Entities.TrackedEntryBase", "RelatedEntry")
                         .WithMany("MakeUpTimeList")
                         .HasForeignKey("RelatedEntryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -225,7 +239,7 @@ namespace Application.Migrations
                     b.Navigation("RelatedEntry");
                 });
 
-            modelBuilder.Entity("Core.Entities.TrackedEntryBase", b =>
+            modelBuilder.Entity("Core.Features.Tracking.Entities.TrackedEntryBase", b =>
                 {
                     b.Navigation("MakeUpTimeList");
                 });

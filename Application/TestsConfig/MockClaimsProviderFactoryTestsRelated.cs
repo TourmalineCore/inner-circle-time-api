@@ -1,5 +1,6 @@
-using Application;
 using Moq;
+
+namespace Application.TestsConfig;
 
 public static class MockClaimsProviderFactory
 {

@@ -1,4 +1,5 @@
 using Application.ExternalDeps.AssignmentsApi;
+using Application.SharedDtos;
 
 namespace Api.ExternalDeps.AssignmentsApi;
 

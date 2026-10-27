@@ -1,3 +1,5 @@
+namespace Core.Extensions;
+
 public static class MinutesConverterExtensions
 {
     public static decimal ToHoursWithoutRounding(this int minutes)

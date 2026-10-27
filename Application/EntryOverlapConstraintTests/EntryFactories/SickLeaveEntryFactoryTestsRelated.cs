@@ -1,8 +1,9 @@
-using Application;
-using Application.EntryOverlapConstraintTests.EntryFactories;
 using Application.Features.Tracking.Handlers.CreateSickLeaveEntry;
 using Application.Features.Tracking.Handlers.UpdateSickLeaveEntry;
+using Application.SharedDtos;
 using Core.Features.Tracking.Entities;
+
+namespace Application.EntryOverlapConstraintTests.EntryFactories;
 
 public class SickLeaveEntryFactoryTestsRelated : EntryOverlapFactoryTestsRelated
 {

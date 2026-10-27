@@ -1,3 +1,5 @@
+using Core.Extensions;
+
 namespace Core.Features.Tracking.Entities;
 
 public class TrackedEntryBase : EntityBase, IOwnedByEmployee, ICanBeDeleted

@@ -1,3 +1,5 @@
+using Application.SharedDtos;
+
 namespace Application.Features.Tracking.Validators;
 
 public class MakeUpTimeValidator

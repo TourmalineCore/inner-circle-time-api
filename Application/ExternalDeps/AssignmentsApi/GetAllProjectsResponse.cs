@@ -1,3 +1,5 @@
+using Application.SharedDtos;
+
 namespace Application.ExternalDeps.AssignmentsApi;
 
 public class GetAllProjectsResponse
