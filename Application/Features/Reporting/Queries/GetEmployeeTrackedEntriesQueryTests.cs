@@ -3,7 +3,7 @@ using Core;
 using Core.Features.Tracking.Entities;
 using Xunit;
 
-namespace Application.SharedQueries;
+namespace Application.Features.Reporting.Queries;
 
 [IntegrationTest]
 public class GetEmployeeTrackedEntriesQueryTests : IntegrationTestBase

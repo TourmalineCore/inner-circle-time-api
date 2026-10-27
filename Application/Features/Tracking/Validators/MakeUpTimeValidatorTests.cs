@@ -2,7 +2,7 @@ using Application.SharedDtos;
 using Core;
 using Xunit;
 
-namespace Application.Validators;
+namespace Application.Features.Tracking.Validators;
 
 [UnitTest]
 public class MakeUpTimeValidatorTests
