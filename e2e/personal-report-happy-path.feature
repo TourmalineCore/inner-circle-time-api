@@ -102,7 +102,7 @@ Feature: Personal Reporting
         "startTime": "#(taskStartTime)",
         "endTime": "#(taskEndTime)",
         "hours": 2,
-        "entryType": 1,
+        "entryType": "Task",
         "project": {
             "id": #(firstProjectId),
             "name": "#string"
@@ -122,7 +122,7 @@ Feature: Personal Reporting
         "startTime": "#(unwellStartTime)",
         "endTime": "#(unwellEndTime)",
         "hours": 1,
-        "entryType": 2,
+        "entryType": "Unwell",
         "project": null,
         "task": null,
         "description": null

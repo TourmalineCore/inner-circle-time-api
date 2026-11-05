@@ -61,7 +61,7 @@ Feature: Vacation Entries
     """
     {
         "id": "#(newVacationEntryId)",
-        "entryType": 6,
+        "entryType": "Vacation",
         "period": {
             "startDate": "#(vacationStartDate)",
             "endDate": "#(vacationEndDate)"
@@ -96,7 +96,7 @@ Feature: Vacation Entries
     """
     {
         "id": "#(newVacationEntryId)",
-        "entryType": 6,
+        "entryType": "Vacation",
         "period": {
             "startDate": "#(rescheduledVacationStartDate)",
             "endDate": "#(rescheduledVacationEndDate)"
@@ -114,7 +114,7 @@ Feature: Vacation Entries
     """
     {
         "id": "#(newVacationEntryId)",
-        "entryType": 6,
+        "entryType": "Vacation",
         "period": {
             "startDate": "#(rescheduledVacationStartDate)",
             "endDate": "#(rescheduledVacationEndDate)"

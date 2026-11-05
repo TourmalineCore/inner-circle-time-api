@@ -104,7 +104,7 @@ export interface EmployeeTrackedTaskHourDto {
   trackedHours: number;
 }
 
-export type EntryType = number;
+export type EntryType = "Unspecified" | "Task" | "Unwell" | "AwayWithMakeUpTime" | "MakeUpTime" | "SickLeave" | "Vacation";
 
 export interface GetAllEmployeesResponse {
   employees: EmployeeDto[];

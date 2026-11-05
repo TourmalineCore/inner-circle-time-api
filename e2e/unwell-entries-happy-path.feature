@@ -70,7 +70,7 @@ Feature: Unwell Entries
     """
     {
         "id": "#(newUnwellEntryId)",
-        "type": 2,
+        "type": "Unwell",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
     }
@@ -84,7 +84,7 @@ Feature: Unwell Entries
     """
     {
         "id": "#(newUnwellEntryId)",
-        "type": 2,
+        "type": "Unwell",
         "startTime": "#(newStartTime)",
         "endTime": "#(newEndTime)",
     }
