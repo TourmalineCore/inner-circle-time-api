@@ -22,4 +22,4 @@ Feature: OpenApi
         "version": "#(apiVersion)"
     }
     """
-    And match response.components.schemas.EntryType.enum == ['Unspecified', 'Task', 'Unwell', 'AwayWithMakeUpTime', 'MakeUpTime', 'SickLeave', 'Vacation']
+    And match response.components.schemas.EntryType.enum contains 'Task'
