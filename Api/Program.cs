@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Application;
 using Application.Exceptions;
 using Hellang.Middleware.ProblemDetails;
@@ -16,9 +17,11 @@ public class Program
         var configuration = builder.Configuration;
 
         // Add services to the container.
-        builder.Services.AddControllers();
-
         builder.Services.AddConfiguredOpenApi();
+
+        // OpenAPI needs separate JSON settings to describe enums as strings
+        builder.Services.ConfigureHttpJsonOptions(options =>
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         builder.Services.AddApplication(configuration);
 
@@ -69,7 +72,10 @@ public class Program
             });
         });
 
-        builder.Services.AddControllers()
+        builder.Services
+            .AddControllers()
+            .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
             .ConfigureApiBehaviorOptions(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>

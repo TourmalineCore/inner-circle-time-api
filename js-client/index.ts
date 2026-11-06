@@ -10,6 +10,16 @@
  * ---------------------------------------------------------------
  */
 
+export enum EntryType {
+  Unspecified = "Unspecified",
+  Task = "Task",
+  Unwell = "Unwell",
+  AwayWithMakeUpTime = "AwayWithMakeUpTime",
+  MakeUpTime = "MakeUpTime",
+  SickLeave = "SickLeave",
+  Vacation = "Vacation",
+}
+
 export interface AwayWithMakeUpTimeEntryDto {
   /** @format int64 */
   id: number;
@@ -103,8 +113,6 @@ export interface EmployeeTrackedTaskHourDto {
   /** @format double */
   trackedHours: number;
 }
-
-export type EntryType = number;
 
 export interface GetAllEmployeesResponse {
   employees: EmployeeDto[];
