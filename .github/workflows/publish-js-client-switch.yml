@@ -37,6 +37,8 @@ jobs:
       uses: actions/checkout@v7
       with:
         repository: TourmalineCore/inner-circle-time-ui
+        # use the matching UI branch until the enum migration is merged
+        ref: 'feature/#514-configure-string-enums'
 
     - name: Install current commit's js-client and lint to see there are no breaking changes
       run: |
