@@ -22,3 +22,4 @@ Feature: OpenApi
         "version": "#(apiVersion)"
     }
     """
+    And match response.components.schemas.EntryType.enum contains 'Task'

@@ -99,7 +99,7 @@ Feature: Away with Make Up Time Entries
     """
     {
         "id": "#(newAwayWithMakeUpTimeEntryId)",
-        "type": 3,
+        "type": "AwayWithMakeUpTime",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
         "description": "#(description)",
@@ -127,7 +127,7 @@ Feature: Away with Make Up Time Entries
     """
     {
         "id": "#(newAwayWithMakeUpTimeEntryId)",
-        "type": 3,
+        "type": "AwayWithMakeUpTime",
         "startTime": "#(startTime)",
         "endTime": "#(endTime)",
         "description": "#(description)",
@@ -149,8 +149,8 @@ Feature: Away with Make Up Time Entries
     """
     {
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
-        "relatedEntryType": 3,
-        "type": 4,
+        "relatedEntryType": "AwayWithMakeUpTime",
+        "type": "MakeUpTime",
         "startTime": "#(rescheduledMakeUpTime1StartTime)",
         "endTime": "#(rescheduledMakeUpTime1EndTime)",
     }
@@ -159,8 +159,8 @@ Feature: Away with Make Up Time Entries
     """
     {
         "relatedEntryId": "#(newAwayWithMakeUpTimeEntryId)",
-        "relatedEntryType": 3,
-        "type": 4,
+        "relatedEntryType": "AwayWithMakeUpTime",
+        "type": "MakeUpTime",
         "startTime": "#(makeUpTime2StartTime)",
         "endTime": "#(makeUpTime2EndTime)"
     }
