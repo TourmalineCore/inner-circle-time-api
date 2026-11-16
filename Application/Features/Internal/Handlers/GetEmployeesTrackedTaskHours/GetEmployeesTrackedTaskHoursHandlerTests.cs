@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Application.Features.Internal.Handlers.GetEmployeesTrackedTaskHours;
 
-[UnitTest]
+[IntegrationTest]
 public class GetEmployeesTrackedTaskHoursHandlerTests
 {
     [Fact]
