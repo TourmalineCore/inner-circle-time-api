@@ -5,6 +5,11 @@ namespace Application.Features.AvailabilityNotifications.GetAvailabilityNotifica
 
 public class GetAvailabilityNotificationsResponse
 {
+    public required List<AvailabilityNotification> AvailabilityNotifications { get; set; }
+}
+
+public class AvailabilityNotification
+{
     public required long Id { get; set; }
 
     public required long EntryId { get; set; }
@@ -21,9 +26,9 @@ public class GetAvailabilityNotificationsResponse
 
     public List<AdjustmentTime>? AdjustmentTimeList { get; set; }
 
-    public AvailabilityNotificationStatus Status { get; set; }
+    public required AvailabilityNotificationStatus Status { get; set; }
 
-    public DateTime CreatedAtUtc { get; set; }
+    public required DateTime CreatedAtUtc { get; set; }
 }
 
 public class AdjustmentTime
