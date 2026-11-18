@@ -10,6 +10,33 @@
  * ---------------------------------------------------------------
  */
 
+export interface AdjustmentTime {
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+}
+
+export interface AvailabilityNotification {
+  /** @format int64 */
+  id: number;
+  /** @format int64 */
+  entryId: number;
+  employeeFullName: string;
+  entryType: EntryType;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  description?: string | null;
+  adjustmentTimeList?: AdjustmentTime[] | null;
+  status: AvailabilityNotificationStatus;
+  /** @format date-time */
+  createdAtUtc: string;
+}
+
+export type AvailabilityNotificationStatus = number;
+
 export interface AwayWithMakeUpTimeEntryDto {
   /** @format int64 */
   id: number;
@@ -112,6 +139,10 @@ export interface GetAllEmployeesResponse {
 
 export interface GetAllProjectsResponse {
   projects: ProjectDto[];
+}
+
+export interface GetAvailabilityNotificationsResponse {
+  availabilityNotifications: AvailabilityNotification[];
 }
 
 export interface GetAwayWithMakeUpTimeEntryResponse {
@@ -1006,6 +1037,32 @@ export class Api<
       this.request<GetAllProjectsResponse, any>({
         path: `/internal/projects`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
+  availabilityNotifications = {
+    /**
+     * No description
+     *
+     * @tags AvailabilityNotifications
+     * @name GetAvailabilityNotifications
+     * @summary Get availability notifications by period
+     * @request GET:/availability-notifications
+     */
+    getAvailabilityNotifications: (
+      query: {
+        /** @format date */
+        startDate: string;
+        /** @format date */
+        endDate: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetAvailabilityNotificationsResponse, any>({
+        path: `/availability-notifications`,
+        method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

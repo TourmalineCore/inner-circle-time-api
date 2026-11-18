@@ -12,6 +12,7 @@ public class UserClaimsProvider : IUserClaimsProvider
     public const string CanViewAllProjects = "CanViewAllProjects";
     public const string CanViewAllTimeTrackerEntries = "CanViewAllTimeTrackerEntries";
     public const string CanViewPersonalReport = "CanViewPersonalReport";
+    public const string CanViewAvailabilityNotifications = "CanViewAvailabilityNotifications";
 
     public Task<List<Claim>> GetUserClaimsAsync(string login)
     {
