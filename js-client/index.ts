@@ -17,6 +17,24 @@ export interface AdjustmentTime {
   endTime: string;
 }
 
+export interface AvailabilityNotification {
+  /** @format int64 */
+  id: number;
+  /** @format int64 */
+  entryId: number;
+  employeeFullName: string;
+  entryType: EntryType;
+  /** @format date-time */
+  startTime: string;
+  /** @format date-time */
+  endTime: string;
+  description?: string | null;
+  adjustmentTimeList?: AdjustmentTime[] | null;
+  status: AvailabilityNotificationStatus;
+  /** @format date-time */
+  createdAtUtc: string;
+}
+
 export type AvailabilityNotificationStatus = number;
 
 export interface AwayWithMakeUpTimeEntryDto {
@@ -124,21 +142,7 @@ export interface GetAllProjectsResponse {
 }
 
 export interface GetAvailabilityNotificationsResponse {
-  /** @format int64 */
-  id: number;
-  /** @format int64 */
-  entryId: number;
-  employeeFullName: string;
-  entryType: EntryType;
-  /** @format date-time */
-  startTime: string;
-  /** @format date-time */
-  endTime: string;
-  description?: string | null;
-  adjustmentTimeList?: AdjustmentTime[] | null;
-  status?: AvailabilityNotificationStatus;
-  /** @format date-time */
-  createdAtUtc?: string;
+  availabilityNotifications: AvailabilityNotification[];
 }
 
 export interface GetAwayWithMakeUpTimeEntryResponse {
