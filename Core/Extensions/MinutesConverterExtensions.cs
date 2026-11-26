@@ -7,3 +7,4 @@ public static class MinutesConverterExtensions
         return minutes / 60m;
     }
 }
+
